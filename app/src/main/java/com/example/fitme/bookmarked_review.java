@@ -14,6 +14,7 @@ public class bookmarked_review extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
+    // qusrud
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("bookmarked_review","onCreate");
