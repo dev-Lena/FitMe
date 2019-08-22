@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="home" />
+    <item
+        android:id="@+id/action_search"
+        android:enabled="true"
+        android:icon="@drawable/ic_search"
+        android:title="search" />
+    <item
+        android:id="@+id/action_write_review"
+        android:enabled="true"
+        android:icon="@drawable/ic_create_black_24dp"
+        android:title="home" />
+    <item
+        android:id="@+id/action_insight"
+        android:enabled="true"
+        android:icon="@drawable/ic_insert_chart_black_24dp"
+        android:title="home" />
+    <item
+        android:id="@+id/action_mycloset"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="my closet" />
+
+
+</menu>
