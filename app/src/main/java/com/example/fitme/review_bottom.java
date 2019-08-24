@@ -27,7 +27,7 @@ public class review_bottom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("review_bottom","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_bottom);
+        setContentView(R.layout.activity_write_size_bottom);
 
 // done 버튼 -> 리뷰를 등록하는 버튼
         imageButton_review_register = findViewById(R.id.imageButton_review_register);

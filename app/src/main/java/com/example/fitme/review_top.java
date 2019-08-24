@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.net.URI;
-
 public class review_top extends AppCompatActivity {
 
 
@@ -35,7 +33,7 @@ public class review_top extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("review_top","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_top);
+        setContentView(R.layout.activity_write_review_card);
 
 // 리뷰 작성하면 리뷰 카드로 데이터 넘기기
 
