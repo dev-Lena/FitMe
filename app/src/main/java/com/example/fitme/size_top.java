@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class review_top extends AppCompatActivity {
+public class size_top extends AppCompatActivity {
 
 
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
@@ -31,9 +31,9 @@ public class review_top extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("review_top","onCreate");
+        Log.e("write_review","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_review_card);
+        setContentView(R.layout.activity_write_size_top);
 
 // 리뷰 작성하면 리뷰 카드로 데이터 넘기기
 
@@ -59,11 +59,11 @@ public class review_top extends AppCompatActivity {
 
                 String shoppinmall = editText_shoppingmall_url.getText().toString();
                 String detailedReview = editText_detailed_review.getText().toString();
-                Intent intent = new Intent(review_top.this, review_card.class);
+                Intent intent = new Intent(size_top.this, review_card.class);
                 intent.putExtra("shoppinmall", shoppinmall);
                 intent.putExtra("detailedReview", detailedReview);
-                Log.e("review_top", "shoppinmall : " +shoppinmall);
-                Log.e("review_top", "detailedReview : " +detailedReview);
+                Log.e("write_review", "shoppinmall : " +shoppinmall);
+                Log.e("write_review", "detailedReview : " +detailedReview);
                 startActivity(intent);
 //                Intent register_intent = new Intent(searching.this, searching_result.class);
 //                startActivity(register_intent); //액티비티 이동
@@ -81,7 +81,7 @@ public class review_top extends AppCompatActivity {
 //                String hashtag1 = editText_hashtag .getText().toString();
 //
 //
-//                Intent intent = new Intent(review_top.this, review_card.class);
+//                Intent intent = new Intent(write_review.this, review_card.class);
 ////                intent.putExtra("url", url);
 ////                intent.putExtra("detailed_review", detailed_review);
 ////                intent.putExtra("hashtag1", hashtag1);
@@ -92,8 +92,8 @@ public class review_top extends AppCompatActivity {
 ////                intent.putExtra("uri5",imageView_review_photo5.toString()); // uri String으로 변환
 ////
 //
-//                Log.e("review_top", "url : " +url);
-//                Log.e("review_top", "detailed_review : " +detailed_review);
+//                Log.e("write_review", "url : " +url);
+//                Log.e("write_review", "detailed_review : " +detailed_review);
 ////
 //                startActivity(intent);
 //            }
@@ -106,7 +106,7 @@ public class review_top extends AppCompatActivity {
 //        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent register_intent = new Intent(review_top.this, feed.class);
+//                Intent register_intent = new Intent(write_review.this, feed.class);
 //                startActivity(register_intent); //액티비티 이동
 //
 //            }
@@ -177,24 +177,24 @@ public class review_top extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
-                        Intent home_intent = new Intent(review_top.this,feed.class);
+                        Intent home_intent = new Intent(size_top.this,feed.class);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
-                        Intent search_intent = new Intent(review_top.this,searching.class);
+                        Intent search_intent = new Intent(size_top.this,searching.class);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(review_top.this,review_category.class);
+                        Intent write_intent = new Intent(size_top.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_insight :
-                        Intent insight_intent = new Intent(review_top.this,insight.class);
+                        Intent insight_intent = new Intent(size_top.this,insight.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(review_top.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(size_top.this,my_closet.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
@@ -274,42 +274,42 @@ public class review_top extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("review_top","onRestart");
+        Log.e("write_review","onRestart");
         //액티비티가 중단되었다가 다시 시작
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("review_top","onStart");
+        Log.e("write_review","onStart");
         //액티비티가 화면에 나타나기 시작
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("review_top","onResume");
+        Log.e("write_review","onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("review_top","onPause");
+        Log.e("write_review","onPause");
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("review_top","onStop");
+        Log.e("write_review","onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("review_top","onDestroy");
+        Log.e("write_review","onDestroy");
         //액티비티가 종료되려고 합니다.
     }
 

@@ -42,14 +42,14 @@
         <activity android:name=".recommendbot" ></activity>
         <activity android:name=".review_card" ></activity>
         <activity android:name=".review_category" ></activity>
-        <activity android:name=".review_top" ></activity>
+        <activity android:name=".write_review" ></activity>
         <activity android:name=".review_written_by_me" ></activity>
         <activity android:name=".searching" ></activity>
         <activity android:name=".searching_result" ></activity>
         <activity android:name=".sign_up" ></activity>
         <activity android:name=".insight" ></activity>
-        <activity android:name=".review_bottom" ></activity>
-        <activity android:name=".review_dress" ></activity>
+        <activity android:name=".size_bottom" ></activity>
+        <activity android:name=".size_dress" ></activity>
 
 
     </application>

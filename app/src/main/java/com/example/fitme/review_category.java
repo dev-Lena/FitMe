@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,7 @@ public class review_category extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("review_category","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_category);
+        setContentView(R.layout.activity_size_category);
 
 // 상의
 
@@ -32,7 +31,7 @@ public class review_category extends AppCompatActivity {
         button_top.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent recommend_intent = new Intent(review_category.this, review_top.class);
+                Intent recommend_intent = new Intent(review_category.this, write_review.class);
                 startActivity(recommend_intent); //액티비티 이동
 
             }
@@ -42,7 +41,7 @@ public class review_category extends AppCompatActivity {
         button_bottom.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent recommend_intent = new Intent(review_category.this, review_bottom.class);
+                Intent recommend_intent = new Intent(review_category.this, size_bottom.class);
                 startActivity(recommend_intent); //액티비티 이동
 
             }
@@ -52,7 +51,7 @@ public class review_category extends AppCompatActivity {
         button_dress.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent recommend_intent = new Intent(review_category.this, review_dress.class);
+                Intent recommend_intent = new Intent(review_category.this, size_dress.class);
                 startActivity(recommend_intent); //액티비티 이동
 
             }
