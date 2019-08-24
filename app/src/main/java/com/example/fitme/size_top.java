@@ -59,7 +59,7 @@ public class size_top extends AppCompatActivity {
 
                 String shoppinmall = editText_shoppingmall_url.getText().toString();
                 String detailedReview = editText_detailed_review.getText().toString();
-                Intent intent = new Intent(size_top.this, review_card.class);
+                Intent intent = new Intent(size_top.this, size_top.class);
                 intent.putExtra("shoppinmall", shoppinmall);
                 intent.putExtra("detailedReview", detailedReview);
                 Log.e("write_review", "shoppinmall : " +shoppinmall);

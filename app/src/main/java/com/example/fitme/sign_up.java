@@ -119,7 +119,7 @@ public class sign_up extends AppCompatActivity {
                     editText_password.requestFocus();
                     return;
                 }
-
+// 입력한 이메일 데이터 넘겨주기
                 Intent result = new Intent();
                 result.putExtra("EMAIL", editText_email.getText().toString());
 

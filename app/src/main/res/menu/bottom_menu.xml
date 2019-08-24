@@ -15,12 +15,12 @@
         android:id="@+id/action_write_review"
         android:enabled="true"
         android:icon="@drawable/ic_create_black_24dp"
-        android:title="home" />
+        android:title="write" />
     <item
         android:id="@+id/action_insight"
         android:enabled="true"
         android:icon="@drawable/ic_insert_chart_black_24dp"
-        android:title="home" />
+        android:title="insight" />
     <item
         android:id="@+id/action_mycloset"
         android:enabled="true"

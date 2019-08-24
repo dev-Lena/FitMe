@@ -5,331 +5,335 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".feed">
+
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="5dp"
         android:id="@+id/review_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
-        app:cardMaxElevation="15dp">
+        app:cardMaxElevation="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="117dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="80dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="440dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="386dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="485dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="433dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="523dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="452dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="594dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="513dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="30dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="36dp" />
-
-    <ImageView
-        android:id="@+id/imageView_reviewcard_profile_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        app:srcCompat="@drawable/img_dd_profile" />
-
-    <TextView
-        android:id="@+id/textView_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:shadowColor="@android:color/darker_gray"
-        android:text="닉네임"
-        android:textColor="@color/colorDarkPurple"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_reviewcard_profile_image"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline3">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="4dp" />
 
             <ImageView
-                android:id="@+id/imageView_reviewcard_img1"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                app:srcCompat="@drawable/img_shoppingmall_review" />
-
-            <ImageView
-                android:id="@+id/imageView_reviewcard_img3"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:id="@+id/imageView_reviewcard_profile_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline9"
                 app:srcCompat="@drawable/img_dd_profile" />
 
-            <ImageView
-                android:id="@+id/imageView_reviewcard_img2"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                app:srcCompat="@drawable/img_dd_profile" />
+            <TextView
+                android:id="@+id/textView_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:shadowColor="@android:color/darker_gray"
+                android:text="닉네임"
+                android:textColor="@color/colorDarkPurple"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_reviewcard_profile_image"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <ImageView
-                android:id="@+id/imageView_reviewcard_img4"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/img_dd_profile" />
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline3">
 
-            <ImageView
-                android:id="@+id/imageView_reviewcard_img5"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/img_dd_profile" />
-        </LinearLayout>
-    </HorizontalScrollView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline4">
+                    <ImageView
+                        android:id="@+id/imageView_reviewcard_img1"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        app:srcCompat="@drawable/img_shoppingmall_review" />
 
-        <ImageButton
-            android:id="@+id/imageButton_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorWhite"
-            app:srcCompat="@drawable/ic_empty_heart_like_favorite" />
+                    <ImageView
+                        android:id="@+id/imageView_reviewcard_img3"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        app:srcCompat="@drawable/img_dd_profile" />
 
-        <ImageButton
-            android:id="@+id/imageButton_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorWhite"
-            app:srcCompat="@drawable/ic_comment" />
+                    <ImageView
+                        android:id="@+id/imageView_reviewcard_img2"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        app:srcCompat="@drawable/img_dd_profile" />
 
-        <ImageButton
-            android:id="@+id/imageButton_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorWhite"
-            app:srcCompat="@drawable/ic_bookmark" />
-    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView_reviewcard_img4"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/img_dd_profile" />
 
-    <TextView
-        android:id="@+id/textView_likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="likes"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView_likes_number"
-        app:layout_constraintTop_toTopOf="@+id/guideline5"
-        app:layout_constraintVertical_bias="0.272" />
+                    <ImageView
+                        android:id="@+id/imageView_reviewcard_img5"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/img_dd_profile" />
+                </LinearLayout>
+            </HorizontalScrollView>
 
-    <TextView
-        android:id="@+id/textView_detailed_review_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="가성비 갑!!!!!"
-        android:textColor="@color/colorBlack"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.042" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline4">
 
-    <TextView
-        android:id="@+id/textView_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="더보기"
-        android:background="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/textView_detailed_review_card"
-        app:layout_constraintVertical_bias="0.562" />
+                <ImageButton
+                    android:id="@+id/imageButton_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_empty_heart_like_favorite" />
 
-    <TextView
-        android:id="@+id/textView_likes_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="2000"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline5"
-        app:layout_constraintVertical_bias="0.333" />
+                <ImageButton
+                    android:id="@+id/imageButton_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_comment" />
 
-    <TextView
-        android:id="@+id/textView_hashtag2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorWhite"
-        android:text="#해시태그"
-        android:textColor="@color/colorDarkPurple"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag1"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+                <ImageButton
+                    android:id="@+id/imageButton_bookmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorWhite"
+                    app:srcCompat="@drawable/ic_bookmark" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView_hashtag3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorWhite"
-        android:text="#해시태그"
-        android:textColor="@color/colorDarkPurple"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag2"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+            <TextView
+                android:id="@+id/textView_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="likes"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView_likes_number"
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
+                app:layout_constraintVertical_bias="0.272" />
 
-    <TextView
-        android:id="@+id/textView_hashtag1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@color/colorWhite"
-        android:layout_marginTop="8dp"
-        android:text="#해시태그"
-        android:textColor="@color/colorDarkPurple"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+            <TextView
+                android:id="@+id/textView_detailed_review_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="가성비 갑!!!!!"
+                android:textColor="@color/colorBlack"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline6"
+                app:layout_constraintVertical_bias="0.042" />
 
-    <TextView
-        android:id="@+id/textView_hashtag4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="#해시태그"
-        android:textColor="@color/colorDarkPurple"
-        android:background="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag3"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+            <TextView
+                android:id="@+id/textView_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/colorWhite"
+                android:text="더보기"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toBottomOf="@+id/textView_detailed_review_card"
+                app:layout_constraintVertical_bias="0.562" />
 
-    <TextView
-        android:id="@+id/textView_mysize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="L~XL"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
-        app:layout_constraintTop_toTopOf="@+id/guideline9" />
+            <TextView
+                android:id="@+id/textView_likes_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="2000"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
+                app:layout_constraintVertical_bias="0.333" />
 
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="평소 사이즈"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView_reviewcard_profile_image"
-        app:layout_constraintTop_toTopOf="@+id/guideline9" />
+            <TextView
+                android:id="@+id/textView_hashtag2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorWhite"
+                android:text="#해시태그"
+                android:textColor="@color/colorDarkPurple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView_hashtag1"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <TextView
-        android:id="@+id/textView_shoppingmall_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintStart_toEndOf="@+id/textView20"
-        app:layout_constraintTop_toBottomOf="@+id/textView_mysize" />
+            <TextView
+                android:id="@+id/textView_hashtag3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorWhite"
+                android:text="#해시태그"
+                android:textColor="@color/colorDarkPurple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView_hashtag2"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="쇼핑몰 url"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintStart_toEndOf="@+id/imageView_reviewcard_profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            <TextView
+                android:id="@+id/textView_hashtag1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorWhite"
+                android:text="#해시태그"
+                android:textColor="@color/colorDarkPurple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+            <TextView
+                android:id="@+id/textView_hashtag4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorWhite"
+                android:text="#해시태그"
+                android:textColor="@color/colorDarkPurple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView_hashtag3"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+            <TextView
+                android:id="@+id/textView_mysize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="L~XL"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView19"
+                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="평소 사이즈"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView_reviewcard_profile_image"
+                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+            <TextView
+                android:id="@+id/textView_shoppingmall_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="TextView"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
+                app:layout_constraintStart_toEndOf="@+id/textView20"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mysize" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="쇼핑몰 url"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
+                app:layout_constraintStart_toEndOf="@+id/imageView_reviewcard_profile_image"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -1,6 +1,6 @@
-//package com.example.fitme;
-//
-//import android.content.Intent;
+package com.example.fitme;
+
+import android.content.Intent;
 //import android.net.Uri;
 //import android.os.Bundle;
 //import android.util.Log;
@@ -137,5 +137,5 @@
 //        Log.e("review_card","onDestroy");
 //        //액티비티가 종료되려고 합니다.
 //    }
-//
+////
 //}
