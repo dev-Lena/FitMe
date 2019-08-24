@@ -31,6 +31,18 @@ public class feed extends AppCompatActivity {
         imageView_recommendbot = findViewById(R.id.imageView_recommendbot);  // 추천봇
         imageView_notification = findViewById(R.id.imageView_notification);  // 알림 (내 소식))
 
+        /**여기서부터 리사이클러뷰 만들기**/
+
+
+
+
+
+
+
+
+
+
+
 
 //알림
         imageView_notification.setOnClickListener(new ImageView.OnClickListener() {

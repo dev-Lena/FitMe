@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="5dp"
+        android:id="@+id/review_card"
         app:cardElevation="10dp"
         app:cardMaxElevation="15dp">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,7 +149,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline4">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButton_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -156,7 +157,7 @@
             app:srcCompat="@drawable/ic_empty_heart_like_favorite" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButton_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -164,7 +165,7 @@
             app:srcCompat="@drawable/ic_comment" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/imageButton_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -200,13 +201,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6"
         app:layout_constraintVertical_bias="0.042" />
 
-    <TextView
-        android:id="@+id/textView_likes3"
+    <Button
+        android:id="@+id/button_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:text="더보기"
+        android:background="@color/colorWhite"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
@@ -227,35 +229,38 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5"
         app:layout_constraintVertical_bias="0.333" />
 
-    <TextView
-        android:id="@+id/textView_hashtag2"
+    <Button
+        android:id="@+id/button_hashtag2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorWhite"
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag1"
+        app:layout_constraintStart_toEndOf="@+id/button_hashtag1"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <TextView
-        android:id="@+id/textView_hashtag3"
+    <Button
+        android:id="@+id/button_hashtag3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorWhite"
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag2"
+        app:layout_constraintStart_toEndOf="@+id/button_hashtag2"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <TextView
-        android:id="@+id/textView_hashtag1"
+    <Button
+        android:id="@+id/button_hashtag1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:background="@color/colorWhite"
         android:layout_marginTop="8dp"
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
@@ -263,16 +268,17 @@
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <TextView
-        android:id="@+id/textView_hashtag4"
+    <Button
+        android:id="@+id/button_hashtag4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
+        android:background="@color/colorWhite"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_hashtag3"
+        app:layout_constraintStart_toEndOf="@+id/button_hashtag2"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <TextView
