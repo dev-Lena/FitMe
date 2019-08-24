@@ -201,8 +201,8 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6"
         app:layout_constraintVertical_bias="0.042" />
 
-    <Button
-        android:id="@+id/button_more"
+    <TextView
+        android:id="@+id/textView_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -229,8 +229,8 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5"
         app:layout_constraintVertical_bias="0.333" />
 
-    <Button
-        android:id="@+id/button_hashtag2"
+    <TextView
+        android:id="@+id/textView_hashtag2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -239,11 +239,11 @@
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/button_hashtag1"
+        app:layout_constraintStart_toEndOf="@+id/textView_hashtag1"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <Button
-        android:id="@+id/button_hashtag3"
+    <TextView
+        android:id="@+id/textView_hashtag3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -252,11 +252,11 @@
         android:text="#해시태그"
         android:textColor="@color/colorDarkPurple"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/button_hashtag2"
+        app:layout_constraintStart_toEndOf="@+id/textView_hashtag2"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <Button
-        android:id="@+id/button_hashtag1"
+    <TextView
+        android:id="@+id/textView_hashtag1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -268,8 +268,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-    <Button
-        android:id="@+id/button_hashtag4"
+    <TextView
+        android:id="@+id/textView_hashtag4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -278,7 +278,7 @@
         android:textColor="@color/colorDarkPurple"
         android:background="@color/colorWhite"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/button_hashtag2"
+        app:layout_constraintStart_toEndOf="@+id/textView_hashtag3"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <TextView
