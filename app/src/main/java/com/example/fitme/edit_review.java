@@ -151,22 +151,22 @@ public class edit_review extends AppCompatActivity {
 // 수정한 데이터 보내기
 // 리사이클러뷰 수정
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "Intent 생성");
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "Intent 생성");
 
                 //             String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
 
                 //            String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
 
-                result.putExtra("URL", editText_edit_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-                result.putExtra("DETAIL", editText_edit_detailed_review.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("쇼핑몰URL", editText_edit_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("상세리뷰", editText_edit_detailed_review.getText().toString());  // putExtra로 데이터 보냄
 
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 URL을 put했습니다" + editText_edit_shoppingmall_url);
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 DETAIL을 put했습니다" + editText_edit_detailed_review);
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 URL을 put했습니다" + editText_edit_shoppingmall_url);
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 DETAIL을 put했습니다" + editText_edit_detailed_review);
 
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "Result로 set 끝!");
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "Result로 set 끝!");
                 finish();
 
             }

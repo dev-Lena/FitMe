@@ -85,7 +85,7 @@ public class feed extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
 // TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
-
+// 리사이클러뷰 수정
 // 다이얼로그
 
 //
@@ -103,7 +103,7 @@ public class feed extends AppCompatActivity {
 
 //
                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
-                intent.putExtra("URL", arrayList.get(position).textView_detailed_review_card);
+                intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
 
 
                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
@@ -292,15 +292,16 @@ public class feed extends AppCompatActivity {
 
             // ArrayList에 추가하고
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
+            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다");
 
-// 수정한 리뷰가 있는 arrayList의 포지션을 찾아서 그걸 삭제하고 수정한 아이템을 다시 그 포지션에 넣어줘야 함.
-//
-//
-//            arrayList.remove(arrayList);//???
-//            Log.e("add", "수정한거 arrayList에 넣었습니다... 이거 뭐지?");
+            arrayList.remove(feed_MainData);
+            Log.e("edit", textView_detailed_review_card + "기존 리뷰 리사이클러뷰의 arrayList에서 아이템 삭제");
+
+            arrayList.add(feed_MainData);
+            Log.e("edit", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
 
             feed_adapter.notifyDataSetChanged();  // 새로고침
-            Log.e("add",  "수정한거 새로고침");
+            Log.e("edit",  "수정한거 새로고침");
         }
 
 
@@ -325,6 +326,8 @@ public class feed extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        feed_adapter.notifyDataSetChanged();  // 새로고침
+        Log.e("add",  "수정한거 새로고침");
         Log.e("feed", "onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
