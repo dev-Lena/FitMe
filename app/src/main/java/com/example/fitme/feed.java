@@ -3,9 +3,11 @@ package com.example.fitme;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
@@ -26,18 +28,19 @@ import java.util.ArrayList;
 public class feed extends AppCompatActivity {
 
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
-//    ImageButton imageButton_review_register;
+    //    ImageButton imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_recommendbot, imageView_notification;
 
     private final int Write_OK = 1001;
-// 리사이클러뷰에 필요
+    /**
+     * 리사이클러뷰에 필요한 기본 객체 선언
+     **/
     ArrayList<feed_MainData> arrayList;
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-
 
 
     @Override
@@ -56,7 +59,7 @@ public class feed extends AppCompatActivity {
 
         /**여기서부터 리사이클러뷰 만들기**/
 
-        recyclerView = (RecyclerView)findViewById(R.id.feed_recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.feed_recyclerView);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -64,7 +67,8 @@ public class feed extends AppCompatActivity {
 
         feed_adapter = new feed_Adapter(arrayList);
         recyclerView.setAdapter(feed_adapter);
-
+// Swipe를 통해서 삭제하기 위해서 ItemTouchHelper를 사용했는데 이곳에 객체 선언 -> 뒤에 ItemTouchHelper 메소드 있음.
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
 // 리뷰 창에서 리뷰 작성하는 클릭하면 -> 리뷰 쓰는 창으로 이동
@@ -79,8 +83,6 @@ public class feed extends AppCompatActivity {
 //
 //            }
 //        });
-
-
 
 
 //알림
@@ -139,6 +141,32 @@ public class feed extends AppCompatActivity {
         //여기 내용까지 onCreate 안
     }// onCreate 닫는 중괄호
 
+
+    //    swipe to delete & drag to move
+//
+//    onCreate 밖에
+
+
+//Swipe해서 아이템을 삭제하기 위해서 ItemTouchHelper 메소드 사용. -> Callback 키워드 활용해야함. -> 자동완성시키면 onMove 메소드와 onSwiped 메소드가 생김.
+    // 리사이클러뷰 기본으로 만들어준 LayoutManager, setAdapter 등을 하는 곳에 ItemTouchHelper 객체 선언해줘야 함.
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {  // 오른쪽으로 Swipe했을 때 또는 왼쪽으로 Swipe 했을 때
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+
+            arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
+            feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
+            Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
+            Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
+        }
+    };
+
+
     @Override
     // startActivityForResult에서 Result는 어떤건지
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -148,7 +176,7 @@ public class feed extends AppCompatActivity {
         Log.e("RESULT", resultCode + "");
         Log.e("RESULT", data + "");
 
-        if(requestCode == 1001 && resultCode == RESULT_OK) {
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
 
@@ -161,8 +189,8 @@ public class feed extends AppCompatActivity {
             // ArrayList에 추가하고
 
 
-            Log.e("add",  "arrayList에 넣었습니다");
-            feed_MainData feed_MainData = new feed_MainData (textView_shoppingmall_url,textView_detailed_review_card);
+            Log.e("add", "arrayList에 넣었습니다");
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
             Log.e("add", textView_detailed_review_card + "a^^^^^^^^^^^^^^^^");
             arrayList.add(feed_MainData);
             Log.e("add", textView_detailed_review_card + "하핫^^^^^");

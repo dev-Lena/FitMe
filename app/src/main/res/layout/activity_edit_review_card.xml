@@ -23,7 +23,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="리뷰 작성"
+            android:text="리뷰 수정"
             android:textColor="@color/colorDeepPurple"
             android:textColorLink="@color/colorPurple"
             android:textSize="30sp"
@@ -93,7 +93,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editText_shoppingmall_url"
+                    android:id="@+id/editText_edit_shoppingmall_url"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -123,7 +123,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_hashtag"
+                android:id="@+id/editText_edit_hashtag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -242,7 +242,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_detailed_review"
+                android:id="@+id/editText_edit_detailed_review"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="60dp"
                 android:layout_height="wrap_content"
@@ -250,12 +250,23 @@
                 android:hint="상세 리뷰를 작성해주세요"
                 android:inputType="textPersonName" />
 
+            <TextView
+                android:id="@+id/text_edit_when_do_you_buy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="구입일"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"/>
             <EditText
                 android:id="@+id/editText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="@color/colorAccent"
                 android:inputType="date" />
+
+
 
             <CalendarView
                 android:id="@+id/calendarView"
