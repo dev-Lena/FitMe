@@ -70,7 +70,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        holder.textView_hashtag1.setText(arrayList.get(position).getTextView_hashtag1());
 //        holder.textView_hashtag2.setText(arrayList.get(position).getTextView_hashtag2());
 //        holder.textView_hashtag3.setText(arrayList.get(position).getTextView_hashtag3());
-//        holder.textView_hashtag4.setText(arrayList.get(position).getTextView_hashtag4()); c                                                                                               vc
+//        holder.textView_hashtag4.setText(arrayList.get(position).getTextView_hashtag4());
 
 holder.itemView.findViewById(position);
 // holder.itemView.setTag(position);  // -> findViewById와 같은 기능
