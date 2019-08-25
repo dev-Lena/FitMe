@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,7 +87,7 @@ public class feed extends AppCompatActivity {
 
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(View v, final int position) {
 // TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
 // 리사이클러뷰 수정
 // 다이얼로그
@@ -94,41 +97,53 @@ public class feed extends AppCompatActivity {
 //                String editText_shoppingmall_url = textView_shoppingmall_url.getText().toString();
 //                String editText_detailed_review  = editText_edit_detailed_review.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(), edit_review.class);
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
+                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+
+                getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.action_edit:
+                                Toast.makeText(getApplication(),"수정하기",Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getApplicationContext(), edit_review.class);
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
 //
-                intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
-                intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
-                intent.putExtra("POSITION",position);
+                                intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
+                                intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
+                                intent.putExtra("POSITION",position);
 
 
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
 
-                startActivityForResult(intent, 2001);
+                                startActivityForResult(intent, 2001);
 
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
 
-                //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
+                                //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
 
-//                imageButton_review_register = findViewById(R.id.imageButton_review_register);
-//                imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
-//
-//                        String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-//
-//                        String textView_detailed_review_card = editText_detailed_review.getText().toString();
-//
-//                        result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-//                        result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
-//
-//
-//                        // 자신을 호출한 Activity로 데이터를 보낸다.
-//                        setResult(RESULT_OK, result);
-//                        finish();
+
+                                break;
+                            case R.id.action_share:
+                                Toast.makeText(getApplication(),"공유하기",Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.action_report:
+                                Toast.makeText(getApplication(),"신고하기",Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show();//Popup Menu 보이기
+//            }
+//        });
+
 
 
             }
@@ -218,15 +233,72 @@ public class feed extends AppCompatActivity {
         }
 
         @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(feed.this);
+                alt_bld.setMessage("리뷰를 삭제하시겠습니까?").setCancelable(
+                        false).setPositiveButton("네",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Action for 'Yes' Button
+
+                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
+                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
+                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
+                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
+                            }
+
+                        }).setNegativeButton("아니오",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Action for 'NO' Button
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = alt_bld.create();
+                // Title for AlertDialog
+                alert.setTitle("Title");
+                // Icon for AlertDialog
+                alert.setIcon(R.drawable.ic_delete_black_24dp);
+                alert.show();
+            }
 
 
 
-            arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
-            feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
-            Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
-            Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
-        }
+
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+//
+//            // 제목셋팅
+//            alertDialogBuilder.setTitle("프로그램 종료");
+//
+//            // AlertDialog 셋팅
+//            alertDialogBuilder
+//                    .setMessage("프로그램을 종료할 것입니까?")
+//                    .setCancelable(false)
+//                    .setPositiveButton("종료",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(
+//                                        DialogInterface dialog, int id) {
+//                                    // 프로그램을 종료한다
+//                                    AlertDialogActivity.this.finish();
+//                                }
+//                            })
+//                    .setNegativeButton("취소",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(
+//                                        DialogInterface dialog, int id) {
+//                                    // 다이얼로그를 취소한다
+//                                    dialog.cancel();
+//                                }
+//                            });
+//
+//            // 다이얼로그 생성
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//            // 다이얼로그 보여주기
+//            alertDialog.show();
+
+//        }
     };
 
 
