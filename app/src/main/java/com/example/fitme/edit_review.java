@@ -55,6 +55,8 @@ public class edit_review extends AppCompatActivity {
 
         String shoppingmall_url = intent.getStringExtra("URL");
         String detailed_review = intent.getStringExtra("DETAIL");
+        final int position = intent.getIntExtra("POSITION",0000);
+
 
         Log.e("edit_ing", "shoppingmall_url  : " + shoppingmall_url );
         Log.e("edit_ing", "detailed_review  : " + detailed_review );
@@ -159,6 +161,7 @@ public class edit_review extends AppCompatActivity {
 
                 result.putExtra("쇼핑몰URL", editText_edit_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("상세리뷰", editText_edit_detailed_review.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("POSITION",position);
 
                 Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 URL을 put했습니다" + editText_edit_shoppingmall_url);
                 Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 DETAIL을 put했습니다" + editText_edit_detailed_review);

@@ -75,9 +75,9 @@ int imageView_reviewcard_profile_image;
         return textView_shoppingmall_url;
     }
 //
-//    public void setTextView_shoppingmall_url(String textView_shoppingmall_url) {
-//        this.textView_shoppingmall_url = textView_shoppingmall_url;
-//    }
+    public void setTextView_shoppingmall_url(String textView_shoppingmall_url) {
+        this.textView_shoppingmall_url = textView_shoppingmall_url;
+    }
 //
 //    public String getTextView_likes_number() {
 //        return textView_likes_number;
@@ -103,10 +103,10 @@ int imageView_reviewcard_profile_image;
     public int imageButton_review_edit_completed() {
         return imageButton_review_edit_completed;
     }
-//
-//    public void setTextView_detailed_review_card(String textView_detailed_review_card) {
-//        this.textView_detailed_review_card = textView_detailed_review_card;
-//    }
+
+    public void setTextView_detailed_review_card(String textView_detailed_review_card) {
+        this.textView_detailed_review_card = textView_detailed_review_card;
+    }
 //
 //    public String getTextView_more() {
 //        return textView_more;

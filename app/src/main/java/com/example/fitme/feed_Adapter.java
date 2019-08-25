@@ -2,6 +2,7 @@ package com.example.fitme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -182,6 +185,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //            itemView.setOnClickListener(new View.OnClickListener() {
             // 어댑터 내 뷰홀더에서 아이템 클릭시, 커스텀 이벤트 메서드를 호출하는 코드 작성.
 
+
+//여기서부터
             imageButton_spinner.setOnClickListener(new View.OnClickListener() {
 //            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

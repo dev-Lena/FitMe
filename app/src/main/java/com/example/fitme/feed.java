@@ -81,6 +81,7 @@ public class feed extends AppCompatActivity {
         // 액티비티에서 커스텀 리스너 객체 생성 및 전달
 
 //        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
+
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -88,14 +89,9 @@ public class feed extends AppCompatActivity {
 // 리사이클러뷰 수정
 // 다이얼로그
 
-//
 //                String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
-//
 //                String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
-
-
 //                String editText_shoppingmall_url = textView_shoppingmall_url.getText().toString();
-//
 //                String editText_detailed_review  = editText_edit_detailed_review.getText().toString();
 
                 Intent intent = new Intent(getApplicationContext(), edit_review.class);
@@ -104,6 +100,7 @@ public class feed extends AppCompatActivity {
 //
                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                 intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
+                intent.putExtra("POSITION",position);
 
 
                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
@@ -224,6 +221,7 @@ public class feed extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
 
+
             arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
             feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
             Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
@@ -257,8 +255,11 @@ public class feed extends AppCompatActivity {
             Log.e("add", "arrayList에 넣었습니다");
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
             Log.e("add", textView_detailed_review_card + "feed_MainData 객체 생성");
+
+
             arrayList.add(feed_MainData);
             Log.e("add", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
+
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("add", textView_detailed_review_card + "새로고침");
 //            arrayList.add(new feed_MainData());
@@ -282,6 +283,7 @@ public class feed extends AppCompatActivity {
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
 
+            // 리뷰 수정에서 보낸 수정한 데이터 가져오기 / 받아오기
             // 사용자가 수정한 내용을 가져와서
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
             Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
@@ -289,24 +291,33 @@ public class feed extends AppCompatActivity {
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
             Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
 
+            int position = data.getIntExtra("POSITION",0000);
+            Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
+            //
             // ArrayList에 추가하고
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
-            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다");
+            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" +textView_shoppingmall_url+ ","+textView_detailed_review_card);
 
-            arrayList.remove(feed_MainData);
-            Log.e("edit", textView_detailed_review_card + "기존 리뷰 리사이클러뷰의 arrayList에서 아이템 삭제");
 
-            arrayList.add(feed_MainData);
-            Log.e("edit", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
 
+//            arrayList.set(arrayList.get(position).textView_detailed_review_card,arrayList.get(position).textView_detailed_review_card);
+
+            // 그 위치를 받아와서 그곳에 set 해주기. 리뷰 수정 버튼을 누를 때 부터 같이 위치값을 startActivityForResult로 같이 넘겼다가 돌려받음.
+            arrayList.set(position,feed_MainData);
+//
+//            arrayList.add(feed_MainData);
+//            Log.e("edit", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
+
+//            feed_adapter.notifyItemRemoved(getAdapterPosition());  //아이템이 삭제한 것을 notify
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("edit",  "수정한거 새로고침");
         }
 
 
+    }//onActivityResult 메소드 닫는 중괄호
 
-    }
+
 
     // 생명주기 로그 찍으면서 확인
     @Override
