@@ -23,11 +23,13 @@ int imageView_reviewcard_profile_image;
     int imageView_reviewcard_img3;
     int imageView_reviewcard_img4;
     int imageView_reviewcard_img5;
+    int imageButton_review_edit_completed;
 
 // feed_MainData 생성자를 넣어주면 -> feed 값을 받아올 때 넣어줄 곳이 생겨 ^^*
     public feed_MainData(String textView_shoppingmall_url, String textView_detailed_review_card) {
         this.textView_shoppingmall_url = textView_shoppingmall_url;
         this.textView_detailed_review_card = textView_detailed_review_card;
+        this.imageButton_review_edit_completed = imageButton_review_edit_completed;
     }
 //    public String getReview_card() {
 //        return review_card;
@@ -95,6 +97,11 @@ int imageView_reviewcard_profile_image;
 
     public String getTextView_detailed_review_card() {
         return textView_detailed_review_card;
+    }
+
+
+    public int imageButton_review_edit_completed() {
+        return imageButton_review_edit_completed;
     }
 //
 //    public void setTextView_detailed_review_card(String textView_detailed_review_card) {

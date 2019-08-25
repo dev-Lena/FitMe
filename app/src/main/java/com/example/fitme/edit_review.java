@@ -27,9 +27,9 @@ public class edit_review extends AppCompatActivity {
     private ArrayList<feed_MainData> arrayList;
 
 
-    EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
+    EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review, editText_edit_shoppingmall_url, editText_edit_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
-    ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
+    ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register, imageButton_review_edit_completed;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
     //constant
@@ -85,6 +85,10 @@ public class edit_review extends AppCompatActivity {
         });
 
 
+        // 리사이클러뷰 수정..  수정 전 데이터 받고 수정한 데이터 넘겨주기
+
+
+
   // 리사이클러뷰 추가
 
 
@@ -116,6 +120,55 @@ public class edit_review extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+
+        imageButton_review_edit_completed = findViewById(R.id.imageButton_review_edit_completed);
+        imageButton_review_edit_completed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 넘겨 받은 데이터 받기
+
+                editText_edit_shoppingmall_url= (EditText)findViewById(R.id.editText_edit_shoppingmall_url);
+                editText_edit_detailed_review = (EditText)findViewById(R.id.editText_edit_detailed_review);
+                Intent intent = getIntent();
+
+//        Log.d("HashTag_Check",intent.getExtras().getString("HashTag_Check_Check"));
+
+                String shoppingmall_url = intent.getStringExtra("URL");
+                String detailed_review = intent.getStringExtra("DETAIL");
+
+                Log.e("edit_ing", "shoppingmall_url  : " + shoppingmall_url );
+                Log.e("edit_ing", "detailed_review  : " + detailed_review );
+
+                editText_edit_shoppingmall_url.setText(shoppingmall_url);
+                editText_edit_detailed_review.setText(detailed_review);
+
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL 세팅 완료");
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "상세리뷰 세팅 완료");
+
+// 수정한 데이터 보내기
+// 리사이클러뷰 수정
+                Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "Intent 생성");
+
+                //             String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
+
+                //            String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
+
+                result.putExtra("URL", editText_edit_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("DETAIL", editText_edit_detailed_review.getText().toString());  // putExtra로 데이터 보냄
+
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 URL을 put했습니다" + editText_edit_shoppingmall_url);
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 DETAIL을 put했습니다" + editText_edit_detailed_review);
+
+
+                // 자신을 호출한 Activity로 데이터를 보낸다.
+                setResult(RESULT_OK, result);
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "Result로 set 끝!");
+                finish();
+
+            }
+        });
+
 
 
 

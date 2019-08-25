@@ -2,17 +2,20 @@ package com.example.fitme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,21 +23,35 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder>{
+public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
+
+    // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position) ;
+    }
+
+    // 리스너 객체 참조를 저장하는 변수
+    private OnItemClickListener mListener = null ;
+
+    // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener ;  // 전달된 객체를 저장할 변수 mListener 추가
+    }
+
 
     // 리사이클러뷰에 넣을 ArrayList
 
     private ArrayList<feed_MainData> arrayList;
 
-    public feed_Adapter(ArrayList<feed_MainData>arrayList){   // 생성자
-        this.arrayList = arrayList ;
+    public feed_Adapter(ArrayList<feed_MainData> arrayList) {   // 생성자
+        this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
     public feed_Adapter.FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_review_card,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_review_card, parent, false);
         FeedViewHolder holder = new FeedViewHolder(view);
         return holder;
     }
@@ -66,30 +83,57 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
 //        holder.textView_likes.setText(arrayList.get(position).getTextView_likes());
         holder.textView_detailed_review_card.setText(arrayList.get(position).getTextView_detailed_review_card());
+
 //        holder.textView_more.setText(arrayList.get(position).getTextView_more());
 //        holder.textView_hashtag1.setText(arrayList.get(position).getTextView_hashtag1());
 //        holder.textView_hashtag2.setText(arrayList.get(position).getTextView_hashtag2());
 //        holder.textView_hashtag3.setText(arrayList.get(position).getTextView_hashtag3());
 //        holder.textView_hashtag4.setText(arrayList.get(position).getTextView_hashtag4());
 
-holder.itemView.findViewById(position);
+
+//        holder.imageButton_spinner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.e("spinner 버튼이", "클릭이 되나 봅시다");
+//
+//// 다이얼로그 띄워서 수정하시겠습니까? -> 예
+//
+//
+//
+//            }
+//        });
 // holder.itemView.setTag(position);  // -> findViewById와 같은 기능
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //클릭했을 때 어떤 걸 할건지
+                //클릭했을 때 어떤 걸 할건지
             }
         });
 
-        // 길게 눌렀을 때 어떤 걸 할건지
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return true;
-            }
-        });
-
-
+//        // 길게 눌렀을 때 어떤 걸 할건지
+//        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//
+//                String textView_ing_shoppingmall_url = textView_shoppingmall_url.getText().toString();
+//                String textView_ing_detailed_review_card= textView_detailed_review_card.getText().toString();
+//
+//                Intent intent = new Intent(feed.this, edit_review.class);
+//
+//                intent.putExtra("URL", textView_shoppingmall_url);
+//                intent.putExtra("DETAIL", textView_detailed_review_card);
+//
+//                Log.e("feed_edit_ing", "URL : " +textView_shoppingmall_url);
+//                Log.e("feed_edit_ing", "DETAIL : " +textView_shoppingmall_url);
+//
+//                startActivity(intent);
+//
+//                return true;
+//            }
+//        });
+//
+//
     }
 
     @Override
@@ -97,12 +141,13 @@ holder.itemView.findViewById(position);
         return arrayList.size();   // ArrayList의 사이즈만큼
     }
 
+
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
-        TextView review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes,
-         textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4;
-ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5 ;
-ImageButton imageButton_like,imageButton_comment, imageButton_bookmark ;
+        TextView review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes,
+                textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3, textView_hashtag4;
+        ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
+        ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +167,7 @@ ImageButton imageButton_like,imageButton_comment, imageButton_bookmark ;
 //            this.textView_likes_number = (TextView) itemView.findViewById(R.id.textView_likes_number);
 //            this.textView_likes = (TextView) itemView.findViewById(R.id.textView_likes);
             this.textView_detailed_review_card = (TextView) itemView.findViewById(R.id.textView_detailed_review_card);
+            this.imageButton_spinner = (ImageButton) itemView.findViewById(R.id.imageButton_spinner);
 //            this.textView_more = (TextView) itemView.findViewById(R.id.textView_more);
 //            this.textView_hashtag1 = (TextView) itemView.findViewById(R.id.textView_hashtag1);
 //            this.textView_hashtag2 = (TextView) itemView.findViewById(R.id.textView_hashtag2);
@@ -130,8 +176,27 @@ ImageButton imageButton_like,imageButton_comment, imageButton_bookmark ;
 //            this.textView_hashtag3 = (TextView) itemView.findViewById(R.id.textView_hashtag3);
 //            this.textView_hashtag4 = (TextView) itemView.findViewById(R.id.textView_hashtag4);
 
+// 리사이클러뷰 수정에서 Adapter에 있는 클릭 이벤트를feed에서 구현하기 위해서 ( 인텐트로 데이터 전달 )
+//            itemView.setOnClickListener(new View.OnClickListener() {
+            // 어댑터 내 뷰홀더에서 아이템 클릭시, 커스텀 이벤트 메서드를 호출하는 코드 작성.
+                itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
+                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 리스너에서 getAdapterPostion했습니다");
 
+                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onItemClick) 호출.
+                    if (pos!= RecyclerView.NO_POSITION){
+                       if(mListener != null){
+                            mListener.onItemClick(view,pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                           Log.e("spinner 버튼이 mLister를 통해", "눌렸나요?");
 
+//                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
+//                        notifyItemChanged(pos) ;
+                        }
+                    }
+                }
+            });
 
 
         }

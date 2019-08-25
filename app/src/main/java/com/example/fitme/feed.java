@@ -67,22 +67,75 @@ public class feed extends AppCompatActivity {
 
         feed_adapter = new feed_Adapter(arrayList);
         recyclerView.setAdapter(feed_adapter);
+
+
+
+
+
 // Swipe를 통해서 삭제하기 위해서 ItemTouchHelper를 사용했는데 이곳에 객체 선언 -> 뒤에 ItemTouchHelper 메소드 있음.
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
-// 리뷰 창에서 리뷰 작성하는 클릭하면 -> 리뷰 쓰는 창으로 이동
-//        action_write_review = findViewById(R.id.action_write_review);  // 하단바에 있는 리뷰 작성 버튼을 누르면 리뷰 작성 화면으로 이동
-//        action_write_review.setOnClickListener(new ImageView.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Intent intent = new Intent(login.this, sign_up.class);
-//////                startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
-//                Intent intent = new Intent(getApplicationContext(), sign_up.class);
-//                startActivityForResult(intent, 1000);
+// 리사이클러뷰 수정 // 클릭하면 수정 화면 열리고 수정한 데이터를 인텐트로 가지고 오는 것.
+// 리사이클러뷰 수정에서 Adpater에서 커스텀한 클릭이벤트를 인터페이스로 가지고 와서 여기서 intent로 받아올 것.
+        // 액티비티에서 커스텀 리스너 객체 생성 및 전달
+
+        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View v, int position) {
+// TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
+
+// 다이얼로그
+
 //
-//            }
-//        });
+//                String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
+//
+//                String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
+
+
+//                String editText_shoppingmall_url = textView_shoppingmall_url.getText().toString();
+//
+//                String editText_detailed_review  = editText_edit_detailed_review.getText().toString();
+
+                Intent intent = new Intent(getApplicationContext(), edit_review.class);
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
+
+
+                intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
+                intent.putExtra("URL", arrayList.get(position).textView_detailed_review_card);
+
+
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
+
+                startActivityForResult(intent, 2001);
+
+                //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
+
+//                imageButton_review_register = findViewById(R.id.imageButton_review_register);
+//                imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
+//
+//                        String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
+//
+//                        String textView_detailed_review_card = editText_detailed_review.getText().toString();
+//
+//                        result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+//                        result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
+//
+//
+//                        // 자신을 호출한 Activity로 데이터를 보낸다.
+//                        setResult(RESULT_OK, result);
+//                        finish();
+
+
+            }
+        });
+
+
 
 
 //알림
@@ -138,12 +191,22 @@ public class feed extends AppCompatActivity {
 
             }
         });
-        //여기 내용까지 onCreate 안
+
+// 리사이클러뷰 수정
+// feed -> edit_review -> feed
+
+
+
+
+
     }// onCreate 닫는 중괄호
 
 
-    //    swipe to delete & drag to move
-//
+
+
+
+
+//    swipe to delete & drag to move
 //    onCreate 밖에
 
 
@@ -212,6 +275,31 @@ public class feed extends AppCompatActivity {
 //            arrayList.add(textView_shoppingmall_url.setText(data.getStringExtra("상세리뷰"));
 
         }
+
+        if (requestCode == 2001 && resultCode == RESULT_OK) {
+            Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
+
+
+            // 사용자가 수정한 내용을 가져와서
+            String textView_shoppingmall_url = data.getStringExtra("URL");
+            Log.e("상세리뷰", textView_shoppingmall_url + "수정한 상세리뷰 가져왔습니다");
+
+            String textView_detailed_review_card = data.getStringExtra("DETAIL");
+            Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
+
+            // ArrayList에 추가하고
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
+
+// 수정한 리뷰가 있는 arrayList의 포지션을 찾아서 그걸 삭제하고 수정한 아이템을 다시 그 포지션에 넣어줘야 함.
+
+
+            arrayList.remove(arrayList);//???
+            Log.e("add", "수정한거 arrayList에 넣었습니다");
+
+            feed_adapter.notifyDataSetChanged();  // 새로고침
+            Log.e("add",  "수정한거 새로고침");
+        }
+
 
 
     }
