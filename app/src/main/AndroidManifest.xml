@@ -40,7 +40,7 @@
         </activity>
         <activity android:name=".notification" ></activity>
         <activity android:name=".recommendbot" ></activity>
-        <activity android:name=".review_card" ></activity>
+        <activity android:name=".edit_review" ></activity>
         <activity android:name=".review_category" ></activity>
         <activity android:name=".write_review" ></activity>
         <activity android:name=".review_written_by_me" ></activity>

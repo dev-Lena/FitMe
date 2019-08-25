@@ -80,8 +80,8 @@ public class feed extends AppCompatActivity {
 // 리사이클러뷰 수정에서 Adpater에서 커스텀한 클릭이벤트를 인터페이스로 가지고 와서 여기서 intent로 받아올 것.
         // 액티비티에서 커스텀 리스너 객체 생성 및 전달
 
+//        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
-
             @Override
             public void onItemClick(View v, int position) {
 // TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
@@ -101,7 +101,7 @@ public class feed extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), edit_review.class);
                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
-
+//
                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                 intent.putExtra("URL", arrayList.get(position).textView_detailed_review_card);
 
@@ -110,6 +110,8 @@ public class feed extends AppCompatActivity {
                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
 
                 startActivityForResult(intent, 2001);
+
+                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
 
                 //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
 
@@ -246,19 +248,19 @@ public class feed extends AppCompatActivity {
 //            feed_adapter = new feed_Adapter();
             // 사용자가 입력한 내용을 가져와서
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
-            Log.e("상세리뷰", textView_shoppingmall_url + "상세리뷰 가져왔습니다");
+            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
-            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다");
+            Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
             // ArrayList에 추가하고
 
 
             Log.e("add", "arrayList에 넣었습니다");
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
-            Log.e("add", textView_detailed_review_card + "a^^^^^^^^^^^^^^^^");
+            Log.e("add", textView_detailed_review_card + "feed_MainData 객체 생성");
             arrayList.add(feed_MainData);
-            Log.e("add", textView_detailed_review_card + "하핫^^^^^");
+            Log.e("add", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
             feed_adapter.notifyDataSetChanged();  // 새로고침
-            Log.e("add", textView_detailed_review_card + "이제 그만^");
+            Log.e("add", textView_detailed_review_card + "새로고침");
 //            arrayList.add(new feed_MainData());
 //            arrayList.add(new feed_MainData ());
 //            arrayList.add(new feed_MainData (R.id.textView_shoppingmall_url, R.id.textView_detailed_review_card));
@@ -281,20 +283,21 @@ public class feed extends AppCompatActivity {
 
 
             // 사용자가 수정한 내용을 가져와서
-            String textView_shoppingmall_url = data.getStringExtra("URL");
-            Log.e("상세리뷰", textView_shoppingmall_url + "수정한 상세리뷰 가져왔습니다");
-
-            String textView_detailed_review_card = data.getStringExtra("DETAIL");
+            String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
             Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
+
+            String textView_detailed_review_card = data.getStringExtra("상세리뷰");
+            Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
+
 
             // ArrayList에 추가하고
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
 
 // 수정한 리뷰가 있는 arrayList의 포지션을 찾아서 그걸 삭제하고 수정한 아이템을 다시 그 포지션에 넣어줘야 함.
-
-
-            arrayList.remove(arrayList);//???
-            Log.e("add", "수정한거 arrayList에 넣었습니다");
+//
+//
+//            arrayList.remove(arrayList);//???
+//            Log.e("add", "수정한거 arrayList에 넣었습니다... 이거 뭐지?");
 
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("add",  "수정한거 새로고침");

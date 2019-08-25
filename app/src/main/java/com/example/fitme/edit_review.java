@@ -42,7 +42,28 @@ public class edit_review extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_review_card);
 
-// 리뷰 작성하면 리뷰 카드로 데이터 넘기기
+// 리사이클러뷰의 아이템 수정 전 데이터 받아오기
+
+        // 넘겨 받은 데이터 받기
+
+        editText_edit_shoppingmall_url= (EditText)findViewById(R.id.editText_edit_shoppingmall_url);
+        editText_edit_detailed_review = (EditText)findViewById(R.id.editText_edit_detailed_review);
+        Intent intent = getIntent();
+
+        Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중!","getIntent");
+
+
+        String shoppingmall_url = intent.getStringExtra("URL");
+        String detailed_review = intent.getStringExtra("DETAIL");
+
+        Log.e("edit_ing", "shoppingmall_url  : " + shoppingmall_url );
+        Log.e("edit_ing", "detailed_review  : " + detailed_review );
+
+        editText_edit_shoppingmall_url.setText(shoppingmall_url);
+        editText_edit_detailed_review.setText(detailed_review);
+
+        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL 세팅 완료");
+        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "상세리뷰 세팅 완료");
 
 
 // 리뷰 등록 버튼 -> 리뷰카드 이동
@@ -63,8 +84,8 @@ public class edit_review extends AppCompatActivity {
 
         //데이터 보내기
 // 검색 버튼 -> 검색 결과 화면 이동
-        imageButton_review_register = findViewById(R.id.imageButton_review_register);
-        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
+        imageButton_review_edit_completed = findViewById(R.id.imageButton_review_edit_completed);
+        imageButton_review_edit_completed.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
@@ -125,25 +146,7 @@ public class edit_review extends AppCompatActivity {
         imageButton_review_edit_completed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 넘겨 받은 데이터 받기
 
-                editText_edit_shoppingmall_url= (EditText)findViewById(R.id.editText_edit_shoppingmall_url);
-                editText_edit_detailed_review = (EditText)findViewById(R.id.editText_edit_detailed_review);
-                Intent intent = getIntent();
-
-//        Log.d("HashTag_Check",intent.getExtras().getString("HashTag_Check_Check"));
-
-                String shoppingmall_url = intent.getStringExtra("URL");
-                String detailed_review = intent.getStringExtra("DETAIL");
-
-                Log.e("edit_ing", "shoppingmall_url  : " + shoppingmall_url );
-                Log.e("edit_ing", "detailed_review  : " + detailed_review );
-
-                editText_edit_shoppingmall_url.setText(shoppingmall_url);
-                editText_edit_detailed_review.setText(detailed_review);
-
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL 세팅 완료");
-                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "상세리뷰 세팅 완료");
 
 // 수정한 데이터 보내기
 // 리사이클러뷰 수정

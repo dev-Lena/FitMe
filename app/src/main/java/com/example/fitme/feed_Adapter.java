@@ -28,6 +28,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
         void onItemClick(View v, int position) ;
+        // 클릭할게 여러개 일 때 여기에 추가해주기
+        // void onButtonClick이런 식으로
     }
 
     // 리스너 객체 참조를 저장하는 변수
@@ -179,7 +181,9 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 // 리사이클러뷰 수정에서 Adapter에 있는 클릭 이벤트를feed에서 구현하기 위해서 ( 인텐트로 데이터 전달 )
 //            itemView.setOnClickListener(new View.OnClickListener() {
             // 어댑터 내 뷰홀더에서 아이템 클릭시, 커스텀 이벤트 메서드를 호출하는 코드 작성.
-                itemView.setOnClickListener(new View.OnClickListener() {
+
+            imageButton_spinner.setOnClickListener(new View.OnClickListener() {
+//            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
