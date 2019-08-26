@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.Transliterator;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.util.Log;
@@ -105,6 +106,7 @@ public class feed extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.action_edit:
+                                // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
                                 Toast.makeText(getApplication(),"수정하기",Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(getApplicationContext(), edit_review.class);
@@ -114,6 +116,7 @@ public class feed extends AppCompatActivity {
                                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                                 intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
                                 intent.putExtra("POSITION",position);
+                                // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
 
 
                                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
@@ -236,13 +239,14 @@ public class feed extends AppCompatActivity {
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
 
                 AlertDialog.Builder alt_bld = new AlertDialog.Builder(feed.this);
-                alt_bld.setMessage("리뷰를 삭제하시겠습니까?").setCancelable(
+                alt_bld.setMessage("리뷰를 회원님의 피드에서 삭제하시겠습니까?").setCancelable(
                         false).setPositiveButton("네",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Action for 'Yes' Button
 
                                 arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
+                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                                 feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
                                 Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
                                 Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
@@ -262,7 +266,6 @@ public class feed extends AppCompatActivity {
                 alert.setIcon(R.drawable.ic_delete_black_24dp);
                 alert.show();
             }
-
 
 
 
