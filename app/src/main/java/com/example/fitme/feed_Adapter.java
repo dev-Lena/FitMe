@@ -31,6 +31,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
         void onItemClick(View v, int position) ;
+        void onCommentClick(View v, int position) ;  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 떄
+
         // 클릭할게 여러개 일 때 여기에 추가해주기
         // void onButtonClick이런 식으로
     }
@@ -163,7 +165,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //            this.imageView_reviewcard_img4 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img4);
 //            this.imageView_reviewcard_img5 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img5);
 //            this.imageButton_like = (ImageButton) itemView.findViewById(R.id.imageButton_like);
-//            this.imageButton_comment = (ImageButton) itemView.findViewById(R.id.imageButton_comment);
+            this.imageButton_comment = (ImageButton) itemView.findViewById(R.id.imageButton_comment);
 //            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
 //            this.review_card = (TextView) itemView.findViewById(R.id.review_card);
 //            this.textView_mysize = (TextView) itemView.findViewById(R.id.textView_mysize);
@@ -188,17 +190,36 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
 //여기서부터
             imageButton_spinner.setOnClickListener(new View.OnClickListener() {
-//            itemView.setOnClickListener(new View.OnClickListener() {
+                //            itemView.setOnClickListener(new View.OnClickListener() {  // 이렇게 하면 해당 버튼을 눌렀다는 코드가 아니라 itemView를 눌렀다는 코드임.
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
                     Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 리스너에서 getAdapterPostion했습니다");
 
                     // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onItemClick) 호출.
-                    if (pos!= RecyclerView.NO_POSITION){
-                       if(mListener != null){
-                            mListener.onItemClick(view,pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
-                           Log.e("spinner 버튼이 mLister를 통해", "눌렸나요?");
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                            Log.e("spinner 버튼이 mLister를 통해", "눌렸나요?");
+
+//                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
+//                        notifyItemChanged(pos) ;
+                        }
+                    }
+                }
+            });
+
+            imageButton_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
+                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 댓글 버튼 onCommentClick 리스너에서 getAdapterPostion 했습니다");
+
+                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
+                            mListener.onCommentClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                            Log.e("spinner 버튼이 mListener를 통해", "눌렸나요?");
 
 //                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
 //                        notifyItemChanged(pos) ;
@@ -209,6 +230,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
 
         }
-
     }
+
+
 }

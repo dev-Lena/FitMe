@@ -18,7 +18,7 @@ public class comment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("review_written_by_me","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_written_by_me);
+        setContentView(R.layout.activity_comment);
 
 //하단바
         bottomNavigationView = findViewById (R.id.bottomNavi);

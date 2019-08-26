@@ -98,6 +98,7 @@ public class feed extends AppCompatActivity {
 //                String editText_shoppingmall_url = textView_shoppingmall_url.getText().toString();
 //                String editText_detailed_review  = editText_edit_detailed_review.getText().toString();
 
+// 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                 PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
                 getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
@@ -147,12 +148,14 @@ public class feed extends AppCompatActivity {
 //            }
 //        });
 
+            }
 
-
+            @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 댓글 버튼을 눌렀을 때
+            public void onCommentClick(View v, int position) {
+                Intent comment_intent = new Intent(feed.this, comment.class);
+                startActivity(comment_intent); //액티비티 이동
             }
         });
-
-
 
 
 //알림
@@ -202,18 +205,12 @@ public class feed extends AppCompatActivity {
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
-
-
                 return false;
-
             }
         });
 
 // 리사이클러뷰 수정
 // feed -> edit_review -> feed
-
-
-
 
 
     }// onCreate 닫는 중괄호
@@ -227,7 +224,7 @@ public class feed extends AppCompatActivity {
 //    onCreate 밖에
 
 
-//Swipe해서 아이템을 삭제하기 위해서 ItemTouchHelper 메소드 사용. -> Callback 키워드 활용해야함. -> 자동완성시키면 onMove 메소드와 onSwiped 메소드가 생김.
+//Swipe해서 리사이클러뷰 아이템을 삭제하기 위해서 ItemTouchHelper 메소드 사용. -> Callback 키워드 활용해야함. -> 자동완성시키면 onMove 메소드와 onSwiped 메소드가 생김.
     // 리사이클러뷰 기본으로 만들어준 LayoutManager, setAdapter 등을 하는 곳에 ItemTouchHelper 객체 선언해줘야 함.
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {  // 오른쪽으로 Swipe했을 때 또는 왼쪽으로 Swipe 했을 때
         @Override
@@ -256,52 +253,17 @@ public class feed extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Action for 'NO' Button
+                                feed_adapter.notifyDataSetChanged();
                                 dialog.cancel();
                             }
                         });
                 AlertDialog alert = alt_bld.create();
                 // Title for AlertDialog
-                alert.setTitle("Title");
+                alert.setTitle("리뷰 삭제");
                 // Icon for AlertDialog
                 alert.setIcon(R.drawable.ic_delete_black_24dp);
                 alert.show();
             }
-
-
-
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//
-//            // 제목셋팅
-//            alertDialogBuilder.setTitle("프로그램 종료");
-//
-//            // AlertDialog 셋팅
-//            alertDialogBuilder
-//                    .setMessage("프로그램을 종료할 것입니까?")
-//                    .setCancelable(false)
-//                    .setPositiveButton("종료",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(
-//                                        DialogInterface dialog, int id) {
-//                                    // 프로그램을 종료한다
-//                                    AlertDialogActivity.this.finish();
-//                                }
-//                            })
-//                    .setNegativeButton("취소",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(
-//                                        DialogInterface dialog, int id) {
-//                                    // 다이얼로그를 취소한다
-//                                    dialog.cancel();
-//                                }
-//                            });
-//
-//            // 다이얼로그 생성
-//            AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//            // 다이얼로그 보여주기
-//            alertDialog.show();
-
-//        }
     };
 
 
@@ -337,20 +299,7 @@ public class feed extends AppCompatActivity {
 
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("add", textView_detailed_review_card + "새로고침");
-//            arrayList.add(new feed_MainData());
-//            arrayList.add(new feed_MainData ());
-//            arrayList.add(new feed_MainData (R.id.textView_shoppingmall_url, R.id.textView_detailed_review_card));
 
-
-            //
-//            holder.textView_shoppingmall_url.setText(arrayList.get(position).getTextView_shoppingmall_url());
-//
-//
-//            textView_shoppingmall_url.setText(data.getStringExtra("상세리뷰"));   //
-
-            //set해줘야하는데
-//
-//            arrayList.add(textView_shoppingmall_url.setText(data.getStringExtra("상세리뷰"));
 
         }
 
@@ -375,9 +324,6 @@ public class feed extends AppCompatActivity {
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" +textView_shoppingmall_url+ ","+textView_detailed_review_card);
 
 
-
-//            arrayList.set(arrayList.get(position).textView_detailed_review_card,arrayList.get(position).textView_detailed_review_card);
-
             // 그 위치를 받아와서 그곳에 set 해주기. 리뷰 수정 버튼을 누를 때 부터 같이 위치값을 startActivityForResult로 같이 넘겼다가 돌려받음.
             arrayList.set(position,feed_MainData);
 //
@@ -388,11 +334,7 @@ public class feed extends AppCompatActivity {
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("edit",  "수정한거 새로고침");
         }
-
-
     }//onActivityResult 메소드 닫는 중괄호
-
-
 
     // 생명주기 로그 찍으면서 확인
     @Override
@@ -438,5 +380,4 @@ public class feed extends AppCompatActivity {
         Log.e("feed", "onDestroy");
         //액티비티가 종료되려고 합니다.
     }
-
 }
