@@ -50,6 +50,7 @@
         <activity android:name=".insight" ></activity>
         <activity android:name=".size_bottom" ></activity>
         <activity android:name=".size_dress" ></activity>
+        <activity android:name=".comment" ></activity>
 
 
     </application>
