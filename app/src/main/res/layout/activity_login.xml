@@ -130,6 +130,15 @@
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
+        <CheckBox
+            android:id="@+id/checkBox_remember_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="로그인 정보 기억하기" />
+
         <Button
             android:background="@color/colorWhite"
             android:id="@+id/button_signUp"

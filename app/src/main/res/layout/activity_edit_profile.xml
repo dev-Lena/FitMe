@@ -105,7 +105,7 @@
                 android:textSize="18sp" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/checkBox_remember_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
