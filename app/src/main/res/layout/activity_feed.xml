@@ -49,6 +49,29 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/textView_feed_id"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 님 이런 리뷰는 어떠세요?"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/textView_feed"/>
+
+
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feed_recyclerView"
         android:layout_width="match_parent"

@@ -18,12 +18,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class sign_up extends AppCompatActivity {
 
+    private ArrayList<List> data = new ArrayList<List>();
 
     Button button_sign_up_complete, button_sign_in;  //회원가입하기 버튼
     EditText editText_mysize, editText_nickname, editText_email, editText_password, editText_password_confirm;  // 평소 사이즈 입력하는 칸, 닉네임 적는 칸
     BottomNavigationView bottomNavigationView;   // 바텀 네이게이션 메뉴  -> 하단바
+
+    String email ="";
+    String password ="";
+    Boolean womanIsTrue ;
+    String currentSize = "";
+    String nickname = "";
+    int profile_img = R.drawable.img_dd_profile ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
