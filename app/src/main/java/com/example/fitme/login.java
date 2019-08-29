@@ -47,99 +47,61 @@ public class login extends AppCompatActivity {
 // SharedPreference 로 회원정보를 jsonObject에 저장해서 jsonArrayList 형태로 SharedPreference에 저장\
 
 
-        final EditText editText_email = (EditText) findViewById(R.id.editText_email);
-        final EditText editText_password = (EditText) findViewById(R.id.editText_password);
-        final EditText editText_mysize = (EditText) findViewById(R.id.editText_mysize);
-        final EditText editText_nickname = (EditText) findViewById(R.id.editText_nickname);
-//              성별 boolean값 받아오기
-        final ImageView imageView_user_profile_image = (ImageView) findViewById(R.id.imageView_user_profile_image);
+//
+//  SharedPreference로 로그인 정보 기억하기
+
+        // 필요한 뷰객체 매칭
+        editText_email = (EditText) findViewById(R.id.editText_email);
+        editText_password = (EditText) findViewById(R.id.editText_password);
+        checkBox_remember_login = (CheckBox) findViewById(R.id.checkBox_remember_login);
+        button_sign_in = (Button) findViewById(R.id.button_sign_in);
+        //SharedPreference와 editor 가져오기
+//        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); // 아래 코드와 같은 의미인데 this는 액티비티 정도
+        sharedPreferences = getSharedPreferences("remember_login", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
+        editor = sharedPreferences.edit();  // 위에서 선언한 데이터 베이스에 아이템을 put 할 수 있는
 
 
-// 회원가입 완료 버튼을 눌렀을 때
-        button_sign_up_complete = (Button) findViewById(R.id.button_sign_up_complete);
-// int i 넣어서 에러나면 예제 다시 확인하기. 예제에서는 Dialog를 띄어서 값을 입력하도록 했음.
-        button_sign_up_complete.setOnClickListener(new View.OnClickListener() {
-        @Override
-         public void onClick(View view) {
-            JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
-            JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
+        checkSharedPreferences();  // 로그인정보 기억하기 체크 박스가 눌려있는지 설정값. 메소드 (onCreate 밖에 있음)
 
-            try{
-                jsonObject.put("email", editText_email .getText().toString());
-                jsonObject.put("password", editText_password.getText().toString());
-                jsonObject.put("currentSize", editText_mysize.getText().toString());
-                jsonObject.put("nickname", editText_nickname.getText().toString());
+        button_sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { // 체크박스가 체크 되었을 때 or 체크 되지 않았을 때
 
-                jsonObject.put("profile_img",imageView_user_profile_image );
+                if(checkBox_remember_login.isChecked()){
+                    //save the checkbox preference -> 로그인 정보 기억하기 체크박스 설정값 저장.
+                    editor.putString(getString(R.string.checkbox),"True"); // (key, value)
+                    editor.commit(); // 제출
+                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "onCreate");
 
-                jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
+                    //save the email
+                    String email = editText_email.getText().toString();
+                    editor.putString(getString(R.string.email),email);
+                    editor.commit();
+                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "이메일 정보: " + email);
 
-            } catch (JSONException e){  // 예외 처리
-                e.printStackTrace();
+                    //save the password
+                    String password = editText_password.getText().toString();
+                    editor.putString(getString(R.string.password),password);
+                    editor.commit();
+                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "비밀번호 정보: " + password);
+
+                }else {
+                    //save the checkbox preference
+                    editor.putString(getString(R.string.checkbox),"False"); // (key, value)
+                    editor.commit(); // 제출
+
+                    //save the email
+                    editor.putString(getString(R.string.email),"");
+                    editor.commit();
+
+                    //save the password
+                    editor.putString(getString(R.string.password),"");
+                    editor.commit();
+
+                }
+
             }
-
-            String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
-            saveArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것
-
-        }
         });
-
-
-//
-////  SharedPreference로 로그인 정보 기억하기
-//
-//        // 필요한 뷰객체 매칭
-//        editText_email = (EditText) findViewById(R.id.editText_email);
-//        editText_password = (EditText) findViewById(R.id.editText_password);
-//        checkBox_remember_login = (CheckBox) findViewById(R.id.checkBox_remember_login);
-//        button_sign_in = (Button) findViewById(R.id.button_sign_in);
-//        //SharedPreference와 editor 가져오기
-////        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); // 아래 코드와 같은 의미인데 this는 액티비티 정도
-//        sharedPreferences = getSharedPreferences("remember_login", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
-//        editor = sharedPreferences.edit();  // 위에서 선언한 데이터 베이스에 아이템을 put 할 수 있는
-//
-//
-//        checkSharedPreferences();  // 로그인정보 기억하기 체크 박스가 눌려있는지 설정값. 메소드 (onCreate 밖에 있음)
-//
-//        button_sign_in.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) { // 체크박스가 체크 되었을 때 or 체크 되지 않았을 때
-//
-//                if(checkBox_remember_login.isChecked()){
-//                    //save the checkbox preference -> 로그인 정보 기억하기 체크박스 설정값 저장.
-//                    editor.putString(getString(R.string.checkbox),"True"); // (key, value)
-//                    editor.commit(); // 제출
-//                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "onCreate");
-//
-//                    //save the email
-//                    String email = editText_email.getText().toString();
-//                    editor.putString(getString(R.string.email),email);
-//                    editor.commit();
-//                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "이메일 정보: " + email);
-//
-//                    //save the password
-//                    String password = editText_password.getText().toString();
-//                    editor.putString(getString(R.string.password),password);
-//                    editor.commit();
-//                    Log.e("onCreate 로그인 정보 기억하기 체크박스", "비밀번호 정보: " + password);
-//
-//                }else {
-//                    //save the checkbox preference
-//                    editor.putString(getString(R.string.checkbox),"False"); // (key, value)
-//                    editor.commit(); // 제출
-//
-//                    //save the email
-//                    editor.putString(getString(R.string.email),"");
-//                    editor.commit();
-//
-//                    //save the password
-//                    editor.putString(getString(R.string.password),"");
-//                    editor.commit();
-//
-//                }
-//
-//            }
-//        });
 
 
 //        String email = sharedPreferences.getString("login_id","default"); // ("some_other_key","dafault")일 경우 첫번째 인자의 key값을 찾을 수 없을 때 "default"가 찍힘
@@ -210,29 +172,29 @@ public class login extends AppCompatActivity {
     }
 
 
-//    /**
-//     * SharedPreferece이용한 로그인정보 기억하기 -> CheckBox
-//     * Check the shared preferences and set them accordingly
-//     **/
-//
-//    private void checkSharedPreferences() {  // ->onCreate에서 이 메소드 호출에서 사용함.
-//        String checkbox = sharedPreferences.getString(getString(R.string.checkbox), "False");  // -> 여기 들어가는 R.string.checkbox는 values.string.xml에 등록 -> 등록안하면 인식을 못해서 빨간줄이 뜸
-//        String email = sharedPreferences.getString(getString(R.string.email), "");  //s1을 비워두는 이유 : User가 아무것도 쓰지 않았을 때 비워두기 위해서
-//        String password = sharedPreferences.getString(getString(R.string.password), "");
-//
-//        editText_email.setText(email);
-//        editText_password.setText(password);
-//
-//        // 로그인 정보 기억하기 체크 박스가 체크 되었을 때 true 안되어있을 때는 false
-//        if (checkbox.equals("True")) {
-//            checkBox_remember_login.setChecked(true);
-//            Log.e("checkSharedPreference 메소드", "이메일 정보: " + editText_email + email);
-//        } else {
-//            checkBox_remember_login.setChecked(false);
-//            Log.e("checkSharedPreference 메소드", "비밀번호 정보: " + checkBox_remember_login + password);
-//        }
-//
-//    }
+    /**
+     * SharedPreferece이용한 로그인정보 기억하기 -> CheckBox
+     * Check the shared preferences and set them accordingly
+     **/
+
+    private void checkSharedPreferences() {  // ->onCreate에서 이 메소드 호출에서 사용함.
+        String checkbox = sharedPreferences.getString(getString(R.string.checkbox), "False");  // -> 여기 들어가는 R.string.checkbox는 values.string.xml에 등록 -> 등록안하면 인식을 못해서 빨간줄이 뜸
+        String email = sharedPreferences.getString(getString(R.string.email), "");  //s1을 비워두는 이유 : User가 아무것도 쓰지 않았을 때 비워두기 위해서
+        String password = sharedPreferences.getString(getString(R.string.password), "");
+
+        editText_email.setText(email);
+        editText_password.setText(password);
+
+        // 로그인 정보 기억하기 체크 박스가 체크 되었을 때 true 안되어있을 때는 false
+        if (checkbox.equals("True")) {
+            checkBox_remember_login.setChecked(true);
+            Log.e("checkSharedPreference 메소드", "이메일 정보: " + editText_email + email);
+        } else {
+            checkBox_remember_login.setChecked(false);
+            Log.e("checkSharedPreference 메소드", "비밀번호 정보: " + checkBox_remember_login + password);
+        }
+
+    }
 
 
     @Override

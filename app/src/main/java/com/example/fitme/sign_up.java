@@ -1,8 +1,11 @@
 package com.example.fitme;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,12 +21,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class sign_up extends AppCompatActivity {
 
     private ArrayList<List> data = new ArrayList<List>();
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     Button button_sign_up_complete, button_sign_in;  //회원가입하기 버튼
     EditText editText_mysize, editText_nickname, editText_email, editText_password, editText_password_confirm;  // 평소 사이즈 입력하는 칸, 닉네임 적는 칸
@@ -42,6 +52,15 @@ public class sign_up extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        final EditText editText_email = (EditText) findViewById(R.id.editText_email);
+        final EditText editText_password = (EditText)findViewById(R.id.editText_password);
+        final EditText editText_mysize= (EditText) findViewById(R.id.editText_mysize);
+        final EditText editText_nickname = (EditText)findViewById(R.id.editText_nickname);
+//              성별 boolean값 받아오기
+        ImageView imageView_user_profile_image = (ImageView) findViewById(R.id.imageView_user_profile_image);
+
+
+
 
 // 회원가입 완료 버튼 -> 로그인 화면으로 이동
 
@@ -49,8 +68,31 @@ public class sign_up extends AppCompatActivity {
         button_sign_up_complete.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
                 Intent intent = new Intent(sign_up.this, login.class);
                 startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+
+                // 입력한 정보를 sharedPreference에 저장
+                JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
+                JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
+
+                try{
+                    jsonObject.put("email", editText_email .getText().toString());
+                    jsonObject.put("password", editText_password.getText().toString());
+                    jsonObject.put("currentSize", editText_mysize.getText().toString());
+                    jsonObject.put("nickname", editText_nickname.getText().toString());
+                    jsonObject.put("profile_img",profile_img );
+
+                    jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
+
+                } catch (JSONException e){  // 예외 처리
+                    e.printStackTrace();
+                }
+
+                String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
+                saveArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
+
+
 
             }
         });
@@ -60,8 +102,8 @@ public class sign_up extends AppCompatActivity {
 
 // 회원가입한 정보 로그인 정보로 넘겨주기
 
-        editText_email = (EditText) findViewById(R.id.editText_email);
-        editText_password = (EditText) findViewById(R.id.editText_password);
+//        editText_email = (EditText) findViewById(R.id.editText_email);
+//        editText_password = (EditText) findViewById(R.id.editText_password);
         editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
         button_sign_up_complete = (Button) findViewById(R.id.button_sign_up_complete);
 
@@ -140,7 +182,20 @@ public class sign_up extends AppCompatActivity {
             }
         });
 
+    }// onCreate 닫는 중괄호
+
+    private void saveArrayList(String jsondata) {
+
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // 윗줄 아랫줄 바꿔도 되는지 확실히 모름. 확인해보길. 윗줄 쓸꺼면 onCreate 위에 sharedPreference 객체 선언 주석처리 해야함.
+        sharedPreferences = getSharedPreferences("sign_up", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("jsonData", jsondata);
+        editor.apply();
+
     }
+
 
     @Override
     protected void onRestart() {
