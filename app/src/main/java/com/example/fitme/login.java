@@ -33,10 +33,7 @@ public class login extends AppCompatActivity {
     EditText editText_email, editText_password; // -> null값이면 토스트 값 뜨도록 // -> null값이면 토스트 값 뜨도록
     Button button_sign_in, button_signUp, button_sign_up_complete; // -> 로그인 버튼 -> 피드로 화면 연결  // -> 회원가입 버튼 -> 회원가입 화면으로 연결
 
-//    public login(SharedPreferences sharedPreferences, SharedPreferences.Editor editor) {
-//        this.sharedPreferences = sharedPreferences;
-//        this.editor = editor;
-//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +43,6 @@ public class login extends AppCompatActivity {
 
 // SharedPreference 로 회원정보를 jsonObject에 저장해서 jsonArrayList 형태로 SharedPreference에 저장\
 
-
-//
 //  SharedPreference로 로그인 정보 기억하기
 
         // 필요한 뷰객체 매칭
@@ -57,7 +52,7 @@ public class login extends AppCompatActivity {
         button_sign_in = (Button) findViewById(R.id.button_sign_in);
         //SharedPreference와 editor 가져오기
 //        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); // 아래 코드와 같은 의미인데 this는 액티비티 정도
-        sharedPreferences = getSharedPreferences("remember_login", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
+        sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
         editor = sharedPreferences.edit();  // 위에서 선언한 데이터 베이스에 아이템을 put 할 수 있는
 
 
@@ -160,16 +155,7 @@ public class login extends AppCompatActivity {
     }// onCreate 닫는 중괄호
 
 
-    //EditText에서 입력한 값을 SharedPreferences에 저장
-    private void saveArrayList(String jsondata){
-//         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // 윗줄 아랫줄 바꿔도 되는지 확실히 모름. 확인해보길. 윗줄 쓸꺼면 onCreate 위에 sharedPreference 객체 선언 주석처리 해야함.
-        sharedPreferences = getSharedPreferences("sign_up", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("jsonData", jsondata);
-        editor.apply();
-    }
 
 
     /**
