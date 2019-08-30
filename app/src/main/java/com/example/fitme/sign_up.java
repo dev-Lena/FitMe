@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class sign_up extends AppCompatActivity {
 
@@ -67,33 +69,41 @@ public class sign_up extends AppCompatActivity {
         button_sign_up_complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
-                Intent intent = new Intent(sign_up.this, login.class);
-                startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+
+                // 사용자가 입력한 값이 있을 때(0보다 클 때)
+                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0) {  // 길이가 0보다 클 때
+                    // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
+                    Intent intent = new Intent(sign_up.this, login.class);
+                    Toast.makeText(sign_up.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
+                    startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+
+
+
+
 // 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일)
-                Intent result = new Intent();
-                result.putExtra("EMAIL", editText_email.getText().toString());
-                result.putExtra("PASSWORD", editText_password.getText().toString());
-
-                // 자신을 호출한 Activity로 데이터를 보낸다.
-                setResult(RESULT_OK, result);
-                finish();
-
-
- //JSONObject에 입력한 값을 저장하기 (SharedPreference)
-                JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
-                JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
+//                    Intent result = new Intent();
+//                    result.putExtra("EMAIL", editText_email.getText().toString());
+//                    result.putExtra("PASSWORD", editText_password.getText().toString());
+//
+//                    // 자신을 호출한 Activity로 데이터를 보낸다.
+//                    setResult(RESULT_OK, result);
+//                    finish();
 
 
-                email = editText_email.getText().toString();
-                password = editText_password.getText().toString();
-                currentSize = editText_mysize.getText().toString();
-                nickname = editText_nickname.getText().toString();
+                    //JSONObject에 입력한 값을 저장하기 (SharedPreference)
+                    JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
+                    JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
+
+
+                    email = editText_email.getText().toString();
+                    password = editText_password.getText().toString();
+                    currentSize = editText_mysize.getText().toString();
+                    nickname = editText_nickname.getText().toString();
 //                profile_img = imageView_user_profile_image.get().toString();
 
-                try{
+                    try {
 
-                    jsonObject.put("email", email);
+                        jsonObject.put("email", email);
                         jsonObject.put("password", password);
                         jsonObject.put("currentSize", currentSize);
                         jsonObject.put("nickname", nickname);
@@ -106,22 +116,24 @@ public class sign_up extends AppCompatActivity {
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 profile_img을 넣었습니다 : " + profile_img);
 
 
-                    jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
+                        jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
 
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "jsonArray에 위에서 저장한 jsonObject를 put");
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "jsonArray에 위에서 저장한 jsonObject를 put");
 
 
+                    } catch (JSONException e) {  // 예외 처리
+                        e.printStackTrace();
+                    }
 
-                } catch (JSONException e){  // 예외 처리
-                    e.printStackTrace();
+                    String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
+                    writeArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
+
+
+                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject와 JSONArray 객체 선언을 했습니다. " + jsonObject);
+                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject와 JSONArray 객체 선언을 했습니다. " + jsonArray);
+                }else {
+                    Toast.makeText(sign_up.this, "필수 정보(*)를 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
-
-                String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
-                writeArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-
-
-                Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject와 JSONArray 객체 선언을 했습니다. "+jsonObject);
-                Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject와 JSONArray 객체 선언을 했습니다. "+jsonArray);
             }
         });
 //
@@ -134,6 +146,22 @@ public class sign_up extends AppCompatActivity {
 //        editText_password = (EditText) findViewById(R.id.editText_password);
         editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
 //        button_sign_up_complete = (Button) findViewById(R.id.button_sign_up_complete);
+
+        editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    Pattern p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]");
+                    Matcher m = p.matcher((editText_email).getText().toString());
+
+                    if ( !m.matches()){
+                        Toast.makeText(sign_up.this, "Email 형식으로 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
 
 
         // 비밀번호 일치 검사
@@ -152,6 +180,7 @@ public class sign_up extends AppCompatActivity {
                 if (password.equals(confirm)) {
                     editText_password.setBackgroundColor(Color.WHITE);
                     editText_password_confirm.setBackgroundColor(Color.WHITE);
+
                 } else {
                     editText_password.setBackgroundColor(Color.LTGRAY);
                     editText_password_confirm.setBackgroundColor(Color.LTGRAY);

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class write_review extends AppCompatActivity {
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
     ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
+    RatingBar ratingBar;
 
     //constant
     final int PICTURE_REQUEST_CODE = 100;
@@ -49,49 +51,54 @@ public class write_review extends AppCompatActivity {
 
 // 리뷰 등록 버튼 -> 리뷰카드 이동
 
-        // 글 등록 버튼
-        imageButton_review_register = findViewById(R.id.imageButton_review_register);
 
+//
+//        // 글 등록 버튼
+//        imageButton_review_register = findViewById(R.id.imageButton_review_register);
+//
+//        Intent intent = new Intent(write_review.this, feed.class);
+//        startActivity(intent);
+//
 
         editText_hashtag = findViewById(R.id.editText_hashtag);
         editText_shoppingmall_url = findViewById(R.id.editText_shoppingmall_url);
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
         imageView_review_photo1 = (ImageView)findViewById(R.id.imageView_review_photo1);
-        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
-        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
-        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
-        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
+        ratingBar = findViewById(R.id.ratingBar);
 
 
-//        //데이터 보내기
-//// 검색 버튼 -> 검색 결과 화면 이동
-//        imageButton_review_register = findViewById(R.id.imageButton_review_register);
-//        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
-//
-//                String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-//
-//                String textView_detailed_review_card = editText_detailed_review.getText().toString();
-//
-//                result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-//                result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
-//
-//
-//                // 자신을 호출한 Activity로 데이터를 보낸다.
-//                setResult(RESULT_OK, result);
-//                finish();
-//
-//            }
-//        });
+        //데이터 보내기
+// 검색 버튼 -> 검색 결과 화면 이동
+        imageButton_review_register = findViewById(R.id.imageButton_review_register);
+        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
+
+                String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
+                String textView_detailed_review_card = editText_detailed_review.getText().toString();
+                String textView_hashtag = editText_hashtag.getText().toString();
+                float int_ratingBar = ratingBar.getRating();
+
+                result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
+                result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
+
+
+                // 자신을 호출한 Activity로 데이터를 보낸다.
+                setResult(RESULT_OK, result);
+                finish();
+
+            }
+        });
 
 
   // 리사이클러뷰 추가
 
 
 
-
+//
 //        imageButton_review_register.setOnClickListener(new ImageButton.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -100,17 +107,17 @@ public class write_review extends AppCompatActivity {
 //                String detailed_review = editText_detailed_review.getText().toString();
 //                String hashtag1 = editText_hashtag .getText().toString();
 //
-//
-//                Intent intent = new Intent(write_review.this, review_card.class);
-////                intent.putExtra("url", url);
-////                intent.putExtra("detailed_review", detailed_review);
-////                intent.putExtra("hashtag1", hashtag1);
-////                intent.putExtra("uri1",imageView_review_photo1.toString()); // uri String으로 변환
-////                intent.putExtra("uri2",imageView_review_photo2.toString()); // uri String으로 변환
-////                intent.putExtra("uri3",imageView_review_photo3.toString()); // uri String으로 변환
-////                intent.putExtra("uri4",imageView_review_photo4.toString()); // uri String으로 변환
-////                intent.putExtra("uri5",imageView_review_photo5.toString()); // uri String으로 변환
 ////
+////                Intent intent = new Intent(write_review.this, review_card.class);
+//////                intent.putExtra("url", url);
+//////                intent.putExtra("detailed_review", detailed_review);
+//////                intent.putExtra("hashtag1", hashtag1);
+//////                intent.putExtra("uri1",imageView_review_photo1.toString()); // uri String으로 변환
+//////                intent.putExtra("uri2",imageView_review_photo2.toString()); // uri String으로 변환
+//////                intent.putExtra("uri3",imageView_review_photo3.toString()); // uri String으로 변환
+//////                intent.putExtra("uri4",imageView_review_photo4.toString()); // uri String으로 변환
+//////                intent.putExtra("uri5",imageView_review_photo5.toString()); // uri String으로 변환
+//////
 //
 //                Log.e("write_review", "url : " +url);
 //                Log.e("write_review", "detailed_review : " +detailed_review);
@@ -176,7 +183,7 @@ public class write_review extends AppCompatActivity {
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(write_review.this,review_category.class);
+                        Intent write_intent = new Intent(write_review.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
@@ -234,10 +241,10 @@ public class write_review extends AppCompatActivity {
 
                 //기존 이미지 지우기
                 imageView_review_photo1.setImageResource(0);
-                imageView_review_photo2.setImageResource(0);
-                imageView_review_photo3.setImageResource(0);
-                imageView_review_photo4.setImageResource(0);
-                imageView_review_photo5.setImageResource(0);
+//                imageView_review_photo2.setImageResource(0);
+//                imageView_review_photo3.setImageResource(0);
+//                imageView_review_photo4.setImageResource(0);
+//                imageView_review_photo5.setImageResource(0);
 
                 //ClipData 또는 Uri를 가져온다
                 Uri uri = data.getData();
@@ -256,20 +263,20 @@ public class write_review extends AppCompatActivity {
                                 case 0:
                                     imageView_review_photo1.setImageURI(urione);
                                     break;
-                                case 1:
-                                    imageView_review_photo2.setImageURI(urione);
-                                    break;
-                                case 2:
-                                    imageView_review_photo3.setImageURI(urione);
-                                    break;
-                                case 3:
-                                    imageView_review_photo4.setImageURI(urione);
-                                    break;
-                                case 4:
-                                    imageView_review_photo5.setImageURI(urione);
-                                    break;
+//                                case 1:
+//                                    imageView_review_photo2.setImageURI(urione);
+//                                    break;
+//                                case 2:
+//                                    imageView_review_photo3.setImageURI(urione);
+//                                    break;
+//                                case 3:
+//                                    imageView_review_photo4.setImageURI(urione);
+//                                    break;
+//                                case 4:
+//                                    imageView_review_photo5.setImageURI(urione);
+//                                    break;
                                     default:
-                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"최대 5개까지 업로드 가능합니다", Toast.LENGTH_SHORT);
+                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
                                         myToast.show();
                             }
                         }

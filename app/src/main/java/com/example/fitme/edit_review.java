@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,9 +28,10 @@ public class edit_review extends AppCompatActivity {
     private ArrayList<feed_MainData> arrayList;
 
 
-    EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review, editText_edit_shoppingmall_url, editText_edit_detailed_review;
+    EditText editText_shoppingmall_url, editText_edit_hashtag, editText_detailed_review, editText_edit_shoppingmall_url, editText_edit_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
     ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register, imageButton_review_edit_completed;
+    RatingBar ratingBar;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
     //constant
@@ -74,18 +76,16 @@ public class edit_review extends AppCompatActivity {
         imageButton_review_register = findViewById(R.id.imageButton_review_register);
 
 
-        editText_hashtag = findViewById(R.id.editText_hashtag);
         editText_shoppingmall_url = findViewById(R.id.editText_shoppingmall_url);
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
+        editText_edit_hashtag = findViewById(R.id.editText_edit_hashtag);
+        ratingBar = findViewById(R.id.ratingBar);
         imageView_review_photo1 = (ImageView)findViewById(R.id.imageView_review_photo1);
-        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
-        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
-        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
-        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
+
 
 
         //데이터 보내기
-// 검색 버튼 -> 검색 결과 화면 이동
+//  리뷰 수정 완료하면 수정된 데이터를 보내는 것. -> feed 클래스
         imageButton_review_edit_completed = findViewById(R.id.imageButton_review_edit_completed);
         imageButton_review_edit_completed.setOnClickListener(new ImageView.OnClickListener() {
             @Override
@@ -93,11 +93,16 @@ public class edit_review extends AppCompatActivity {
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
                 String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-
                 String textView_detailed_review_card = editText_detailed_review.getText().toString();
+                String text_View_edit_hashtag = editText_edit_hashtag.getText().toString();
+                float int_ratingBar = ratingBar.getRating();
+
+
 
                 result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
+                result.putExtra("해시태그", editText_edit_hashtag.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
 
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
@@ -155,12 +160,11 @@ public class edit_review extends AppCompatActivity {
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
                 Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "Intent 생성");
 
-                //             String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
-
-                //            String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
-
                 result.putExtra("쇼핑몰URL", editText_edit_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("상세리뷰", editText_edit_detailed_review.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("해시태그", editText_edit_hashtag.getText().toString());  // putExtra로 데이터 보냄
+                result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
+
                 result.putExtra("POSITION",position);
 
                 Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ", "쇼핑몰 URL을 put했습니다" + editText_edit_shoppingmall_url);
@@ -233,7 +237,7 @@ public class edit_review extends AppCompatActivity {
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(edit_review.this,review_category.class);
+                        Intent write_intent = new Intent(edit_review.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :

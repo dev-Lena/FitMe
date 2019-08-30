@@ -67,10 +67,10 @@ public class size_dress extends AppCompatActivity {
 //UI
         // 리뷰에서 이미지 선택 (여러개, url, 최대 5개까지) -> 인텐트
         imageView_review_photo1 = (ImageView)findViewById(R.id.imageView_review_photo1);
-        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
-        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
-        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
-        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
+//        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
+//        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
+//        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
+//        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
 
         ImageButton imageButton_image = (ImageButton)findViewById(R.id.imageButton_image);
         imageButton_image.setOnClickListener(new View.OnClickListener(){
@@ -104,8 +104,8 @@ public class size_dress extends AppCompatActivity {
                         Intent write_intent = new Intent(size_dress.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight :
-                        Intent insight_intent = new Intent(size_dress.this,insight.class);
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(size_dress.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :

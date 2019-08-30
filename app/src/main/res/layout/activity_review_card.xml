@@ -180,49 +180,13 @@
 
             </LinearLayout>
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
                     <ImageView
+                        android:layout_gravity="center"
                         android:id="@+id/imageView_reviewcard_img1"
                         android:layout_width="300dp"
                         android:layout_height="300dp"
                         app:srcCompat="@drawable/img_shoppingmall_review" />
 
-                    <ImageView
-                        android:id="@+id/imageView_reviewcard_img3"
-                        android:layout_width="300dp"
-                        android:layout_height="300dp"
-                        app:srcCompat="@drawable/img_dd_profile" />
-
-                    <ImageView
-                        android:id="@+id/imageView_reviewcard_img2"
-                        android:layout_width="300dp"
-                        android:layout_height="300dp"
-                        app:srcCompat="@drawable/img_dd_profile" />
-
-                    <ImageView
-                        android:id="@+id/imageView_reviewcard_img4"
-                        android:layout_width="300dp"
-                        android:layout_height="300dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/img_dd_profile" />
-
-                    <ImageView
-                        android:id="@+id/imageView_reviewcard_img5"
-                        android:layout_width="300dp"
-                        android:layout_height="300dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/img_dd_profile" />
-                </LinearLayout>
-            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="wrap_content"

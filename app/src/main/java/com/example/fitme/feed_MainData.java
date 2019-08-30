@@ -1,14 +1,5 @@
 package com.example.fitme;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class feed_MainData{
 
 //TextView review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes, textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4;
@@ -16,7 +7,8 @@ public class feed_MainData{
 //ImageButton imageButton_like,imageButton_comment, imageButton_bookmark ;
 //
 
-String review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes, textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4;
+String review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes, textView_detailed_review_card, textView_more,
+        textView_hashtag,TextView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4;
 int imageView_reviewcard_profile_image;
     int imageView_reviewcard_img1;
     int imageView_reviewcard_img2;
@@ -24,12 +16,31 @@ int imageView_reviewcard_profile_image;
     int imageView_reviewcard_img4;
     int imageView_reviewcard_img5;
     int imageButton_review_edit_completed;
+    float int_ratingBar;
 
-// feed_MainData 생성자를 넣어주면 -> feed 값을 받아올 때 넣어줄 곳이 생겨 ^^*
-    public feed_MainData(String textView_shoppingmall_url, String textView_detailed_review_card) {
+    public String getTextView_hashtag() {
+        return textView_hashtag;
+    }
+
+    public void setTextView_hashtag(String textView_hashtag) {
+        this.textView_hashtag = textView_hashtag;
+    }
+
+    public float getInt_ratingBar() {
+        return int_ratingBar;
+    }
+
+    public void setInt_ratingBar(float int_ratingBar) {
+        this.int_ratingBar = int_ratingBar;
+    }
+
+    // feed_MainData 생성자를 넣어주면 -> feed 값을 받아올 때 넣어줄 곳이 생겨 ^^*
+    public feed_MainData( String textView_shoppingmall_url, String textView_detailed_review_card, float int_ratingBar, String textView_hashtag) {
         this.textView_shoppingmall_url = textView_shoppingmall_url;
         this.textView_detailed_review_card = textView_detailed_review_card;
+        this.textView_hashtag = textView_hashtag;
         this.imageButton_review_edit_completed = imageButton_review_edit_completed;
+        this.int_ratingBar = int_ratingBar;
     }
 //    public String getReview_card() {
 //        return review_card;

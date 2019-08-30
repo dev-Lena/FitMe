@@ -45,10 +45,10 @@ public class size_top extends AppCompatActivity {
         editText_shoppingmall_url = findViewById(R.id.editText_shoppingmall_url);
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
         imageView_review_photo1 = (ImageView)findViewById(R.id.imageView_review_photo1);
-        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
-        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
-        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
-        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
+//        imageView_review_photo2 = (ImageView)findViewById(R.id.imageView_review_photo2);
+//        imageView_review_photo3 = (ImageView)findViewById(R.id.imageView_review_photo3);
+//        imageView_review_photo4 = (ImageView)findViewById(R.id.imageView_review_photo4);
+//        imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
 
         //데이터 보내기
 // 검색 버튼 -> 검색 결과 화면 이동
@@ -189,8 +189,8 @@ public class size_top extends AppCompatActivity {
                         Intent write_intent = new Intent(size_top.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight :
-                        Intent insight_intent = new Intent(size_top.this,insight.class);
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(size_top.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :

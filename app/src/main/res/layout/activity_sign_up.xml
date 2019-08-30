@@ -63,7 +63,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이메일"
+            android:text="*이메일"
             android:textColor="@color/colorDarkPurple"
             android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="비밀번호"
+            android:text="*비밀번호"
             android:textColor="@color/colorDarkPurple"
             android:textSize="18sp" />
 
@@ -97,7 +97,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="비밀번호 확인"
+            android:text="*비밀번호 확인"
             android:textColor="@color/colorDarkPurple"
             android:textSize="18sp" />
 

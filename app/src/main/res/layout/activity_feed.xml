@@ -27,19 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/img_fit_me" />
 
-        <ImageView
-            android:id="@+id/imageView_notification"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_notifications" />
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"

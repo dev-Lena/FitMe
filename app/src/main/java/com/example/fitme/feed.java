@@ -7,22 +7,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.Transliterator;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,7 +27,7 @@ public class feed extends AppCompatActivity {
     //    ImageButton imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
-    ImageView imageView_recommendbot, imageView_notification;
+    ImageView imageView_notification;
 
     private final int Write_OK = 1001;
     /**
@@ -56,7 +48,6 @@ public class feed extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
 
-        imageView_recommendbot = findViewById(R.id.imageView_recommendbot);  // 추천봇
         imageView_notification = findViewById(R.id.imageView_notification);  // 알림 (내 소식))
 
 //        arrayList.add(new feed_MainData("textView_shoppingmall_url","textView_detailed_review_card"))
@@ -73,11 +64,8 @@ public class feed extends AppCompatActivity {
         recyclerView.setAdapter(feed_adapter);
 
 
-
-
-
 // Swipe를 통해서 삭제하기 위해서 ItemTouchHelper를 사용했는데 이곳에 객체 선언 -> 뒤에 ItemTouchHelper 메소드 있음.
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+//        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
 // 리사이클러뷰 수정 // 클릭하면 수정 화면 열리고 수정한 데이터를 인텐트로 가지고 오는 것.
@@ -93,22 +81,18 @@ public class feed extends AppCompatActivity {
 // 리사이클러뷰 수정
 // 다이얼로그
 
-//                String textView_shoppingmall_url = editText_edit_shoppingmall_url.getText().toString();
-//                String textView_detailed_review_card = editText_edit_detailed_review.getText().toString();
-//                String editText_shoppingmall_url = textView_shoppingmall_url.getText().toString();
-//                String editText_detailed_review  = editText_edit_detailed_review.getText().toString();
 
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
-                PopupMenu popup= new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+                PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
                 getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
+                        switch (item.getItemId()) {
                             case R.id.action_edit:
                                 // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
-                                Toast.makeText(getApplication(),"수정하기",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(getApplicationContext(), edit_review.class);
                                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
@@ -116,7 +100,7 @@ public class feed extends AppCompatActivity {
 //
                                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                                 intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
-                                intent.putExtra("POSITION",position);
+                                intent.putExtra("POSITION", position);
                                 // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
 
 
@@ -132,22 +116,26 @@ public class feed extends AppCompatActivity {
 
                                 break;
                             case R.id.action_delete:
-                                Toast.makeText(getApplication(),"삭제하기",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "삭제하기", Toast.LENGTH_SHORT).show();
 
-//
+                              remove(position);
+////
 //                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
 //                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 //                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
 //                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
 //                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
 //
-                                break;
+                                return true;
+//                                break;
 
                             case R.id.action_share:
-                                Toast.makeText(getApplication(),"공유하기",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_report:
-                                Toast.makeText(getApplication(),"신고하기",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "신고하기", Toast.LENGTH_SHORT).show();
+
+
                                 break;
                             default:
                                 break;
@@ -168,8 +156,6 @@ public class feed extends AppCompatActivity {
                 startActivity(comment_intent); //액티비티 이동
             }
         });
-
-
 
 
 //하단바
@@ -219,9 +205,14 @@ public class feed extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
-
-
-
+    public void remove(int position){
+        try{
+            arrayList.remove(position);
+            feed_adapter.notifyItemRemoved(position);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
 
 
 //    swipe to delete & drag to move
@@ -229,46 +220,46 @@ public class feed extends AppCompatActivity {
 
 
 //Swipe해서 리사이클러뷰 아이템을 삭제하기 위해서 ItemTouchHelper 메소드 사용. -> Callback 키워드 활용해야함. -> 자동완성시키면 onMove 메소드와 onSwiped 메소드가 생김.
-    // 리사이클러뷰 기본으로 만들어준 LayoutManager, setAdapter 등을 하는 곳에 ItemTouchHelper 객체 선언해줘야 함.
-    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {  // 오른쪽으로 Swipe했을 때 또는 왼쪽으로 Swipe 했을 때
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(feed.this);
-                alt_bld.setMessage("리뷰를 회원님의 피드에서 삭제하시겠습니까?").setCancelable(
-                        false).setPositiveButton("네",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Action for 'Yes' Button
-
-                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
-                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
-                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
-                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
-                            }
-
-                        }).setNegativeButton("아니오",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Action for 'NO' Button
-                                feed_adapter.notifyDataSetChanged();
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = alt_bld.create();
-                // Title for AlertDialog
-                alert.setTitle("리뷰 삭제");
-                // Icon for AlertDialog
-                alert.setIcon(R.drawable.ic_delete_black_24dp);
-                alert.show();
-            }
-    };
+            // 리사이클러뷰 기본으로 만들어준 LayoutManager, setAdapter 등을 하는 곳에 ItemTouchHelper 객체 선언해줘야 함.
+//            ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {  // 오른쪽으로 Swipe했을 때 또는 왼쪽으로 Swipe 했을 때
+//        @Override
+//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+//
+//            AlertDialog.Builder alt_bld = new AlertDialog.Builder(feed.this);
+//            alt_bld.setMessage("리뷰를 회원님의 피드에서 삭제하시겠습니까?").setCancelable(
+//                    false).setPositiveButton("네",
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            // Action for 'Yes' Button
+//
+//                            arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
+//                            feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+//                            feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
+//                            Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
+//                            Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
+//                        }
+//
+//                    }).setNegativeButton("아니오",
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            // Action for 'NO' Button
+//                            feed_adapter.notifyDataSetChanged();
+//                            dialog.cancel();
+//                        }
+//                    });
+//            AlertDialog alert = alt_bld.create();
+//            // Title for AlertDialog
+//            alert.setTitle("리뷰 삭제");
+//            // Icon for AlertDialog
+//            alert.setIcon(R.drawable.ic_delete_black_24dp);
+//            alert.show();
+//        }
+//    };
 
 
     @Override
@@ -283,6 +274,18 @@ public class feed extends AppCompatActivity {
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
+//            String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
+//            String textView_detailed_review_card = editText_detailed_review.getText().toString();
+//            String textView_hashtag = editText_hashtag.getText().toString();
+//            float int_ratingBar = ratingBar.getRating();
+//
+//            result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+//            result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
+//            result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
+//            result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄.
+//
+
+
 
 //            feed_adapter = new feed_Adapter();
             // 사용자가 입력한 내용을 가져와서
@@ -290,11 +293,15 @@ public class feed extends AppCompatActivity {
             Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
             Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
-            // ArrayList에 추가하고
+            String textView_hashtag = data.getStringExtra("해시태그");
+            Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
+            float int_ratingBar = data.getFloatExtra("만족도",0);
+            Log.e("만족도", int_ratingBar + "만족도를 가져왔습니다!!!!!!!");
 
 
-            Log.e("add", "arrayList에 넣었습니다");
-            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
+
+
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
             Log.e("add", textView_detailed_review_card + "feed_MainData 객체 생성");
 
 
@@ -319,24 +326,31 @@ public class feed extends AppCompatActivity {
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
             Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
 
-            int position = data.getIntExtra("POSITION",0000);
+            String textView_hashtag = data.getStringExtra("해시태그");
+            Log.e("쇼핑몰URL", textView_hashtag + "수정한 해시태그 가져왔습니다");
+
+            Float int_ratingBar = data.getFloatExtra("만족도",0);
+            Log.e("상세리뷰", int_ratingBar + "수정한 만족도 가져왔습니다");
+
+
+            int position = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
             //
             // ArrayList에 추가하고
-            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card);
-            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" +textView_shoppingmall_url+ ","+textView_detailed_review_card);
+            feed_MainData feed_MainData = new feed_MainData( textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
+            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" + textView_shoppingmall_url + "," + textView_detailed_review_card);
 
 
             // 그 위치를 받아와서 그곳에 set 해주기. 리뷰 수정 버튼을 누를 때 부터 같이 위치값을 startActivityForResult로 같이 넘겼다가 돌려받음.
-            arrayList.set(position,feed_MainData);
+            arrayList.set(position, feed_MainData);
 //
 //            arrayList.add(feed_MainData);
 //            Log.e("edit", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
 
 //            feed_adapter.notifyItemRemoved(getAdapterPosition());  //아이템이 삭제한 것을 notify
             feed_adapter.notifyDataSetChanged();  // 새로고침
-            Log.e("edit",  "수정한거 새로고침");
+            Log.e("edit", "수정한거 새로고침");
         }
     }//onActivityResult 메소드 닫는 중괄호
 
@@ -359,7 +373,7 @@ public class feed extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         feed_adapter.notifyDataSetChanged();  // 새로고침
-        Log.e("add",  "수정한거 새로고침");
+        Log.e("add", "수정한거 새로고침");
         Log.e("feed", "onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
