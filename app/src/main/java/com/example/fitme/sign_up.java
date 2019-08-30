@@ -74,6 +74,7 @@ public class sign_up extends AppCompatActivity {
 // 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일)
                 Intent result = new Intent();
                 result.putExtra("EMAIL", editText_email.getText().toString());
+                result.putExtra("PASSWORD", editText_password.getText().toString());
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
@@ -90,28 +91,48 @@ public class sign_up extends AppCompatActivity {
 //                profile_img = imageView_user_profile_image.get().toString();
 
                 try{
-                    jsonObject.put("email", email);
-                    jsonObject.put("password", password);
-                    jsonObject.put("currentSize", currentSize);
-                    jsonObject.put("nickname", nickname);
-                    jsonObject.put("profile_img",profile_img );
 
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 email을 넣었습니다 : " + email);
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 password을 넣었습니다 : " + password);
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 currentSize을 넣었습니다 : " + currentSize);
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 nickname을 넣었습니다 : " + nickname);
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 profile_img을 넣었습니다 : " + profile_img);
+                    // 이 방법도 있음
+                    // user_information.put("emailA",email);
+                    // user_information.put("passwordB",password);
+                    // jsonArray.add(user_information);
+                    ////"user_information" : [{"emailA":"email","passwordB":"password"}]
+                    //jsonObject.put("user_information", jsonArray);
+                    //
+
+
+
+//                    if (jsonArray != null) {
+//                        for (int i=0;i<jsonArray.length();i++){
+//                            data.add(jsonObject.getString(i));
+//                        }
+//                    }
+
+                    jsonObject.put("email", email);
+                        jsonObject.put("password", password);
+                        jsonObject.put("currentSize", currentSize);
+                        jsonObject.put("nickname", nickname);
+                        jsonObject.put("profile_img", profile_img);
+
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 email을 넣었습니다 : " + email);
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 password을 넣었습니다 : " + password);
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 currentSize을 넣었습니다 : " + currentSize);
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 nickname을 넣었습니다 : " + nickname);
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 profile_img을 넣었습니다 : " + profile_img);
+
 
                     jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
 
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면","jsonArray에 위에서 저장한 jsonObject를 put");
+                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "jsonArray에 위에서 저장한 jsonObject를 put");
+
+
 
                 } catch (JSONException e){  // 예외 처리
                     e.printStackTrace();
                 }
 
                 String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
-                saveArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
+                writeArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
 
 
                 Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject와 JSONArray 객체 선언을 했습니다. "+jsonObject);
@@ -120,44 +141,6 @@ public class sign_up extends AppCompatActivity {
         });
 //
 
-//        // 회원가입 완료 버튼을 누르면 회원정보가 sharedpreference에 저장
-//        button_sign_up_complete = findViewById(R.id.button_sign_up_complete);
-//        button_sign_up_complete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // 입력한 정보를 sharedPreference에 저장
-//                JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
-//                JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
-//
-//                Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject와 JSONArray 객체 선언을 했습니다. ");
-//
-//                try{
-//                    jsonObject.put("email", editText_email .getText().toString());
-//                    jsonObject.put("password", editText_password.getText().toString());
-//                    jsonObject.put("currentSize", editText_mysize.getText().toString());
-//                    jsonObject.put("nickname", editText_nickname.getText().toString());
-//                    jsonObject.put("profile_img",profile_img );
-//
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 email을 넣었습니다 : " + email);
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 password을 넣었습니다 : " + password);
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 currentSize을 넣었습니다 : " + currentSize);
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 nickname을 넣었습니다 : " + nickname);
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","JSONObject에 profile_img을 넣었습니다 : " + profile_img);
-//
-//                    jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
-//
-//                    Log.e("onCreate 회원가입 완료 버튼을 누르면","jsonArray에 위에서 저장한 jsonObject를 put");
-//
-//                } catch (JSONException e){  // 예외 처리
-//                    e.printStackTrace();
-//                }
-//
-//                String jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 jsondata라고 이름붙임.
-//                saveArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-//
-//
-//            }
-//        });
 
 
 // 회원가입한 정보 로그인 정보로 넘겨주기
@@ -244,18 +227,64 @@ public class sign_up extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
-    private void saveArrayList(String jsondata) {
+    // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
 
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // 윗줄 아랫줄 바꿔도 되는지 확실히 모름. 확인해보길. 윗줄 쓸꺼면 onCreate 위에 sharedPreference 객체 선언 주석처리 해야함.
-        sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+    public void writeArrayList(String jsondata) {
 
-        editor.putString("jsonData", jsondata);
-        editor.commit();
-        Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
+        if (data != null) {
+
+            // JSONArray 생성
+            sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+
+//            JSONArray array = new JSONArray();
+
+            for (int i = 0; i < data.size(); i++) {
+
+                // 리스트 아이템 하나씩 JSONArray 배열에 추가
+
+                JSONArray array = new JSONArray();
+                array.put(data.get(i));
+
+                Log.e("회원정보 확인하는 메소드","확인중" + array.put(data.get(i)));
+
+
+
+            }
+
+            editor.putString(email, jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+
+            Log.e("saveArrayList 메소드","확인중" + editor.putString(email,jsondata));
+            editor.commit();
+            Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
+
+            // 프리프런스에 JSONArray를 문자열로 저장
+
+//
+//            editor.putString(jsondata, array.toString());
+//            editor.putString("userInfo", array.toString());
+//            editor.putString("userInfo", jsondata);
+//            Log.e("saveArrayList 메소드","확인중" + editor.putString("userInfo", jsondata));
+//            editor.commit();
+//            Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
+
+
+        }
 
     }
+//
+//    private void saveArrayList(String jsondata) {
+//
+//        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        // 취소선, 안되면 윗줄 아랫줄 바꿔도 되는지 확실히 모름. 확인해보길. 윗줄 쓸꺼면 onCreate 위에 sharedPreference 객체 선언 주석처리 해야함.
+//        sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//
+//        editor.putString("jsonData", jsondata);
+//        editor.commit();
+//        Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
+//
+//    }
 
     @Override
     protected void onRestart() {

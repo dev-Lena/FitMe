@@ -140,7 +140,7 @@
             android:text="로그인 정보 기억하기" />
 
         <Button
-            android:background="@color/colorWhite"
+            android:background="@color/colorInvisible"
             android:id="@+id/button_signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
