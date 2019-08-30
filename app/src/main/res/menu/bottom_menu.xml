@@ -17,10 +17,10 @@
         android:icon="@drawable/ic_create_black_24dp"
         android:title="write" />
     <item
-        android:id="@+id/action_insight"
+        android:id="@+id/action_notification"
         android:enabled="true"
-        android:icon="@drawable/ic_insert_chart_black_24dp"
-        android:title="insight" />
+        android:icon="@drawable/ic_notifications"
+        android:title="notification" />
     <item
         android:id="@+id/action_mycloset"
         android:enabled="true"

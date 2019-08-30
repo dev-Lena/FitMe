@@ -63,28 +63,28 @@ public class write_review extends AppCompatActivity {
         imageView_review_photo5 = (ImageView)findViewById(R.id.imageView_review_photo5);
 
 
-        //데이터 보내기
-// 검색 버튼 -> 검색 결과 화면 이동
-        imageButton_review_register = findViewById(R.id.imageButton_review_register);
-        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
-
-                String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-
-                String textView_detailed_review_card = editText_detailed_review.getText().toString();
-
-                result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-                result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
-
-
-                // 자신을 호출한 Activity로 데이터를 보낸다.
-                setResult(RESULT_OK, result);
-                finish();
-
-            }
-        });
+//        //데이터 보내기
+//// 검색 버튼 -> 검색 결과 화면 이동
+//        imageButton_review_register = findViewById(R.id.imageButton_review_register);
+//        imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
+//
+//                String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
+//
+//                String textView_detailed_review_card = editText_detailed_review.getText().toString();
+//
+//                result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
+//                result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
+//
+//
+//                // 자신을 호출한 Activity로 데이터를 보낸다.
+//                setResult(RESULT_OK, result);
+//                finish();
+//
+//            }
+//        });
 
 
   // 리사이클러뷰 추가
@@ -179,8 +179,8 @@ public class write_review extends AppCompatActivity {
                         Intent write_intent = new Intent(write_review.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight :
-                        Intent insight_intent = new Intent(write_review.this,insight.class);
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(write_review.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :

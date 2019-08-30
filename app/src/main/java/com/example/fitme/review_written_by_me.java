@@ -40,8 +40,8 @@ public class review_written_by_me extends AppCompatActivity {
                         Intent write_intent = new Intent(review_written_by_me.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight :
-                        Intent insight_intent = new Intent(review_written_by_me.this,insight.class);
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(review_written_by_me.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :

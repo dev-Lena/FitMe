@@ -112,8 +112,8 @@ public class searching extends AppCompatActivity implements View.OnClickListener
                         Intent write_intent = new Intent(searching.this,review_category.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight :
-                        Intent insight_intent = new Intent(searching.this,insight.class);
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(searching.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :

@@ -189,6 +189,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
 
 //여기서부터
+            // 리사이클러뷰 안에 들어가는 아이템에 있는 버튼을 눌렀을 때의 클릭 리스너
+
             imageButton_spinner.setOnClickListener(new View.OnClickListener() {
                 //            itemView.setOnClickListener(new View.OnClickListener() {  // 이렇게 하면 해당 버튼을 눌렀다는 코드가 아니라 itemView를 눌렀다는 코드임.
                 @Override

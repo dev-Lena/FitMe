@@ -41,7 +41,6 @@ public class sign_up extends AppCompatActivity {
 
     String email ="";
     String password ="";
-    Boolean womanIsTrue ;
     String currentSize = "";
     String nickname = "";
     int profile_img = R.drawable.img_dd_profile ;
@@ -80,6 +79,8 @@ public class sign_up extends AppCompatActivity {
                 setResult(RESULT_OK, result);
                 finish();
 
+
+ //JSONObject에 입력한 값을 저장하기 (SharedPreference)
                 JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
                 JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
 
@@ -91,22 +92,6 @@ public class sign_up extends AppCompatActivity {
 //                profile_img = imageView_user_profile_image.get().toString();
 
                 try{
-
-                    // 이 방법도 있음
-                    // user_information.put("emailA",email);
-                    // user_information.put("passwordB",password);
-                    // jsonArray.add(user_information);
-                    ////"user_information" : [{"emailA":"email","passwordB":"password"}]
-                    //jsonObject.put("user_information", jsonArray);
-                    //
-
-
-
-//                    if (jsonArray != null) {
-//                        for (int i=0;i<jsonArray.length();i++){
-//                            data.add(jsonObject.getString(i));
-//                        }
-//                    }
 
                     jsonObject.put("email", email);
                         jsonObject.put("password", password);
@@ -182,48 +167,6 @@ public class sign_up extends AppCompatActivity {
         });
 
 
-//        button_sign_up_complete.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//// 이메일 입력 확인
-//                if( editText_email.getText().toString().length() == 0 ) {
-//                    Toast.makeText(sign_up.this, "Email을 입력하세요!", Toast.LENGTH_SHORT).show();
-//                    editText_email.requestFocus();
-//                    return;
-//                }
-//
-//                // 비밀번호 입력 확인
-//                if( editText_password.getText().toString().length() == 0 ) {
-//                    Toast.makeText(sign_up.this, "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
-//                    editText_password.requestFocus();
-//                    return;
-//                }
-//
-//                // 비밀번호 확인 입력 확인
-//                if( editText_password_confirm.getText().toString().length() == 0 ) {
-//                    Toast.makeText(sign_up.this, "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
-//                    editText_password_confirm.requestFocus();
-//                    return;
-//                }
-//
-//                // 비밀번호 일치 확인
-//                if( !editText_password.getText().toString().equals(editText_password_confirm.getText().toString()) ) {
-//                    Toast.makeText(sign_up.this, "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
-//                    editText_password.setText("");
-//                    editText_password_confirm.setText("");
-//                    editText_password.requestFocus();
-//                    return;
-//                }
-//// 입력한 이메일 데이터 넘겨주기
-//                Intent result = new Intent();
-//                result.putExtra("EMAIL", editText_email.getText().toString());
-//
-//                // 자신을 호출한 Activity로 데이터를 보낸다.
-//                setResult(RESULT_OK, result);
-//                finish();
-//            }
-//        });
 
     }// onCreate 닫는 중괄호
 
@@ -258,33 +201,11 @@ public class sign_up extends AppCompatActivity {
             editor.commit();
             Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
 
-            // 프리프런스에 JSONArray를 문자열로 저장
-
-//
-//            editor.putString(jsondata, array.toString());
-//            editor.putString("userInfo", array.toString());
-//            editor.putString("userInfo", jsondata);
-//            Log.e("saveArrayList 메소드","확인중" + editor.putString("userInfo", jsondata));
-//            editor.commit();
-//            Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
-
 
         }
 
     }
-//
-//    private void saveArrayList(String jsondata) {
-//
-//        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        // 취소선, 안되면 윗줄 아랫줄 바꿔도 되는지 확실히 모름. 확인해보길. 윗줄 쓸꺼면 onCreate 위에 sharedPreference 객체 선언 주석처리 해야함.
-//        sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
-//
-//        editor.putString("jsonData", jsondata);
-//        editor.commit();
-//        Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
-//
-//    }
+
 
     @Override
     protected void onRestart() {

@@ -131,6 +131,18 @@ public class feed extends AppCompatActivity {
 
 
                                 break;
+                            case R.id.action_delete:
+                                Toast.makeText(getApplication(),"삭제하기",Toast.LENGTH_SHORT).show();
+
+//
+//                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
+//                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+//                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
+//                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
+//                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
+//
+                                break;
+
                             case R.id.action_share:
                                 Toast.makeText(getApplication(),"공유하기",Toast.LENGTH_SHORT).show();
                                 break;
@@ -158,15 +170,7 @@ public class feed extends AppCompatActivity {
         });
 
 
-//알림
-        imageView_notification.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent notification_intent = new Intent(feed.this, notification.class);
-                startActivity(notification_intent); //액티비티 이동
 
-            }
-        });
 
 //하단바
         bottomNavigationView = findViewById(R.id.bottomNavi);
@@ -180,29 +184,29 @@ public class feed extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()) {
-                    case R.id.action_home:
+                    case R.id.action_home:  // 피드 화면으로 이동
                         Intent home_intent = new Intent(feed.this, feed.class);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search:
                         Intent search_intent = new Intent(feed.this, searching.class);
-                        startActivity(search_intent);//액티비티 띄우기
+                        startActivity(search_intent);//검색 화면으로 액티비티 띄우기
                         break;
-                    case R.id.action_write_review:
+                    case R.id.action_write_review:  // 리뷰 쓰기 화면으로 이동
                         Intent intent = new Intent(getApplicationContext(), write_review.class);
                         startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
 //                    }
 //                });
 //                        startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_insight:
-                        Intent insight_intent = new Intent(feed.this, insight.class);
-                        startActivity(insight_intent);//액티비티 띄우기
+                    case R.id.action_notification:
+                        Intent notification_intent = new Intent(feed.this, notification.class);
+                        startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
                     case R.id.action_mycloset:
                         Intent mycloset_intent = new Intent(feed.this, my_closet.class);
-                        startActivity(mycloset_intent);//액티비티 띄우기
+                        startActivity(mycloset_intent);//내 옷장 화면으로 액티비티 띄우기
                         break;
                 }
                 return false;
