@@ -128,9 +128,6 @@ public class feed extends AppCompatActivity {
 
                                 //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
 
-//                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-//                                Log.e("write_review 클래스에서 (saveData)","sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + arrayList );
-
 
                                 break;
                             case R.id.action_delete:
@@ -144,15 +141,9 @@ public class feed extends AppCompatActivity {
                                 saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
                                 Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
-////
-//                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
-//                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
-//                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
-//                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
-//
+
                                 return true;
-//                                break;
+
 
                             case R.id.action_share:
                                 Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
@@ -195,6 +186,7 @@ public class feed extends AppCompatActivity {
 
                 bookmark_saveData();
 
+                Toast.makeText(getApplication(), "북마크한 리뷰에 추가되었습니다", Toast.LENGTH_SHORT).show();
 
 //리사이클러뷰의 arrayList에 아이템 추가
 
@@ -227,14 +219,6 @@ public class feed extends AppCompatActivity {
                     case R.id.action_write_review:  // 리뷰 쓰기 화면으로 이동
                         Intent intent = new Intent(getApplicationContext(), write_review.class);
                         startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
-
-//                        saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-//                        Log.e("write_review 클래스에서 (saveData)","sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + arrayList );
-
-
-//                    }
-//                });
-//                        startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification:
                         Intent notification_intent = new Intent(feed.this, notification.class);
@@ -273,22 +257,6 @@ public class feed extends AppCompatActivity {
 
     }
 
-    private void bookmarked_loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
-        Type type = new TypeToken<ArrayList<feed_MainData>>() {
-        }.getType();
-        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
-        bookmarked_arrayList = gson.fromJson(json, type);
-        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
-
-        if (bookmarked_arrayList == null) {
-            bookmarked_arrayList = new ArrayList<>();
-        }
-
-
-    }
 
     // sharedPreference에 리사이클러뷰 안에 들어가는 arrayList를 저장하는 메소드를 만들어줌.
     private void saveData() {
@@ -319,10 +287,22 @@ public class feed extends AppCompatActivity {
         }
     }
 
+private void bookmarked_loadData() {
+    SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+    Gson gson = new Gson();
+    String json = sharedPreferences.getString("bookmarked_recyclerview", null);
+    Type type = new TypeToken<ArrayList<feed_MainData>>() {
+    }.getType();
+    Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+    bookmarked_arrayList = gson.fromJson(json, type);
+    Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
 
-//    swipe to delete & drag to move
-//    onCreate 밖에
+    if (bookmarked_arrayList == null) {
+        bookmarked_arrayList = new ArrayList<>();
+    }
 
+
+}
     private void bookmark_saveData() {
 
 

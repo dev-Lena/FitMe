@@ -40,19 +40,7 @@ public class bookmarked_review extends AppCompatActivity {
 //        bookmark_saveData();
         bookmarked_loadData();
 
-// bookmarked_recyclerview라는 키에 저장된 arrayList를 로딩하는 코드
-//
-//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
-//        Type type = new TypeToken<ArrayList<feed_MainData>>() {}.getType();
-//        Log.e("feed 클래스","typeToken객체 생성 :" + type);
-//        bookmarked_arrayList = gson.fromJson(json, type);
-//        Log.e("feed 클래스","fromJson : arryaList는 " + bookmarked_arrayList);
-//
-//        if (bookmarked_arrayList == null) {
-//            bookmarked_arrayList = new ArrayList<>();
-//        }
+
 // 여기까지 로딩
 
 
@@ -86,39 +74,24 @@ public class bookmarked_review extends AppCompatActivity {
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                 PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
-                getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
+                getMenuInflater().inflate(R.menu.bookmarked_menu, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
 
-                            case R.id.action_delete:
-                                Toast.makeText(getApplication(), "삭제하기", Toast.LENGTH_SHORT).show();
-
-                                remove(position);
-
-                                feed_adapter.notifyDataSetChanged();  // 새로고침
-//
-
-                                bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-                                Log.e("feed 클래스에서 (saveData)","삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + bookmarked_arrayList );
-
-////
-//                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
-//                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                                feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
-//                                Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
-//                                Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
-//
-                                return true;
-//                                break;
-
                             case R.id.action_share:
                                 Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_report:
-                                Toast.makeText(getApplication(), "신고하기", Toast.LENGTH_SHORT).show();
 
+                                remove(position);
+
+                                feed_adapter.notifyDataSetChanged();  // 새로고침
+                                bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                                Log.e("feed 클래스에서 (saveData)","삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + bookmarked_arrayList );
+
+                                Toast.makeText(getApplication(), "신고되었습니다", Toast.LENGTH_SHORT).show();
 
                                 break;
                             default:
@@ -129,8 +102,6 @@ public class bookmarked_review extends AppCompatActivity {
                 });
 
                 popup.show();//Popup Menu 보이기
-//            }
-//        });
 
             }
 
@@ -143,6 +114,15 @@ public class bookmarked_review extends AppCompatActivity {
 
             @Override
             public void onBookmarkClick(View v, int position) {
+                // 북마크한 리뷰 페이지에서 북마크 버튼을 누르면 -> 북마크 해제
+
+                remove(position);
+                feed_adapter.notifyDataSetChanged();  // 새로고침
+
+                bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                Log.e("bookmarked_review 클래스에서 ","onBookmarkClickㄹ 메소드 :"  + feed_adapter  );
+
+                Toast.makeText(getApplication(), "북마크가 해제되었습니다", Toast.LENGTH_SHORT).show();
 
             }
 });
@@ -230,6 +210,22 @@ public class bookmarked_review extends AppCompatActivity {
         Log.e("feed 클래스","apply 성공 ");
 
     }
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void bookmarked_loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        bookmarked_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
+
+        if (bookmarked_arrayList == null) {
+            bookmarked_arrayList = new ArrayList<>();
+        }
+    }
+
 
     @Override
     // startActivityForResult에서 Result는 어떤건지
@@ -243,17 +239,6 @@ public class bookmarked_review extends AppCompatActivity {
         if (requestCode == 1001 && resultCode == RESULT_OK) {
 
             Toast.makeText(bookmarked_review.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
-
-//            String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-//            String textView_detailed_review_card = editText_detailed_review.getText().toString();
-//            String textView_hashtag = editText_hashtag.getText().toString();
-//            float int_ratingBar = ratingBar.getRating();
-//
-//            result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-//            result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
-//            result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
-//            result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄.
-//
 
 
 //            feed_adapter = new feed_Adapter();
@@ -341,24 +326,6 @@ public class bookmarked_review extends AppCompatActivity {
 
     }//onActivityResult 메소드 닫는 중괄호
 
-
-
-
-    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
-    private void bookmarked_loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
-        Type type = new TypeToken<ArrayList<feed_MainData>>() {
-        }.getType();
-        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
-        bookmarked_arrayList = gson.fromJson(json, type);
-        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
-
-        if (bookmarked_arrayList == null) {
-            bookmarked_arrayList = new ArrayList<>();
-        }
-    }
 
 
 
