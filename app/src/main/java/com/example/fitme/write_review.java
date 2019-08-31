@@ -1,6 +1,5 @@
 package com.example.fitme;
 
-import android.app.Notification;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,15 +49,6 @@ public class write_review extends AppCompatActivity {
 
 // 리뷰 등록 버튼 -> 리뷰카드 이동
 
-
-//
-//        // 글 등록 버튼
-//        imageButton_review_register = findViewById(R.id.imageButton_review_register);
-//
-//        Intent intent = new Intent(write_review.this, feed.class);
-//        startActivity(intent);
-//
-
         editText_hashtag = findViewById(R.id.editText_hashtag);
         editText_shoppingmall_url = findViewById(R.id.editText_shoppingmall_url);
         editText_detailed_review = findViewById(R.id.editText_detailed_review);
@@ -68,7 +57,7 @@ public class write_review extends AppCompatActivity {
 
 
         //데이터 보내기
-// 검색 버튼 -> 검색 결과 화면 이동
+// 리뷰 등록 버튼 -> 피드 화면 이동
         imageButton_review_register = findViewById(R.id.imageButton_review_register);
         imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
             @Override
@@ -89,42 +78,8 @@ public class write_review extends AppCompatActivity {
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
                 finish();
-
             }
         });
-
-
-  // 리사이클러뷰 추가
-
-
-
-//
-//        imageButton_review_register.setOnClickListener(new ImageButton.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String url= editText_shoppingmall_url.getText().toString();
-//                String detailed_review = editText_detailed_review.getText().toString();
-//                String hashtag1 = editText_hashtag .getText().toString();
-//
-////
-////                Intent intent = new Intent(write_review.this, review_card.class);
-//////                intent.putExtra("url", url);
-//////                intent.putExtra("detailed_review", detailed_review);
-//////                intent.putExtra("hashtag1", hashtag1);
-//////                intent.putExtra("uri1",imageView_review_photo1.toString()); // uri String으로 변환
-//////                intent.putExtra("uri2",imageView_review_photo2.toString()); // uri String으로 변환
-//////                intent.putExtra("uri3",imageView_review_photo3.toString()); // uri String으로 변환
-//////                intent.putExtra("uri4",imageView_review_photo4.toString()); // uri String으로 변환
-//////                intent.putExtra("uri5",imageView_review_photo5.toString()); // uri String으로 변환
-//////
-//
-//                Log.e("write_review", "url : " +url);
-//                Log.e("write_review", "detailed_review : " +detailed_review);
-////
-//                startActivity(intent);
-//            }
-//        });
 
 
 
@@ -203,30 +158,7 @@ public class write_review extends AppCompatActivity {
         });
 
 
-// 웹브라우저
-//
-//        Uri uri = Uri.parse("http://www.google.com");
-//        Intent it  = new Intent(Intent.ACTION_VIEW,uri);
-//        startActivity(it);
-
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-////        // setResult를 통해 받아온 요청번호, 상태, 데이터
-////        Log.d("RESULT", requestCode + "");
-////        Log.d("RESULT", resultCode + "");
-////        Log.d("RESULT", data + "");
-//
-//        if(requestCode == 10010 && resultCode == RESULT_OK) {
-//            Toast.makeText(write_review.this, "리뷰작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
-//            textView_shoppingmall_url.setText(data.getStringExtra("리뷰"));
-//            editText_email.setText(data.getStringExtra("리뷰"));
-//        }
-//    }
-
 
 
     @Override

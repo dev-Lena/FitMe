@@ -1,28 +1,16 @@
 package com.example.fitme;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -31,7 +19,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
         void onItemClick(View v, int position) ;
-        void onCommentClick(View v, int position) ;  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 떄
+        void onCommentClick(View v, int position) ;  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 때
+        void onBookmarkClick(View v, int position) ;  // 북마크 버튼을 눌렀을 때
 
         // 클릭할게 여러개 일 때 여기에 추가해주기
         // void onButtonClick이런 식으로
@@ -48,7 +37,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
     // 리사이클러뷰에 넣을 ArrayList
 
-    private ArrayList<feed_MainData> arrayList;
+    private ArrayList<feed_MainData> arrayList;//
+
 
     public feed_Adapter(ArrayList<feed_MainData> arrayList) {   // 생성자
         this.arrayList = arrayList;
@@ -90,13 +80,12 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
 //        holder.textView_likes.setText(arrayList.get(position).getTextView_likes());
         holder.textView_detailed_review_card.setText(arrayList.get(position).getTextView_detailed_review_card());
-
+//        holder.int_ratingBar.setRating(arrayList.get(position).getInt_ratingBar());
 //        holder.textView_more.setText(arrayList.get(position).getTextView_more());
-//        holder.textView_hashtag1.setText(arrayList.get(position).getTextView_hashtag1());
+        holder.textView_hashtag.setText(arrayList.get(position).getTextView_hashtag());
 //        holder.textView_hashtag2.setText(arrayList.get(position).getTextView_hashtag2());
 //        holder.textView_hashtag3.setText(arrayList.get(position).getTextView_hashtag3());
 //        holder.textView_hashtag4.setText(arrayList.get(position).getTextView_hashtag4());
-
 
 //        holder.imageButton_spinner.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -151,19 +140,18 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
-        TextView review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes,
+        TextView review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url,textView_hashtag, textView_likes_number, textView_likes,
                 textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3, textView_hashtag4;
         ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
         ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
+        RatingBar int_ratingBar;
+//        String textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag;
+
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
 //            this.imageView_reviewcard_profile_image = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_profile_image);
 //            this.imageView_reviewcard_img1 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img1);
-//            this.imageView_reviewcard_img2 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img2);
-//            this.imageView_reviewcard_img3 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img3);
-//            this.imageView_reviewcard_img4 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img4);
-//            this.imageView_reviewcard_img5 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img5);
 //            this.imageButton_like = (ImageButton) itemView.findViewById(R.id.imageButton_like);
             this.imageButton_comment = (ImageButton) itemView.findViewById(R.id.imageButton_comment);
 //            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
@@ -175,8 +163,10 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //            this.textView_likes = (TextView) itemView.findViewById(R.id.textView_likes);
             this.textView_detailed_review_card = (TextView) itemView.findViewById(R.id.textView_detailed_review_card);
             this.imageButton_spinner = (ImageButton) itemView.findViewById(R.id.imageButton_spinner);
+            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
+            this.int_ratingBar = (RatingBar) itemView.findViewById((R.id.ratingBar)) ;
 //            this.textView_more = (TextView) itemView.findViewById(R.id.textView_more);
-//            this.textView_hashtag1 = (TextView) itemView.findViewById(R.id.textView_hashtag1);
+            this.textView_hashtag = (TextView) itemView.findViewById(R.id.textView_hashtag);
 //            this.textView_hashtag2 = (TextView) itemView.findViewById(R.id.textView_hashtag2);
 //            this.textView19 = (TextView) itemView.findViewById(R.id.textView19);
 //            this.textView20 = (TextView) itemView.findViewById(R.id.textView20);
@@ -211,6 +201,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 }
             });
 
+            // 댓글 창으로 이어지는 리사이클러뷰 아이템 내 버튼
             imageButton_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -221,15 +212,41 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                     if (pos != RecyclerView.NO_POSITION) {
                         if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
                             mListener.onCommentClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
-                            Log.e("spinner 버튼이 mListener를 통해", "눌렸나요?");
+                            Log.e("comment 버튼이 mListener를 통해", "눌렸나요?");
 
 //                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
 //                        notifyItemChanged(pos) ;
+
                         }
                     }
                 }
             });
 
+
+            // 북마크한 리뷰 창으로 이어지는 리사이클러뷰 아이템 내(안에) 버튼
+            imageButton_bookmark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
+                    Log.e("Feed Adapter에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 댓글 버튼 imageButton_bookmark 리스너에서 getAdapterPostion 했습니다 : " + pos);
+
+                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
+                            mListener.onBookmarkClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                            Log.e("bookmark 버튼이 mListener를 통해", "눌렸나요?");
+
+
+                            // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
+
+
+//                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
+//                        notifyItemChanged(pos) ;
+
+                        }
+                    }
+                }
+            });
 
         }
     }

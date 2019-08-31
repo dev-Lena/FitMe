@@ -1,13 +1,7 @@
 package com.example.fitme;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,8 +11,17 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class feed extends AppCompatActivity {
@@ -29,18 +32,26 @@ public class feed extends AppCompatActivity {
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_notification;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     private final int Write_OK = 1001;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
-    ArrayList<feed_MainData> arrayList;
+    ArrayList<feed_MainData> arrayList, bookmarked_arrayList;
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
+        arrayList = new ArrayList<>();
+        loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
+
+        // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
+        Log.e("feed 클래스에서(loadData)", "sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :" + arrayList);
 
 
         Log.e("feed", "onCreate");
@@ -55,10 +66,12 @@ public class feed extends AppCompatActivity {
         /**여기서부터 리사이클러뷰 만들기**/
 
         recyclerView = (RecyclerView) findViewById(R.id.feed_recyclerView);
+
         linearLayoutManager = new LinearLayoutManager(this);
+
+        linearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        arrayList = new ArrayList<>();
 
         feed_adapter = new feed_Adapter(arrayList);
         recyclerView.setAdapter(feed_adapter);
@@ -74,6 +87,8 @@ public class feed extends AppCompatActivity {
 
 //        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
 
+
+        // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
@@ -113,12 +128,22 @@ public class feed extends AppCompatActivity {
 
                                 //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
 
+//                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+//                                Log.e("write_review 클래스에서 (saveData)","sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + arrayList );
+
 
                                 break;
                             case R.id.action_delete:
-                                Toast.makeText(getApplication(), "삭제하기", Toast.LENGTH_SHORT).show();
 
-                              remove(position);
+
+                                remove(position);
+
+                                feed_adapter.notifyDataSetChanged();  // 새로고침
+                                Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
+
+                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                                Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+
 ////
 //                                arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
 //                                feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
@@ -154,6 +179,26 @@ public class feed extends AppCompatActivity {
             public void onCommentClick(View v, int position) {
                 Intent comment_intent = new Intent(feed.this, comment.class);
                 startActivity(comment_intent); //액티비티 이동
+
+
+            }
+
+            @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 북마크 버튼을 눌렀을 때
+            public void onBookmarkClick(View v, int position) {
+                // 해당 아이템이 bookmarked_review 리사이클러뷰에 추가되어야 함.
+                bookmarked_arrayList= new ArrayList<>();
+                // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
+
+                bookmarked_loadData();
+
+                bookmarked_arrayList.add(arrayList.get(position));
+
+                bookmark_saveData();
+
+
+//리사이클러뷰의 arrayList에 아이템 추가
+
+
             }
         });
 
@@ -182,6 +227,11 @@ public class feed extends AppCompatActivity {
                     case R.id.action_write_review:  // 리뷰 쓰기 화면으로 이동
                         Intent intent = new Intent(getApplicationContext(), write_review.class);
                         startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+
+//                        saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+//                        Log.e("write_review 클래스에서 (saveData)","sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + arrayList );
+
+
 //                    }
 //                });
 //                        startActivity(write_intent);//액티비티 띄우기
@@ -205,11 +255,66 @@ public class feed extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
-    public void remove(int position){
-        try{
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("feed_recyclerview", null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스", "fromJson : arryaList는 " + arrayList);
+
+        if (arrayList == null) {
+            arrayList = new ArrayList<>();
+        }
+
+
+    }
+
+    private void bookmarked_loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        bookmarked_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
+
+        if (bookmarked_arrayList == null) {
+            bookmarked_arrayList = new ArrayList<>();
+        }
+
+
+    }
+
+    // sharedPreference에 리사이클러뷰 안에 들어가는 arrayList를 저장하는 메소드를 만들어줌.
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
+        String json = gson.toJson(arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + json);
+        editor.putString("feed_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + editor.putString("feed_recyclerview", json));
+        editor.apply();
+        Log.e("feed 클래스", "apply 성공 ");
+    }
+
+    public void remove(int position) {
+        // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
+
+        try {
             arrayList.remove(position);
             feed_adapter.notifyItemRemoved(position);
-        }catch (IndexOutOfBoundsException e){
+
+
+            // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
+
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -218,48 +323,21 @@ public class feed extends AppCompatActivity {
 //    swipe to delete & drag to move
 //    onCreate 밖에
 
+    private void bookmark_saveData() {
 
-//Swipe해서 리사이클러뷰 아이템을 삭제하기 위해서 ItemTouchHelper 메소드 사용. -> Callback 키워드 활용해야함. -> 자동완성시키면 onMove 메소드와 onSwiped 메소드가 생김.
-            // 리사이클러뷰 기본으로 만들어준 LayoutManager, setAdapter 등을 하는 곳에 ItemTouchHelper 객체 선언해줘야 함.
-//            ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {  // 오른쪽으로 Swipe했을 때 또는 왼쪽으로 Swipe 했을 때
-//        @Override
-//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//            return false;
-//        }
-//
-//        @Override
-//        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-//
-//            AlertDialog.Builder alt_bld = new AlertDialog.Builder(feed.this);
-//            alt_bld.setMessage("리뷰를 회원님의 피드에서 삭제하시겠습니까?").setCancelable(
-//                    false).setPositiveButton("네",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            // Action for 'Yes' Button
-//
-//                            arrayList.remove(viewHolder.getAdapterPosition());   // 데이터(리사이클러뷰 아이템)를 담고 있는 arrayList에서 아이템을 없앨건데, viewHolder. Adpater에서 위치를 찾고 그 위치에 있는 아이템을 없앰.
-//                            feed_adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-//                            feed_adapter.notifyDataSetChanged();            // 위에서     recyclerView.setAdapter(feed_adapter); 어댑터라고 set한 리사이클러뷰인 feed_adapter를 새로고침함. 변화된 정보를 인지시키고 새로고침 시킴
-//                            Toast.makeText(feed.this, "리뷰를 피드에서 삭제했습니다", Toast.LENGTH_SHORT).show();
-//                            Log.e("Swipe", "스와이프해서 아이템을 지웠습니다");
-//                        }
-//
-//                    }).setNegativeButton("아니오",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            // Action for 'NO' Button
-//                            feed_adapter.notifyDataSetChanged();
-//                            dialog.cancel();
-//                        }
-//                    });
-//            AlertDialog alert = alt_bld.create();
-//            // Title for AlertDialog
-//            alert.setTitle("리뷰 삭제");
-//            // Icon for AlertDialog
-//            alert.setIcon(R.drawable.ic_delete_black_24dp);
-//            alert.show();
-//        }
-//    };
+
+        // sharedPref
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
+        String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + json);
+        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + editor.putString("bookmarked_recyclerview", json));
+        editor.apply();
+        Log.e("feed 클래스", "apply 성공 ");
+    }
 
 
     @Override
@@ -272,19 +350,8 @@ public class feed extends AppCompatActivity {
         Log.e("RESULT", data + "");
 
         if (requestCode == 1001 && resultCode == RESULT_OK) {
+
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
-
-//            String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
-//            String textView_detailed_review_card = editText_detailed_review.getText().toString();
-//            String textView_hashtag = editText_hashtag.getText().toString();
-//            float int_ratingBar = ratingBar.getRating();
-//
-//            result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
-//            result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄\
-//            result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
-//            result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄.
-//
-
 
 
 //            feed_adapter = new feed_Adapter();
@@ -295,22 +362,28 @@ public class feed extends AppCompatActivity {
             Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
             String textView_hashtag = data.getStringExtra("해시태그");
             Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
-            float int_ratingBar = data.getFloatExtra("만족도",0);
+            float int_ratingBar = data.getFloatExtra("만족도", 0);
             Log.e("만족도", int_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-
-
 
 
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
             Log.e("add", textView_detailed_review_card + "feed_MainData 객체 생성");
 
+//리사이클러뷰의 arrayList에 아이템 추가
 
             arrayList.add(feed_MainData);
-            Log.e("add", textView_detailed_review_card + "리사이클러뷰의 arrayList에 아이템 추가");
 
-            feed_adapter.notifyDataSetChanged();  // 새로고침
-            Log.e("add", textView_detailed_review_card + "새로고침");
+            // 추가됨.
 
+            // sharedPreferences 에 추가
+            saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+            Log.e("write_review 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+
+
+            //
+//            loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
+//            // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
+//            Log.e("feed 클래스에서(loadData)","sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :"  + arrayList );
 
         }
 
@@ -329,7 +402,7 @@ public class feed extends AppCompatActivity {
             String textView_hashtag = data.getStringExtra("해시태그");
             Log.e("쇼핑몰URL", textView_hashtag + "수정한 해시태그 가져왔습니다");
 
-            Float int_ratingBar = data.getFloatExtra("만족도",0);
+            Float int_ratingBar = data.getFloatExtra("만족도", 0);
             Log.e("상세리뷰", int_ratingBar + "수정한 만족도 가져왔습니다");
 
 
@@ -338,7 +411,7 @@ public class feed extends AppCompatActivity {
 
             //
             // ArrayList에 추가하고
-            feed_MainData feed_MainData = new feed_MainData( textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" + textView_shoppingmall_url + "," + textView_detailed_review_card);
 
 
@@ -351,8 +424,35 @@ public class feed extends AppCompatActivity {
 //            feed_adapter.notifyItemRemoved(getAdapterPosition());  //아이템이 삭제한 것을 notify
             feed_adapter.notifyDataSetChanged();  // 새로고침
             Log.e("edit", "수정한거 새로고침");
+
+            saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+            Log.e("write_review 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+
+//
+//            loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
+//            // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
+//            Log.e("feed 클래스에서(loadData)","sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :"  + arrayList );
         }
+
     }//onActivityResult 메소드 닫는 중괄호
+//
+//    private void bookmark_saveData() {
+//
+//
+//        // sharedPref
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        Log.e("feed 클래스","Gson 객체 호출 : "+gson);
+//        String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+//        Log.e("feed 클래스","Gson 객체 호출 : "+ json);
+//        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
+//        Log.e("feed 클래스","Gson 객체 호출 : "+ editor.putString("bookmarked_recyclerview", json));
+//        editor.apply();
+//        Log.e("feed 클래스","apply 성공 ");
+//    }
+//
+
 
     // 생명주기 로그 찍으면서 확인
     @Override
@@ -373,8 +473,12 @@ public class feed extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         feed_adapter.notifyDataSetChanged();  // 새로고침
+
+
         Log.e("add", "수정한거 새로고침");
         Log.e("feed", "onResume");
+
+
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 

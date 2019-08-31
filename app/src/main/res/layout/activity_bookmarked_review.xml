@@ -56,12 +56,12 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
-        app:layout_constraintStart_toEndOf="@+id/textView_howmany_reviews"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/textView_howmany_bookmarked_reviews"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_howmany_reviews"
+        android:id="@+id/textView_howmany_bookmarked_reviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -91,6 +91,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookmarked_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />

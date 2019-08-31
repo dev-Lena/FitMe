@@ -18,6 +18,10 @@ int imageView_reviewcard_profile_image;
     int imageButton_review_edit_completed;
     float int_ratingBar;
 
+//    public feed_MainData(TextView textView_shoppingmall_url, TextView textView_detailed_review_card, RatingBar int_ratingBar, TextView textView_hashtag) {
+//
+//    }
+
     public String getTextView_hashtag() {
         return textView_hashtag;
     }
@@ -35,6 +39,7 @@ int imageView_reviewcard_profile_image;
     }
 
     // feed_MainData 생성자를 넣어주면 -> feed 값을 받아올 때 넣어줄 곳이 생겨 ^^*
+
     public feed_MainData( String textView_shoppingmall_url, String textView_detailed_review_card, float int_ratingBar, String textView_hashtag) {
         this.textView_shoppingmall_url = textView_shoppingmall_url;
         this.textView_detailed_review_card = textView_detailed_review_card;
