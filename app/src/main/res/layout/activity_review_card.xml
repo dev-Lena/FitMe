@@ -143,40 +143,25 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView_satisfied"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="76dp"
-                android:inputType="number"
-                android:text="0.0"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.047"
-                app:layout_constraintStart_toEndOf="@+id/imageView200"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView200"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="76dp"
-                android:layout_marginEnd="92dp"
-                android:background="@drawable/ic_star_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.047"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="171dp" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="81dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="80dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -186,6 +171,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/review_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -234,6 +220,8 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/colorWhite"
                     app:srcCompat="@drawable/ic_bookmark" />
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -301,6 +289,29 @@
                     android:text="#해시태그"
                     android:textColor="@color/colorDarkPurple"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView_review_writer"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/colorLightGray"
+                    android:text="작성자"/>
+
+                <TextView
+                    android:id="@+id/textView_reviewcard_number"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/colorLightGray"
+                    android:text="리뷰 고유 번호"/>
 
 
 

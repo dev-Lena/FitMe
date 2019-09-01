@@ -19,10 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class login extends AppCompatActivity {
 
     // login java 클래스에서 필요한 객체 선언
+    private ArrayList<List> userData= new ArrayList<List>();
+
+    private SharedPreferences logined_user;
+    private SharedPreferences.Editor user_editor;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -80,7 +85,7 @@ public class login extends AppCompatActivity {
                 // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
                 String json = sharedPreferences.getString(editText_email.getText().toString(), "");
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
-                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + json);
+                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
 
                 // 사용자가 입력한 값을 변수에 담기 (회원정보와 비교하기 위해)
@@ -110,6 +115,19 @@ public class login extends AppCompatActivity {
                                 String passwordpassword = jsonObject.getString("password");
 
 
+                                String sizesize = jsonObject.getString("currentSize");
+                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 평소 사이즈 가져오기 : " + jsonObject.getString("currentSize"));
+
+
+                                String nicknamenickname = jsonObject.getString("nickname");
+                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 닉네임 가져오기 : " + jsonObject.getString("nickname"));
+
+
+                                String profileimageprofileimage = jsonObject.getString("profile_img");
+                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 프로필 이미지 가져오기 : " + jsonObject.getString("profile_img"));
+
+
+
                                 // 저장된 회원가입 정보와 로그인 입력한 정보를 비교하는 중
                                 // 사용자가 입력한 이메일과 쉐어드에 저장한 email 값이 같은지 && 입력한 비밀번호와 쉐어드에 저장한 password 값이 같은지
                                 if (inputemail.equals(emailemail) && inputpassword.equals(passwordpassword)) {
@@ -117,6 +135,32 @@ public class login extends AppCompatActivity {
                                     // 사용자가 입력한 값이 jsonObject에 있는 데이터를 담아준 email과 password와 맞으면 로그인되어서 피드 화면으로 넘어가라.
                                     Intent intent = new Intent(getApplicationContext(), feed.class);
                                     startActivity(intent);
+// 로그인한 회원의 정보를 로그인한 회원의 정보만 담는 SharedPreference인  logined_user 라는 이름의 쉐어드에 담을 것.
+
+                                    //위에서 가져온 값을 쉐어드에 넣어주기.
+                                    // JSONArray 생성
+                                    logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
+                                    user_editor = logined_user.edit();
+
+//
+
+
+                                    //
+                                    user_editor.putString("user_email", emailemail);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_password", passwordpassword);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_size", sizesize);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_nickname", nicknamenickname);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_profileimage", profileimageprofileimage);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+
+                                    user_editor.commit();   //제출
+
+
+                                    String user_jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 user_jsondata라고 이름붙임.
+                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + user_jsondata);
+                                    user_writeArrayList(user_jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
+                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + user_editor.putString("login_user", user_jsondata));
+/////////////////////////////
+
 
                                     Toast.makeText(login.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
 
@@ -127,10 +171,14 @@ public class login extends AppCompatActivity {
                                 }
 
                             }
+
+
+
                         } catch (JSONException e) {
                             // editText 로 입력한 이메일이 null 값이 아니면 = 무엇인가를 입력하면 -> 일단 쉐어드에 사용자가 입력한 이메일이 있는지 확인했는데 없음
                             e.printStackTrace();
-                            Toast.makeText(login.this, "아이디 정보가 없습니다", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(login.this, "아이디 정보가 없습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(login.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -139,6 +187,8 @@ public class login extends AppCompatActivity {
                 }else{  // 사용자가 아무것도 입력하지 않았을 때
                     Toast.makeText(login.this, "로그인 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
+
+
 
 
 // 나중에
@@ -176,7 +226,6 @@ public class login extends AppCompatActivity {
                     editor.commit();
 
                 }
-
 
 
             }
@@ -223,6 +272,31 @@ public class login extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
+    // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
+
+    public void user_writeArrayList(String user_jsondata) {
+
+        if (userData != null) {
+
+
+
+            // JSONArray 생성
+            logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
+            user_editor = logined_user.edit();
+
+//
+
+
+            user_editor.putString("login_user", user_jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+
+            Log.e("saveArrayList 메소드","확인중 login_user 이라는 키에 저장 중 -> 정보가 쌓어야 함 : " + user_editor.putString("login_user", user_jsondata));
+            user_editor.commit();
+            Log.e("saveArrayList 메소드","ArrayList인 user_jsondata를 String 형태로 logined_user에 저장했습니다 : " +   logined_user);
+
+
+        }
+
+    }
 
     /**
      * SharedPreferece이용한로그인정보기억하기->CheckBox

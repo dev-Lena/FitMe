@@ -314,7 +314,7 @@ public class sign_up extends AppCompatActivity {
 //        // URI경로를 반환한다.
 //        return uri.getPath();
 //    }
-
+//
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //

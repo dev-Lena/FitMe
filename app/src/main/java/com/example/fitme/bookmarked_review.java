@@ -112,9 +112,10 @@ public class bookmarked_review extends AppCompatActivity {
 
             }
 
+            // 북마크한 리뷰 페이지에서 북마크 버튼을 누르면 -> 북마크 해제
             @Override
             public void onBookmarkClick(View v, int position) {
-                // 북마크한 리뷰 페이지에서 북마크 버튼을 누르면 -> 북마크 해제
+
 
                 remove(position);
                 feed_adapter.notifyDataSetChanged();  // 새로고침
@@ -249,13 +250,28 @@ public class bookmarked_review extends AppCompatActivity {
             Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
             String textView_hashtag = data.getStringExtra("해시태그");
             Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
-            float int_ratingBar = data.getFloatExtra("만족도",0);
-            Log.e("만족도", int_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+            float float_ratingBar = data.getFloatExtra("만족도", 0);
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+
+            String textView_review_writer = data.getStringExtra("작성자");
+            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+
+            String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+            Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
+
+            String textView_nickname= data.getStringExtra("닉네임");
+            Log.e("닉네임", textView_hashtag + "닉네임을 가져왔습니다!!!!!!!!!");
+
+            String textView_mysize = data.getStringExtra("평소사이즈");
+            Log.e("평소사이즈", textView_hashtag + "평소사이즈를 가져왔습니다!!!!!!!!!");
+
+            String review_date = data.getStringExtra("리뷰시간");
+            Log.e("리뷰시간", textView_hashtag + "리뷰시간을 가져왔습니다!!!!!!!!!");
 
 
 
-
-            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, float_ratingBar, textView_hashtag, review_date,
+                    textView_review_writer, textView_reviewcard_number, textView_nickname, textView_mysize );
             Log.e("add", textView_detailed_review_card + "feed_MainData 객체 생성");
 
 //리사이클러뷰의 arrayList에 아이템 추가
@@ -292,8 +308,23 @@ public class bookmarked_review extends AppCompatActivity {
             String textView_hashtag = data.getStringExtra("해시태그");
             Log.e("쇼핑몰URL", textView_hashtag + "수정한 해시태그 가져왔습니다");
 
-            Float int_ratingBar = data.getFloatExtra("만족도",0);
-            Log.e("상세리뷰", int_ratingBar + "수정한 만족도 가져왔습니다");
+            float float_ratingBar = data.getFloatExtra("만족도", 0);
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+
+            String textView_review_writer = data.getStringExtra("작성자");
+            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+
+            String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+            Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
+
+            String textView_nickname= data.getStringExtra("닉네임");
+            Log.e("닉네임", textView_hashtag + "닉네임을 가져왔습니다!!!!!!!!!");
+
+            String textView_mysize = data.getStringExtra("평소사이즈");
+            Log.e("평소사이즈", textView_hashtag + "평소사이즈를 가져왔습니다!!!!!!!!!");
+
+            String review_date = data.getStringExtra("리뷰시간");
+            Log.e("리뷰시간", textView_hashtag + "리뷰시간을 가져왔습니다!!!!!!!!!");
 
 
             int position = data.getIntExtra("POSITION", 0000);
@@ -301,7 +332,8 @@ public class bookmarked_review extends AppCompatActivity {
 
             //
             // ArrayList에 추가하고
-            feed_MainData feed_MainData = new feed_MainData( textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag);
+            feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card, float_ratingBar, textView_hashtag, review_date,
+                    textView_review_writer, textView_reviewcard_number, textView_nickname, textView_mysize );
             Log.e("bookmarked_review", "ArryaList 중 이곳에 데이터를 넣을껍니다" + textView_shoppingmall_url + "," + textView_detailed_review_card);
 
 

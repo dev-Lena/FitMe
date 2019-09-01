@@ -66,8 +66,9 @@
 
         <ImageButton
             android:layout_weight="1"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:background="@drawable/ic_send_black_24dp">
 

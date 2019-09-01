@@ -12,34 +12,77 @@ public class feed_MainData{
 //ImageButton imageButton_like,imageButton_comment, imageButton_bookmark ;
 //
 
-String review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url, textView_likes_number, textView_likes, textView_detailed_review_card, textView_more,
-        textView_hashtag,TextView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4, review_date;
-int imageView_reviewcard_profile_image;
+String review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url,
+        textView_likes_number, textView_likes, textView_detailed_review_card, textView_more,
+        textView_hashtag,TextView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4, review_date,
+        textView_review_writer, textView_reviewcard_number;
+    int imageView_reviewcard_profile_image;
     int imageView_reviewcard_img1;
     int imageView_reviewcard_img2;
     int imageView_reviewcard_img3;
     int imageView_reviewcard_img4;
     int imageView_reviewcard_img5;
     int imageButton_review_edit_completed;
-    float int_ratingBar;
+    float float_ratingBar;
 
 
 
-//    public feed_MainData(TextView textView_shoppingmall_url, TextView textView_detailed_review_card, RatingBar int_ratingBar, TextView textView_hashtag) {
+
+    //    public feed_MainData(TextView textView_shoppingmall_url, TextView textView_detailed_review_card, RatingBar int_ratingBar, TextView textView_hashtag) {
 //
 //    }
+public feed_MainData(String textView_shoppingmall_url,
+                     String textView_detailed_review_card,
+                     float float_ratingBar, String textView_hashtag, String review_date, String textView_review_writer, String textView_reviewcard_number,
+                     String textView_nickname, String textView_mysize) {
 
-    public feed_MainData(String textView_shoppingmall_url,
-                         String textView_detailed_review_card,
-                         float int_ratingBar, String textView_hashtag) {
-
-        this.textView_shoppingmall_url = textView_shoppingmall_url;
-        this.textView_detailed_review_card = textView_detailed_review_card;
-        this.textView_hashtag = textView_hashtag;
-        this.imageButton_review_edit_completed = imageButton_review_edit_completed;
-        this.int_ratingBar = int_ratingBar;
+    this.textView_shoppingmall_url = textView_shoppingmall_url;
+    this.textView_detailed_review_card = textView_detailed_review_card;
+    this.float_ratingBar = float_ratingBar;
+    this.textView_hashtag = textView_hashtag;
+    this.imageButton_review_edit_completed = imageButton_review_edit_completed;
+    this.review_date = review_date;
+    this.textView_review_writer = textView_review_writer;
+    this.textView_reviewcard_number = textView_reviewcard_number;
 //        this.review_date = review_date;
+    this.textView_nickname =textView_nickname;
+    this.textView_mysize =textView_mysize;
+}
+    public String getTextView_mysize() {
+        return textView_mysize;
     }
+
+    public void setTextView_mysize(String textView_mysize) {
+        this.textView_mysize = textView_mysize;
+    }
+
+    public String getTextView_nickname() {
+        return textView_nickname;
+    }
+
+    public void setTextView_nickname(String textView_nickname) {
+        this.textView_nickname = textView_nickname;
+    }
+
+
+    public String getTextView_review_writer() {
+
+        return textView_review_writer;
+    }
+
+    public void setTextView_review_writer(String textView_review_writer) {
+
+        this.textView_review_writer = textView_review_writer;
+    }
+
+    public String getTextView_reviewcard_number() {
+        return textView_reviewcard_number;
+    }
+
+    public void setTextView_reviewcard_number(String textView_reviewcard_number) {
+        this.textView_reviewcard_number = textView_reviewcard_number;
+    }
+
     public String getTextView_hashtag() {
         return textView_hashtag;
     }
@@ -48,12 +91,12 @@ int imageView_reviewcard_profile_image;
         this.textView_hashtag = textView_hashtag;
     }
 
-    public float getInt_ratingBar() {
-        return int_ratingBar;
+    public float getfloat_ratingBar() {
+        return float_ratingBar;
     }
 
-    public void setInt_ratingBar(float int_ratingBar) {
-        this.int_ratingBar = int_ratingBar;
+    public void setfloat_ratingBar(float float_ratingBar) {
+        this.float_ratingBar = float_ratingBar;
     }
 
     // feed_MainData 생성자를 넣어주면 -> feed 값을 받아올 때 넣어줄 곳이 생겨 ^^*
