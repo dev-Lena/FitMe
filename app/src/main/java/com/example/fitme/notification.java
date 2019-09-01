@@ -3,6 +3,7 @@ package com.example.fitme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -20,11 +21,15 @@ public class notification extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
 //하단바
-        bottomNavigationView = findViewById (R.id.bottomNavi);
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+        // 하단바 누를 때 색 바뀌게 하는 중
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(3);
+        menuItem.setChecked(true);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
                         Intent home_intent = new Intent(notification.this,feed.class);
@@ -36,7 +41,7 @@ public class notification extends AppCompatActivity {
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(notification.this,review_category.class);
+                        Intent write_intent = new Intent(notification.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
@@ -49,11 +54,10 @@ public class notification extends AppCompatActivity {
                         break;
                 }
 
-
                 return false;
-
             }
         });
+
 
     }
 

@@ -87,6 +87,10 @@ public class feed extends AppCompatActivity {
 
 //        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
 
+// 피드에 올라가는 작성글 업데이트 시간을 실제 시간으로 띄우기
+
+
+
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
@@ -149,8 +153,14 @@ public class feed extends AppCompatActivity {
                                 Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_report:
-                                Toast.makeText(getApplication(), "신고하기", Toast.LENGTH_SHORT).show();
 
+                                remove(position);
+
+                                feed_adapter.notifyDataSetChanged();  // 새로고침
+                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                                Log.e("feed 클래스에서 (saveData)","신고 삭제 후 sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :"  + bookmarked_arrayList );
+
+                                Toast.makeText(getApplication(), "신고되었습니다", Toast.LENGTH_SHORT).show();
 
                                 break;
                             default:
@@ -180,18 +190,21 @@ public class feed extends AppCompatActivity {
                 bookmarked_arrayList= new ArrayList<>();
                 // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
 
+                // bookmarked_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
                 bookmarked_loadData();
 
+                // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) bookmarked_arrayList에 추가하라
                 bookmarked_arrayList.add(arrayList.get(position));
 
+                // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
                 bookmark_saveData();
 
                 Toast.makeText(getApplication(), "북마크한 리뷰에 추가되었습니다", Toast.LENGTH_SHORT).show();
 
 //리사이클러뷰의 arrayList에 아이템 추가
 
-
             }
+
         });
 
 

@@ -112,7 +112,7 @@ public class write_review extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-                //사진을 여러개 선택할수 있도록 한다
+                //사진을 여러개 선택할수 있도록 한다 -> 하나만 올리는 걸로 수정했음.
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),  PICTURE_REQUEST_CODE);
@@ -173,10 +173,7 @@ public class write_review extends AppCompatActivity {
 
                 //기존 이미지 지우기
                 imageView_review_photo1.setImageResource(0);
-//                imageView_review_photo2.setImageResource(0);
-//                imageView_review_photo3.setImageResource(0);
-//                imageView_review_photo4.setImageResource(0);
-//                imageView_review_photo5.setImageResource(0);
+
 
                 //ClipData 또는 Uri를 가져온다
                 Uri uri = data.getData();

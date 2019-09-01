@@ -34,7 +34,7 @@
                 android:id="@+id/imageButton_spinner"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/ic_more_vert_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,12 +115,14 @@
 
             <TextView
                 android:id="@+id/textView_mysize"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:text="L~XL"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
+                android:maxLines="1"
+                android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.028"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -128,10 +130,12 @@
 
             <TextView
                 android:id="@+id/textView_shoppingmall_url"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:text="TextView"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -182,9 +186,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/review_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="구입일"
+                    android:text="date"
                     />
 
 
@@ -265,6 +270,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="가성비 갑!!!!!"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/colorBlack"
                 android:textSize="22sp" />
 
@@ -288,44 +295,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/colorWhite"
-                    android:text="#해시태그"
-                    android:textColor="@color/colorDarkPurple"
-                    android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/textView_hashtag2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:background="@color/colorWhite"
                     android:text="#해시태그"
                     android:textColor="@color/colorDarkPurple"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/textView_hashtag3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/colorWhite"
-                    android:text="#해시태그"
-                    android:textColor="@color/colorDarkPurple"
-                    android:textSize="18sp" />
-
-
-
-                <TextView
-                    android:id="@+id/textView_hashtag4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/colorWhite"
-                    android:text="#해시태그"
-                    android:textColor="@color/colorDarkPurple"
-                    android:textSize="18sp" />
 
 
             </LinearLayout>
@@ -340,4 +316,11 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date" />
 </LinearLayout>

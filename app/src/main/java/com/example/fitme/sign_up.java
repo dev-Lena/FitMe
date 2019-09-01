@@ -3,20 +3,20 @@ package com.example.fitme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -37,6 +38,10 @@ public class sign_up extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    final int REQUEST_CODE = 200;
+    private String selectedImagePath;
+
+    ImageView imageView_user_profile_image; // 프로필 이미지
     Button button_sign_up_complete, button_sign_in;  //회원가입하기 버튼
     EditText editText_mysize, editText_nickname, editText_email, editText_password, editText_password_confirm;  // 평소 사이즈 입력하는 칸, 닉네임 적는 칸
     BottomNavigationView bottomNavigationView;   // 바텀 네이게이션 메뉴  -> 하단바
@@ -49,6 +54,7 @@ public class sign_up extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Log.e("sign_up","onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
@@ -57,10 +63,22 @@ public class sign_up extends AppCompatActivity {
         final EditText editText_password = (EditText)findViewById(R.id.editText_password);
         final EditText editText_mysize= (EditText) findViewById(R.id.editText_mysize);
         final EditText editText_nickname = (EditText)findViewById(R.id.editText_nickname);
-//              성별 boolean값 받아오기
         final ImageView imageView_user_profile_image = (ImageView) findViewById(R.id.imageView_user_profile_image);
 
 
+// 프로필 사진 등록을 위해 갤러리 모양의 버튼을 누르면 사진을 가져와 프로필 사진에 등록.
+        ImageButton imageButton_image = (ImageButton)findViewById(R.id.imageButton_image);
+        imageButton_image.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // 사진 선택
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), REQUEST_CODE);
+ }
+        });
 
 
 // 회원가입 완료 버튼 -> 로그인 화면으로 이동
@@ -71,13 +89,11 @@ public class sign_up extends AppCompatActivity {
             public void onClick(View view) {
 
                 // 사용자가 입력한 값이 있을 때(0보다 클 때)
-                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0) {  // 길이가 0보다 클 때
+                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0 && editText_nickname.length()>0) {  // 길이가 0보다 클 때
                     // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
                     Intent intent = new Intent(sign_up.this, login.class);
                     Toast.makeText(sign_up.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
                     startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
-
-
 
 
 // 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일)
@@ -136,16 +152,6 @@ public class sign_up extends AppCompatActivity {
                 }
             }
         });
-//
-
-
-
-// 회원가입한 정보 로그인 정보로 넘겨주기
-
-//        editText_email = (EditText) findViewById(R.id.editText_email);
-//        editText_password = (EditText) findViewById(R.id.editText_password);
-        editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
-//        button_sign_up_complete = (Button) findViewById(R.id.button_sign_up_complete);
 
         editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 
@@ -161,6 +167,16 @@ public class sign_up extends AppCompatActivity {
                 }
             }
         });
+
+//
+
+
+
+// 회원가입한 정보 로그인 정보로 넘겨주기
+
+        editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
+
+
 
 
 
@@ -178,12 +194,14 @@ public class sign_up extends AppCompatActivity {
                 String confirm = editText_password_confirm.getText().toString();
 
                 if (password.equals(confirm)) {
-                    editText_password.setBackgroundColor(Color.WHITE);
-                    editText_password_confirm.setBackgroundColor(Color.WHITE);
+                    editText_password.setTextColor(Color.BLACK);
+                    editText_password_confirm.setTextColor(Color.BLACK);
 
                 } else {
-                    editText_password.setBackgroundColor(Color.LTGRAY);
-                    editText_password_confirm.setBackgroundColor(Color.LTGRAY);
+
+                    editText_password.setTextColor(Color.RED);
+                    editText_password_confirm.setTextColor(Color.RED);
+
                 }
             }
 
@@ -198,6 +216,8 @@ public class sign_up extends AppCompatActivity {
 
 
     }// onCreate 닫는 중괄호
+
+
 
     // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
 
@@ -234,6 +254,124 @@ public class sign_up extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                try{
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+
+                    imageView_user_profile_image.setImageBitmap(img);
+                }catch(Exception e)
+                {
+
+                }
+            }
+            else if(resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == SELECT_PICTURE) {
+//                Uri selectedImageUri = data.getData();
+//                selectedImagePath = getPath(selectedImageUri);
+//
+//                int position = getIntent().getIntExtra(Keys.POSTION, 0);
+//
+//
+//            }
+//        }
+//    }
+//    /**
+//     * 사진의 URI 경로를 받는 메소드
+//     */
+//    public String getPath(Uri uri) {
+//        // uri가 null일경우 null반환
+//        if( uri == null ) {
+//            return null;
+//        }
+//        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
+//        String[] projection = { MediaStore.Images.Media.DATA };
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        if( cursor != null ){
+//            int column_index = cursor
+//                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            cursor.moveToFirst();
+//            return cursor.getString(column_index);
+//        }
+//        // URI경로를 반환한다.
+//        return uri.getPath();
+//    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//
+//
+//        if(requestCode == PICTURE_REQUEST_CODE)
+//        {
+//            if (resultCode == RESULT_OK)
+//            {
+//
+////                //기존 이미지 지우기
+//                imageView_user_profile_image.setImageResource(0);
+//
+//
+//                //ClipData 또는 Uri를 가져온다
+//                Uri uri = data.getData();
+//                ClipData clipData = data.getClipData();
+//
+//                //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
+//                if(clipData!=null)
+//                {
+//
+//                    // 최대 업로드 사진 갯수 5개
+//                    for(int i = 0; i < 5; i++)
+//                    {
+//                        if(i<clipData.getItemCount()){
+//                            Uri urione =  clipData.getItemAt(i).getUri();
+//                            switch (i){
+//                                case 0:
+//                                    imageView_user_profile_image.setImageURI(urione);
+//                                    break;
+////                                case 1:
+////                                    imageView_review_photo2.setImageURI(urione);
+////                                    break;
+////                                case 2:
+////                                    imageView_review_photo3.setImageURI(urione);
+////                                    break;
+////                                case 3:
+////                                    imageView_review_photo4.setImageURI(urione);
+////                                    break;
+////                                case 4:
+////                                    imageView_review_photo5.setImageURI(urione);
+////                                    break;
+//                                default:
+//                                    Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
+//                                    myToast.show();
+//                            }
+//                        }
+//                    }
+//                }
+//                else if(uri != null)
+//                {
+//                    imageView_user_profile_image.setImageURI(uri);
+//                }
+//            }
+//        }
+//    }
 
 
     @Override

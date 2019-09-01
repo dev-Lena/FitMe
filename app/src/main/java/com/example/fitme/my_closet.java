@@ -91,13 +91,15 @@ public class my_closet extends AppCompatActivity {
 
             }
         });
-        bottomNavigationView = findViewById (R.id.bottomNavi);
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavi);
         // 하단바 누를 때 색 바뀌게 하는 중
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem  = menu.getItem(4);
+        MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
-        //
-        BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
@@ -111,7 +113,7 @@ public class my_closet extends AppCompatActivity {
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(my_closet.this,review_category.class);
+                        Intent write_intent = new Intent(my_closet.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
@@ -126,7 +128,7 @@ public class my_closet extends AppCompatActivity {
 
                 return false;
             }
-        };
+        });
 
     }
 

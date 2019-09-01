@@ -76,6 +76,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        holder.textView_mysize.setText(arrayList.get(position).getTextView_mysize());
 //        holder.textView_nickname.setText(arrayList.get(position).getTextView_nickname());
 //        holder.textView20.setText(arrayList.get(position).getTextView20());
+//        holder.review_date.setText(arrayList.get(position).getTextView_detailed_review_card());
         holder.textView_shoppingmall_url.setText(arrayList.get(position).getTextView_shoppingmall_url());
 //        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
 //        holder.textView_likes.setText(arrayList.get(position).getTextView_likes());
@@ -140,11 +141,12 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
-        TextView review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url,textView_hashtag, textView_likes_number, textView_likes,
+        TextView review_date, review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url,textView_hashtag, textView_likes_number, textView_likes,
                 textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3, textView_hashtag4;
         ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
         ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
         RatingBar int_ratingBar;
+
 //        String textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag;
 
 
@@ -153,6 +155,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //            this.imageView_reviewcard_profile_image = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_profile_image);
 //            this.imageView_reviewcard_img1 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img1);
 //            this.imageButton_like = (ImageButton) itemView.findViewById(R.id.imageButton_like);
+            this.review_date = (TextView) itemView.findViewById(R.id.review_date);
             this.imageButton_comment = (ImageButton) itemView.findViewById(R.id.imageButton_comment);
 //            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
 //            this.review_card = (TextView) itemView.findViewById(R.id.review_card);
@@ -176,6 +179,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 // 리사이클러뷰 수정에서 Adapter에 있는 클릭 이벤트를feed에서 구현하기 위해서 ( 인텐트로 데이터 전달 )
 //            itemView.setOnClickListener(new View.OnClickListener() {
             // 어댑터 내 뷰홀더에서 아이템 클릭시, 커스텀 이벤트 메서드를 호출하는 코드 작성.
+
 
 
 //여기서부터
@@ -237,11 +241,6 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                             Log.e("bookmark 버튼이 mListener를 통해", "눌렸나요?");
 
 
-                            // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
-
-
-//                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
-//                        notifyItemChanged(pos) ;
 
                         }
                     }
@@ -252,4 +251,4 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     }
 
 
-}
+}//feed_Adapter 클래스 닫는 중괄호
