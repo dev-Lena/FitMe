@@ -43,7 +43,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_myreview"
+        android:id="@+id/commentRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
@@ -65,6 +65,7 @@
         </EditText>
 
         <ImageButton
+            android:id="@+id/imageButton_comment_save"
             android:layout_weight="1"
             android:layout_width="30dp"
             android:layout_height="30dp"

@@ -145,12 +145,13 @@ public class login extends AppCompatActivity {
 //
 
 
-                                    //
-                                    user_editor.putString("user_email", emailemail);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-                                    user_editor.putString("user_password", passwordpassword);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-                                    user_editor.putString("user_size", sizesize);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-                                    user_editor.putString("user_nickname", nicknamenickname);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-                                    user_editor.putString("user_profileimage", profileimageprofileimage);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
+
+// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+                                    user_editor.putString("user_email", emailemail);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_password", passwordpassword);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_size", sizesize);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_nickname", nicknamenickname);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
+                                    user_editor.putString("user_profileimage", profileimageprofileimage);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
 
                                     user_editor.commit();   //제출
 

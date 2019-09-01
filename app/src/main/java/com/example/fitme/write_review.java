@@ -1,7 +1,9 @@
 package com.example.fitme;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,20 +22,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 public class write_review extends AppCompatActivity {
 
+    // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
+    private ArrayList<List> userData = new ArrayList<List>();
 
+    private SharedPreferences logined_user;
+    private SharedPreferences.Editor user_editor;
+    //
 
     private ArrayList<feed_MainData> arrayList;
 
 
-    TextView word_review_date, word_textView_review_writer, word_textView_reviewcard_number;
+    TextView word_review_date, word_textView_review_writer, word_textView_reviewcard_number,textView_review_writer_writer,textView_reviewcard_number, textView_reviewcard_number_number;
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
     ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
@@ -81,23 +85,39 @@ public class write_review extends AppCompatActivity {
                 String textView_hashtag = editText_hashtag.getText().toString();
                 float int_ratingBar = ratingBar.getRating();
 //                String review_date = word_review_date.getText().toString();
-//                String textView_review_writer = word_textView_review_writer.getText().toString();
-//                String textView_reviewcard_number = word_textView_reviewcard_number.getText().toString();
-// 여기 수정해야할 것 같음
-                Date currenttime = Calendar.getInstance().getTime();// Date타입 변수 currenttime에 시간을 받아옴
-                SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA); // 심플 데이타 포맷으로 시간 입력
-//                review_date = simpleformat.format(currenttime);
+                // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
+
+                // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
+                logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+                // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
+                Log.e("feed 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
+
+                // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
+                // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
+                String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
+//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
+                Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+
+
+
+
+// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+                String textView_email = logined_user.getString("user_email", "");
+                Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
+
+                String  textView_review_writer = textView_email;
+
+
+//                String textView_reviewcard_number = textView_reviewcard_number_number.getText().toString();
+
 
                 result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
 //                result.putExtra("리뷰시간", word_review_date.getText().toString());  // putExtra로 데이터 보냄
-//                result.putExtra("작성자", word_textView_review_writer.getText().toString());  // putExtra로 데이터 보냄
-//                result.putExtra("리뷰고유번호", word_textView_reviewcard_number.getText().toString());  // putExtra로 데이터 보냄
-
-
-                randomkeygenerator();
+//                result.putExtra("작성자", textView_review_writer_writer.getText().toString());  // putExtra로 데이터 보냄
+//                result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());  // putExtra로 데이터 보냄
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);

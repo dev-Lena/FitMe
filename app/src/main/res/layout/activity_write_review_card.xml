@@ -40,8 +40,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:clickable="true"
             android:background="@color/colorWhite"
+            android:clickable="true"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
@@ -189,14 +189,12 @@
             </LinearLayout>
 
 
-
-                    <ImageView
-                        android:id="@+id/imageView_review_photo1"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/img_dd_profile"
-                        android:layout_gravity="center"/>
-
+            <ImageView
+                android:id="@+id/imageView_review_photo1"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/img_dd_profile" />
 
 
             <TextView
@@ -213,19 +211,34 @@
             <EditText
                 android:id="@+id/editText_detailed_review"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="60dp"
+
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="상세 리뷰를 작성해주세요"
                 android:inputType="textPersonName" />
 
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="date" />
+                android:layout_marginBottom="80dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/textView_review_writer_writer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="작성자"
+                    android:textColor="@color/colorLightGray" />
+
+                <TextView
+                    android:id="@+id/textView_reviewcard_number_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="고유 번호"
+                    android:textColor="@color/colorLightGray" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

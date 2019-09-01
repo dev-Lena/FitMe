@@ -25,7 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -62,14 +63,15 @@
                     android:id="@+id/textView_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:maxLines="1"
                     android:shadowColor="@android:color/darker_gray"
+                    android:singleLine="true"
                     android:text="닉네임"
                     android:textColor="@color/colorDarkPurple"
                     android:textSize="18sp"
-
                     app:layout_constraintVertical_bias="0.0" />
 
 
@@ -165,21 +167,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/review_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="date"
-                    />
-
-
-            </LinearLayout>
 
                     <ImageView
                         android:layout_gravity="center"
@@ -282,7 +269,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:background="@color/colorWhite"
@@ -317,21 +303,15 @@
 
             </LinearLayout>
 
-
             <TextView
-                android:id="@+id/editText"
-                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/review_date"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="date" />
-
+                android:text="date"
+                />
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date" />
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class my_closet extends AppCompatActivity {
 
-    Button button_review_written_by_me, button_bookmarked_review  , button_follow , button_following , button_edit_hashtag , button_edit_profile ;
+    Button button_logout, button_review_written_by_me, button_bookmarked_review  , button_follow , button_following , button_edit_hashtag , button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,20 @@ public class my_closet extends AppCompatActivity {
                 Intent register_intent = new Intent(my_closet.this, edit_profile.class);
                 startActivity(register_intent); //액티비티 이동
 
+            }
+        });
+
+        // 로그아웃
+        button_logout  = findViewById(R.id.button_logout );
+        button_logout .setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getApplication(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(my_closet.this, login.class);
+                startActivity(intent); //액티비티 이동
+                finish();
             }
         });
 

@@ -127,6 +127,11 @@ public class feed extends AppCompatActivity {
 //
                                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                                 intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
+                                intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
+                                intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
+                                intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
+
+
                                 intent.putExtra("POSITION", position);
                                 // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
 
@@ -376,15 +381,22 @@ public class feed extends AppCompatActivity {
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
-//
 
 
+
+// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
                 String textView_nickname = logined_user.getString("user_nickname", "");
                 Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
 
                 String textView_mysize = logined_user.getString("user_size", "");
                 Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
                 /** 프로필 이미지도 여기에   **/
+
+
+// 리뷰를 작성할 때 마다 고유 번호
+
+            String textView_reviewcard_number = randomkeygenerator();
+
 
 //                String textView_nickname = logined_user.getString("nickname", "");
 //                Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
@@ -435,8 +447,8 @@ public class feed extends AppCompatActivity {
                 String textView_review_writer = data.getStringExtra("작성자");
                 Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
 
-                String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
-                Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
+//                String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+//                Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
 
 //                String textView_nickname= data.getStringExtra("닉네임");
 //                Log.e("닉네임", textView_hashtag + "닉네임을 가져왔습니다!!!!!!!!!");
@@ -487,7 +499,6 @@ public class feed extends AppCompatActivity {
             String json = logined_user.getString("logined_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
-
 
             String textView_nickname = logined_user.getString("nickname", "");
             String textView_mysize = logined_user.getString("currentSize", "");
@@ -571,6 +582,18 @@ public class feed extends AppCompatActivity {
 //        Log.e("feed 클래스","apply 성공 ");
 //    }
 //
+
+    private static final String ALPHA_NUMERIC_STRING = "0123456789";
+
+    public static String randomkeygenerator() {
+        int count = 8;
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
 
 
     // 생명주기 로그 찍으면서 확인
