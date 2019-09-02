@@ -183,7 +183,7 @@ public class login extends AppCompatActivity {
                         }
 
 
-                    }else {
+                    }else { //사용자가 입력한 이메일이 회원 목록에 없을 때
                         Toast.makeText(login.this, "이메일 정보가 없습니다", Toast.LENGTH_SHORT).show();
                     }
 
