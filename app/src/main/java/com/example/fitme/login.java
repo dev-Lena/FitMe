@@ -179,10 +179,12 @@ public class login extends AppCompatActivity {
                             // editText 로 입력한 이메일이 null 값이 아니면 = 무엇인가를 입력하면 -> 일단 쉐어드에 사용자가 입력한 이메일이 있는지 확인했는데 없음
                             e.printStackTrace();
 //                            Toast.makeText(login.this, "아이디 정보가 없습니다", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(login.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(login.this, "로그인 정보를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
                         }
 
 
+                    }else {
+                        Toast.makeText(login.this, "이메일 정보가 없습니다", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{  // 사용자가 아무것도 입력하지 않았을 때
@@ -208,10 +210,10 @@ public class login extends AppCompatActivity {
                     Log.e("onCreate로그인정보기억하기체크박스", "이메일정보:" + email);
 
 //save the password
-                    String password = editText_password.getText().toString();
-                    editor.putString(getString(R.string.password), password);
-                    editor.commit();
-                    Log.e("onCreate로그인정보기억하기체크박스", "비밀번호정보:" + password);
+//                    String password = editText_password.getText().toString();
+//                    editor.putString(getString(R.string.password), password);
+//                    editor.commit();
+//                    Log.e("onCreate로그인정보기억하기체크박스", "비밀번호정보:" + password);
 
                 } else { //  체크되지않았을때
 //save the checkbox preference
@@ -223,8 +225,8 @@ public class login extends AppCompatActivity {
                     editor.commit();
 
 //save the password
-                    editor.putString(getString(R.string.password), "");
-                    editor.commit();
+//                    editor.putString(getString(R.string.password), "");
+//                    editor.commit();
 
                 }
 

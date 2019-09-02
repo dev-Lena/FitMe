@@ -10,16 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import static android.provider.CalendarContract.CalendarCache.URI;
 
 public class searching extends AppCompatActivity implements View.OnClickListener {
     EditText editText_searching;
@@ -109,7 +105,7 @@ public class searching extends AppCompatActivity implements View.OnClickListener
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(searching.this,review_category.class);
+                        Intent write_intent = new Intent(searching.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :

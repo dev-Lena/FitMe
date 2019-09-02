@@ -137,7 +137,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="로그인 정보 기억하기" />
+            android:text="이메일 기억하기" />
 
         <Button
             android:background="@color/colorInvisible"

@@ -1,12 +1,16 @@
 package com.example.fitme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,37 +23,166 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class comment extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
+    ImageButton imageButton_comment_save;
+    // 로그인 하고 있는 유저의 정보를 담고 있는 쉐어드 프리퍼런스
+    private ArrayList<List> userData = new ArrayList<List>();
 
+    private SharedPreferences logined_user;
+    private SharedPreferences.Editor user_editor;
+    TextView textView_comment_nickname ;
+    ImageView imageView_comment_profile ;
+    EditText editText_comment_input ;
     /**
-     * 리사이클러뷰
+     * 리사이클러뷰에 필요한 기본 객체 선언
      **/
-    ArrayList<comment_Data> commentArrayListList;
-    private RecyclerView commentRecyclerview;
-    private com.example.fitme.commentAdapter commentAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<comment_Data> commentArrayList;
+    commentAdapter commentAdapter;
+    RecyclerView commentRecyclerview;
+    LinearLayoutManager mlinearLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        commentArrayList = new ArrayList<>();
+        comment_loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
+
         Log.e("review_written_by_me", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
+        /**여기서부터 리사이클러뷰 만들기**/
 
-        loadData();
-        buildRecyclerView();
-//        setInsertButton();
+        commentRecyclerview = (RecyclerView) findViewById(R.id.commentRecyclerview);
 
-        ImageButton imageButton_comment_save = findViewById(R.id.imageButton_comment_save);
+        mlinearLayoutManager = new LinearLayoutManager(this);
+
+        mlinearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
+
+        commentRecyclerview.setLayoutManager(mlinearLayoutManager);
+
+        commentAdapter = new commentAdapter(commentArrayList);
+        commentRecyclerview.setAdapter(commentAdapter);
+
+
+       textView_comment_nickname = (TextView) findViewById(R.id.textView_comment_nickname);
+        imageView_comment_profile = (ImageView) findViewById(R.id.imageView_comment_profile);
+        editText_comment_input = (EditText) findViewById(R.id.editText_comment_input);
+
+
+
+// 댓글 작성 완료 버튼을 눌렀을 때
+        imageButton_comment_save = findViewById(R.id.imageButton_comment_save);
         imageButton_comment_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
+                // 4. 사용자가 입력한 내용을 가져와서
+
+                // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
+                logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+                // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
+                Log.e("comment 클래스에서 댓글 추가 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
+
+                // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
+                // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
+                String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
+//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
+                Log.e("comment 클래스에서 댓글 추가", "여기 확인하기 : " + json);
+
+// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+                String comment_nickname = logined_user.getString("user_nickname", "");
+                Log.e("comment 클래스에서 댓글 추가 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + comment_nickname + logined_user.getString("nickname", ""));
+
+               // String comment_nickname =  textView_comment_nickname.getText().toString(); // logined_user라는 이름의 쉐어드에서 닉네임을 가져온다.
+                String comment_content = editText_comment_input.getText().toString();
+//                int comment_profile = imageView_comment_profile.getResources();
+
+
+                // 5. ArrayList에 추가하고
+
+                comment_Data comment_data = new comment_Data (comment_nickname , comment_content );
+                commentArrayList.add(comment_data);
+                //mArrayList.add(dict); //마지막 줄에 삽입됨
+
+
+                // 6. 어댑터에서 RecyclerView에 반영하도록 합니다.
+
+                //commentAdapter.notifyItemInserted(0);
+                commentAdapter.notifyDataSetChanged();
+
+                comment_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                Log.e("comment 클래스에서 (사용자가 입력한 댓글 저장)", "comment_Data :" + comment_data + "commentArrayList :" + commentArrayList);
+
             }
         });
+
+
+// 댓글 리사이클러뷰 아이템에 있는 다이얼로그 메뉴
+//        PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+//
+//        getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
+//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.action_edit:
+//                        // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
+//                        Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
+
+//                        Intent intent = new Intent(getApplicationContext(), edit_review.class);
+//                        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
+//
+////
+//                        intent.putExtra("URL", commentArrayList.get(position).textView_shoppingmall_url);
+//                        intent.putExtra("DETAIL", commentArrayList.get(position).textView_detailed_review_card);
+//                        intent.putExtra("HASHTAG", commentArrayList.get(position).textView_hashtag);
+//                        intent.putExtra("WRITER", commentArrayList.get(position).textView_review_writer);
+//                        intent.putExtra("NUMBER", commentArrayList.get(position).textView_reviewcard_number);
+//
+//
+//                        intent.putExtra("POSITION", position);
+//                        // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
+//
+//
+//                        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
+//                        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
+//
+//                        startActivityForResult(intent, 2001);
+//
+//                        Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
+//
+//                        //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
+
+//
+//                        break;
+//                    case R.id.action_delete:
+//
+////                        remove(position);
+//
+//                        commentAdapter.notifyDataSetChanged();  // 새로고침
+//                        Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
+//
+//                        comment_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+//                        Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+//
+//
+//                        return true;
+//
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//
+//        popup.show();//Popup Menu 보이기
+////            }
+////        });
+
 
 
 //하단바
@@ -69,7 +202,7 @@ public class comment extends AppCompatActivity {
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review:
-                        Intent write_intent = new Intent(comment.this, review_category.class);
+                        Intent write_intent = new Intent(comment.this, write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification:
@@ -90,56 +223,47 @@ public class comment extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
-    private void saveData() {
+    private void comment_saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(commentArrayListList);
+        String json = gson.toJson(commentArrayList);
         editor.putString("commentList", json);
         editor.apply();
     }
 
-    private void loadData() {
+
+    private void comment_loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("commentList", null);
-        Type type = new TypeToken<ArrayList<comment>>() {
+        Type type = new TypeToken<ArrayList<comment_Data>>() {
         }.getType();
-        commentArrayListList = gson.fromJson(json, type);
+        commentArrayList = gson.fromJson(json, type);
 
-        if (commentArrayListList == null) {
-            commentArrayListList = new ArrayList<>();
+        if (commentArrayList == null) {
+            commentArrayList = new ArrayList<>();
         }
     }
-//
-    private void buildRecyclerView() {
-        commentRecyclerview = findViewById(R.id.commentRecyclerview);
-        commentRecyclerview.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        commentAdapter = new commentAdapter(commentArrayListList);
 
-        commentRecyclerview.setLayoutManager(mLayoutManager);
-        commentRecyclerview.setAdapter(commentAdapter);
+    public void remove(int position) {
+        // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
+
+        try {
+            commentArrayList.remove(position);
+            commentAdapter.notifyItemRemoved(position);
+
+
+            // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
+
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
-//    private void setInsertButton() {
-//        Button buttonInsert = findViewById(R.id.button_insert);
-//        buttonInsert.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EditText line1 = findViewById(R.id.edittext_line_1);
-//                EditText line2 = findViewById(R.id.edittext_line_2);
-//                insertItem(line1.getText().toString(), line2.getText().toString());
-//            }
-//        });
-//    }
-
-//    private void insertItem(String line1, String line2) {
-//        commentArrayListList.add(new ExampleItem(line1, line2));
-//        mAdapter.notifyItemInserted(mExampleList.size());
-//    }
 //
-//}
+
+
 
     @Override
     protected void onRestart() {

@@ -397,32 +397,6 @@ public class feed extends AppCompatActivity {
 
             String textView_reviewcard_number = randomkeygenerator();
 
-
-//                String textView_nickname = logined_user.getString("nickname", "");
-//                Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
-//
-//                String textView_mysize = logined_user.getString("currentSize", "");
-//                Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
-
-
-//            try {
-//
-//                JSONArray jsonArray = new JSONArray(json);
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//
-//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                    Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject);
-//
-//                    String sizesize = jsonObject.getString("currentSize");
-//                    Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 평소 사이즈 가져오기 : " + jsonObject.getString("currentSize"));
-//
-//
-//                    String nickname = jsonObject.getString("nickname");
-//                    Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 닉네임 가져오기 : " + jsonObject.getString("nickname"));
-//
-//
-//                }
-
 //
                 // 닉네임
 

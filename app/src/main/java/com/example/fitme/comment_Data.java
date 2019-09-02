@@ -33,10 +33,10 @@ public class comment_Data {
     }
 
     // 생성자
-    public comment_Data(int imageView_comment_profile, String textView_comment_nickname, String textView_comment_content) {
-           this.imageView_comment_profile = imageView_comment_profile ;
+    public comment_Data( String textView_comment_nickname, String textView_comment_content) {
            this.textView_comment_nickname = textView_comment_nickname ;
            this.textView_comment_content = textView_comment_content ;
+//           this.imageView_comment_profile = imageView_comment_profile ;
         }
 
 
