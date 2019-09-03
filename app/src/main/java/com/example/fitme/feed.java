@@ -251,7 +251,7 @@ public class feed extends AppCompatActivity {
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
                     case R.id.action_mycloset:
-                        Intent mycloset_intent = new Intent(feed.this, my_closet.class);
+                        Intent mycloset_intent = new Intent(feed.this, mypage.class);
                         startActivity(mycloset_intent);//내 옷장 화면으로 액티비티 띄우기
                         break;
                 }

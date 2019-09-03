@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +47,7 @@ public class hashtag extends AppCompatActivity {
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(hashtag.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(hashtag.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }

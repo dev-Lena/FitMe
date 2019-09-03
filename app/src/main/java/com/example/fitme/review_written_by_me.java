@@ -45,7 +45,7 @@ public class review_written_by_me extends AppCompatActivity {
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(review_written_by_me.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(review_written_by_me.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }

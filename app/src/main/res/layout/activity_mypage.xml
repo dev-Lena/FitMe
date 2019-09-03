@@ -23,7 +23,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="내 옷장"
+            android:text="마이 페이지"
             android:textColor="@color/colorDeepPurple"
             android:textColorLink="@color/colorPurple"
             android:textSize="30sp"
@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_lightpurple"
-                android:text="내가 쓴 리뷰"
+                android:text="타임세일 알람"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp" />
 
@@ -233,28 +233,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/button_follow"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_lightpurple"
-                android:text="팔로우"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/button_following"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_lightpurple"
-                android:text="팔로잉"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
-        </TableRow>
+            android:layout_height="match_parent"/>
 
         <TableRow
             android:layout_width="match_parent"

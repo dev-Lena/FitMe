@@ -28,7 +28,7 @@ public class follow extends AppCompatActivity {
         imageButton_follow_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(follow.this, my_closet.class);
+                Intent intent = new Intent(follow.this, mypage.class);
                 startActivity(intent); //액티비티 이동
 
             }
@@ -58,7 +58,7 @@ public class follow extends AppCompatActivity {
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(follow.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(follow.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }

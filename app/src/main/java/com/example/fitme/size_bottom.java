@@ -107,7 +107,7 @@ public class size_bottom extends AppCompatActivity {
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(size_bottom.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(size_bottom.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }

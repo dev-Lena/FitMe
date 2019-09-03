@@ -31,7 +31,7 @@
         <activity android:name=".hashtag" ></activity>
         <activity android:name=".following" ></activity>
         <activity android:name=".edit_profile" ></activity>
-        <activity android:name=".my_closet" >
+        <activity android:name=".mypage" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -46,7 +46,7 @@
         <activity android:name=".searching" ></activity>
         <activity android:name=".searching_result" ></activity>
         <activity android:name=".sign_up" ></activity>
-        <activity android:name=".insight" ></activity>
+        <activity android:name=".timesale" ></activity>
         <activity android:name=".size_bottom" ></activity>
         <activity android:name=".size_dress" ></activity>
         <activity android:name=".comment" ></activity>

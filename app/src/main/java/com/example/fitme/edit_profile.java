@@ -35,7 +35,7 @@ public class edit_profile extends AppCompatActivity {
         button_edit_complete.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(edit_profile.this, my_closet.class);
+                Intent intent = new Intent(edit_profile.this, mypage.class);
                 startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
 
             }

@@ -154,7 +154,7 @@ public class bookmarked_review extends AppCompatActivity {
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(bookmarked_review.this,my_closet.class);
+                        Intent mycloset_intent = new Intent(bookmarked_review.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
