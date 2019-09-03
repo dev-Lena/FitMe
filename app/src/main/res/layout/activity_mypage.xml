@@ -211,7 +211,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button_review_written_by_me"
+                android:id="@+id/button_review_timesale"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

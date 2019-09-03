@@ -26,11 +26,11 @@ public class mypage extends AppCompatActivity {
         setContentView(R.layout.activity_mypage);
 
 // 내가 쓴 리뷰 -> 리뷰를 등록하는 버튼
-        button_review_written_by_me = findViewById(R.id.button_review_written_by_me);
+        button_review_written_by_me = findViewById(R.id.button_review_timesale);
         button_review_written_by_me.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(mypage.this, review_written_by_me.class);
+                Intent register_intent = new Intent(mypage.this, timesale.class);
                 startActivity(register_intent); //액티비티 이동
 
             }
@@ -49,27 +49,27 @@ public class mypage extends AppCompatActivity {
             }
         });
 
-        // 팔로우
-        button_follow  = findViewById(R.id.button_follow );
-        button_follow .setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent register_intent = new Intent(mypage.this, follow.class);
-                startActivity(register_intent); //액티비티 이동
-
-            }
-        });
-
-        // 팔로잉
-        button_following  = findViewById(R.id.button_following );
-        button_following .setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent register_intent = new Intent(mypage.this, following.class);
-                startActivity(register_intent); //액티비티 이동
-
-            }
-        });
+//        // 팔로우
+//        button_follow  = findViewById(R.id.button_follow );
+//        button_follow .setOnClickListener(new ImageView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent register_intent = new Intent(mypage.this, follow.class);
+//                startActivity(register_intent); //액티비티 이동
+//
+//            }
+//        });
+//
+//        // 팔로잉
+//        button_following  = findViewById(R.id.button_following );
+//        button_following .setOnClickListener(new ImageView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent register_intent = new Intent(mypage.this, following.class);
+//                startActivity(register_intent); //액티비티 이동
+//
+//            }
+//        });
 
         // 관심 해시태그
         button_edit_hashtag  = findViewById(R.id.button_edit_hashtag );
