@@ -111,13 +111,12 @@ public class login extends AppCompatActivity {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject);
 
-
-                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject.getString("email"));
                                 String emailemail = jsonObject.getString("email");
+                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject.getString("email"));
 
 
-                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject.getString("password"));
                                 String passwordpassword = jsonObject.getString("password");
+                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject.getString("password"));
 
 
                                 String sizesize = jsonObject.getString("currentSize");
@@ -147,9 +146,6 @@ public class login extends AppCompatActivity {
                                     logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
                                     user_editor = logined_user.edit();
 
-//
-
-
 
 // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
                                     user_editor.putString("user_email", emailemail);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
@@ -162,9 +158,9 @@ public class login extends AppCompatActivity {
 
 
                                     String user_jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 user_jsondata라고 이름붙임.
-                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + user_jsondata);
+                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "user_jsondata 확인 중 : " + user_jsondata);
                                     user_writeArrayList(user_jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + user_editor.putString("login_user", user_jsondata));
+                                    Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "user_writeArrayList(user_jsondata) 확인중 : " + user_editor.putString("login_user", user_jsondata));
 /////////////////////////////
 
 
@@ -281,7 +277,7 @@ public class login extends AppCompatActivity {
     }// onCreate 닫는 중괄호
 
     // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
-
+// 현재 로그인 하고 있는 사용자의 정보만 담는 sharedPreference
     public void user_writeArrayList(String user_jsondata) {
 
         if (userData != null) {
@@ -291,9 +287,6 @@ public class login extends AppCompatActivity {
             // JSONArray 생성
             logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
             user_editor = logined_user.edit();
-
-//
-
 
             user_editor.putString("login_user", user_jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
 

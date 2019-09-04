@@ -1,6 +1,8 @@
 package com.example.fitme;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class mypage extends AppCompatActivity {
 
+    private ArrayList<List> userData= new ArrayList<List>();
+
+    private SharedPreferences logined_user;
+    private SharedPreferences.Editor user_editor;
     Button button_logout, button_review_written_by_me, button_bookmarked_review  , button_follow , button_following , button_edit_hashtag , button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     @Override
@@ -100,7 +109,14 @@ public class mypage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Toast.makeText(getApplication(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                // 현재 로그인한 회원의 정보를 담는 쉐어드에서 데이터를 삭제해주기
+                logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
+                user_editor = logined_user.edit();
+                user_editor.clear();
+                user_editor.commit();
+                Log.e("mypage에서 로그아웃 하는 중","logined_user 확인 중 : " + logined_user);
 
+                // 그리고 로그인 화면으로 이동
                 Intent intent = new Intent(mypage.this, login.class);
                 startActivity(intent); //액티비티 이동
                 finish();
