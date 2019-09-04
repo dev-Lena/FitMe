@@ -37,7 +37,7 @@ public class sign_up extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
+//    boolean checkEmail;
     final int REQUEST_CODE = 200;
     private String selectedImagePath;
 
@@ -88,12 +88,25 @@ public class sign_up extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // 이메일 형식 검사 & 닉네임과 평소 사이즈가 빈칸인지 검사
+
+
                 // 사용자가 입력한 값이 있을 때(0보다 클 때)
-                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0 && editText_nickname.length()>0) {  // 길이가 0보다 클 때
-                    // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
-                    Intent intent = new Intent(sign_up.this, login.class);
-                    Toast.makeText(sign_up.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
-                    startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0 && editText_nickname.length()>0&& editText_mysize.length()>0) {
+                    // 길이가 0보다 클 때
+
+                    if (!checkEmail(editText_email.getText().toString())) {
+                        //알맞은 이메일 패턴을 입력해 주세요.
+                        Toast.makeText(sign_up.this, "이메일 형식에 맞게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //올바른 이메일 패턴입니다.
+
+                        // 회원가입 완료 버튼을 누르면 인텐트로 화면전환 하고
+                        Intent intent = new Intent(sign_up.this, login.class);
+                        Toast.makeText(sign_up.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
+                        startActivity(intent); //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+                    }
+
 
 
 // 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일)
@@ -153,20 +166,20 @@ public class sign_up extends AppCompatActivity {
             }
         });
 
-        editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    Pattern p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]");
-                    Matcher m = p.matcher((editText_email).getText().toString());
-
-                    if ( !m.matches()){
-                        Toast.makeText(sign_up.this, "Email 형식으로 입력해주세요", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
+//        editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+//
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(hasFocus) {
+//                    Pattern p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]");
+//                    Matcher m = p.matcher((editText_email).getText().toString());
+//
+//                    if ( !m.matches()){
+//                        Toast.makeText(sign_up.this, "Email 형식으로 입력해주세요", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//        });
 
 //
 
@@ -217,7 +230,20 @@ public class sign_up extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
+    /**
+     * 이메일 포맷 체크
+     * @param email
+     * @return
+     */
+    public static boolean checkEmail(String email){
 
+        String regex = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+        boolean isNormal = m.matches();
+        return isNormal;
+
+    }
 
     // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
 

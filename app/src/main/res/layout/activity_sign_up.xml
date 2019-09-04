@@ -90,10 +90,11 @@
             android:id="@+id/editText_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="비밀번호를 입력해주세요"
+            android:hint="비밀번호를 입력해주세요 (5~10글자)"
             android:imeOptions="actionSend"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:maxLength="10"
             android:singleLine="true"
             android:textSize="18sp" />
 
@@ -112,7 +113,8 @@
             android:layout_marginBottom="5dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:hint="비밀번호 확인"
+            android:maxLength="10"
+            android:hint="비밀번호를 확인해주세요(5~10글자)"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/textView7"
@@ -128,7 +130,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="닉네임을 입력해주세요"
+            android:maxLength="5"
+            android:hint="닉네임을 입력해주세요(최대 5글자)"
             android:textSize="18sp" />
 
         <TextView
@@ -136,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="평소 사이즈"
+            android:text="*평소 사이즈"
             android:textColor="@color/colorDarkPurple"
             android:textSize="18sp" />
 
@@ -145,7 +148,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="사이즈를 입력해주세요(L~XL, 66사이즈 등)"
+            android:maxLength="8"
+            android:hint="사이즈를 입력해주세요(최대 8글자)"
             android:textSize="18sp" />
 
 

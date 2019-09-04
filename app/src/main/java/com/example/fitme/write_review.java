@@ -1,10 +1,12 @@
 package com.example.fitme;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -78,6 +80,7 @@ public class write_review extends AppCompatActivity {
         imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
                 String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
@@ -102,6 +105,8 @@ public class write_review extends AppCompatActivity {
 
 
 // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+
+
                 String textView_email = logined_user.getString("user_email", "");
                 Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
 
@@ -121,7 +126,12 @@ public class write_review extends AppCompatActivity {
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
+                new ContentDownload().execute("");
+                Log.e("write_review 클래스에서", "AsyncTask를 이용한 로딩화면 넣는 중 : " );
+
                 finish();
+//ContentList & File Download
+
             }
         });
 
@@ -201,20 +211,82 @@ public class write_review extends AppCompatActivity {
             }
         });
 
+        // AsyncTask를 이용한 로딩 화면
+//        new ContentDownload().execute("ContentList & File Download");
+
 
     }// onCreate 닫는 중괄호
 
-    private static final String ALPHA_NUMERIC_STRING = "0123456789";
 
-    public static String randomkeygenerator() {
-        int count = 8;
-        StringBuilder builder = new StringBuilder();
-        while (count-- != 0) {
-            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+
+
+    // AsyncTask로 로딩 화면 만드는 메소드
+    class ContentDownload extends AsyncTask<String, Void, String> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(write_review.this);
+
+        @Override
+
+        protected void onPreExecute() {  // AsyncTask의 작업이 진행되는 동안 ProgressDialog를 '보겠다'는 선언
+
+
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("리뷰 업로드 중입니다");
+            asyncDialog.show();
+
+            super.onPreExecute();
         }
-        return builder.toString();
+
+        @Override
+
+        protected String doInBackground(String... strings) {  // doInBackground동안에는 계속해서 progressdialog가 올라와 있는 상태
+            // for문이 0.5초마다 돌아가면서 progress의 값이 계속 설정되고 bar가 늘어나는것을 볼 수 있습니다.
+
+
+            for (int i = 0; i < 5; i++) {
+
+                asyncDialog.setProgress(i * 30);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            String abc = "Parsing & Download OK!!!";
+
+            return abc;
+        }
+
+        @Override
+
+        protected void onPostExecute(String s) {  // AsyncTask의 작업이 종료된 후 onPostExcute에 진입 후 바로 Dialog를 닫아줌
+
+            super.onPostExecute(s);
+
+//            asyncDialog.dismiss();
+//
+//            Toast.makeText(write_review.this, "리뷰가 업로드 되었습니다", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
+    // AsyncTask로 로딩 화면 만드는 메소드 여기까지
+
+
+// 리뷰 작성시 각 리뷰마다 부여되는 고유 번호 생성하는 메소드
+//    private static final String ALPHA_NUMERIC_STRING = "0123456789";
+//
+//    public static String randomkeygenerator() {
+//        int count = 8;
+//        StringBuilder builder = new StringBuilder();
+//        while (count-- != 0) {
+//            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+//            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+//        }
+//        return builder.toString();
+//    }
 
 
 
@@ -308,13 +380,20 @@ public class write_review extends AppCompatActivity {
         super.onStop();
         Log.e("write_review","onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
+        ProgressDialog asyncDialog = new ProgressDialog(write_review.this);
+        if (asyncDialog != null) {
+            asyncDialog.dismiss();
+            asyncDialog = null;
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.e("write_review","onDestroy");
+
         //액티비티가 종료되려고 합니다.
+
     }
 
 }

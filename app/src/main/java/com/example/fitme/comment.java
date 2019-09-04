@@ -124,7 +124,7 @@ public class comment extends AppCompatActivity {
 // 댓글 리사이클러뷰 아이템에 있는 다이얼로그 메뉴
 //        PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 //
-//        getMenuInflater().inflate(R.menu.reviewcard_menu, popup.getMenu());
+//        getMenuInflater().inflate(R.menu.myreview_menu, popup.getMenu());
 //        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 //            @Override
 //            public boolean onMenuItemClick(MenuItem item) {

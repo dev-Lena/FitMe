@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fitme">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,56 +11,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".login">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-        <activity android:name=".login" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".feed" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".feed">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity android:name=".bookmarked_review" ></activity>
-        <activity android:name=".follow" ></activity>
-        <activity android:name=".hashtag" ></activity>
-        <activity android:name=".following" ></activity>
-        <activity android:name=".edit_profile" ></activity>
-        <activity android:name=".mypage" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".notification" ></activity>
-        <activity android:name=".edit_review" ></activity>
-        <activity android:name=".review_category" ></activity>
-        <activity android:name=".write_review" ></activity>
-        <activity android:name=".review_written_by_me" ></activity>
-        <activity android:name=".searching" ></activity>
-        <activity android:name=".searching_result" ></activity>
-        <activity android:name=".sign_up" ></activity>
-        <activity android:name=".timesale" ></activity>
-        <activity android:name=".size_bottom" ></activity>
-        <activity android:name=".size_dress" ></activity>
-        <activity android:name=".comment" ></activity>
-        <activity android:name=".first_main" >
+        <activity android:name=".bookmarked_review" />
+        <activity android:name=".follow" />
+        <activity android:name=".hashtag" />
+        <activity android:name=".following" />
+        <activity android:name=".edit_profile" />
+        <activity android:name=".mypage">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".notification" />
+        <activity android:name=".edit_review" />
+        <activity android:name=".review_category" />
+        <activity android:name=".write_review" />
+        <activity android:name=".review_written_by_me" />
+        <activity android:name=".searching" />
+        <activity android:name=".searching_result" />
+        <activity android:name=".sign_up" />
+        <activity android:name=".timesale" />
+        <activity android:name=".size_bottom" />
+        <activity android:name=".size_dress" />
+        <activity android:name=".comment" />
+        <activity android:name=".first_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
     </application>
 
 </manifest>
