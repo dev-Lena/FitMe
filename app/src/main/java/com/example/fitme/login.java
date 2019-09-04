@@ -55,6 +55,11 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // 로그인 화면으로 넘어 오기 전에 로딩 스플래시 화면
+//        Intent intent = new Intent(this, first_main.class);
+//        startActivity(intent);
+
+
 // SharedPreference 로 회원정보를 jsonObject에 저장해서 jsonArrayList 형태로 SharedPreference에 저장
 
 //  SharedPreference로 로그인 정보 기억하기

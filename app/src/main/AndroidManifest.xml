@@ -13,11 +13,11 @@
 
 
         <activity android:name=".login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".feed" >
             <!--<intent-filter>-->
@@ -50,7 +50,14 @@
         <activity android:name=".size_bottom" ></activity>
         <activity android:name=".size_dress" ></activity>
         <activity android:name=".comment" ></activity>
-        <activity android:name=".first_main" ></activity>
+        <activity android:name=".first_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
 
     </application>

@@ -2,27 +2,43 @@ package com.example.fitme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class first_main extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("hashtag","onCreate");
+        Log.e("first_main","자동로그인 확인중입니다");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_main);
 
-        Toast.makeText(getApplication(),"자동 로그인 정보 확인 중입니다",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplication(),"자동 로그인 확인 중입니다",Toast.LENGTH_SHORT).show();
 
-    } //onCreate 메소드 닫는 중괄호
+
+        startLoading();
+
+
+
+
+    }// onCreate 닫는 중괄호
+
+    private void startLoading() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(first_main.this, login.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 4000);
+        Log.e("first_main","4초 delay");
+
+    }
 
     @Override
     protected void onRestart() {
