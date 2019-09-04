@@ -99,6 +99,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:ems="10"
+                    android:singleLine="true"
                     android:hint="쇼핑몰 url을 입력해주세요"
                     android:inputType="textUri"
                     android:textSize="18sp" />
@@ -129,6 +130,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:ems="10"
+                android:singleLine="true"
                 android:hint="#해시태그 를 입력해주세요"
                 android:textSize="18sp" />
 

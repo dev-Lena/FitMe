@@ -26,7 +26,7 @@ public class mypage extends AppCompatActivity {
 
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
-    Button button_logout, button_review_written_by_me, button_bookmarked_review  , button_follow , button_following , button_edit_hashtag , button_edit_profile ;
+    Button button_review_timesale, button_logout, button_myreview, button_bookmarked_review  , button_follow , button_following , button_edit_hashtag , button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,9 @@ public class mypage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-// 내가 쓴 리뷰 -> 리뷰를 등록하는 버튼
-        button_review_written_by_me = findViewById(R.id.button_review_timesale);
-        button_review_written_by_me.setOnClickListener(new ImageView.OnClickListener() {
+        // 타임 세일 알람 화면으로 이동하는 버튼
+        button_review_timesale = findViewById(R.id.button_review_timesale);
+        button_review_timesale.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent register_intent = new Intent(mypage.this, timesale.class);
@@ -45,6 +45,17 @@ public class mypage extends AppCompatActivity {
             }
         });
 
+// 내가 쓴 리뷰로 이동하는 버튼
+        button_myreview = findViewById(R.id.button_myreview);
+        button_myreview.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(mypage.this, myreview.class);
+                startActivity(register_intent); //액티비티 이동
+
+            }
+        });
+//button_myreview
 
 
 // 북마크한 리뷰
@@ -151,7 +162,7 @@ public class mypage extends AppCompatActivity {
                         Intent insight_intent = new Intent(mypage.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_mycloset :
+                    case R.id.action_mypage :
                         Intent mycloset_intent = new Intent(mypage.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;

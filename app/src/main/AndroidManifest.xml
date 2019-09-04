@@ -47,7 +47,7 @@
         <activity android:name=".edit_review" />
         <activity android:name=".review_category" />
         <activity android:name=".write_review" />
-        <activity android:name=".review_written_by_me" />
+        <activity android:name=".myreview" />
         <activity android:name=".searching" />
         <activity android:name=".searching_result" />
         <activity android:name=".sign_up" />

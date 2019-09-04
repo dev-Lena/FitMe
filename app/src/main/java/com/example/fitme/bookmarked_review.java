@@ -1,5 +1,6 @@
 package com.example.fitme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,9 +22,14 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class bookmarked_review extends AppCompatActivity {
 
+    private ArrayList<List> userData = new ArrayList<List>();
+
+    private SharedPreferences logined_user;
+    private SharedPreferences.Editor user_editor;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
@@ -153,7 +159,7 @@ public class bookmarked_review extends AppCompatActivity {
                         Intent insight_intent = new Intent(bookmarked_review.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_mycloset :
+                    case R.id.action_mypage :
                         Intent mycloset_intent = new Intent(bookmarked_review.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
@@ -199,28 +205,79 @@ public class bookmarked_review extends AppCompatActivity {
     }
 
     private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        Log.e("feed 클래스","Gson 객체 호출 : "+gson);
+//        String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+//        Log.e("feed 클래스","Gson 객체 호출 : "+ json);
+//        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
+//        Log.e("feed 클래스","Gson 객체 호출 : "+ editor.putString("feed_recyclerview", json));
+//        editor.apply();
+//        Log.e("feed 클래스","apply 성공 ");
+
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
+        SharedPreferences.Editor bookmarkShared_editor = bookmarkShared.edit();
         Gson gson = new Gson();
-        Log.e("feed 클래스","Gson 객체 호출 : "+gson);
+        Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
+
         String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
-        Log.e("feed 클래스","Gson 객체 호출 : "+ json);
-        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
-        Log.e("feed 클래스","Gson 객체 호출 : "+ editor.putString("feed_recyclerview", json));
-        editor.apply();
-        Log.e("feed 클래스","apply 성공 ");
+        // 근데 여기서 이 arrayList에 넣어주면 사용자 이메일에 넣어줬을 때 .. 사용자 마다 다른 arrayList를 갖게 되는건가?
+        // 이 메소드 안에서 arrayList를 객체 선언해주면 매번 초기화 되서 사용자마다 다른 arrayList를 갖을 수 있는건가?
+
+        Log.e("feed 클래스", "Gson 객체 호출 (toJson(bookmarked_arrayList) : " + json);
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+
+        // 여기 원래 feed_email이 키값이었음 -> 근데 그렇게 하면 그 사용자의 모든 정보가 bookmarked_arrayList로 덮어씌워짐
+        //sharedPreference 쉐어드-> 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에 bookmarked_arrayList를 String으로 변환한 값을 넣어줌.
+        bookmarkShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("feed 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email +","+ json);
+
+        bookmarkShared_editor.apply();
+        Log.e("feed 클래스", "editor. apply 성공 ");
+
 
     }
     // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
     private void bookmarked_loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+////        String feed_email = logined_user.getString("user_email", "");
+////sharedPreference라는 이름의 쉐어드에서 현재 로그인한 회원의 이메일을 키값으로 갖는 데이터를 String변수 json에 담아주고
+//        String json = sharedPreferences.getString("bookmarkList", null);
+//        Log.e("feed 클래스", "fromJson :  현재 로그인한 회원의 이메일을 키값으로 갖는 arryaList는 " + json);
+//
+//        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+//        }.getType();
+//        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+//        bookmarked_arrayList = gson.fromJson(json, type);
+//        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
+//
+//        if (bookmarked_arrayList == null) {
+//            bookmarked_arrayList = new ArrayList<>();
+//        }
+
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 (bookmarked_loadData)", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = bookmarkShared.getString(feed_email, null);
         Type type = new TypeToken<ArrayList<feed_MainData>>() {
         }.getType();
-        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        Log.e("feed 클래스 (bookmarked_loadData)", "typeToken객체 생성 :" + type);
         bookmarked_arrayList = gson.fromJson(json, type);
-        Log.e("feed 클래스", "fromJson : arryaList는 " + bookmarked_arrayList);
+        Log.e("feed 클래스 (bookmarked_loadData)", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
+
 
         if (bookmarked_arrayList == null) {
             bookmarked_arrayList = new ArrayList<>();

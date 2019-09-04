@@ -130,6 +130,9 @@ public class login extends AppCompatActivity {
                                 String profileimageprofileimage = jsonObject.getString("profile_img");
                                 Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 프로필 이미지 가져오기 : " + jsonObject.getString("profile_img"));
 
+//                                String bookmark = jsonObject.getString("bookmarkList");
+//                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) bookmarkList 가져오기 : " + jsonObject.getString("profile_img"));
+
 
 
                                 // 저장된 회원가입 정보와 로그인 입력한 정보를 비교하는 중
@@ -153,6 +156,9 @@ public class login extends AppCompatActivity {
                                     user_editor.putString("user_size", sizesize);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
                                     user_editor.putString("user_nickname", nicknamenickname);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
                                     user_editor.putString("user_profileimage", profileimageprofileimage);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
+//                                    user_editor.putString("bookmarkList", bookmark);  // 회원가입시 입력한 북마크 리스트가 각 arrayList의 key 값이 됨.
+
+
 
                                     user_editor.commit();   //제출
 

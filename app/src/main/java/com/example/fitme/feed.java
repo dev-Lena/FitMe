@@ -36,6 +36,9 @@ public class feed extends AppCompatActivity {
 
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
+
+    private SharedPreferences bookmarkShared;
+    private SharedPreferences.Editor bookmarkShared_editor;
     //
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
     //    ImageButton imageButton_review_register;
@@ -261,7 +264,7 @@ public class feed extends AppCompatActivity {
                         Intent notification_intent = new Intent(feed.this, notification.class);
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
-                    case R.id.action_mycloset:
+                    case R.id.action_mypage:
                         Intent mycloset_intent = new Intent(feed.this, mypage.class);
                         startActivity(mycloset_intent);//내 옷장 화면으로 액티비티 띄우기
                         break;
@@ -300,7 +303,7 @@ public class feed extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
-        String json = gson.toJson(arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+        String json = gson.toJson(arrayList);  // arrayList를 Json으로 바꿈 // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
         Log.e("feed 클래스", "Gson 객체 호출 : " + json);
         editor.putString("feed_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
         Log.e("feed 클래스", "Gson 객체 호출 : " + editor.putString("feed_recyclerview", json));
@@ -324,14 +327,22 @@ public class feed extends AppCompatActivity {
     }
 
     private void bookmarked_loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("bookmarked_recyclerview", null);
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 (bookmarked_loadData)", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = bookmarkShared.getString(feed_email, null);
         Type type = new TypeToken<ArrayList<feed_MainData>>() {
         }.getType();
-        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        Log.e("feed 클래스 (bookmarked_loadData)", "typeToken객체 생성 :" + type);
         bookmarked_arrayList = gson.fromJson(json, type);
-        Log.e("feed 클래스", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
+        Log.e("feed 클래스 (bookmarked_loadData)", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
+
 
         if (bookmarked_arrayList == null) {
             bookmarked_arrayList = new ArrayList<>();
@@ -342,21 +353,44 @@ public class feed extends AppCompatActivity {
 
     private void bookmark_saveData() {
 
-
+//        bookmarked_arrayList = new ArrayList<>();
         // sharedPref
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
+        SharedPreferences.Editor bookmarkShared_editor = bookmarkShared.edit();
         Gson gson = new Gson();
         Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
 
         String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
-        Log.e("feed 클래스", "Gson 객체 호출 (toJson) : " + json);
+        // 근데 여기서 이 arrayList에 넣어주면 사용자 이메일에 넣어줬을 때 .. 사용자 마다 다른 arrayList를 갖게 되는건가?
+        // 이 메소드 안에서 arrayList를 객체 선언해주면 매번 초기화 되서 사용자마다 다른 arrayList를 갖을 수 있는건가?
 
-        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
-        Log.e("feed 클래스", "Gson 객체 호출 (키 : bookmarked_recyclerview) : " + editor.putString("bookmarked_recyclerview", json));
+        Log.e("feed 클래스", "Gson 객체 호출 (toJson(bookmarked_arrayList) : " + json);
 
-        editor.apply();
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+
+        // 여기 원래 feed_email이 키값이었음 -> 근데 그렇게 하면 그 사용자의 모든 정보가 bookmarked_arrayList로 덮어씌워짐
+        //sharedPreference 쉐어드-> 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에 bookmarked_arrayList를 String으로 변환한 값을 넣어줌.
+        bookmarkShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("feed 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email +","+ json);
+
+        bookmarkShared_editor.apply();
         Log.e("feed 클래스", "editor. apply 성공 ");
+
+
+
+        // 그럼 현재 로그인하고 있는 유저의 데이터를 담고 있는 쉐어드에도 넣어줘야하나?
+//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
+//        user_editor = logined_user.edit();
+//
+//
+//// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+//        user_editor.putString("user_bookmarkList", json);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
+
+
+
     }
 
 

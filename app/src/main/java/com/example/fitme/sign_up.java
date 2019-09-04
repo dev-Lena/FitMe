@@ -33,6 +33,8 @@ import java.util.regex.Pattern;
 
 public class sign_up extends AppCompatActivity {
 
+    ArrayList<feed_MainData>  bookmarked_arrayList;
+
     private ArrayList<List> data = new ArrayList<List>();
 
     private SharedPreferences sharedPreferences;
@@ -137,12 +139,15 @@ public class sign_up extends AppCompatActivity {
                         jsonObject.put("currentSize", currentSize);
                         jsonObject.put("nickname", nickname);
                         jsonObject.put("profile_img", profile_img);
+//                        jsonObject.put("bookmarkList", bookmarked_arrayList);
+//                        jsonObject.put("bookmarkList", myreview_arrayList); 내가쓴 리뷰 리스트
 
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 email을 넣었습니다 : " + email);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 password을 넣었습니다 : " + password);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 currentSize을 넣었습니다 : " + currentSize);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 nickname을 넣었습니다 : " + nickname);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 profile_img을 넣었습니다 : " + profile_img);
+                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 bookmarked_arrayList을 넣었습니다 : " + bookmarked_arrayList);
 
 
                         jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put

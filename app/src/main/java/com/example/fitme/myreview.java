@@ -10,15 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class review_written_by_me extends AppCompatActivity {
+public class myreview extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("review_written_by_me","onCreate");
+        Log.e("myreview","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_written_by_me);
+        setContentView(R.layout.activity_myreview);
 
 //하단바
         bottomNavigationView = findViewById (R.id.bottomNavi);
@@ -28,24 +28,24 @@ public class review_written_by_me extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
-                        Intent home_intent = new Intent(review_written_by_me.this,feed.class);
+                        Intent home_intent = new Intent(myreview.this,feed.class);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
-                        Intent search_intent = new Intent(review_written_by_me.this,searching.class);
+                        Intent search_intent = new Intent(myreview.this,searching.class);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_write_review :
-                        Intent write_intent = new Intent(review_written_by_me.this,review_category.class);
+                        Intent write_intent = new Intent(myreview.this,write_review.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(review_written_by_me.this,notification.class);
+                        Intent insight_intent = new Intent(myreview.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_mycloset :
-                        Intent mycloset_intent = new Intent(review_written_by_me.this, mypage.class);
+                    case R.id.action_mypage :
+                        Intent mycloset_intent = new Intent(myreview.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
@@ -61,42 +61,42 @@ public class review_written_by_me extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("review_written_by_me","onRestart");
+        Log.e("myreview","onRestart");
         //액티비티가 중단되었다가 다시 시작
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("review_written_by_me","onStart");
+        Log.e("myreview","onStart");
         //액티비티가 화면에 나타나기 시작
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("review_written_by_me","onResume");
+        Log.e("myreview","onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("review_written_by_me","onPause");
+        Log.e("myreview","onPause");
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("review_written_by_me","onStop");
+        Log.e("myreview","onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("review_written_by_me","onDestroy");
+        Log.e("myreview","onDestroy");
         //액티비티가 종료되려고 합니다.
     }
 

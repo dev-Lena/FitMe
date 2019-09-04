@@ -57,7 +57,7 @@ public class follow extends AppCompatActivity {
                         Intent insight_intent = new Intent(follow.this,notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_mycloset :
+                    case R.id.action_mypage :
                         Intent mycloset_intent = new Intent(follow.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;

@@ -250,14 +250,26 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/button_edit_profile"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_lightpurple"
-                android:text="프로필 수정"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
+            android:id="@+id/button_edit_profile"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_lightpurple"
+            android:text="프로필 수정"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+        </TableRow>
+        <TableRow>
+        <Button
+            android:id="@+id/button_myreview"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_lightpurple"
+            android:text="내가 쓴 리뷰"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
         </TableRow>
 
     </TableLayout>

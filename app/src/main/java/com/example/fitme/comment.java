@@ -51,7 +51,7 @@ public class comment extends AppCompatActivity {
         commentArrayList = new ArrayList<>();
         comment_loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
 
-        Log.e("review_written_by_me", "onCreate");
+        Log.e("myreview", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
@@ -209,7 +209,7 @@ public class comment extends AppCompatActivity {
                         Intent insight_intent = new Intent(comment.this, notification.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_mycloset:
+                    case R.id.action_mypage:
                         Intent mycloset_intent = new Intent(comment.this, mypage.class);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
@@ -268,42 +268,42 @@ public class comment extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("review_written_by_me","onRestart");
+        Log.e("myreview","onRestart");
         //액티비티가 중단되었다가 다시 시작
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("review_written_by_me","onStart");
+        Log.e("myreview","onStart");
         //액티비티가 화면에 나타나기 시작
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("review_written_by_me","onResume");
+        Log.e("myreview","onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("review_written_by_me","onPause");
+        Log.e("myreview","onPause");
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("review_written_by_me","onStop");
+        Log.e("myreview","onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("review_written_by_me","onDestroy");
+        Log.e("myreview","onDestroy");
         //액티비티가 종료되려고 합니다.
     }
 

@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:ems="10"
+            android:singleLine="true"
             android:hint="이메일을 입력해주세요"
             android:inputType="textEmailAddress"
             android:textSize="18sp" />
@@ -131,6 +132,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:maxLength="5"
+            android:singleLine="true"
             android:hint="닉네임을 입력해주세요(최대 5글자)"
             android:textSize="18sp" />
 
@@ -149,6 +151,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:maxLength="8"
+            android:singleLine="true"
             android:hint="사이즈를 입력해주세요(최대 8글자)"
             android:textSize="18sp" />
 
