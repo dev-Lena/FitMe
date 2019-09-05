@@ -23,9 +23,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import static com.example.fitme.feed.randomkeygenerator;
 
 public class write_review extends AppCompatActivity {
 
@@ -36,10 +44,10 @@ public class write_review extends AppCompatActivity {
     private SharedPreferences.Editor user_editor;
     //
 
-    private ArrayList<feed_MainData> arrayList;
+    private ArrayList<feed_MainData> arrayList, myreview_arrayList;
 
-
-    TextView word_review_date, word_textView_review_writer, word_textView_reviewcard_number,textView_review_writer_writer,textView_reviewcard_number, textView_reviewcard_number_number;
+//,textView_reviewcard_number
+    TextView word_review_date, word_textView_review_writer, word_textView_reviewcard_number,textView_review_writer_writer, textView_reviewcard_number_number;
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
     ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
@@ -101,6 +109,55 @@ public class write_review extends AppCompatActivity {
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
                 Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
+//  내가 쓴 리뷰 리사이클러뷰 myreview_arrayList에 추가하기
+
+//                String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
+//                Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
+//
+//                String textView_detailed_review_card = data.getStringExtra("상세리뷰");
+//                Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
+//
+//                String textView_hashtag = data.getStringExtra("해시태그");
+//                Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
+
+                String textView_nickname = logined_user.getString("user_nickname", "");
+                Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
+
+                String textView_mysize = logined_user.getString("user_size", "");
+                Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
+                String date = dateFormat.format(new Date());
+                String review_date = date;
+                Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+
+                float float_ratingBar = result.getFloatExtra("만족도", 0);
+                Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+
+                String textView_review_writer = result.getStringExtra("작성자");
+                Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+
+
+                myreview_arrayList = new ArrayList<>();
+                Log.e("write_review 클래스에서 리뷰 등록 버튼을 눌렀을 때", "myreview_arrayList : " + myreview_arrayList);
+
+                // myreview_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
+                myreview_loadData();
+
+                String textView_reviewcard_number = randomkeygenerator();
+
+                // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) myreview_arrayList에 추가하라
+                feed_MainData feed_MainData = new feed_MainData (textView_shoppingmall_url, textView_detailed_review_card,
+                        float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
+                        textView_nickname, textView_mysize);
+                myreview_arrayList.add(feed_MainData);
+//                myreview_arrayList.add(feed_MainData); // ...? 여기서 내가 쓴 리뷰를 넣어주면되는데 feed_MainData
+
+                // 업데이트 한 myreview_arrayList를 myreviewShared에 저장하라.
+                myreview_saveData();
+
+                // Toast.makeText(getApplication(), "북마크한 리뷰에 추가되었습니다", Toast.LENGTH_SHORT).show();
+
+
 
 
 
@@ -110,7 +167,7 @@ public class write_review extends AppCompatActivity {
                 String textView_email = logined_user.getString("user_email", "");
                 Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
 
-                String  textView_review_writer = textView_email;
+//                String  textView_review_writer = textView_email;
 
 
 //                String textView_reviewcard_number = textView_reviewcard_number_number.getText().toString();
@@ -216,9 +273,57 @@ public class write_review extends AppCompatActivity {
 
 
     }// onCreate 닫는 중괄호
+    private void myreview_saveData() {
+
+//
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        SharedPreferences.Editor myreviewShared_editor = myreviewShared.edit();
+        Gson gson = new Gson();
+        Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
+
+        String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+
+        Log.e("myreview 클래스", "Gson 객체 호출 (toJson(myreview_arrayList) : " + json);
 
 
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
 
+        myreviewShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("myreview 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
+
+        myreviewShared_editor.apply();
+        Log.e("myreview 클래스", "editor. apply 성공 ");
+
+
+    }
+
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void myreview_loadData() {
+
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 ", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = myreviewShared.getString(feed_email, null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+
+        Log.e("feed 클래스 (myreview_loadData)", "typeToken객체 생성 :" + type);
+
+        myreview_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
+
+
+        if (myreview_arrayList == null) {
+            myreview_arrayList = new ArrayList<>();
+        }
+    } // myreview_loadData 메소드 닫는 중괄호
 
     // AsyncTask로 로딩 화면 만드는 메소드
     class ContentDownload extends AsyncTask<String, Void, String> {
