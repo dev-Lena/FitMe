@@ -94,7 +94,7 @@ public class sign_up extends AppCompatActivity {
 
 
                 // 사용자가 입력한 값이 있을 때(0보다 클 때)
-                if (editText_email.length() > 0 && editText_password.length() > 0 && editText_password_confirm.length() > 0 && editText_nickname.length()>0&& editText_mysize.length()>0) {
+                if (editText_email.length() > 0 && editText_password.length() > 4 && editText_password_confirm.length() > 4 && editText_nickname.length()>0&& editText_mysize.length()>0) {
                     // 길이가 0보다 클 때
 
                     if (!checkEmail(editText_email.getText().toString())) {

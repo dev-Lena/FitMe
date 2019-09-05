@@ -3,6 +3,7 @@
     package="com.example.fitme">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -51,7 +52,9 @@
         <activity android:name=".searching" />
         <activity android:name=".searching_result" />
         <activity android:name=".sign_up" />
-        <activity android:name=".timesale" />
+        <activity android:name=".timesale" >
+
+        </activity>
         <activity android:name=".size_bottom" />
         <activity android:name=".size_dress" />
         <activity android:name=".comment" />
@@ -62,6 +65,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AlarmActivity"/>
+        <receiver android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name=".AlarmService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

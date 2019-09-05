@@ -44,7 +44,7 @@ public class first_main extends AppCompatActivity {
                 autoLogin();  // 자동 로그인 검사
                 finish();
             }
-        }, 4000);
+        }, 3000);
         Log.e("first_main","4초 delay");
 
     }

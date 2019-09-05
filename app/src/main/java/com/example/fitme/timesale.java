@@ -1,12 +1,19 @@
 package com.example.fitme;
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,112 +21,65 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static java.lang.String.format;
+
 
 public class timesale extends AppCompatActivity {
 
-    // 현재 시간에 필요한 핸들러
-    TextView clockTextView;
-    private static Handler mHandler;
-    TextView textView_timer;
+    // 알람 시간
+    private static Calendar calendar;
+    private static TimePicker timePicker;
+
     //타이머에 필요한 핸들러
-    Button button_start, button_pause, button_reset;
-    private static final long START_TIME_IN_MILLIS = 600000;
-    //    TextView textView_timer;
+    Button button_reset, button_Alarm;
+//    private final long START_TIME_IN_MILLIS = 60000;  // 이게 지금 타이머에 세팅되어있는 시간이니까 START_TIME_IN_MILLIS를 사용자가 설정한 알람 시간으로 바꿔야 함 // 원래 60000이었던 것 같음
+    private static Handler mHandler;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    //    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;  // 이게 지금 타이머에 세팅되어있는 시간이니까 START_TIME_IN_MILLIS를 사용자가 설정한 알람 시간으로 바꿔야 함
+    private long mTimeLeftInMillis;
+    // 뷰 객체
+    TextView textView_leftTime;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("timesale 클래스에서", "onCreate -> 타이머 하는 중");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timesale);
-        // 현재 시간에 필요한 핸들러
-        mHandler = new Handler();
 
-        // 현재 시간에 필요한 핸들러
-        // 핸들러로 전달할 runnable 객체. 수신 스레드 실행.
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                Calendar cal = Calendar.getInstance();
+        this.calendar = Calendar.getInstance();
+        // 현재 날짜 표시
+        displayDate();
 
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                String strTime = sdf.format(cal.getTime());
+        this.timePicker = findViewById(R.id.timePicker);
 
-                clockTextView = findViewById(R.id.clockTextView);
-                clockTextView.setText(strTime);  // 위에서 SimpleDateFormat으로 얻어온 현재 시간을 담은 strTime 변수로 clockTextView를 set함.
-            }
-        };
+        mHandler = new Handler(); // 알람 남은 시간 Handler
 
-        // 현재 시간에 필요한 핸들러
-        // 새로운 스레드 실행 코드. 1초 단위로 현재 시각 표시 요청.
-        class NewRunnable implements Runnable {
-            @Override
-            public void run() {
-                while (true) {
-
-                    try {
-                        Thread.sleep(1000);  // 1초마다 시간이 바뀌도록
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    mHandler.post(runnable);
-                }
-            }
-        }
-
-        // 현재 시간에 필요한 핸들러
-        NewRunnable nr = new NewRunnable();  // 1초마다 시간 바뀌도록 한 runnable 객체 생성
-        Thread t = new Thread(nr);  //  runnable을 참고하여 돌아가는 쓰레드 객체 생성
-        t.start();  // 시작
-
+        // 날짜와 시간을 받은 알람
+        findViewById(R.id.button_Calendar).setOnClickListener(mClickListener);
+        findViewById(R.id.button_Alarm).setOnClickListener(mClickListener);
 
         // 타이머 핸들러
 
-        textView_timer = (TextView) findViewById(R.id.textView_timer);
-        button_start = (Button) findViewById(R.id.button_start);
-        button_pause = (Button) findViewById(R.id.button_pause);
+        textView_leftTime = (TextView) findViewById(R.id.textView_leftTime);
         button_reset = (Button) findViewById(R.id.button_reset);
-//        handler = new Handler();
 
-        // 타이머 시작 버튼
-        button_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (mTimerRunning) {
-                    pauseTimer();
-                } else {
-                    startTimer();
-                }
-
-            }
-        });
-
-        // 타이머 일시정지 버튼
-        button_pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pauseTimer();
-
-            }
-        });
 
         // 타이머 초기화 버튼
         button_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
                 resetTimer();
+
             }
         });
 
         updateCountDownText();
 
-    }// onCreate 닫는 중괄호
+
+    }/// onCreate 닫는 중괄호
 
     // 타이머 시작
     private void startTimer() {
@@ -128,50 +88,178 @@ public class timesale extends AppCompatActivity {
             public void onTick(long l) {
                 mTimeLeftInMillis = l;
                 updateCountDownText();
+                Log.e("타이머startTimer ", "mTimeLeftInMillis & hours : " + mTimeLeftInMillis);
+
+
+
             }
 
             @Override
             public void onFinish() {
                 mTimerRunning = false;
-                button_pause.setText("start");
-                button_pause.setVisibility(View.INVISIBLE);
                 button_reset.setVisibility(View.VISIBLE);
             }
         }.start();
         mTimerRunning = true;
-//        button_pause.setText("pause");
-        button_reset.setVisibility(View.INVISIBLE);
+        button_reset.setVisibility(View.VISIBLE);
 
     }
-
 
     // 타이머 텍스트 업데이트
     private void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+
+        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
+        Log.e("타이머updateCountDownText ", "mTimeLeftInMillis & hours : " + mTimeLeftInMillis + "&" + hours);
+        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
+        Log.e("타이머updateCountDownText ", "mTimeLeftInMillis & minutes : " + mTimeLeftInMillis + "&" + minutes);
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+        Log.e("타이머updateCountDownText ", "mTimeLeftInMillis & seconds : " + mTimeLeftInMillis + "&" + seconds);
 
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        String timeLeftFormatted;
+        if (hours > 0) {
+            timeLeftFormatted = format(Locale.getDefault(),
+                    "%d:%02d:%02d", hours, minutes, seconds);
+            Log.e("타이머updateCountDownText ", "timeLeftFormatted  : " + timeLeftFormatted);
+        } else {
+            timeLeftFormatted = format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds);
+            Log.e("타이머updateCountDownText ", "timeLeftFormatted  : " + timeLeftFormatted);
+        }
 
-        textView_timer.setText(timeLeftFormatted);
-    }
-
-    // 타이머 일시정지
-    private void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning = false;
-//        button_pause.setText("start");
-        button_reset.setVisibility(View.VISIBLE);
+        textView_leftTime.setText(timeLeftFormatted);
+        Log.e("타이머updateCountDownText ", "textView_leftTime  : " + textView_leftTime);
 
     }
 
     // 타이머 초기화
     private void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+//        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+//        mTimeLeftInMillis =;
+        mTimeLeftInMillis = 0;
         updateCountDownText();
-        button_reset.setVisibility(View.INVISIBLE);
-        button_pause.setVisibility(View.VISIBLE);
+        button_reset.setVisibility(View.VISIBLE);
+
 
     }
+
+    // 날짜 시간 알람
+    // 날짜 표시
+    private void displayDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        TextView textView_date = findViewById(R.id.textView_date);
+        textView_date.setText(format.format(this.calendar.getTime())); // 사용자가 원하는 날짜를 받아서 보여지는 곳은 textView_date임.
+    }
+
+    // DatePickerDialog 호출
+    private void showDatePicker() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {  // 사용자가 설정한 날짜를 set 함
+                // 알림 날짜 설정
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DATE, dayOfMonth);
+
+
+                //날짜 표시
+                displayDate();  // 앞서 사용자가 설정한 날짜
+
+
+            }
+        }, this.calendar.get(Calendar.YEAR), this.calendar.get(Calendar.MONTH), this.calendar.get(Calendar.DAY_OF_MONTH));
+
+        dialog.show();
+    }
+
+    //알람 등록
+    private void setAlarm() {
+        // 알람 시간 설정
+        // TimePicker에서 시간을 받아오는 곳
+        this.calendar.set(Calendar.HOUR_OF_DAY, this.timePicker.getHour());  // 사용자가 입력한 타겟 시간
+        this.calendar.set(Calendar.MINUTE, this.timePicker.getMinute());  // 사용자가 입력한 타겟 분
+        this.calendar.set(Calendar.SECOND, 0);                           // 사용자가 입력한 타겟 초
+
+        Log.e("여기!!!!!!!!!!!!!!!setAlarm ", " timePicker.getHour() : " + timePicker.getHour());
+        Log.e("여기!!!!!!!!!!!!!!!setAlarm ", " timePicker.getMinute() : " + timePicker.getMinute());
+
+
+        // 현재일보다 이전이면 등록 실패
+        if (this.calendar.before(Calendar.getInstance())) {
+            Toast.makeText(this, "알람 시간이 현재시간보다 이전일 수 없습니다", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 사용자가 입력한 날짜와 시간, 분 초에서 현재 시간을 빼서 핸들러로 계속 해서 보여주기
+
+
+        // BroadCast Receiver 설정 -> Intent에 담아서 보냄
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // 알람 설정
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, this.calendar.getTimeInMillis(), pendingIntent);
+        Log.e("setAlarm ", "alarmManager  : " + alarmManager);
+        Log.e("setAlarm ", "calendar.getTimeInMillis() : " + calendar.getTimeInMillis());
+        Log.e("setAlarm ", "pendingIntent : " + pendingIntent);
+
+        // 토스트 메시지 보여주기 (알람 시간 표시)
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Toast.makeText(this, " 알람 : " + format.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+
+        // 타이머 시간 set하기
+        long setTime = calendar.getTimeInMillis();
+        long now = System.currentTimeMillis();
+
+        mTimeLeftInMillis = setTime - now;
+        Log.e("타이머startTimer!!!!!!!!!!!!! ", "mTimeLeftInMillis = setTime - now;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + mTimeLeftInMillis);
+//        mTimeLeftInMillis = timePicker.getHour() + timePicker.getMinute() ;
+
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long l) {
+                mTimeLeftInMillis = l;
+                updateCountDownText();
+                Log.e("타이머startTimer ", "mTimeLeftInMillis & hours : " + mTimeLeftInMillis);
+
+
+            }
+
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+                button_reset.setVisibility(View.VISIBLE);
+            }
+        }.start();
+        mTimerRunning = true;
+        button_reset.setVisibility(View.VISIBLE);
+
+    }
+    View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.button_Calendar:
+                    // 달력
+                    showDatePicker();
+
+                    break;
+                case R.id.button_Alarm:
+                    // 알람 등록
+                    setAlarm();  // 설정한 날짜와 시간에 알람이 울리도록
+
+                    startTimer();  // 남은 시간을 보여주는 타이머를 시작
+
+                    break;
+            }
+
+        }
+    };
+
+
+
+
 
     @Override
     protected void onRestart() {

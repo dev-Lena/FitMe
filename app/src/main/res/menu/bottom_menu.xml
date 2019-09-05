@@ -25,7 +25,7 @@
         android:id="@+id/action_mypage"
         android:enabled="true"
         android:icon="@drawable/ic_person_black_24dp"
-        android:title="my closet" />
+        android:title="my page" />
 
 
 </menu>
