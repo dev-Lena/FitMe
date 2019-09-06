@@ -42,6 +42,9 @@ public class timesale extends AppCompatActivity {
     TextView textView_leftTime;
 
 
+    // 뒤로 가기 버튼 눌렀을 때 마이페이지로 이동
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,15 +132,20 @@ public class timesale extends AppCompatActivity {
         textView_leftTime.setText(timeLeftFormatted);
         Log.e("타이머updateCountDownText ", "textView_leftTime  : " + textView_leftTime);
 
+
+
     }
 
     // 타이머 초기화
     private void resetTimer() {
 //        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-//        mTimeLeftInMillis =;
+//        mTimeLeftInMillis =0;
+        textView_leftTime.setText("");
+        mHandler.removeMessages(0);
         mTimeLeftInMillis = 0;
         updateCountDownText();
         button_reset.setVisibility(View.VISIBLE);
+        mHandler.sendEmptyMessageDelayed(0, 1000);  // 이부분 있어야함
 
 
     }
@@ -230,6 +238,7 @@ public class timesale extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 button_reset.setVisibility(View.VISIBLE);
+                mHandler.removeMessages(0);
             }
         }.start();
         mTimerRunning = true;
@@ -256,9 +265,6 @@ public class timesale extends AppCompatActivity {
 
         }
     };
-
-
-
 
 
     @Override
