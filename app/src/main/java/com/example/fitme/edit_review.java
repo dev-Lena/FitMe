@@ -70,12 +70,16 @@ public class edit_review extends AppCompatActivity {
 //        intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
 //        intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
 //        intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
+//        intent.putExtra("IMAGE",arrayList.get(position).imageView_reviewcard_img1);
 
         String shoppingmall_url = intent.getStringExtra("URL");
         String detailed_review = intent.getStringExtra("DETAIL");
         String hashtag = intent.getStringExtra("HASHTAG");
         String review_writer = intent.getStringExtra("WRITER");
         String reviewcard_number = intent.getStringExtra("NUMBER");
+        String review_image = intent.getStringExtra("IMAGE");
+
+
         final int position = intent.getIntExtra("POSITION",0000);
 
 
@@ -84,6 +88,7 @@ public class edit_review extends AppCompatActivity {
         Log.e("edit_ing", "hashtag  : " + hashtag );
         Log.e("edit_ing", "review_writer  : " + review_writer );
         Log.e("edit_ing", "reviewcard_number  : " + reviewcard_number );
+        Log.e("edit_ing 이미지 확인 중입니다", "review_image  : " + review_image );
         Log.e("edit_ing", "position  : " + position );
 
 // 가지고 온 데이터를 넣어줌 set해줌
@@ -129,11 +134,7 @@ public class edit_review extends AppCompatActivity {
                 float int_ratingBar = ratingBar.getRating();
                 String textView_review_writer = textView_review_writer_writer.getText().toString();
                 String textView_reviewcard_number = textView_reviewcard_number_number.getText().toString();
-
-
-//                textView_review_writer_writer.setText(review_writer);
-//                textView_reviewcard_number_number.setText(reviewcard_number);
-
+                String imageView_reviewcard_img = imageView_review_photo1.toString();
 
 
                 result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
@@ -142,7 +143,7 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
                 result.putExtra("작성자", textView_review_writer_writer.getText().toString());  // putExtra로 데이터 보냄\
                 result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());  // putExtra로 데이터 보냄
-
+                result.putExtra("리뷰이미지", imageView_review_photo1.toString());  // putExtra로 데이터 보냄
 
 
 
@@ -161,35 +162,6 @@ public class edit_review extends AppCompatActivity {
   // 리사이클러뷰 추가
 
 
-
-
-//        imageButton_review_register.setOnClickListener(new ImageButton.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String url= editText_shoppingmall_url.getText().toString();
-//                String detailed_review = editText_detailed_review.getText().toString();
-//                String hashtag1 = editText_hashtag .getText().toString();
-//
-//
-//                Intent intent = new Intent(write_review.this, review_card.class);
-////                intent.putExtra("url", url);
-////                intent.putExtra("detailed_review", detailed_review);
-////                intent.putExtra("hashtag1", hashtag1);
-////                intent.putExtra("uri1",imageView_review_photo1.toString()); // uri String으로 변환
-////                intent.putExtra("uri2",imageView_review_photo2.toString()); // uri String으로 변환
-////                intent.putExtra("uri3",imageView_review_photo3.toString()); // uri String으로 변환
-////                intent.putExtra("uri4",imageView_review_photo4.toString()); // uri String으로 변환
-////                intent.putExtra("uri5",imageView_review_photo5.toString()); // uri String으로 변환
-////
-//
-//                Log.e("write_review", "url : " +url);
-//                Log.e("write_review", "detailed_review : " +detailed_review);
-////
-//                startActivity(intent);
-//            }
-//        });
-
         imageButton_review_register = findViewById(R.id.imageButton_review_register);
         imageButton_review_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +177,8 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
+                result.putExtra("리뷰이미지", imageView_review_photo1.toString() );  // putExtra로 데이터 보냄
+
 
                 result.putExtra("POSITION",position);
 
@@ -306,21 +280,6 @@ public class edit_review extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-////        // setResult를 통해 받아온 요청번호, 상태, 데이터
-////        Log.d("RESULT", requestCode + "");
-////        Log.d("RESULT", resultCode + "");
-////        Log.d("RESULT", data + "");
-//
-//        if(requestCode == 10010 && resultCode == RESULT_OK) {
-//            Toast.makeText(write_review.this, "리뷰작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
-//            textView_shoppingmall_url.setText(data.getStringExtra("리뷰"));
-//            editText_email.setText(data.getStringExtra("리뷰"));
-//        }
-//    }
 
 
 
@@ -336,10 +295,10 @@ public class edit_review extends AppCompatActivity {
 
                 //기존 이미지 지우기
                 imageView_review_photo1.setImageResource(0);
-                imageView_review_photo2.setImageResource(0);
-                imageView_review_photo3.setImageResource(0);
-                imageView_review_photo4.setImageResource(0);
-                imageView_review_photo5.setImageResource(0);
+//                imageView_review_photo2.setImageResource(0);
+//                imageView_review_photo3.setImageResource(0);
+//                imageView_review_photo4.setImageResource(0);
+//                imageView_review_photo5.setImageResource(0);
 
                 //ClipData 또는 Uri를 가져온다
                 Uri uri = data.getData();
@@ -358,20 +317,20 @@ public class edit_review extends AppCompatActivity {
                                 case 0:
                                     imageView_review_photo1.setImageURI(urione);
                                     break;
-                                case 1:
-                                    imageView_review_photo2.setImageURI(urione);
-                                    break;
-                                case 2:
-                                    imageView_review_photo3.setImageURI(urione);
-                                    break;
-                                case 3:
-                                    imageView_review_photo4.setImageURI(urione);
-                                    break;
-                                case 4:
-                                    imageView_review_photo5.setImageURI(urione);
-                                    break;
+//                                case 1:
+//                                    imageView_review_photo2.setImageURI(urione);
+//                                    break;
+//                                case 2:
+//                                    imageView_review_photo3.setImageURI(urione);
+//                                    break;
+//                                case 3:
+//                                    imageView_review_photo4.setImageURI(urione);
+//                                    break;
+//                                case 4:
+//                                    imageView_review_photo5.setImageURI(urione);
+//                                    break;
                                     default:
-                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"최대 5개까지 업로드 가능합니다", Toast.LENGTH_SHORT);
+                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"한 개의 이미지만 업로드할 수 있습니다", Toast.LENGTH_SHORT);
                                         myToast.show();
                             }
                         }

@@ -69,7 +69,7 @@ public class myreview extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        feed_adapter = new feed_Adapter(myreview_arrayList);
+        feed_adapter = new feed_Adapter(myreview_arrayList,this);
         recyclerView.setAdapter(feed_adapter);
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너

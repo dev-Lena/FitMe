@@ -58,6 +58,8 @@ public class write_review extends AppCompatActivity {
     final int PICTURE_REQUEST_CODE = 100;
     private int Write_OK = 1001;
 
+
+    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("write_review","onCreate");
@@ -125,6 +127,7 @@ public class write_review extends AppCompatActivity {
 
                 String textView_mysize = logined_user.getString("user_size", "");
                 Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
                 String date = dateFormat.format(new Date());
                 String review_date = date;
@@ -135,6 +138,9 @@ public class write_review extends AppCompatActivity {
 
                 String textView_review_writer = result.getStringExtra("작성자");
                 Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+
+                String imageView_reviewcard_img1 = result.getStringExtra("리뷰이미지");
+                Log.e("feed 클래스 onActivityResult", "리뷰이미지"+ imageView_reviewcard_img1);
 
 
                 myreview_arrayList = new ArrayList<>();
@@ -148,7 +154,7 @@ public class write_review extends AppCompatActivity {
                 // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) myreview_arrayList에 추가하라
                 feed_MainData feed_MainData = new feed_MainData (textView_shoppingmall_url, textView_detailed_review_card,
                         float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                        textView_nickname, textView_mysize);
+                        textView_nickname, textView_mysize, imageView_reviewcard_img1);
                 myreview_arrayList.add(feed_MainData);
 //                myreview_arrayList.add(feed_MainData); // ...? 여기서 내가 쓴 리뷰를 넣어주면되는데 feed_MainData
 
@@ -177,9 +183,30 @@ public class write_review extends AppCompatActivity {
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
+                result.putExtra("리뷰이미지", uri.toString());  // putExtra로 데이터 보냄
+//.toString()
+                Log.e("울지마 울지마 울지마@@", uri.toString());
+
 //                result.putExtra("리뷰시간", word_review_date.getText().toString());  // putExtra로 데이터 보냄
 //                result.putExtra("작성자", textView_review_writer_writer.getText().toString());  // putExtra로 데이터 보냄
 //                result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());  // putExtra로 데이터 보냄
+
+                /** 갤러리에서 가지고 온 이미지를 여기에서 putExtra 해주기 **/
+
+
+                // 갤러리에서 이미지를 불러오고 그 uri를 인텐트데 가져옴
+                //onActivityResult 메소드에서
+//                onActivityResult(PICTURE_REQUEST_CODE, RESULT_OK, result);
+
+//                Uri uri = (Uri) result.getData();
+//                ClipData clipData = result.getClipData();
+//
+//                result.putExtra("uri",uri.toString());
+//                //ClipData 또는 Uri를 가져온다
+//                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + result.putExtra("uri",uri.toString())+","+uri);
+
+
+
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
@@ -217,7 +244,7 @@ public class write_review extends AppCompatActivity {
         });
 
 
-
+// 이미지 버튼을 누르면 이미지에서 사진 가져오기
         ImageButton imageButton_image = (ImageButton)findViewById(R.id.imageButton_image);
         imageButton_image.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -380,25 +407,12 @@ public class write_review extends AppCompatActivity {
     // AsyncTask로 로딩 화면 만드는 메소드 여기까지
 
 
-// 리뷰 작성시 각 리뷰마다 부여되는 고유 번호 생성하는 메소드
-//    private static final String ALPHA_NUMERIC_STRING = "0123456789";
-//
-//    public static String randomkeygenerator() {
-//        int count = 8;
-//        StringBuilder builder = new StringBuilder();
-//        while (count-- != 0) {
-//            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-//            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-//        }
-//        return builder.toString();
-//    }
-
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
+// 여기서 가져지고 온 이미지를 변수에 담아서 putExtra 해주면 되지 않나?
 
         if(requestCode == PICTURE_REQUEST_CODE)
         {
@@ -410,8 +424,18 @@ public class write_review extends AppCompatActivity {
 
 
                 //ClipData 또는 Uri를 가져온다
-                Uri uri = data.getData();
+                uri = data.getData();  // 해당 이미지의 파일 경로 즉, uri 정보를 받는다
                 ClipData clipData = data.getClipData();
+
+                // 받아온 이미지를 인텐트에 담아서 putExtra로 보내주기.
+                // -> 어디서 받냐면 onCreate에서 feed 클래스에 보낼 데이터 담을 때
+
+//
+//                data.putExtra("uri",uri.toString());
+                //ClipData 또는 Uri를 가져온다
+                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + data.putExtra("uri",uri.toString())+","+uri);
+
+
 
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
                 if(clipData!=null)
@@ -425,19 +449,21 @@ public class write_review extends AppCompatActivity {
                             switch (i){
                                 case 0:
                                     imageView_review_photo1.setImageURI(urione);
+//                                    Log.e("write_review 클래스에서", "이미지 가져오는 중 " + imageView_review_photo1.setImageURI(urione));
+
                                     break;
-//                                case 1:
-//                                    imageView_review_photo2.setImageURI(urione);
-//                                    break;
-//                                case 2:
-//                                    imageView_review_photo3.setImageURI(urione);
-//                                    break;
-//                                case 3:
-//                                    imageView_review_photo4.setImageURI(urione);
-//                                    break;
-//                                case 4:
-//                                    imageView_review_photo5.setImageURI(urione);
-//                                    break;
+                                case 1:
+                                    imageView_review_photo2.setImageURI(urione);
+                                    break;
+                                case 2:
+                                    imageView_review_photo3.setImageURI(urione);
+                                    break;
+                                case 3:
+                                    imageView_review_photo4.setImageURI(urione);
+                                    break;
+                                case 4:
+                                    imageView_review_photo5.setImageURI(urione);
+                                    break;
                                     default:
                                         Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
                                         myToast.show();
