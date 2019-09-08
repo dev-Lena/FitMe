@@ -103,13 +103,13 @@ public class write_review extends AppCompatActivity {
                 // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
                 logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
                 // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
-                Log.e("feed 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
+                Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
 
                 // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
                 // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
                 String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
-                Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+                Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
 //  내가 쓴 리뷰 리사이클러뷰 myreview_arrayList에 추가하기
 
@@ -123,10 +123,10 @@ public class write_review extends AppCompatActivity {
 //                Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
 
                 String textView_nickname = logined_user.getString("user_nickname", "");
-                Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
+                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
 
                 String textView_mysize = logined_user.getString("user_size", "");
-                Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
+                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
                 String date = dateFormat.format(new Date());
@@ -134,13 +134,13 @@ public class write_review extends AppCompatActivity {
                 Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
 
                 float float_ratingBar = result.getFloatExtra("만족도", 0);
-                Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+                Log.e("write_review 만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
 
                 String textView_review_writer = result.getStringExtra("작성자");
-                Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-
+                Log.e("write_review 작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+                /** 여기 null값 **/
                 String imageView_reviewcard_img1 = result.getStringExtra("리뷰이미지");
-                Log.e("feed 클래스 onActivityResult", "리뷰이미지"+ imageView_reviewcard_img1);
+                Log.e("write_review 클래스 onActivityResult---------->", "리뷰이미지"+ imageView_reviewcard_img1);
 
 
                 myreview_arrayList = new ArrayList<>();
@@ -171,27 +171,23 @@ public class write_review extends AppCompatActivity {
 
 
                 String textView_email = logined_user.getString("user_email", "");
-                Log.e("feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
-
-//                String  textView_review_writer = textView_email;
-
-
-//                String textView_reviewcard_number = textView_reviewcard_number_number.getText().toString();
-
+                Log.e("write_review 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
 
                 result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
-                result.putExtra("리뷰이미지", uri.toString());  // putExtra로 데이터 보냄
+
+                /** 갤러리에서 가지고 온 이미지를 여기에서 putExtra 해주기 **/
+
+
+                result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄
 //.toString()
-                Log.e("울지마 울지마 울지마@@", uri.toString());
+                Log.e("write_review 울지마 울지마 울지마@@---------------------", uri.toString());
 
 //                result.putExtra("리뷰시간", word_review_date.getText().toString());  // putExtra로 데이터 보냄
 //                result.putExtra("작성자", textView_review_writer_writer.getText().toString());  // putExtra로 데이터 보냄
 //                result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());  // putExtra로 데이터 보냄
-
-                /** 갤러리에서 가지고 온 이미지를 여기에서 putExtra 해주기 **/
 
 
                 // 갤러리에서 이미지를 불러오고 그 uri를 인텐트데 가져옴

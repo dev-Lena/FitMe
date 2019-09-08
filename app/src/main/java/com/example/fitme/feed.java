@@ -32,6 +32,8 @@ import java.util.Locale;
 
 public class feed extends AppCompatActivity {
     // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
+
+//    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
     private ArrayList<List> userData = new ArrayList<List>();
 
     private SharedPreferences logined_user;
@@ -410,6 +412,7 @@ public class feed extends AppCompatActivity {
         Log.e("RESULT", resultCode + "");
         Log.e("RESULT", data + "");
 
+        // write_review 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
         if (requestCode == 1001 && resultCode == RESULT_OK) {
 
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
@@ -467,16 +470,37 @@ public class feed extends AppCompatActivity {
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
 
             /**지금 여기서 리뷰 이미지를 가져오지 못하고 null 이 뜸**/
+
             String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
-            Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+
+//            /** 이미지 넣기 여기 확인하기 **/
+//                        Uri uri = Uri.parse(data.getStringExtra("리뷰이미지"));
 
 
+            Log.e("feed 클래스에서 onActivityResult----------------",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+
+//            String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
+//            Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+
+//            uri = Uri.parse(data.getStringExtra("리뷰이미지"));
+//
+//            Uri myUri = Uri.parse(extras.getString("imageUri"));
+//            String imageView_reviewcard_img1 =data.getStringExtra("리뷰이미지");
+//            uri =Uri.parse(imageView_reviewcard_img1);
+//            Log.e("feed 클래스에서 onActivityResult -----------> 확인",  " '리뷰이미지' uri+imageView_reviewcard_img1:"+uri+","+imageView_reviewcard_img1);
+
+//            send -> putExtra("uri",urivalue.toString);
+//
+//            receive -> String geturi=getStringExtra("uri");
+//            Uri urivalue=Uri.parse(geturi);
 
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
                     textView_nickname, textView_mysize, imageView_reviewcard_img1);
 
             Log.e("[리뷰 추가하는 부분 이미지 들어가는지 확인중]", "feed_MainData 객체 생성!!!!!!!!!!!!!"+feed_MainData );
+            Log.e("[feed_MainData에 들어갔는지 확인중]------------------->", "imageView_reviewcard_img1"+imageView_reviewcard_img1 );
+
 
 
 //리사이클러뷰의 arrayList에 아이템 추가
@@ -489,7 +513,9 @@ public class feed extends AppCompatActivity {
 
             // sharedPreferences 에 추가
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-            Log.e("write_review 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+            Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+            loadData();
+            Log.e("feed 클래스에서 (loadData)--------------->", "확인중 :" + arrayList);
 
         }
         if (requestCode == 2001 && resultCode == RESULT_OK) {
@@ -535,6 +561,7 @@ public class feed extends AppCompatActivity {
 
             String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
             Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+
 //            Uri uri = Uri.parse(data.getDataString(getString("uri")));
 
             // 근데 내가 쉐어드에 이미지를 넣어준 적이 없잖아? 그리고 쉐어드에 int 형 저장 가능한가?
@@ -573,7 +600,7 @@ public class feed extends AppCompatActivity {
             Log.e("edit", "수정한거 새로고침");
 
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-            Log.e("write_review 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+            Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
 //
 //            loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
