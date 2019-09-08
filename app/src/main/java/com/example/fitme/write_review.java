@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +53,7 @@ public class write_review extends AppCompatActivity {
     ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     RatingBar ratingBar;
+
 
     //constant
     final int PICTURE_REQUEST_CODE = 100;
@@ -111,16 +112,6 @@ public class write_review extends AppCompatActivity {
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
                 Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
-//  내가 쓴 리뷰 리사이클러뷰 myreview_arrayList에 추가하기
-
-//                String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
-//                Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
-//
-//                String textView_detailed_review_card = data.getStringExtra("상세리뷰");
-//                Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
-//
-//                String textView_hashtag = data.getStringExtra("해시태그");
-//                Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
 
                 String textView_nickname = logined_user.getString("user_nickname", "");
                 Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
@@ -183,23 +174,7 @@ public class write_review extends AppCompatActivity {
 
                 result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄
 //.toString()
-                Log.e("write_review 울지마 울지마 울지마@@---------------------", uri.toString());
-
-//                result.putExtra("리뷰시간", word_review_date.getText().toString());  // putExtra로 데이터 보냄
-//                result.putExtra("작성자", textView_review_writer_writer.getText().toString());  // putExtra로 데이터 보냄
-//                result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());  // putExtra로 데이터 보냄
-
-
-                // 갤러리에서 이미지를 불러오고 그 uri를 인텐트데 가져옴
-                //onActivityResult 메소드에서
-//                onActivityResult(PICTURE_REQUEST_CODE, RESULT_OK, result);
-
-//                Uri uri = (Uri) result.getData();
-//                ClipData clipData = result.getClipData();
-//
-//                result.putExtra("uri",uri.toString());
-//                //ClipData 또는 Uri를 가져온다
-//                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + result.putExtra("uri",uri.toString())+","+uri);
+                Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요", uri.toString());
 
 
 
@@ -245,10 +220,16 @@ public class write_review extends AppCompatActivity {
         imageButton_image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+
                 //사진을 여러개 선택할수 있도록 한다 -> 하나만 올리는 걸로 수정했음.
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setType("image/*");
+
+                // 안되면 이걸로 해보기
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),  PICTURE_REQUEST_CODE);
             }
         });
@@ -421,51 +402,57 @@ public class write_review extends AppCompatActivity {
 
                 //ClipData 또는 Uri를 가져온다
                 uri = data.getData();  // 해당 이미지의 파일 경로 즉, uri 정보를 받는다
+
                 ClipData clipData = data.getClipData();
+                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + uri.toString()+","+uri);
+//
+//                String path = getRealPathFromURI(uri);
+//
+                // -> 여기서 상대 경로 안하고 절대 경로로 바꾸는 중
+
 
                 // 받아온 이미지를 인텐트에 담아서 putExtra로 보내주기.
                 // -> 어디서 받냐면 onCreate에서 feed 클래스에 보낼 데이터 담을 때
 
-//
-//                data.putExtra("uri",uri.toString());
                 //ClipData 또는 Uri를 가져온다
-                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + data.putExtra("uri",uri.toString())+","+uri);
-
-
 
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
-                if(clipData!=null)
-                {
+                if(clipData!=null) {
 
-                    // 최대 업로드 사진 갯수 5개
-                    for(int i = 0; i < 5; i++)
-                    {
-                        if(i<clipData.getItemCount()){
-                            Uri urione =  clipData.getItemAt(i).getUri();
-                            switch (i){
-                                case 0:
-                                    imageView_review_photo1.setImageURI(urione);
-//                                    Log.e("write_review 클래스에서", "이미지 가져오는 중 " + imageView_review_photo1.setImageURI(urione));
 
-                                    break;
-                                case 1:
-                                    imageView_review_photo2.setImageURI(urione);
-                                    break;
-                                case 2:
-                                    imageView_review_photo3.setImageURI(urione);
-                                    break;
-                                case 3:
-                                    imageView_review_photo4.setImageURI(urione);
-                                    break;
-                                case 4:
-                                    imageView_review_photo5.setImageURI(urione);
-                                    break;
-                                    default:
-                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
-                                        myToast.show();
-                            }
-                        }
-                    }
+                    imageView_review_photo1.setImageURI(Uri.parse( uri.toString()));
+
+                    Log.e("write_review 클래스에서", "uri--> 확인중 " + uri.toString() );
+
+//                    // 최대 업로드 사진 갯수 5개
+//                    for(int i = 0; i < 5; i++)
+//                    {
+//                        if(i<clipData.getItemCount()){
+//                            Uri urione =  clipData.getItemAt(i).getUri();
+//                            switch (i){
+//                                case 0:
+//                                    imageView_review_photo1.setImageURI(urione);
+////                                    Log.e("write_review 클래스에서", "이미지 가져오는 중 " + imageView_review_photo1.setImageURI(urione));
+//
+//                                    break;
+////                                case 1:
+////                                    imageView_review_photo2.setImageURI(urione);
+////                                    break;
+////                                case 2:
+////                                    imageView_review_photo3.setImageURI(urione);
+////                                    break;
+////                                case 3:
+////                                    imageView_review_photo4.setImageURI(urione);
+////                                    break;
+////                                case 4:
+////                                    imageView_review_photo5.setImageURI(urione);
+////                                    break;
+//                                    default:
+//                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
+//                                        myToast.show();
+//                            }
+//                        }
+//                    }
                 }
                 else if(uri != null)
                 {
@@ -474,6 +461,26 @@ public class write_review extends AppCompatActivity {
             }
         }
     }
+
+    public String getRealPathFromURI(Uri contentUri){
+        String [] proj={MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery( contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+
+    }
+
+
+//    public String getPath(Uri uri) {
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        startManagingCursor(cursor);
+//        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(columnIndex);
+//    }
+
     @Override
     protected void onRestart() {
         super.onRestart();

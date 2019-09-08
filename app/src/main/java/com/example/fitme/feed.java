@@ -514,10 +514,12 @@ public class feed extends AppCompatActivity {
             // sharedPreferences 에 추가
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
-            loadData();
-            Log.e("feed 클래스에서 (loadData)--------------->", "확인중 :" + arrayList);
+
+//            loadData();
+//            Log.e("feed 클래스에서 (loadData)--------------->", "확인중 :" + arrayList);
 
         }
+        // 리뷰를 수정했을 때
         if (requestCode == 2001 && resultCode == RESULT_OK) {
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
@@ -660,10 +662,8 @@ public class feed extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         feed_adapter.notifyDataSetChanged();  // 새로고침
-
-
-        Log.e("add", "수정한거 새로고침");
-        Log.e("feed", "onResume");
+//        loadData();
+//        Log.e("feed 클래스에서 (onResume)--------------->", "loadData :" + arrayList);
 
 
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
@@ -680,6 +680,9 @@ public class feed extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.e("feed", "onStop");
+//        saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+//        Log.e("feed 클래스에서 (onStop)", "saveData");
+
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 

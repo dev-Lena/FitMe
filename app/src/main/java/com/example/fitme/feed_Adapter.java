@@ -1,6 +1,7 @@
 package com.example.fitme;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
 
+    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
 
     // 리사이클러뷰에 이미지 넣는 중
 
@@ -90,8 +92,11 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
         String review_Image = feed_mainData .getImageView_reviewcard_img1();
 
+
+//        File f = new File("path-to-file/file.png");
         Picasso.get()
                 .load(arrayList.get(position).getImageView_reviewcard_img1())
+
 //                .load(review_Image)
                 .fit()
                 .centerInside()
@@ -99,6 +104,13 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //                .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(holder.imageView_reviewcard_img1);
 
+
+
+
+
+
+        Log.e("이미지 확인중 ", " : [이전 방식 arrayList position 사용 ]---------------->" + arrayList.get(position).getImageView_reviewcard_img1());
+        Log.e("이미지 확인중 ", " : [지금 방식 review_Image]---------------->" + review_Image);
 
 
 //        String review_imageUrl = feed_mainData.getImageView_reviewcard_profile_image();
@@ -118,11 +130,6 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
 //        holder.imageView_reviewcard_img1.setImageURI(arrayList.get(position).getImageView_reviewcard_img1());
 
-//        holder.imageButton_like.setImageResource(arrayList.get(position).getImageButton_like());
-//        holder.imageButton_comment.setImageResource(arrayList.get(position).getImageButton_comment());
-//        holder.imageButton_bookmark.setImageResource(arrayList.get(position).getImageButton_bookmark());
-//        holder.review_card.setText(arrayList.get(position).getReview_card());
-//        holder.textView19.setText(arrayList.get(position).getTextView19());
         holder.textView_mysize.setText(arrayList.get(position).getTextView_mysize());
         holder.textView_nickname.setText(arrayList.get(position).getTextView_nickname());
 //        holder.textView20.setText(arrayList.get(position).getTextView20());
