@@ -1,7 +1,6 @@
 package com.example.fitme;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 
 public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
 
-    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
 
     // 리사이클러뷰에 이미지 넣는 중
 
