@@ -95,7 +95,8 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="지금 가장 인기 있는"
-        android:textColor="@color/colorAccent"
+
+        android:textColor="@color/colorInvisible"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +111,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="내가 찾아 봤던"
+        android:text="내 관심 해시태그"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
@@ -194,6 +195,7 @@
     </HorizontalScrollView>
 
     <LinearLayout
+
         android:id="@+id/linearLayout8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -203,32 +205,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17">
 
-        <Button
-            android:id="@+id/button_popular_hashtag4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_verybrightpurple"
-            android:text="무신사" />
+<!--        <Button-->
 
-        <Button
-            android:id="@+id/button_popular_hashtag5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_verybrightpurple"
-            android:text="하객룩" />
+<!--            android:id="@+id/button_popular_hashtag4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_verybrightpurple"-->
+<!--            android:text="무신사" />-->
 
-        <Button
-            android:id="@+id/button_popular_hashtag6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_verybrightpurple"
-            android:text="하이웨스트" />
+<!--        <Button-->
+<!--            android:id="@+id/button_popular_hashtag5"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_verybrightpurple"-->
+<!--            android:text="하객룩" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/button_popular_hashtag6"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_verybrightpurple"-->
+<!--            android:text="하이웨스트" />-->
 
     </LinearLayout>
 
@@ -242,23 +245,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
-        <Button
-            android:id="@+id/button_popular_hashtag1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_verybrightpurple"
-            android:text="니트" />
+<!--        <Button-->
+<!--            android:id="@+id/button_popular_hashtag1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_verybrightpurple"-->
+<!--            android:text="니트" />-->
 
-        <Button
-            android:id="@+id/button_popular_hashtag2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_verybrightpurple"
-            android:text="스타일난다" />
+<!--        <Button-->
+<!--            android:id="@+id/button_popular_hashtag2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_verybrightpurple"-->
+<!--            android:text="스타일난다" />-->
 
     </LinearLayout>
 
@@ -302,13 +305,48 @@
         android:id="@+id/floatingActionButton_searching_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="120dp"
         android:clickable="true"
         android:src="@drawable/ic_map"
         android:tint="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/btn_verybrightpurple" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_edit_hashtag"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="36dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorBlack"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="68dp"
+        app:srcCompat="@drawable/hashtag_png" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="64dp"
+        android:text="관심 해시태그 수정하기 → "
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
+        app:layout_constraintEnd_toStartOf="@+id/button_edit_hashtag" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="144dp"
+        android:text="오프라인 스토어 찾기 → \n 추후 버튼 위치 옮길 예정 "
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavi"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton_searching_map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

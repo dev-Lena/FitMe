@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class searching extends AppCompatActivity implements View.OnClickListener {
     EditText editText_searching;
     ImageButton imageButton_searching;
-    FloatingActionButton floatingActionButton_searching_map ; // 지도 찾을 수 있는 플로팅 버튼
+    FloatingActionButton floatingActionButton_searching_map, floatingActionButton_edit_hashtag ; // 지도 찾을 수 있는 플로팅 버튼
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
 
@@ -81,6 +81,18 @@ public class searching extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+
+        // 관심 해시태그
+        floatingActionButton_edit_hashtag  = findViewById(R.id.floatingActionButton_edit_hashtag );
+        floatingActionButton_edit_hashtag .setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(searching.this, hashtag.class);
+                startActivity(register_intent); //액티비티 이동
+
+            }
+        });
+
 
 
 //하단바

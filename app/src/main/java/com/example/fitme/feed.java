@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class feed extends AppCompatActivity {
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_notification,imageView_reviewcard_img1;
     TextView textView_feed_id;
+    ImageButton imageButton_review_timesale;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -121,6 +123,17 @@ public class feed extends AppCompatActivity {
 //        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
 
 // 피드에 올라가는 작성글 업데이트 시간을 실제 시간으로 띄우기
+
+        // 타임 세일 알람 화면으로 이동하는 버튼
+        imageButton_review_timesale = findViewById(R.id.imageButton_review_timesale);
+        imageButton_review_timesale.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(feed.this, timesale.class);
+                startActivity(register_intent); //액티비티 이동
+
+            }
+        });
 
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
