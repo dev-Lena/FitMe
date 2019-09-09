@@ -26,7 +26,7 @@
             android:text="마이 페이지"
             android:textColor="@color/colorDeepPurple"
             android:textColorLink="@color/colorPurple"
-            android:textSize="30sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="106dp" />
+            app:layout_constraintGuide_begin="67dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView_mypage_profileimage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginStart="8dp"
@@ -89,110 +89,127 @@
             android:layout_marginBottom="8dp"
             app:srcCompat="@drawable/img_dd_profile" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/textView_nickname"
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="173dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="닉네임"
-            android:textColor="@color/colorDarkPurple"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+            app:layout_constraintVertical_bias="0.457">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.457">
+            <TextView
+                android:id="@+id/textView_howmany_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/textView_howmany_reviews"
+            <TextView
+                android:id="@+id/textView_17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="리뷰수"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:text="3"
-            android:textColor="@color/colorBlack"
-            android:textSize="25sp" />
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+            app:layout_constraintVertical_bias="0.486">
 
-        <TextView
-            android:id="@+id/textView_17"
+            <TextView
+                android:id="@+id/textView_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="98"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="팔로우"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="리뷰수"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.486">
+            <TextView
+                android:id="@+id/textView_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="203"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/textView_follow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="98"
-            android:textColor="@color/colorBlack"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="팔로잉"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="팔로우"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
-
-        <TextView
-            android:id="@+id/textView_following"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="203"
-            android:textColor="@color/colorBlack"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="팔로잉"
-            android:textSize="16sp" />
-
+        </LinearLayout>
     </LinearLayout>
 
     <TableLayout

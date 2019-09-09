@@ -94,12 +94,10 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        File f = new File("path-to-file/file.png");
         Picasso.get()
                 .load(arrayList.get(position).getImageView_reviewcard_img1())
-
-//                .load(review_Image)
                 .fit()
                 .centerInside()
-//                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
-//                .error(R.drawable.review_plz)// 에러가 났을 때
+                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
+                .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(holder.imageView_reviewcard_img1);
 
 

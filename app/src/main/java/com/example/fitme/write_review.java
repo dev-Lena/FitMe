@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -94,6 +93,7 @@ public class write_review extends AppCompatActivity {
 
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
+                // 사용자가 입력한 데이터를 변수에 담아줌
                 String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
                 String textView_detailed_review_card = editText_detailed_review.getText().toString();
                 String textView_hashtag = editText_hashtag.getText().toString();
@@ -103,41 +103,38 @@ public class write_review extends AppCompatActivity {
 
                 // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
                 logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-                // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
-                Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
 
-                // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
+
+                // 쉐어드프리퍼런스에서 String을 가져오는데
                 // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
                 String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
-//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
-                Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
-
-
                 String textView_nickname = logined_user.getString("user_nickname", "");
-                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
-
                 String textView_mysize = logined_user.getString("user_size", "");
-                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
                 String date = dateFormat.format(new Date());
                 String review_date = date;
-                Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
 
                 float float_ratingBar = result.getFloatExtra("만족도", 0);
-                Log.e("write_review 만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-
                 String textView_review_writer = result.getStringExtra("작성자");
-                Log.e("write_review 작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-                /** 여기 null값 **/
                 String imageView_reviewcard_img1 = result.getStringExtra("리뷰이미지");
+
+                // 위에서 가져온 값들 확인하는 로그들
+                Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
+                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + logined_user.getString("email", ""));
+                Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
+                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
+                Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+                Log.e("write_review 만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+                Log.e("write_review 작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
                 Log.e("write_review 클래스 onActivityResult---------->", "리뷰이미지"+ imageView_reviewcard_img1);
 
-
+                // 데이터를 myreview_arrayList에 넣어줌 -> 내가 쓴 리뷰 리사이클러뷰에 올라감
                 myreview_arrayList = new ArrayList<>();
                 Log.e("write_review 클래스에서 리뷰 등록 버튼을 눌렀을 때", "myreview_arrayList : " + myreview_arrayList);
 
-                // myreview_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
+                // myreview_arrayList로 데이터를 보여주는 내가 쓴 리뷰 리사이클러뷰를 로드해라
                 myreview_loadData();
 
                 String textView_reviewcard_number = randomkeygenerator();
@@ -161,6 +158,7 @@ public class write_review extends AppCompatActivity {
 // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
 
 
+                //
                 String textView_email = logined_user.getString("user_email", "");
                 Log.e("write_review 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
 
@@ -168,20 +166,17 @@ public class write_review extends AppCompatActivity {
                 result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                 result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
-
-                /** 갤러리에서 가지고 온 이미지를 여기에서 putExtra 해주기 **/
-
-
                 result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄
-//.toString()
-                Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요", uri.toString());
 
-
-
+                Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요 : ", uri.toString());
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);
-                new ContentDownload().execute("");
+
+                new ContentDownload().execute(""); // 리뷰 작성호 보이는 progress bar 로딩 화면 Asynctask
+
+
+
                 Log.e("write_review 클래스에서", "AsyncTask를 이용한 로딩화면 넣는 중 : " );
 
                 finish();
@@ -203,6 +198,7 @@ public class write_review extends AppCompatActivity {
             }
         });
 
+        /** 카메라 버튼눌러서 사진 찍어서 이미지 가지고 오는 부분은 여기서 처리하기 **/
 // 카메라 앱 오픈-> 암시적 인텐트
         imageButton_camera = findViewById(R.id.imageButton_camera);
         imageButton_camera.setOnClickListener(new ImageView.OnClickListener() {
@@ -221,15 +217,16 @@ public class write_review extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //사진을 여러개 선택할수 있도록 한다 -> 하나만 올리는 걸로 수정했음.
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setType("image/*");
-
                 // 안되면 이걸로 해보기
 //                Intent intent = new Intent();
 //                intent.setType("image/*");
 //                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+
+                //사진을 여러개 선택할수 있도록 한다 -> 하나만 올리는 걸로 수정했음.
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);  // 지금은 한장인데 나중에 사진 리사이클러뷰로 할 수도 있어서  Multiple로 냅둠.
+                intent.setType("image/*");
+
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),  PICTURE_REQUEST_CODE);
             }
         });
@@ -272,11 +269,9 @@ public class write_review extends AppCompatActivity {
             }
         });
 
-        // AsyncTask를 이용한 로딩 화면
-//        new ContentDownload().execute("ContentList & File Download");
-
 
     }// onCreate 닫는 중괄호
+
     private void myreview_saveData() {
 
 //
@@ -284,22 +279,16 @@ public class write_review extends AppCompatActivity {
         SharedPreferences.Editor myreviewShared_editor = myreviewShared.edit();
         Gson gson = new Gson();
         Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
-
         String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
-
         Log.e("myreview 클래스", "Gson 객체 호출 (toJson(myreview_arrayList) : " + json);
-
 
         // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
         logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
         String feed_email = logined_user.getString("user_email", "");
-
         myreviewShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
         Log.e("myreview 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
-
         myreviewShared_editor.apply();
         Log.e("myreview 클래스", "editor. apply 성공 ");
-
 
     }
 
@@ -322,7 +311,6 @@ public class write_review extends AppCompatActivity {
 
         myreview_arrayList = gson.fromJson(json, type);
         Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
-
 
         if (myreview_arrayList == null) {
             myreview_arrayList = new ArrayList<>();
@@ -385,7 +373,6 @@ public class write_review extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -405,11 +392,6 @@ public class write_review extends AppCompatActivity {
 
                 ClipData clipData = data.getClipData();
                 Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + uri.toString()+","+uri);
-//
-//                String path = getRealPathFromURI(uri);
-//
-                // -> 여기서 상대 경로 안하고 절대 경로로 바꾸는 중
-
 
                 // 받아온 이미지를 인텐트에 담아서 putExtra로 보내주기.
                 // -> 어디서 받냐면 onCreate에서 feed 클래스에 보낼 데이터 담을 때
@@ -461,25 +443,6 @@ public class write_review extends AppCompatActivity {
             }
         }
     }
-
-    public String getRealPathFromURI(Uri contentUri){
-        String [] proj={MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery( contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-
-    }
-
-
-//    public String getPath(Uri uri) {
-//        String[] projection = {MediaStore.Images.Media.DATA};
-//        Cursor cursor = managedQuery(uri, projection, null, null, null);
-//        startManagingCursor(cursor);
-//        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(columnIndex);
-//    }
 
     @Override
     protected void onRestart() {

@@ -1,11 +1,11 @@
 package com.example.fitme;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,19 +39,29 @@ public class sign_up extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 //    boolean checkEmail;
-    final int REQUEST_CODE = 200;
-    private String selectedImagePath;
 
-    ImageView imageView_user_profile_image; // 프로필 이미지
+
+    private static int PICK_IMAGE_REQUEST = 1;
+//    static final String TAG = "MainActivity";
+    final int REQUEST_CODE = 10000;
+
+
     Button button_sign_up_complete, button_sign_in;  //회원가입하기 버튼
     EditText editText_mysize, editText_nickname, editText_email, editText_password, editText_password_confirm;  // 평소 사이즈 입력하는 칸, 닉네임 적는 칸
     BottomNavigationView bottomNavigationView;   // 바텀 네이게이션 메뉴  -> 하단바
+    ImageButton imageButton_image;
 
     String email ="";
     String password ="";
     String currentSize = "";
     String nickname = "";
-    int profile_img = R.drawable.img_dd_profile ;
+    String profile_img = "";
+    // 프로필 이미지
+
+    ImageView  imageView_user_profile_image ;
+//    final int REQUEST_CODE = 300;
+    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,25 +74,41 @@ public class sign_up extends AppCompatActivity {
         final EditText editText_password = (EditText)findViewById(R.id.editText_password);
         final EditText editText_mysize= (EditText) findViewById(R.id.editText_mysize);
         final EditText editText_nickname = (EditText)findViewById(R.id.editText_nickname);
-        final ImageView imageView_user_profile_image = (ImageView) findViewById(R.id.imageView_user_profile_image);
+
+        imageView_user_profile_image = (ImageView) findViewById(R.id.imageView_user_profile_image);
+        imageView_user_profile_image.setImageResource(R.drawable.img_dd_profile);
 
 
 // 프로필 사진 등록을 위해 갤러리 모양의 버튼을 누르면 사진을 가져와 프로필 사진에 등록.
-        ImageButton imageButton_image = (ImageButton)findViewById(R.id.imageButton_image);
+        /** 프로필 사진 등록할 때 갤러리에서 가져오는 버튼**/
+        imageButton_image = (ImageButton)findViewById(R.id.imageButton_image);
         imageButton_image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // 사진 선택
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,
-                        "Select Picture"), REQUEST_CODE);
- }
-        });
+                Log.e("sign_up 클래스 ","imageButton_image.setOnClickListener : 이미지 버튼을 클릭했습니다");
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+//                startActivityForResult(Intent.createChooser(intent,
+//                        "Select Picture"), REQUEST_CODE);
+
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT );
+                Log.e("이미지 버튼을 클릭했을 때 되고 있나요?","");
+//                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT); //ACTION_PIC과 차이점?
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                intent.setType("image/*"); //이미지만 보이게
+                //Intent 시작 - 갤러리앱을 열어서 원하는 이미지를 선택할 수 있다.
+                startActivityForResult(intent,REQUEST_CODE);
+
+                Log.e("이미지 버튼을 클릭했을 때 되고 있나요?","RESULT_OK : "+ RESULT_OK);
+    }
+});
 
 
 // 회원가입 완료 버튼 -> 로그인 화면으로 이동
+
 
         button_sign_up_complete = findViewById(R.id.button_sign_up_complete);
         button_sign_up_complete.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +120,7 @@ public class sign_up extends AppCompatActivity {
 
                 // 사용자가 입력한 값이 있을 때(0보다 클 때)
                 if (editText_email.length() > 0 && editText_password.length() > 4 && editText_password_confirm.length() > 4 && editText_nickname.length()>0&& editText_mysize.length()>0) {
-                    // 길이가 0보다 클 때
+                    // 길이가 0보다 클 때, 비밀번호가 5자 이상일 때
 
                     if (!checkEmail(editText_email.getText().toString())) {
                         //알맞은 이메일 패턴을 입력해 주세요.
@@ -111,14 +136,14 @@ public class sign_up extends AppCompatActivity {
 
 
 
-// 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일)
-//                    Intent result = new Intent();
-//                    result.putExtra("EMAIL", editText_email.getText().toString());
-//                    result.putExtra("PASSWORD", editText_password.getText().toString());
-//
-//                    // 자신을 호출한 Activity로 데이터를 보낸다.
-//                    setResult(RESULT_OK, result);
-//                    finish();
+/** 회원가입에서 입력한 정보 로그인으로 데이터 넘겨주기(이메일) **/
+                    Intent result = new Intent();
+                    result.putExtra("EMAIL", editText_email.getText().toString());
+                    result.putExtra("PASSWORD", editText_password.getText().toString());
+
+                    // 자신을 호출한 Activity로 데이터를 보낸다.
+                    setResult(RESULT_OK, result);
+                    finish();
 
 
                     //JSONObject에 입력한 값을 저장하기 (SharedPreference)
@@ -130,9 +155,12 @@ public class sign_up extends AppCompatActivity {
                     password = editText_password.getText().toString();
                     currentSize = editText_mysize.getText().toString();
                     nickname = editText_nickname.getText().toString();
+                    profile_img = imageView_user_profile_image.toString();
 //                profile_img = imageView_user_profile_image.get().toString();
 
                     try {
+
+                        // 로그인 정보만 담고 있는 쉐어드에 회원가입 완료 버튼을 눌렀을 때 각자의 키값에 넣어주는 중?
 
                         jsonObject.put("email", email);
                         jsonObject.put("password", password);
@@ -147,7 +175,6 @@ public class sign_up extends AppCompatActivity {
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 currentSize을 넣었습니다 : " + currentSize);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 nickname을 넣었습니다 : " + nickname);
                         Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 profile_img을 넣었습니다 : " + profile_img);
-                        Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 bookmarked_arrayList을 넣었습니다 : " + bookmarked_arrayList);
 
 
                         jsonArray.put(jsonObject);  // jsonArray에 위에서 저장한 jsonObject를 put
@@ -163,39 +190,18 @@ public class sign_up extends AppCompatActivity {
                     writeArrayList(jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
 
 
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject와 JSONArray 객체 선언을 했습니다. " + jsonObject);
-                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject와 JSONArray 객체 선언을 했습니다. " + jsonArray);
+                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject :  " + jsonObject);
+                    Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONArray : " + jsonArray);
                 }else {
                     Toast.makeText(sign_up.this, "필수 정보(*)를 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-//        editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if(hasFocus) {
-//                    Pattern p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]");
-//                    Matcher m = p.matcher((editText_email).getText().toString());
-//
-//                    if ( !m.matches()){
-//                        Toast.makeText(sign_up.this, "Email 형식으로 입력해주세요", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//        });
-
-//
-
-
 
 // 회원가입한 정보 로그인 정보로 넘겨주기
 
         editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
-
-
-
 
 
         // 비밀번호 일치 검사
@@ -252,6 +258,7 @@ public class sign_up extends AppCompatActivity {
 
     // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
 
+    // 회원 정보를 모두 모아 놓는 곳 -> sharedPreferences 라는 이름의 쉐어드
     public void writeArrayList(String jsondata) {
 
         if (data != null) {
@@ -288,28 +295,58 @@ public class sign_up extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE)
-        {
-            if(resultCode == RESULT_OK)
-            {
-                try{
-                    InputStream in = getContentResolver().openInputStream(data.getData());
 
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
 
-                    imageView_user_profile_image.setImageBitmap(img);
-                }catch(Exception e)
-                {
+
+
+
+
+
+//        if(requestCode == REQUEST_CODE) {
+            if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+//
+//
+//                Bitmap image_bitmap = null;
+//                try {
+//                    image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+//
+//                    //배치해놓은 ImageView에 set
+//                    imageView_user_profile_image.setImageBitmap(image_bitmap);
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+
+
+////                //기존 이미지 지우기
+//                imageView_user_profile_image.setImageResource(0);
+
+//                Log.e("sign_up 클래스 ","onActivityResult : 기존 이미지 지워졌나요?");
+
+
+
+                //ClipData 또는 Uri를 가져온다
+                uri = data.getData();  // 해당 이미지의 파일 경로 즉, uri 정보를 받는다
+                Log.e("sign_up 클래스 ","onActivityResult : uri 이미지 가져왔나요?" + uri);
+
+                ClipData clipData = data.getClipData();
+
+                if(clipData!=null) {
+
+
+                    imageView_user_profile_image .setImageURI(Uri.parse(uri.toString()));
+                    Log.e("sign_up 클래스 ","onActivityResult : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
 
                 }
+                else if(uri != null)
+                {
+                    imageView_user_profile_image.setImageURI(uri);
+                    Log.e("sign_up 클래스 ","onActivityResult : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
+                }
             }
-            else if(resultCode == RESULT_CANCELED)
-            {
-                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+//        }
+    }//onActivityResult 메소드 닫는 중괄호
 
 
 
@@ -325,27 +362,7 @@ public class sign_up extends AppCompatActivity {
 //            }
 //        }
 //    }
-//    /**
-//     * 사진의 URI 경로를 받는 메소드
-//     */
-//    public String getPath(Uri uri) {
-//        // uri가 null일경우 null반환
-//        if( uri == null ) {
-//            return null;
-//        }
-//        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
-//        String[] projection = { MediaStore.Images.Media.DATA };
-//        Cursor cursor = managedQuery(uri, projection, null, null, null);
-//        if( cursor != null ){
-//            int column_index = cursor
-//                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            cursor.moveToFirst();
-//            return cursor.getString(column_index);
-//        }
-//        // URI경로를 반환한다.
-//        return uri.getPath();
-//    }
-//
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //

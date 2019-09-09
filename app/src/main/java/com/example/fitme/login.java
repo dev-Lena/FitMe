@@ -48,17 +48,11 @@ public class login extends AppCompatActivity {
     EditText editText_email, editText_password; // -> null값이면 토스트 값 뜨도록 // -> null값이면 토스트 값 뜨도록
     Button button_sign_in, button_signUp, button_sign_up_complete; // -> 로그인 버튼 -> 피드로 화면 연결  // -> 회원가입 버튼 -> 회원가입 화면으로 연결
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("login", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // 로그인 화면으로 넘어 오기 전에 로딩 스플래시 화면
-//        Intent intent = new Intent(this, first_main.class);
-//        startActivity(intent);
-
 
 // SharedPreference 로 회원정보를 jsonObject에 저장해서 jsonArrayList 형태로 SharedPreference에 저장
 
@@ -73,8 +67,7 @@ public class login extends AppCompatActivity {
 //        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); // 아래 코드와 같은 의미인데 this는 액티비티 정도
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
         editor = sharedPreferences.edit();  // 위에서 선언한 데이터 베이스에 아이템을 put 할 수 있는
-        // User Session Manager
-//        session = new UserSession(getApplicationContext());  // 회원 정보에 필요한 메소드 만들어놓은 UserSession 클래스 객체로 불러옴.
+//
 
         checkSharedPreferences();//로그인정보기억하기체크박스가눌려있는지설정값.메소드(onCreate밖에있음)
 
@@ -89,7 +82,6 @@ public class login extends AppCompatActivity {
                 // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
                 // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
                 String json = sharedPreferences.getString(editText_email.getText().toString(), "");
-//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
                 Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
 
@@ -130,10 +122,6 @@ public class login extends AppCompatActivity {
                                 String profileimageprofileimage = jsonObject.getString("profile_img");
                                 Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 프로필 이미지 가져오기 : " + jsonObject.getString("profile_img"));
 
-//                                String bookmark = jsonObject.getString("bookmarkList");
-//                                Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) bookmarkList 가져오기 : " + jsonObject.getString("profile_img"));
-
-
 
                                 // 저장된 회원가입 정보와 로그인 입력한 정보를 비교하는 중
                                 // 사용자가 입력한 이메일과 쉐어드에 저장한 email 값이 같은지 && 입력한 비밀번호와 쉐어드에 저장한 password 값이 같은지
@@ -156,8 +144,6 @@ public class login extends AppCompatActivity {
                                     user_editor.putString("user_size", sizesize);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
                                     user_editor.putString("user_nickname", nicknamenickname);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
                                     user_editor.putString("user_profileimage", profileimageprofileimage);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-//                                    user_editor.putString("bookmarkList", bookmark);  // 회원가입시 입력한 북마크 리스트가 각 arrayList의 key 값이 됨.
-
 
 
                                     user_editor.commit();   //제출
@@ -241,18 +227,18 @@ public class login extends AppCompatActivity {
             }
         });
 
-
+/**회원가입 후 이메일 정보 가지고 오는 곳**/
 //
 //                // 회원가입에서 보낸 데이터 받기  // sharedpreference 로그인 정보 기억하기와 중첩하면 적용 안됨  //
         // 로그인 기능 완성하면 주석 해제하기
-
+//
 //                editText_email = (EditText) findViewById(R.id.editText_email);
 ////        editText_password = (EditText) findViewById(R.id.editText_password);
 //        button_sign_in = (Button) findViewById(R.id.button_sign_in);
 //        button_sign_in.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), sign_up.class);
+//                Intent intent = new Intent(getApplicationContext(), feed.class);
 //
 //                // SINGLE_TOP : 이미 만들어진게 있으면 그걸 쓰고, 없으면 만들어서 써라
 //                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -330,23 +316,23 @@ public class login extends AppCompatActivity {
     }
 
 
-//    // 회원가입 후 회원가입한 정보에서 Result로 email과 password를 가지고 오는 메소드
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        // setResult를 통해 받아온 요청번호, 상태, 데이터
-//        Log.d("RESULT", requestCode + "");
-//        Log.d("RESULT", resultCode + "");
-//        Log.d("RESULT", data + "");
-//
-//        if (requestCode == 1000 && resultCode == RESULT_OK) {
-//            Toast.makeText(login.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
-//            editText_email.setText(data.getStringExtra("EMAIL"));
-//            editText_password.setText(data.getStringExtra("PASSWORD"));
-//
-//        }
-//    }
+    // 회원가입 후 회원가입한 정보에서 Result로 email과 password를 가지고 오는 메소드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // setResult를 통해 받아온 요청번호, 상태, 데이터
+        Log.d("RESULT", requestCode + "");
+        Log.d("RESULT", resultCode + "");
+        Log.d("RESULT", data + "");
+
+        if (requestCode == 1000 && resultCode == RESULT_OK) {
+            Toast.makeText(login.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
+            editText_email.setText(data.getStringExtra("EMAIL"));
+            editText_password.setText(data.getStringExtra("PASSWORD"));
+
+        }
+    }
 
 
     @Override

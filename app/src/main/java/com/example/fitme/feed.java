@@ -469,8 +469,6 @@ public class feed extends AppCompatActivity {
             String textView_review_writer = data.getStringExtra("작성자");
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
 
-            /**지금 여기서 리뷰 이미지를 가져오지 못하고 null 이 뜸**/
-
             String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
 
 //            /** 이미지 넣기 여기 확인하기 **/
