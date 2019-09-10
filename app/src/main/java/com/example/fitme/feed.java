@@ -26,11 +26,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class feed extends AppCompatActivity {
     // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
@@ -45,6 +42,7 @@ public class feed extends AppCompatActivity {
     // 북마크한 리뷰를 저장하는 쉐어드
     private SharedPreferences bookmarkShared;
     private SharedPreferences.Editor bookmarkShared_editor;
+
     // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
     //    ImageButton imageButton_review_register;
@@ -69,6 +67,11 @@ public class feed extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
 
     private Context context;
+
+    String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
+    String textView_reviewcard_number ;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
+    String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -137,6 +140,8 @@ public class feed extends AppCompatActivity {
 // 리사이클러뷰 수정
 // 다이얼로그
 
+                /** 여기에 로그인한 회원과 작성자와의 일치 여부에 따라 다른 메뉴가 보이도록 if  조건문 걸어주기. **/
+
 
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                 PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
@@ -153,28 +158,40 @@ public class feed extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), edit_review.class);
                                 Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
-//
+
+//                                String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
+//                                String textView_reviewcard_number ;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
+//                                String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
+                                // 리뷰를 수정할 때 기존의 있는 정보를 보내줌
                                 intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
                                 intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
                                 intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
                                 intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
                                 intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
+
                                 intent.putExtra("IMAGE", arrayList.get(position).imageView_reviewcard_img1);
                                 intent.putExtra("PROFILE", arrayList.get(position).imageView_reviewcard_profile_image);
+                                intent.putExtra("DATE", arrayList.get(position).review_date);
+
+                                intent.putExtra("RATING", arrayList.get(position).float_ratingBar);
 
 
                                 intent.putExtra("POSITION", position);
                                 // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
-
-                                Log.e("Feed 클래스에서 이미지(수정) ", "이미지 : " + arrayList.get(position).imageView_reviewcard_img1);
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
-
                                 startActivityForResult(intent, 2001);
 
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
+//// 확인 로고
+//                                Log.e("Feed 클래스에서 이미지(수정) ", "이미지 : " + arrayList.get(position).imageView_reviewcard_img1);
+//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
+//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
+//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
 
-                                //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_review_writer : " + arrayList.get(position).textView_review_writer);
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_reviewcard_number : " + arrayList.get(position).textView_reviewcard_number);
+                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "review_date : " +arrayList.get(position).review_date);
+
+
+
 
 
                                 break;
@@ -292,28 +309,28 @@ public class feed extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:  // 피드 화면으로 이동
                         Intent home_intent = new Intent(feed.this, feed.class);
-                        home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        home_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search:
                         Intent search_intent = new Intent(feed.this, searching.class);
-                        search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        search_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//검색 화면으로 액티비티 띄우기
                         break;
                     case R.id.action_insight:  // 리뷰 쓰기 화면으로 이동
                         Intent insight_intent = new Intent(feed.this, insight.class);
-                        insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        insight_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//검색 화면으로 액티비티 띄우기
                         break;
                     case R.id.action_notification:
                         Intent notification_intent = new Intent(feed.this, notification.class);
-                        notification_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        notification_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
                     case R.id.action_mypage:
                         Intent mycloset_intent = new Intent(feed.this, mypage.class);
-                        mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        mycloset_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(mycloset_intent);//내 옷장 화면으로 액티비티 띄우기
                         break;
                 }
@@ -454,12 +471,12 @@ public class feed extends AppCompatActivity {
 
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
-           // 리뷰를 올릴 때 작성 시간
+//            // 리뷰를 올릴 때 작성 시간
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
 //            String date = dateFormat.format(new Date());
 //            String review_date = date;
-            // 리뷰를 작성할 때 마다 고유 번호
-//            String textView_reviewcard_number = randomkeygenerator(); //-> 여기서 새로 생성해주면 고유 번호가 계속 바뀜
+//            // 리뷰를 작성할 때 마다 고유 번호
+//            String textView_reviewcard_number = randomkeygenerator();
 
             // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
 
@@ -474,14 +491,12 @@ public class feed extends AppCompatActivity {
             String textView_mysize = logined_user.getString("user_size", "");
 
 
-
 // 확인 로그
 //            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image);
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
-
 
 
             // 사용자가 입력한 내용을 가져와서
@@ -495,16 +510,6 @@ public class feed extends AppCompatActivity {
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
 
-// 확인 로그
-            Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
-            Log.e("리뷰고유번호", textView_reviewcard_number + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
-            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
-            Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
-            Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
-            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
-
 //MainData
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
@@ -517,6 +522,15 @@ public class feed extends AppCompatActivity {
             // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
             saveData();   // onCreate 밖에 메소드 만들었음.
 
+// 확인 로그
+            Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
+            Log.e("리뷰고유번호", textView_reviewcard_number + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
+            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
+            Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
+            Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
         }
@@ -533,7 +547,6 @@ public class feed extends AppCompatActivity {
             // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 변수에 넣어줌
             String json = logined_user.getString("logined_user", "");// logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
 
-
             //user_nickname & user_size & user_profileimage
             String textView_nickname = logined_user.getString("user_nickname", "");
             String textView_mysize = logined_user.getString("user_size", "");
@@ -548,17 +561,19 @@ public class feed extends AppCompatActivity {
 
             // 리뷰 수정에서 보낸 수정한 데이터 가져오기 / 받아오기
             // 사용자가 수정한 내용을 가져와서
+            review_date = data.getStringExtra("작성시간");
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
             String textView_hashtag = data.getStringExtra("해시태그");
             float float_ratingBar = data.getFloatExtra("만족도", 0);
-            String textView_review_writer = data.getStringExtra("작성자");
-            String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+            textView_review_writer = data.getStringExtra("작성자");
+            textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
 
 
 //확인 로그
+            Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
             Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
             Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
             Log.e("해시태그", textView_hashtag + "수정한 해시태그 가져왔습니다");
@@ -568,14 +583,11 @@ public class feed extends AppCompatActivity {
             Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
 
 
-
-
-
-// 리뷰를 올릴 때 작성 시간
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
-            String date = dateFormat.format(new Date());
-            String review_date = date;
-            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+// 리뷰를 올릴 때 작성 시간 -> 여기서 만들어주면 최초 작성 시간이 아니라 새로운 작성시간이 됨.
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
+//            String date = dateFormat.format(new Date());
+//            String review_date = date;
+//            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
 
             int position = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");

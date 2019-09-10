@@ -37,7 +37,6 @@ public class login extends AppCompatActivity {
 
     String str; //  shared에 json으로 저장한 값을 가져올 때 jsonArray에서 받아온 JsonRaw 값을 담아올 String 변수
 
-    //    JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
     private JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
     private ArrayList<String> userList;
 
