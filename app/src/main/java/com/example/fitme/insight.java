@@ -3,10 +3,9 @@ package com.example.fitme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,19 +21,16 @@ public class insight extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("follow","onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_follow);
+        setContentView(R.layout.activity_insight);
 
-//뒤로가기 버튼 -> 내 옷장 화면으로 이동
-        imageButton_follow_back.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(insight.this, mypage.class);
-                startActivity(intent); //액티비티 이동
-
-            }
-        });
 //하단바
-        bottomNavigationView = findViewById (R.id.bottomNavi);
+
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+        // 하단바 누를 때 색 바뀌게 하는 중
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
+        //
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -42,23 +38,28 @@ public class insight extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
                         Intent home_intent = new Intent(insight.this,feed.class);
+                        home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
                         Intent search_intent = new Intent(insight.this,searching.class);
+                        search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_insight :
                         Intent write_intent = new Intent(insight.this,insight.class);
+                        write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
                         Intent insight_intent = new Intent(insight.this,notification.class);
+                        insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :
                         Intent mycloset_intent = new Intent(insight.this, mypage.class);
+                        mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
@@ -96,6 +97,7 @@ public class insight extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.e("follow","onPause");
+        overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

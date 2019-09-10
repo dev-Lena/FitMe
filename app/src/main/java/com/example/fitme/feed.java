@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,7 +35,7 @@ import java.util.Locale;
 public class feed extends AppCompatActivity {
     // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
 
-//    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
+    //    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
     private ArrayList<List> userData = new ArrayList<List>();
 
     // 현재 로그인하고 있는 회원의 정보만 저장하는 쉐어드
@@ -49,9 +50,11 @@ public class feed extends AppCompatActivity {
     //    ImageButton imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
-    ImageView imageView_notification,imageView_reviewcard_img1;
+    ImageView imageView_notification, imageView_reviewcard_img1;
     TextView textView_feed_id;
     ImageButton imageButton_review_timesale;
+    FloatingActionButton floatingActionButton;  // 리뷰 작성하는 글쓰기 플로팅 버튼
+
 
     // 모든 회원 정보와 모든 리뷰들이 저장되는 전체 쉐어드
     private SharedPreferences sharedPreferences;
@@ -98,11 +101,10 @@ public class feed extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        feed_adapter = new feed_Adapter(arrayList,this);//앞서 만든 리스트를 어뎁터에 적용시켜 객체를 만든다.
+        feed_adapter = new feed_Adapter(arrayList, this);//앞서 만든 리스트를 어뎁터에 적용시켜 객체를 만든다.
         recyclerView.setAdapter(feed_adapter);// 그리고 만든 객체를 리싸이클러뷰에 적용시킨다.
 
 // Allows to remember the last item shown on screen
-
 
 
 // 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
@@ -125,17 +127,6 @@ public class feed extends AppCompatActivity {
 //        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
 
 // 피드에 올라가는 작성글 업데이트 시간을 실제 시간으로 띄우기
-
-        // 타임 세일 알람 화면으로 이동하는 버튼
-        imageButton_review_timesale = findViewById(R.id.imageButton_review_timesale);
-        imageButton_review_timesale.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent register_intent = new Intent(feed.this, timesale.class);
-                startActivity(register_intent); //액티비티 이동
-
-            }
-        });
 
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
@@ -168,8 +159,8 @@ public class feed extends AppCompatActivity {
                                 intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
                                 intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
                                 intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
-                                intent.putExtra("IMAGE",arrayList.get(position).imageView_reviewcard_img1);
-                                intent.putExtra("PROFILE",arrayList.get(position).imageView_reviewcard_profile_image);
+                                intent.putExtra("IMAGE", arrayList.get(position).imageView_reviewcard_img1);
+                                intent.putExtra("PROFILE", arrayList.get(position).imageView_reviewcard_profile_image);
 
 
                                 intent.putExtra("POSITION", position);
@@ -260,6 +251,33 @@ public class feed extends AppCompatActivity {
 
         });
 
+
+/**버튼 클릭시 이동 메소드 모음 **/
+        // 타임 세일 알람 화면으로 이동하는 버튼
+        imageButton_review_timesale = findViewById(R.id.imageButton_review_timesale);
+        imageButton_review_timesale.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(feed.this, timesale.class);
+                startActivity(register_intent); //액티비티 이동
+
+            }
+        });
+
+        // 리뷰 작성 플로팅 버튼
+        floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(), write_review.class);
+                startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+
+
+            }
+        });
+
+
 //하단바
         bottomNavigationView = findViewById(R.id.bottomNavi);
         // 하단바 누를 때 색 바뀌게 하는 중
@@ -274,23 +292,28 @@ public class feed extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:  // 피드 화면으로 이동
                         Intent home_intent = new Intent(feed.this, feed.class);
+                        home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search:
                         Intent search_intent = new Intent(feed.this, searching.class);
+                        search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//검색 화면으로 액티비티 띄우기
                         break;
                     case R.id.action_insight:  // 리뷰 쓰기 화면으로 이동
-                        Intent intent = new Intent(getApplicationContext(), insight.class);
-                        startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
+                        Intent insight_intent = new Intent(feed.this, insight.class);
+                        insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(insight_intent);//검색 화면으로 액티비티 띄우기
                         break;
                     case R.id.action_notification:
                         Intent notification_intent = new Intent(feed.this, notification.class);
+                        notification_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
                     case R.id.action_mypage:
                         Intent mycloset_intent = new Intent(feed.this, mypage.class);
+                        mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(mycloset_intent);//내 옷장 화면으로 액티비티 띄우기
                         break;
                 }
@@ -399,11 +422,10 @@ public class feed extends AppCompatActivity {
         // 여기 원래 feed_email이 키값이었음 -> 근데 그렇게 하면 그 사용자의 모든 정보가 bookmarked_arrayList로 덮어씌워짐
         //sharedPreference 쉐어드-> 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에 bookmarked_arrayList를 String으로 변환한 값을 넣어줌.
         bookmarkShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
-        Log.e("feed 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email +","+ json);
+        Log.e("feed 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
 
         bookmarkShared_editor.apply();
         Log.e("feed 클래스", "editor. apply 성공 ");
-
 
 
         // 그럼 현재 로그인하고 있는 유저의 데이터를 담고 있는 쉐어드에도 넣어줘야하나?
@@ -413,7 +435,6 @@ public class feed extends AppCompatActivity {
 //
 //// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
 //        user_editor.putString("user_bookmarkList", json);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-
 
 
     }
@@ -433,114 +454,73 @@ public class feed extends AppCompatActivity {
 
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
-// 리뷰를 올릴 때 작성 시간
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
-            String date = dateFormat.format(new Date());
-            String review_date = date;
-            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+           // 리뷰를 올릴 때 작성 시간
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
+//            String date = dateFormat.format(new Date());
+//            String review_date = date;
+            // 리뷰를 작성할 때 마다 고유 번호
+//            String textView_reviewcard_number = randomkeygenerator(); //-> 여기서 새로 생성해주면 고유 번호가 계속 바뀜
 
             // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
 
             // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
             logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-            // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
-            Log.e("feed 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
-
-            // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
-            // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
-            String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
-//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
-            Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
-
+            // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
+            String json = logined_user.getString("login_user", "");
+            /**이미지  **/
             String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
-//            imageView_reviewcard_profile_image = (ImageView)findViewById(R.id.imageView_reviewcard_profile_image);
-
-            Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image );
-
-
-
-
-// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+            // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
             String textView_nickname = logined_user.getString("user_nickname", "");
-            Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
-
             String textView_mysize = logined_user.getString("user_size", "");
+
+
+
+// 확인 로그
+//            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+            Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+            Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image);
+            Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
 
 
-// 리뷰를 작성할 때 마다 고유 번호
 
-            String textView_reviewcard_number = randomkeygenerator();
-
-
-//            feed_adapter = new feed_Adapter();
             // 사용자가 입력한 내용을 가져와서
+            String review_date = data.getStringExtra("작성시간");  // 여기 안되면 작성시간 메소드 위에 수식 주석 해제하기
+            String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
-            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
-
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
-            Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
-
             String textView_hashtag = data.getStringExtra("해시태그");
-            Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
-
             float float_ratingBar = data.getFloatExtra("만족도", 0);
-            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-
             String textView_review_writer = data.getStringExtra("작성자");
+            /**이미지**/
+            String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
+
+// 확인 로그
+            Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
+            Log.e("리뷰고유번호", textView_reviewcard_number + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
+            Log.e("쇼핑몰URL", textView_shoppingmall_url + "쇼핑몰URL 가져왔습니다!!!!!!!!!");
+            Log.e("상세리뷰", textView_detailed_review_card + "상세리뷰 가져왔습니다!!!!!!!");
+            Log.e("해시태그", textView_hashtag + "해시태그를 가져왔습니다!!!!!!!!!");
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
 
-            /**이미지도 여기에   **/
-
-            String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
-
-
-//            /** 이미지 넣기 여기 확인하기 **/
-//                        Uri uri = Uri.parse(data.getStringExtra("리뷰이미지"));
-
-
-            Log.e("feed 클래스에서 onActivityResult----------------",  " '리뷰이미지' :"+imageView_reviewcard_img1);
-
-//            String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
-//            Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
-
-//            uri = Uri.parse(data.getStringExtra("리뷰이미지"));
-//
-//            Uri myUri = Uri.parse(extras.getString("imageUri"));
-//            String imageView_reviewcard_img1 =data.getStringExtra("리뷰이미지");
-//            uri =Uri.parse(imageView_reviewcard_img1);
-//            Log.e("feed 클래스에서 onActivityResult -----------> 확인",  " '리뷰이미지' uri+imageView_reviewcard_img1:"+uri+","+imageView_reviewcard_img1);
-
-//            send -> putExtra("uri",urivalue.toString);
-//
-//            receive -> String geturi=getStringExtra("uri");
-//            Uri urivalue=Uri.parse(geturi);
-
+//MainData
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
                     textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
 
-            Log.e("[리뷰 추가하는 부분 이미지 들어가는지 확인중]", "feed_MainData 객체 생성!!!!!!!!!!!!!"+feed_MainData );
-            Log.e("[feed_MainData에 들어갔는지 확인중]------------------->", "imageView_reviewcard_img1"+imageView_reviewcard_img1 );
-
-
-
-//리사이클러뷰의 arrayList에 아이템 추가
-
-            arrayList.add(feed_MainData);
-            Log.e("[리뷰 추가하는 부분 이미지 들어가는지 확인중 - arrayList에는 들어가는거 맞아?]", "arrayList 객체 생성!!!!!!!!!!!!!"+arrayList );
+            arrayList.add(feed_MainData);  //리사이클러뷰의 arrayList에 아이템 추가
 
             feed_adapter.notifyDataSetChanged();  // 새로고침
-            // 추가됨.
 
-            // sharedPreferences 에 추가
-            saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+            // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
+            saveData();   // onCreate 밖에 메소드 만들었음.
+
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
-//            loadData();
-//            Log.e("feed 클래스에서 (loadData)--------------->", "확인중 :" + arrayList);
-
         }
+
         // 리뷰를 수정했을 때
         if (requestCode == 2001 && resultCode == RESULT_OK) {
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
@@ -549,63 +529,46 @@ public class feed extends AppCompatActivity {
 
             // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
             logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-            // 불러온 sharedPreferences라는 이름의 SharedPreferencs를 확인하는 로그
-            Log.e("feed 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
 
-            // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데
-            // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
-            String json = logined_user.getString("logined_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
-//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
-            Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+            // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 변수에 넣어줌
+            String json = logined_user.getString("logined_user", "");// logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
 
-            //user_nickname
-            //user_size
-            String textView_nickname = logined_user.getString("nickname", "");
-            String textView_mysize = logined_user.getString("currentSize", "");
+
+            //user_nickname & user_size & user_profileimage
+            String textView_nickname = logined_user.getString("user_nickname", "");
+            String textView_mysize = logined_user.getString("user_size", "");
             String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
-            Log.e("feed 클래스에서 onActivityResult - 수정했을 때 2001",  " 'user_profileimage' :"+imageView_reviewcard_profile_image);
+
+
+            //확인로그
+            Log.e("feed 클래스에서 리뷰 수정 후 ", " logined_user 쉐어드를 가져온다" + logined_user);
+            Log.e("feed 클래스 리뷰 수정 후", "여기 확인하기 : " + json);
+            Log.e("feed 클래스에서 onActivityResult - 리뷰 수정 후", " 'user_profileimage' :" + imageView_reviewcard_profile_image);
 
 
             // 리뷰 수정에서 보낸 수정한 데이터 가져오기 / 받아오기
             // 사용자가 수정한 내용을 가져와서
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
-            Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
-
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
-            Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
-
             String textView_hashtag = data.getStringExtra("해시태그");
-            Log.e("해시태그", textView_hashtag + "수정한 해시태그 가져왔습니다");
-
             float float_ratingBar = data.getFloatExtra("만족도", 0);
-            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-
             String textView_review_writer = data.getStringExtra("작성자");
-            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-
             String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+            /**이미지**/
+            String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
+
+
+//확인 로그
+            Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
+            Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
+            Log.e("해시태그", textView_hashtag + "수정한 해시태그 가져왔습니다");
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
             Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
-
-            /** Uri 가져오기**/
-
-            String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
-            Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
 
 
 
-//            Uri uri = Uri.parse(data.getDataString(getString("uri")));
-
-            // 근데 내가 쉐어드에 이미지를 넣어준 적이 없잖아? 그리고 쉐어드에 int 형 저장 가능한가?
-            // 이미지
-//            int imageView_reviewcard_profile_image= data.getIntExtra("프로필사진", 1234);
-//            int imageView_reviewcard_img1= data.getIntExtra("리뷰이미지",5678);
-
-
-//                String textView_nickname= data.getStringExtra("닉네임");
-//                Log.e("닉네임", textView_hashtag + "닉네임을 가져왔습니다!!!!!!!!!");
-//
-//                String textView_mysize = data.getStringExtra("평소사이즈");
-//                Log.e("평소사이즈", textView_hashtag + "평소사이즈를 가져왔습니다!!!!!!!!!");
 
 
 // 리뷰를 올릴 때 작성 시간
@@ -633,31 +596,11 @@ public class feed extends AppCompatActivity {
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
-//
-//            loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
-//            // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
-//            Log.e("feed 클래스에서(loadData)","sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :"  + arrayList );
+
         }
 
     }//onActivityResult 메소드 닫는 중괄호
 
-
-//    private void bookmark_saveData() {
-//
-//
-//        // sharedPref
-//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        Log.e("feed 클래스","Gson 객체 호출 : "+gson);
-//        String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
-//        Log.e("feed 클래스","Gson 객체 호출 : "+ json);
-//        editor.putString("bookmarked_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
-//        Log.e("feed 클래스","Gson 객체 호출 : "+ editor.putString("bookmarked_recyclerview", json));
-//        editor.apply();
-//        Log.e("feed 클래스","apply 성공 ");
-//    }
-//
 
     private static final String ALPHA_NUMERIC_STRING = "0123456789";
 
@@ -702,6 +645,7 @@ public class feed extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.e("feed", "onPause");
+        overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

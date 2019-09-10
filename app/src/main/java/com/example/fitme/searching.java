@@ -109,23 +109,28 @@ public class searching extends AppCompatActivity implements View.OnClickListener
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
                         Intent home_intent = new Intent(searching.this,feed.class);
+                        home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
                         Intent search_intent = new Intent(searching.this,searching.class);
+                        search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_insight :
                         Intent write_intent = new Intent(searching.this,insight.class);
+                        write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
                         Intent insight_intent = new Intent(searching.this,notification.class);
+                        insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :
                         Intent mycloset_intent = new Intent(searching.this, mypage.class);
+                        mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
                 }
@@ -168,10 +173,14 @@ public class searching extends AppCompatActivity implements View.OnClickListener
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
+
+
+
     @Override
     protected void onPause() {
         super.onPause();
         Log.e("searching","onPause");
+        overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

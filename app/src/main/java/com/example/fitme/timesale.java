@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ public class timesale extends AppCompatActivity {
     private static TimePicker timePicker;
 
     //타이머에 필요한 핸들러
+    ImageButton imageButton_back;
     Button button_reset, button_Alarm;
 //    private final long START_TIME_IN_MILLIS = 60000;  // 이게 지금 타이머에 세팅되어있는 시간이니까 START_TIME_IN_MILLIS를 사용자가 설정한 알람 시간으로 바꿔야 함 // 원래 60000이었던 것 같음
     private static Handler mHandler;
@@ -43,13 +46,28 @@ public class timesale extends AppCompatActivity {
     TextView textView_leftTime;
 
 
-    // 뒤로 가기 버튼 눌렀을 때 마이페이지로 이동
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timesale);
+
+
+
+        // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
+
+        imageButton_back = findViewById(R.id.imageButton_back);
+        imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(timesale.this, feed.class);
+                startActivity(register_intent); //액티비티 이동
+                finish(); // 액티비티 finish 시킴
+
+            }
+        });
+
+
 
         this.calendar = Calendar.getInstance();
         // 현재 날짜 표시

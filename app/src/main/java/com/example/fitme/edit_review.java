@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,7 +31,7 @@ public class edit_review extends AppCompatActivity {
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review, editText_edit_shoppingmall_url,
             editText_edit_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
-    ImageButton imageButton_review_register,imageButton_open_web_browser, imageButton_camera, imageButton_image,  imageButton_review_edit_completed;
+    ImageButton imageButton_review_register,imageButton_open_web_browser, imageButton_camera, imageButton_write_review_back,  imageButton_review_edit_completed;
     RatingBar ratingBar;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
@@ -46,6 +44,8 @@ public class edit_review extends AppCompatActivity {
         Log.e("write_review","onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_review_card);
+
+
 
 
 // 리사이클러뷰의 아이템 수정 전 데이터 받아오기
@@ -117,6 +117,19 @@ public class edit_review extends AppCompatActivity {
         editText_hashtag = findViewById(R.id.editText_hashtag);
         ratingBar = findViewById(R.id.ratingBar);
         imageView_review_photo1 = (ImageView)findViewById(R.id.imageView_review_photo1);
+
+// 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
+
+        imageButton_write_review_back = findViewById(R.id.imageButton_write_review_back);
+        imageButton_write_review_back.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(edit_review.this, feed.class);
+                startActivity(register_intent); //액티비티 이동
+                finish(); // 액티비티 finish 시킴
+
+            }
+        });
 
 
 
@@ -232,51 +245,6 @@ public class edit_review extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),  PICTURE_REQUEST_CODE);
             }
         });
-
-
-
-//하단바
-        bottomNavigationView = findViewById (R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home :
-                        Intent home_intent = new Intent(edit_review.this,feed.class);
-                        startActivity(home_intent);//액티비티 띄우기
-//                        startActivityForResult(intent,sub);//액티비티 띄우기
-                        break;
-                    case R.id.action_search :
-                        Intent search_intent = new Intent(edit_review.this,searching.class);
-                        startActivity(search_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_insight :
-                        Intent write_intent = new Intent(edit_review.this,insight.class);
-                        startActivity(write_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_notification :
-                        Intent insight_intent = new Intent(edit_review.this,notification.class);
-                        startActivity(insight_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_mypage :
-                        Intent mycloset_intent = new Intent(edit_review.this, mypage.class);
-                        startActivity(mycloset_intent);//액티비티 띄우기
-                        break;
-                }
-
-
-                return false;
-
-            }
-        });
-
-
-// 웹브라우저
-//
-//        Uri uri = Uri.parse("http://www.google.com");
-//        Intent it  = new Intent(Intent.ACTION_VIEW,uri);
-//        startActivity(it);
 
     }
 

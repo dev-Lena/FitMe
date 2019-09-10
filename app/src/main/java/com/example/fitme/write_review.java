@@ -47,7 +47,7 @@ public class write_review extends AppCompatActivity {
     TextView word_review_date, word_textView_review_writer, word_textView_reviewcard_number,textView_review_writer_writer, textView_reviewcard_number_number;
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
-    ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register;
+    ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register, imageButton_write_review_back;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     RatingBar ratingBar;
 
@@ -77,6 +77,21 @@ public class write_review extends AppCompatActivity {
         word_review_date = findViewById(R.id.review_date);  // 리뷰 작성 시간
         word_textView_review_writer = findViewById(R.id.textView_review_writer);  // 작성
         word_textView_reviewcard_number = findViewById(R.id.textView_reviewcard_number);  // 리뷰 고유 번호
+
+
+        // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
+
+        imageButton_write_review_back = findViewById(R.id.imageButton_write_review_back);
+        imageButton_write_review_back.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(write_review.this, feed.class);
+                startActivity(register_intent); //액티비티 이동
+                finish(); // 액티비티 finish 시킴
+
+            }
+        });
+
 
 
 
@@ -111,10 +126,18 @@ public class write_review extends AppCompatActivity {
                 String textView_mysize = logined_user.getString("user_size", "");
                 String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage","");
 
+                // 리뷰 작성 시간
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
                 String date = dateFormat.format(new Date());
                 String review_date = date;
+
+
+                String textView_reviewcard_number = randomkeygenerator();  // 리뷰 고유 번호
+
 /**인텐트 result에 담음**/
+
+                review_date = result.getStringExtra("작성시간");
+                textView_reviewcard_number = result.getStringExtra("리뷰고유번호");
                 float float_ratingBar = result.getFloatExtra("만족도", 0);
                 String textView_review_writer = result.getStringExtra("작성자");
                 String imageView_reviewcard_img1 = result.getStringExtra("리뷰이미지");
@@ -137,7 +160,6 @@ public class write_review extends AppCompatActivity {
                 // myreview_arrayList로 데이터를 보여주는 내가 쓴 리뷰 리사이클러뷰를 로드해라
                 myreview_loadData();
 
-                String textView_reviewcard_number = randomkeygenerator();
 
                 // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) myreview_arrayList에 추가하라
                 feed_MainData feed_MainData = new feed_MainData (textView_shoppingmall_url, textView_detailed_review_card,
