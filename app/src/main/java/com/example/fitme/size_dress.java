@@ -100,8 +100,8 @@ public class size_dress extends AppCompatActivity {
                         Intent search_intent = new Intent(size_dress.this,searching.class);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_write_review :
-                        Intent write_intent = new Intent(size_dress.this,review_category.class);
+                    case R.id.action_insight :
+                        Intent write_intent = new Intent(size_dress.this,insight.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :

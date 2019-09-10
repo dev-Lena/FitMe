@@ -183,8 +183,8 @@ public class myreview extends AppCompatActivity {
                         Intent search_intent = new Intent(myreview.this, searching.class);
                         startActivity(search_intent);//검색 화면으로 이동. 액티비티 띄우기
                         break;
-                    case R.id.action_write_review:
-                        Intent write_intent = new Intent(myreview.this, write_review.class);
+                    case R.id.action_insight:
+                        Intent write_intent = new Intent(myreview.this, insight.class);
                         startActivity(write_intent);//리뷰 작성 화면으로 이동. 액티비티 띄우기
                         break;
                     case R.id.action_notification:

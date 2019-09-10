@@ -12,10 +12,10 @@
         android:icon="@drawable/ic_search"
         android:title="search" />
     <item
-        android:id="@+id/action_write_review"
+        android:id="@+id/action_insight"
         android:enabled="true"
-        android:icon="@drawable/ic_create_black_24dp"
-        android:title="write" />
+        android:icon="@drawable/ic_insert_chart_black_24dp"
+        android:title="insight" />
     <item
         android:id="@+id/action_notification"
         android:enabled="true"

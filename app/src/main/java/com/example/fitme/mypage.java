@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +46,11 @@ public class mypage extends AppCompatActivity {
         setContentView(R.layout.activity_mypage2);
 
 
-        //마이페이지의 로그인한 회원의 정보 넣기 : 이메일, 닉네임, 프로필 사진
+        /**마이페이지의 로그인한 회원의 정보 넣기 : 이메일, 닉네임, 프로필 사진**/
 
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
 
         // 이메일
-        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
         String mypage_email = logined_user.getString("user_email", "");
         Log.e("[마이페이지] 로그인 쉐어드에서", " 현재 로그인한 유저의 이메일 넣기 : " + mypage_email);
         textView_mypage_email = findViewById(R.id.textView_mypage_email);
@@ -67,14 +68,25 @@ public class mypage extends AppCompatActivity {
 //        imageView_mypage_profileimage = findViewById(R.id.imageView_mypage_profileimage);
 //        imageView_mypage_profileimage.setImageURI(Uri.parse( uri));
         imageView_mypage_profileimage = (ImageView)findViewById(R.id.imageView_mypage_profileimage);
-        String ImageUri = logined_user.getString("user_profileimage", null);
-        imageView_mypage_profileimage.setImageURI(Uri.parse(ImageUri));
+
+
+            String ImageUri = logined_user.getString("user_profileimage", null);
+
+        Picasso.get()
+                .load(logined_user.getString("user_profileimage", null))
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.ic_person_black_24dp) // 이미지가 없을 때 기본
+                .error(R.drawable.review_plz)// 에러가 났을 때
+                .into(imageView_mypage_profileimage);
+
+
 
         Log.e("[마이페이지] 로그인 쉐어드에서", " uri : " + ImageUri);
-        Log.e("[마이페이지] 로그인 쉐어드에서", "imageView_mypage_profileimage : " + imageView_mypage_profileimage);
+        Log.e("[마이페이지] 로그인 쉐어드에서 ------", "imageView_mypage_profileimage : ----------> 여기 확인 " + imageView_mypage_profileimage);
 
 
-//        imageView_mypage_profileimage.setImageURI(uri);
+//        imageView_mypage_profileimage.setImageURI(uri);0
 
 
 // 내가 쓴 리뷰로 이동하는 버튼
@@ -207,8 +219,8 @@ public class mypage extends AppCompatActivity {
                         Intent search_intent = new Intent(mypage.this,searching.class);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_write_review :
-                        Intent write_intent = new Intent(mypage.this,write_review.class);
+                    case R.id.action_insight :
+                        Intent write_intent = new Intent(mypage.this,insight.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :

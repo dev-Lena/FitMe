@@ -26,6 +26,7 @@ import static java.lang.String.format;
 
 public class timesale extends AppCompatActivity {
 
+
     // 알람 시간
     private static Calendar calendar;
     private static TimePicker timePicker;
@@ -80,6 +81,8 @@ public class timesale extends AppCompatActivity {
         });
 
         updateCountDownText();
+
+
 
 
     }/// onCreate 닫는 중괄호

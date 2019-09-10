@@ -40,8 +40,8 @@ public class notification extends AppCompatActivity {
                         Intent search_intent = new Intent(notification.this,searching.class);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_write_review :
-                        Intent write_intent = new Intent(notification.this,write_review.class);
+                    case R.id.action_insight :
+                        Intent write_intent = new Intent(notification.this,insight.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :

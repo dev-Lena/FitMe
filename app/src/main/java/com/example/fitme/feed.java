@@ -37,12 +37,14 @@ public class feed extends AppCompatActivity {
 //    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
     private ArrayList<List> userData = new ArrayList<List>();
 
+    // 현재 로그인하고 있는 회원의 정보만 저장하는 쉐어드
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
 
+    // 북마크한 리뷰를 저장하는 쉐어드
     private SharedPreferences bookmarkShared;
     private SharedPreferences.Editor bookmarkShared_editor;
-    //
+    // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
     //    ImageButton imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
@@ -51,10 +53,10 @@ public class feed extends AppCompatActivity {
     TextView textView_feed_id;
     ImageButton imageButton_review_timesale;
 
+    // 모든 회원 정보와 모든 리뷰들이 저장되는 전체 쉐어드
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private final int Write_OK = 1001;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
@@ -167,6 +169,7 @@ public class feed extends AppCompatActivity {
                                 intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
                                 intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
                                 intent.putExtra("IMAGE",arrayList.get(position).imageView_reviewcard_img1);
+                                intent.putExtra("PROFILE",arrayList.get(position).imageView_reviewcard_profile_image);
 
 
                                 intent.putExtra("POSITION", position);
@@ -278,8 +281,8 @@ public class feed extends AppCompatActivity {
                         Intent search_intent = new Intent(feed.this, searching.class);
                         startActivity(search_intent);//검색 화면으로 액티비티 띄우기
                         break;
-                    case R.id.action_write_review:  // 리뷰 쓰기 화면으로 이동
-                        Intent intent = new Intent(getApplicationContext(), write_review.class);
+                    case R.id.action_insight:  // 리뷰 쓰기 화면으로 이동
+                        Intent intent = new Intent(getApplicationContext(), insight.class);
                         startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
                         break;
                     case R.id.action_notification:
@@ -449,6 +452,13 @@ public class feed extends AppCompatActivity {
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
+            String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
+//            imageView_reviewcard_profile_image = (ImageView)findViewById(R.id.imageView_reviewcard_profile_image);
+
+            Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image );
+
+
+
 
 // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
             String textView_nickname = logined_user.getString("user_nickname", "");
@@ -456,8 +466,6 @@ public class feed extends AppCompatActivity {
 
             String textView_mysize = logined_user.getString("user_size", "");
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
-
-            /** 프로필 이미지도 여기에   **/
 
 
 // 리뷰를 작성할 때 마다 고유 번호
@@ -482,7 +490,10 @@ public class feed extends AppCompatActivity {
             String textView_review_writer = data.getStringExtra("작성자");
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
 
+            /**이미지도 여기에   **/
+
             String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
+
 
 //            /** 이미지 넣기 여기 확인하기 **/
 //                        Uri uri = Uri.parse(data.getStringExtra("리뷰이미지"));
@@ -507,7 +518,7 @@ public class feed extends AppCompatActivity {
 
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
 
             Log.e("[리뷰 추가하는 부분 이미지 들어가는지 확인중]", "feed_MainData 객체 생성!!!!!!!!!!!!!"+feed_MainData );
             Log.e("[feed_MainData에 들어갔는지 확인중]------------------->", "imageView_reviewcard_img1"+imageView_reviewcard_img1 );
@@ -547,8 +558,13 @@ public class feed extends AppCompatActivity {
 //                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + sharedPreferences.getString("email", ""));
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
+            //user_nickname
+            //user_size
             String textView_nickname = logined_user.getString("nickname", "");
             String textView_mysize = logined_user.getString("currentSize", "");
+            String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
+            Log.e("feed 클래스에서 onActivityResult - 수정했을 때 2001",  " 'user_profileimage' :"+imageView_reviewcard_profile_image);
+
 
             // 리뷰 수정에서 보낸 수정한 데이터 가져오기 / 받아오기
             // 사용자가 수정한 내용을 가져와서
@@ -574,6 +590,8 @@ public class feed extends AppCompatActivity {
 
             String imageView_reviewcard_img1= data.getStringExtra("리뷰이미지");
             Log.e("feed 클래스에서 onActivityResult",  " '리뷰이미지' :"+imageView_reviewcard_img1);
+
+
 
 //            Uri uri = Uri.parse(data.getDataString(getString("uri")));
 
@@ -602,7 +620,7 @@ public class feed extends AppCompatActivity {
             //
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" + textView_shoppingmall_url + "," + textView_detailed_review_card);
 
 

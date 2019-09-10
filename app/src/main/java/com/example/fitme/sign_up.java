@@ -42,7 +42,6 @@ public class sign_up extends AppCompatActivity {
 
 
     private static int PICK_IMAGE_REQUEST = 1;
-//    static final String TAG = "MainActivity";
     final int REQUEST_CODE = 10000;
 
 
@@ -102,7 +101,7 @@ public class sign_up extends AppCompatActivity {
                 //Intent 시작 - 갤러리앱을 열어서 원하는 이미지를 선택할 수 있다.
                 startActivityForResult(intent,REQUEST_CODE);
 
-                Log.e("이미지 버튼을 클릭했을 때 되고 있나요?","RESULT_OK : "+ RESULT_OK);
+                Log.e("이미지 버튼을 클릭했을 때 되고 있나요?","RESULT_OK : "+ REQUEST_CODE);
     }
 });
 
@@ -150,12 +149,14 @@ public class sign_up extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject();  // JSONObject 객체 선언
                     JSONArray jsonArray = new JSONArray();       // JSONArray 객체 선언
 
-
+/** 회원가입 정보 Json 사용해서 sharedPreferences에 저장하는 중 **/
                     email = editText_email.getText().toString();
                     password = editText_password.getText().toString();
                     currentSize = editText_mysize.getText().toString();
                     nickname = editText_nickname.getText().toString();
-                    profile_img = imageView_user_profile_image.toString();
+                    profile_img = uri.toString();
+
+                    Log.e("sign_up 클래스 "," profile_img = uri.toString(); : " + profile_img);
 //                profile_img = imageView_user_profile_image.get().toString();
 
                     try {
@@ -199,42 +200,30 @@ public class sign_up extends AppCompatActivity {
         });
 
 
-// 회원가입한 정보 로그인 정보로 넘겨주기
+// 비밀번호 일치 검사
 
         editText_password_confirm = (EditText) findViewById(R.id.editText_password_confirm);
-
-
         // 비밀번호 일치 검사
         editText_password_confirm.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 String password = editText_password.getText().toString();
                 String confirm = editText_password_confirm.getText().toString();
 
                 if (password.equals(confirm)) {
                     editText_password.setTextColor(Color.BLACK);
                     editText_password_confirm.setTextColor(Color.BLACK);
-
                 } else {
-
                     editText_password.setTextColor(Color.RED);
                     editText_password_confirm.setTextColor(Color.RED);
-
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
-
-
         });
 
 
@@ -277,35 +266,19 @@ public class sign_up extends AppCompatActivity {
                 array.put(data.get(i));
 
                 Log.e("회원정보 확인하는 메소드","확인중" + array.put(data.get(i)));
-
-
-
             }
 
             editor.putString(email, jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-
             Log.e("saveArrayList 메소드","확인중" + editor.putString(email,jsondata));
             editor.commit();
             Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
-
-
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
-
-
-
-
-
-//        if(requestCode == REQUEST_CODE) {
             if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-//
-//
 //                Bitmap image_bitmap = null;
 //                try {
 //                    image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
@@ -317,8 +290,6 @@ public class sign_up extends AppCompatActivity {
 //                    e.printStackTrace();
 //                }
 //
-
-
 ////                //기존 이미지 지우기
 //                imageView_user_profile_image.setImageResource(0);
 
@@ -331,18 +302,52 @@ public class sign_up extends AppCompatActivity {
                 Log.e("sign_up 클래스 ","onActivityResult : uri 이미지 가져왔나요?" + uri);
 
                 ClipData clipData = data.getClipData();
+//                profile_img = clipData.toString();
+
+                //shared 저장할 String변수에 사용자에게 받은 이미지 uri를 String으로 변환해서 담아줌.
+                // 위에서 sharedPreferences에 저장할 때
+                //  jsonObject.put("profile_img", profile_img); 이렇게 Json을 사용해서 담아줌.
+
+//                Picasso.get()
+//                        .load(uri)
+//                        .fit()
+//                        .centerInside()
+//                        .placeholder(R.drawable.ic_person_black_24dp) // 이미지가 없을 때 기본
+//                        .error(R.drawable.review_plz)// 에러가 났을 때
+//                        .into(imageView_user_profile_image);
 
                 if(clipData!=null) {
 
+                    profile_img = clipData.toString();
 
-                    imageView_user_profile_image .setImageURI(Uri.parse(uri.toString()));
-                    Log.e("sign_up 클래스 ","onActivityResult : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
+                    imageView_user_profile_image.setImageURI(Uri.parse(uri.toString()));
+//                    Picasso.get()
+//                            .load(uri)
+//                            .fit()
+//                            .centerInside()
+//                            .placeholder(R.drawable.ic_person_black_24dp) // 이미지가 없을 때 기본
+//                            .error(R.drawable.review_plz)// 에러가 났을 때
+//                            .into(imageView_user_profile_image);
 
+                    Log.e("sign_up 클래스 ","onActivityResult(clipData!=null) : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
+                    Log.e("sign_up 클래스 ","onActivityResult(clipData!=null) : profile_img?" + profile_img);
                 }
                 else if(uri != null)
                 {
-                    imageView_user_profile_image.setImageURI(uri);
-                    Log.e("sign_up 클래스 ","onActivityResult : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
+                    profile_img = uri.toString();
+//
+                    imageView_user_profile_image .setImageURI(Uri.parse(uri.toString()));
+//                    Picasso.get()
+//                            .load(uri)
+//                            .fit()
+//                            .centerInside()
+//                            .placeholder(R.drawable.ic_person_black_24dp) // 이미지가 없을 때 기본
+//                            .error(R.drawable.review_plz)// 에러가 났을 때
+//                            .into(imageView_user_profile_image);
+                    Log.e("sign_up 클래스 ","onActivityResult(uri != null) : imageView_user_profile_image 이미지 가져왔나요?" + imageView_user_profile_image);
+
+                    Log.e("sign_up 클래스 ","onActivityResult(uri != null) : profile_img?" + profile_img);
+
                 }
             }
 //        }

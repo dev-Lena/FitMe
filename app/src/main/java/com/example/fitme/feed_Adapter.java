@@ -100,8 +100,15 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(holder.imageView_reviewcard_img1);
 
+        String review_profile_Image = feed_mainData.getImageView_reviewcard_profile_image();
 
-
+        Picasso.get()
+                .load(arrayList.get(position).getImageView_reviewcard_profile_image())
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
+                .error(R.drawable.review_plz)// 에러가 났을 때
+                .into(holder.imageView_reviewcard_profile_image);
 
 
 

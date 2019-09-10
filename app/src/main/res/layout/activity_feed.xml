@@ -20,12 +20,12 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginEnd="8dp"
             android:paddingEnd="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.514"
+            app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/img_fitme_logo_edit_edit" />
 
@@ -34,36 +34,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="83dp" />
-
-        <ImageButton
-            android:id="@+id/imagebutton_review_timesale"
-            android:layout_width="46dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="48dp"
-            android:background="@null"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47"
-            app:srcCompat="@drawable/ic_notifications" />
+            app:layout_constraintGuide_begin="62dp" />
 
         <ImageButton
             android:id="@+id/imageButton_review_timesale"
-            android:layout_width="45dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="48dp"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_marginEnd="16dp"
             android:background="@null"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.526"
             app:srcCompat="@drawable/ic_alarm_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -85,13 +74,37 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/feed_recyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feed_recyclerView"
+            android:layout_width="410dp"
+            android:layout_height="506dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:tint="@color/colorWhite"
+            app:backgroundTint="@color/colorDarkPurple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_create_black_24dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavi"

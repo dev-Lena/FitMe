@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,7 +83,7 @@ public class write_review extends AppCompatActivity {
 
 
         //데이터 보내기
-// 리뷰 등록 버튼 -> 피드 화면 이동
+// 리뷰 등록 버튼 -> 피드 화면 onActivityResult 메소드 확인
         imageButton_review_register = findViewById(R.id.imageButton_review_register);
         imageButton_review_register.setOnClickListener(new ImageView.OnClickListener() {
             @Override
@@ -93,14 +91,15 @@ public class write_review extends AppCompatActivity {
 
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
-                // 사용자가 입력한 데이터를 변수에 담아줌
+/** 지금 여기가 MainData 클래스를 통해서 리사이클러뷰 ArrayList에 넣어줄 값들을 불러와서 set해주는 곳임.**/
+/** 사용자가 입력한 데이터를 변수에 담아줌 **/
                 String textView_shoppingmall_url = editText_shoppingmall_url.getText().toString();
                 String textView_detailed_review_card = editText_detailed_review.getText().toString();
                 String textView_hashtag = editText_hashtag.getText().toString();
                 float int_ratingBar = ratingBar.getRating();
 //                String review_date = word_review_date.getText().toString();
                 // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
-
+/** 로그인한 회원 정보 쉐어드에서 데이터 받아옴**/
                 // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
                 logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
 
@@ -110,25 +109,26 @@ public class write_review extends AppCompatActivity {
                 String json = logined_user.getString("login_user", "");  // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 json이라는 변수에 담음
                 String textView_nickname = logined_user.getString("user_nickname", "");
                 String textView_mysize = logined_user.getString("user_size", "");
+                String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage","");
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
                 String date = dateFormat.format(new Date());
                 String review_date = date;
-
+/**인텐트 result에 담음**/
                 float float_ratingBar = result.getFloatExtra("만족도", 0);
                 String textView_review_writer = result.getStringExtra("작성자");
                 String imageView_reviewcard_img1 = result.getStringExtra("리뷰이미지");
 
                 // 위에서 가져온 값들 확인하는 로그들
-                Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
-                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + logined_user.getString("email", ""));
-                Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
-                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
-                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
-                Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
-                Log.e("write_review 만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-                Log.e("write_review 작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-                Log.e("write_review 클래스 onActivityResult---------->", "리뷰이미지"+ imageView_reviewcard_img1);
+//                Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
+//                Log.e("login 클래스에서 로그인 버튼을 눌렀을 때", "sharedPreferences에서 j저장된 array(string으로 저장됐던) 가져오기 : " + logined_user.getString("email", ""));
+//                Log.e("write_review 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
+//                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
+//                Log.e("[리뷰 추가] write_review 에서 로그인한 회원 정보가 있는 쉐어드에서", "평소 사이즈 넣기 : " + textView_mysize);
+//                Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+//                Log.e("write_review 만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
+//                Log.e("write_review 작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
+//                Log.e("write_review 클래스 onActivityResult---------->", "리뷰이미지"+ imageView_reviewcard_img1);
 
                 // 데이터를 myreview_arrayList에 넣어줌 -> 내가 쓴 리뷰 리사이클러뷰에 올라감
                 myreview_arrayList = new ArrayList<>();
@@ -142,7 +142,7 @@ public class write_review extends AppCompatActivity {
                 // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) myreview_arrayList에 추가하라
                 feed_MainData feed_MainData = new feed_MainData (textView_shoppingmall_url, textView_detailed_review_card,
                         float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                        textView_nickname, textView_mysize, imageView_reviewcard_img1);
+                        textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
                 myreview_arrayList.add(feed_MainData);
 //                myreview_arrayList.add(feed_MainData); // ...? 여기서 내가 쓴 리뷰를 넣어주면되는데 feed_MainData
 
@@ -232,42 +232,6 @@ public class write_review extends AppCompatActivity {
         });
 
 
-
-//하단바
-        bottomNavigationView = findViewById (R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home :
-                        Intent home_intent = new Intent(write_review.this,feed.class);
-                        startActivity(home_intent);//액티비티 띄우기
-//                        startActivityForResult(intent,sub);//액티비티 띄우기
-                        break;
-                    case R.id.action_search :
-                        Intent search_intent = new Intent(write_review.this,searching.class);
-                        startActivity(search_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_write_review :
-                        Intent write_intent = new Intent(write_review.this,write_review.class);
-                        startActivity(write_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_notification :
-                        Intent insight_intent = new Intent(write_review.this,notification.class);
-                        startActivity(insight_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_mypage :
-                        Intent mycloset_intent = new Intent(write_review.this, mypage.class);
-                        startActivity(mycloset_intent);//액티비티 띄우기
-                        break;
-                }
-
-
-                return false;
-
-            }
-        });
 
 
     }// onCreate 닫는 중괄호
