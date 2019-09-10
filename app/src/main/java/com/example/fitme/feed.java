@@ -500,7 +500,7 @@ public class feed extends AppCompatActivity {
 
 
             // 사용자가 입력한 내용을 가져와서
-            String review_date = data.getStringExtra("작성시간");  // 여기 안되면 작성시간 메소드 위에 수식 주석 해제하기
+            review_date = data.getStringExtra("작성시간");  // 여기 안되면 작성시간 메소드 위에 수식 주석 해제하기
             String textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
             String textView_shoppingmall_url = data.getStringExtra("쇼핑몰URL");
             String textView_detailed_review_card = data.getStringExtra("상세리뷰");
@@ -540,7 +540,6 @@ public class feed extends AppCompatActivity {
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
             // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
-
             // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
             logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
 
@@ -570,6 +569,7 @@ public class feed extends AppCompatActivity {
             textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
+
 
 
 //확인 로그

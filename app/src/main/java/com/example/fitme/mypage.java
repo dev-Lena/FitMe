@@ -83,7 +83,7 @@ public class mypage extends AppCompatActivity {
 
 
         Log.e("[마이페이지] 로그인 쉐어드에서", " uri : " + ImageUri);
-        Log.e("[마이페이지] 로그인 쉐어드에서 ------", "imageView_mypage_profileimage : ----------> 여기 확인 " + imageView_mypage_profileimage);
+        Log.e("[마이페이지] 로그인 쉐어드에서 ", "imageView_mypage_profileimage : " + imageView_mypage_profileimage);
 
 
 //        imageView_mypage_profileimage.setImageURI(uri);0

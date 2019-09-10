@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -110,7 +111,7 @@ public class edit_review extends AppCompatActivity {
         Log.e("edit_ing", "float_ratingBar  : " + float_ratingBar );
         Log.e("edit_ing", "position  : " + position );
 
-        Log.e("***********************************************  review_date , date : ", review_date+date);
+        Log.e("***********************************************   date : ", date);
 // 가지고 온 데이터를 넣어줌 set해줌
         editText_shoppingmall_url.setText(shoppingmall_url);
         editText_detailed_review.setText(detailed_review);
@@ -119,7 +120,17 @@ public class edit_review extends AppCompatActivity {
         textView_reviewcard_number_number.setText(reviewcard_number);
         review_date.setText(date);
         ratingBar.setRating(float_ratingBar);
+        String ImageUri = review_image;
 
+        Picasso.get()
+                .load(review_image)
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
+                .error(R.drawable.review_plz)// 에러가 났을 때
+                .into(imageView_review_photo1);
+
+        Log.e("***********************************************  review_date : ", String.valueOf(review_date));
         Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL 세팅 완료");
         Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "상세리뷰 세팅 완료");
 
@@ -165,6 +176,11 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());
                 result.putExtra("리뷰이미지", imageView_review_photo1.toString());
                 result.putExtra("작성시간", review_date.toString());
+//                result.putExtra("작성시간", date);
+                result.putExtra("POSITION", position);
+
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ++++++++++++++++++++ ",  review_date.toString());
+
 
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
