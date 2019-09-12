@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
 
@@ -31,6 +32,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
         void onItemClick(View v, int position) ;
         void onCommentClick(View v, int position) ;  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 때
         void onBookmarkClick(View v, int position) ;  // 북마크 버튼을 눌렀을 때
+        void onReviewClick(View v, int position); // 리뷰 아이템을 눌렀을 때
 
         // 클릭할게 여러개 일 때 여기에 추가해주기
         // void onButtonClick이런 식으로
@@ -51,10 +53,10 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     private ArrayList<feed_MainData> arrayList;//
 
     public feed_Adapter(ArrayList<feed_MainData> arrayList, Context mContext) {   // 생성자
-//    public feed_Adapter(Context context, ArrayList<feed_MainData> arrayList) {   // 생성자
 
         this.mContext = mContext; // 이미지 Context 를 활용해서 넣기 위해 추가
         this.arrayList = arrayList;
+
     }
 
     @NonNull
@@ -78,20 +80,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
         feed_MainData feed_mainData = arrayList.get(position);
 
-//        feed_MainData data = arrayList.get(position);//위치에 따라서 그에 맞는 데이터를 얻어오게 한다.
-//        holder.personalId.setText(data.getId());//앞서 뷰홀더에 세팅해준 것을 각 위치에 맞는 것들로 보여주게 하기 위해서 세팅해준다.
-
-        // 피카소 라이브러리 기본 형식
-//        Picasso.get()
-//                .load("https://avatars0.githubusercontent.com/u/1?v=4") // 여기에 Now we need a URL to an ImageFile.
-//                .placeholder(R.drawable.ic_image_black_24dp) // optional the image to display while the url image is downloading
-//                .error(R.drawable.ic_error_black_24dp) //this is also optional if some error has occurred in downloading the image                 //this image would be displayed
-//                .into(imageView);
-
         String review_Image = feed_mainData .getImageView_reviewcard_img1();
 
-
-//        File f = new File("path-to-file/file.png");
         Picasso.get()
                 .load(arrayList.get(position).getImageView_reviewcard_img1())
                 .fit()
@@ -101,6 +91,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 .into(holder.imageView_reviewcard_img1);
 
         String review_profile_Image = feed_mainData.getImageView_reviewcard_profile_image();
+
 
         Picasso.get()
                 .load(arrayList.get(position).getImageView_reviewcard_profile_image())
@@ -115,28 +106,14 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
         Log.e("이미지 확인중 ", " : [이전 방식 arrayList position 사용 ]---------------->" + arrayList.get(position).getImageView_reviewcard_img1());
         Log.e("이미지 확인중 ", " : [지금 방식 review_Image]---------------->" + review_Image);
 
-
-//        String review_imageUrl = feed_mainData.getImageView_reviewcard_profile_image();
-//        Picasso.get().load(review_imageUrl).fit().centerInside().into(holder.imageView_reviewcard_profile_image);
-
-
-
-
         //컨텍스트와 함께 열고 > 이미지를 로딩하고 > 원하는 ImageView에 삽입하면 끝 입니다!
-
         // 이외에도 이미지 로딩이 완료되기전에 보여줄 .placeholder() 메소드,
-        //
         //모서리를 둥글게 하거나 완전한 원으로 만들기 위한 .transform() 메소드 등 이미지와 관련된 작업 대부분을 지원하는 라이브러리 입니다.
 
         // 이미지를 int로 받을 때  // 지금은 picasso 라이브러리 사용중
-//        holder.imageView_reviewcard_profile_image.setImageResource(arrayList.get(position).getImageView_reviewcard_profile_image());
-
-//        holder.imageView_reviewcard_img1.setImageURI(arrayList.get(position).getImageView_reviewcard_img1());
 
         holder.textView_mysize.setText(arrayList.get(position).getTextView_mysize());
         holder.textView_nickname.setText(arrayList.get(position).getTextView_nickname());
-//        holder.textView20.setText(arrayList.get(position).getTextView20());
-//        holder.review_date.setText(arrayList.get(position).getTextView_detailed_review_card());
         holder.textView_shoppingmall_url.setText(arrayList.get(position).getTextView_shoppingmall_url());
 //        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
 //        holder.textView_likes.setText(arrayList.get(position).getTextView_likes());
@@ -147,21 +124,14 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
         holder.textView_review_writer.setText(arrayList.get(position).getTextView_review_writer());
         holder.textView_reviewcard_number.setText(arrayList.get(position).getTextView_reviewcard_number());
 
-// 예제        holder.imageView.setImageResource(mItems.get(position).image);
 
-//        holder.imageButton_spinner.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.e("spinner 버튼이", "클릭이 되나 봅시다");
-//
-//            }
-//        });
-// holder.itemView.setTag(position);  // -> findViewById와 같은 기능
-
+        //클릭했을 때 어떤 걸 할건지
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //클릭했을 때 어떤 걸 할건지
+
+
+
 
             }
         });
@@ -173,7 +143,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //                return true;
 //            }
 //        });
-    }
+    }// onBindViewHolder 메소드 닫는 중괄호
+
 
     @Override
     public int getItemCount() {
@@ -186,10 +157,14 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
         TextView review_date, review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url,textView_hashtag,
                 textView_likes_number, textView_likes, textView_review_writer, textView_reviewcard_number,
-                textView_detailed_review_card, textView_more, textView_hashtag1, textView_hashtag2, textView_hashtag3, textView_hashtag4;
+                textView_detailed_review_card;
        ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
         ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
         RatingBar float_ratingBar;
+
+
+        // 프로필 이미지 picasso 에서 원형으로 만드는 중
+        private List<feed_MainData> listImageTransform;
 
 //        String textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag;
 
@@ -232,7 +207,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
-                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 리스너에서 getAdapterPostion했습니다");
+                    Log.e("Feed Adapter 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 onItemClick 리스너에서 getAdapterPostion했습니다");
 
                     // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onItemClick) 호출.
                     if (pos != RecyclerView.NO_POSITION) {
@@ -252,7 +227,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
-                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 댓글 버튼 onCommentClick 리스너에서 getAdapterPostion 했습니다");
+                    Log.e("Feed Adapter 클래스에서 ", "내가 커스텀한 클릭 댓글 버튼 onCommentClick 리스너에서 getAdapterPostion 했습니다");
 
                     // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
                     if (pos != RecyclerView.NO_POSITION) {
@@ -274,7 +249,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
-                    Log.e("Feed Adapter에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 클릭 댓글 버튼 imageButton_bookmark 리스너에서 getAdapterPostion 했습니다 : " + pos);
+                    Log.e("Feed Adapter에서  ", "내가 커스텀한 클릭 댓글 버튼 onBookmarkClick 리스너에서 getAdapterPostion 했습니다 : " + pos);
 
                     // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
                     if (pos != RecyclerView.NO_POSITION) {
@@ -283,6 +258,24 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                             Log.e("bookmark 버튼이 mListener를 통해", "눌렸나요?");
 
 
+
+                        }
+                    }
+                }
+            });
+
+            // 피드에 올라온 리뷰 아이템을 클릭하면 -> 해당 리뷰가 열리도록
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
+                    Log.e("Feed Adapter에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 onReviewClick 에서 getAdapterPostion 했습니다 : " + pos);
+
+                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
+                            mListener.onReviewClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                            Log.e("onReviewClick 버튼이 mListener를 통해", "눌렸나요?");
 
                         }
                     }

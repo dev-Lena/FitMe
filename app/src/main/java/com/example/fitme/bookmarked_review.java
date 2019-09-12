@@ -42,7 +42,7 @@ public class bookmarked_review extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // feed_ Adapter에서 만들어준 arrayList를 가지고 와서 여기서 객체 선언해줌.
         bookmarked_arrayList = new ArrayList<>();
-//        bookmark_saveData();
+
         bookmarked_loadData();
 
 
@@ -131,7 +131,12 @@ public class bookmarked_review extends AppCompatActivity {
                 Toast.makeText(getApplication(), "북마크가 해제되었습니다", Toast.LENGTH_SHORT).show();
 
             }
-});
+
+            @Override
+            public void onReviewClick(View v, int position) {
+
+            }
+        });
 
 //하단바
         bottomNavigationView = findViewById (R.id.bottomNavi);
@@ -144,7 +149,6 @@ public class bookmarked_review extends AppCompatActivity {
                         Intent home_intent = new Intent(bookmarked_review.this,feed.class);
                         startActivity(home_intent);//액티비티 띄우기
 
-//                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
                         Intent search_intent = new Intent(bookmarked_review.this,searching.class);

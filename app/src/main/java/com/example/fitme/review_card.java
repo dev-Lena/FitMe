@@ -1,6 +1,6 @@
 package com.example.fitme;
-
-import android.content.Intent;
+//
+//import android.content.Intent;
 //import android.net.Uri;
 //import android.os.Bundle;
 //import android.util.Log;
@@ -53,44 +53,44 @@ import android.content.Intent;
 //        textView_detailed_review_card.setText(detailedReview);
 //        Log.e("review_card", "detailedReview : " +detailedReview);
 //
-////
-////
-////        Intent intent = getIntent();
-////
-////        String detailed_review = intent.getStringExtra("detailed_review");
-////        String url = intent.getStringExtra("url");
-////        imageView_reviewcard_img1 = getIntent().getParcelableExtra("url1");
-////        imageView_reviewcard_img2 = getIntent().getParcelableExtra("url2");
-//////        String uri1 = intent.getStringExtra("url1");
-//////        String uri2 = intent.getStringExtra("url2");
-//////        String uri3 = intent.getStringExtra("url3");
-//////        String uri4 = intent.getStringExtra("url4");
-//////        String uri5 = intent.getStringExtra("url5");
-////
-////        Bundle extras = getIntent().getExtras();
-//////        imageView_reviewcard_img1 = Uri.parse(extras.getString("url1"));
-//////        imageView_reviewcard_img2 = Uri.parse(extras.getString("url2"));
-//////        imageView_reviewcard_img3 = Uri.parse(extras.getString("url3"));
-//////        imageView_reviewcard_img4 = Uri.parse(extras.getString("url4"));
-//////        imageView_reviewcard_img5 = Uri.parse(extras.getString("url5"));
-////        String hashtag1 = intent.getStringExtra("hashtag1");
-////
-////        Log.e("searching_result", "url : " +url);
-////        // 쇼핑 url
-////        textView_shoppingmall_url.setText(url);
-////        //상세 후기
-////        textView_detailed_review_card.setText(detailed_review);
-////        // 해시태그 1
-////        textView_hashtag1.setText(hashtag1);
 //
-//        // 사진 5장                                          -> String으로 바꿔준 Uri를 객체에 넣어줘야하는데 방법을 못찾음
-////        imageView_reviewcard_img1.(myUri);
-////
-////       imageView_reviewcard_img1 = Uri.parse(uri1);
-////        imageView_reviewcard_img2 = Uri.parse(uri2);
-////        imageView_reviewcard_img3 = Uri.parse(uri3);
-////        imageView_reviewcard_img4 = Uri.parse(uri4);
-////        imageView_reviewcard_img5 = Uri.parse(uri5);
+//
+//        Intent intent = getIntent();
+//
+//        String detailed_review = intent.getStringExtra("detailed_review");
+//        String url = intent.getStringExtra("url");
+//        imageView_reviewcard_img1 = getIntent().getParcelableExtra("url1");
+//        imageView_reviewcard_img2 = getIntent().getParcelableExtra("url2");
+////        String uri1 = intent.getStringExtra("url1");
+////        String uri2 = intent.getStringExtra("url2");
+////        String uri3 = intent.getStringExtra("url3");
+////        String uri4 = intent.getStringExtra("url4");
+////        String uri5 = intent.getStringExtra("url5");
+//
+//        Bundle extras = getIntent().getExtras();
+////        imageView_reviewcard_img1 = Uri.parse(extras.getString("url1"));
+////        imageView_reviewcard_img2 = Uri.parse(extras.getString("url2"));
+////        imageView_reviewcard_img3 = Uri.parse(extras.getString("url3"));
+////        imageView_reviewcard_img4 = Uri.parse(extras.getString("url4"));
+////        imageView_reviewcard_img5 = Uri.parse(extras.getString("url5"));
+//        String hashtag1 = intent.getStringExtra("hashtag1");
+//
+//        Log.e("searching_result", "url : " +url);
+//        // 쇼핑 url
+//        textView_shoppingmall_url.setText(url);
+//        //상세 후기
+//        textView_detailed_review_card.setText(detailed_review);
+//        // 해시태그 1
+//        textView_hashtag1.setText(hashtag1);
+//
+//         사진 5장                                          -> String으로 바꿔준 Uri를 객체에 넣어줘야하는데 방법을 못찾음
+//        imageView_reviewcard_img1.(myUri);
+//
+//       imageView_reviewcard_img1 = Uri.parse(uri1);
+//        imageView_reviewcard_img2 = Uri.parse(uri2);
+//        imageView_reviewcard_img3 = Uri.parse(uri3);
+//        imageView_reviewcard_img4 = Uri.parse(uri4);
+//        imageView_reviewcard_img5 = Uri.parse(uri5);
 //
 //    }
 //

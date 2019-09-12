@@ -174,7 +174,6 @@ public class write_review extends AppCompatActivity {
 /**인텐트 result에 담음**/
 
                         String textView_email = logined_user.getString("user_email", "");
-                        Log.e("write_review 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
 
                         result.putExtra("쇼핑몰URL", editText_shoppingmall_url.getText().toString());  // putExtra로 데이터 보냄
                         result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
@@ -185,6 +184,8 @@ public class write_review extends AppCompatActivity {
                         result.putExtra("리뷰고유번호", textView_reviewcard_number);  // putExtra로 데이터 보냄
                         result.putExtra("작성시간", review_date);  // putExtra로 데이터 보냄
 
+// 확인 로그
+                        Log.e("write_review 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
                         Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요 이미지: ", uri.toString());
                         Log.e("작성자 ,리뷰고유번호, 작성시간", textView_review_writer + textView_reviewcard_number + review_date);
 
@@ -194,8 +195,8 @@ public class write_review extends AppCompatActivity {
                         new ContentDownload().execute(""); // 리뷰 작성호 보이는 progress bar 로딩 화면 Asynctask
                         Log.e("write_review 클래스에서", "AsyncTask를 이용한 로딩화면 넣는 중 : ");
 
-
                         finish();
+
 //ContentList & File Download
                     }else { // 이미지를 업로드 하지 않았을 때
                         Toast.makeText(write_review.this, "이미지를 업로드해주세요", Toast.LENGTH_SHORT).show();
@@ -385,6 +386,7 @@ public class write_review extends AppCompatActivity {
                 //ClipData 또는 Uri를 가져온다
 
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
+                // 로그 찍었을 때 ClipData로는 실행이 되지 않고 uri방식으로 실행된다.
                 if(clipData!=null) {
 
 

@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +34,7 @@ public class comment extends AppCompatActivity {
     private SharedPreferences.Editor user_editor;
     TextView textView_comment_nickname ;
     ImageView imageView_comment_profile ;
+    ImageButton imageButton_back;
     EditText editText_comment_input ;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
@@ -120,6 +119,19 @@ public class comment extends AppCompatActivity {
             }
         });
 
+        // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
+
+        imageButton_back = findViewById(R.id.imageButton_back);
+        imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent register_intent = new Intent(comment.this, feed.class);
+                startActivity(register_intent); //액티비티 이동
+                finish(); // 액티비티 finish 시킴
+
+            }
+        });
+
 
 // 댓글 리사이클러뷰 아이템에 있는 다이얼로그 메뉴
 //        PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
@@ -185,41 +197,6 @@ public class comment extends AppCompatActivity {
 
 
 
-//하단바
-        bottomNavigationView = findViewById(R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home:
-                        Intent home_intent = new Intent(comment.this, feed.class);
-                        startActivity(home_intent);//액티비티 띄우기
-//                        startActivityForResult(intent,sub);//액티비티 띄우기
-                        break;
-                    case R.id.action_search:
-                        Intent search_intent = new Intent(comment.this, searching.class);
-                        startActivity(search_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_insight :
-                        Intent write_intent = new Intent(comment.this,insight.class);
-                        startActivity(write_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_notification:
-                        Intent insight_intent = new Intent(comment.this, notification.class);
-                        startActivity(insight_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_mypage:
-                        Intent mycloset_intent = new Intent(comment.this, mypage.class);
-                        startActivity(mycloset_intent);//액티비티 띄우기
-                        break;
-                }
-
-
-                return false;
-
-            }
-        });
 
     }// onCreate 닫는 중괄호
 

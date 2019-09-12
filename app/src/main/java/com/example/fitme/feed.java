@@ -43,6 +43,9 @@ public class feed extends AppCompatActivity {
     private SharedPreferences bookmarkShared;
     private SharedPreferences.Editor bookmarkShared_editor;
 
+    private SharedPreferences myreviewShared;
+    private SharedPreferences.Editor myreviewShared_editor;
+
     // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
     //    ImageButton imageButton_review_register;
@@ -62,6 +65,7 @@ public class feed extends AppCompatActivity {
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
     ArrayList<feed_MainData> arrayList, bookmarked_arrayList;
+    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -69,7 +73,7 @@ public class feed extends AppCompatActivity {
     private Context context;
 
     String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
-    String textView_reviewcard_number ;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
+    String textView_reviewcard_number;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
     String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
 
 
@@ -143,99 +147,121 @@ public class feed extends AppCompatActivity {
                 /** 여기에 로그인한 회원과 작성자와의 일치 여부에 따라 다른 메뉴가 보이도록 if  조건문 걸어주기. **/
 
 
+                // 리뷰 아이템의 작성자와 현재 로그인한 회원의 이메일이 같을 때
+                // -> 수정, 삭제, 공유가 가능한 메뉴를 띄워라
+                if (arrayList.get(position).textView_review_writer.equals(logined_user.getString("user_email", ""))) {
+
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
-                PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
+                    PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
-                getMenuInflater().inflate(R.menu.feed_review_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_edit:
-                                // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
-                                Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
+                    getMenuInflater().inflate(R.menu.feed_review_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.action_edit:
+                                    // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
+                                    Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(getApplicationContext(), edit_review.class);
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
+                                    Intent intent = new Intent(getApplicationContext(), edit_review.class);
+                                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
 
 //                                String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
 //                                String textView_reviewcard_number ;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
 //                                String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
-                                // 리뷰를 수정할 때 기존의 있는 정보를 보내줌
-                                intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
-                                intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
-                                intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
-                                intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
-                                intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
+                                    // 리뷰를 수정할 때 기존의 있는 정보를 보내줌
+                                    intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
+                                    intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
+                                    intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
+                                    intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
+                                    intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
 
-                                intent.putExtra("IMAGE", arrayList.get(position).imageView_reviewcard_img1);
-                                intent.putExtra("PROFILE", arrayList.get(position).imageView_reviewcard_profile_image);
-                                intent.putExtra("DATE", arrayList.get(position).review_date);
+                                    intent.putExtra("IMAGE", arrayList.get(position).imageView_reviewcard_img1);
+                                    intent.putExtra("PROFILE", arrayList.get(position).imageView_reviewcard_profile_image);
+                                    intent.putExtra("DATE", arrayList.get(position).review_date);
 
-                                intent.putExtra("RATING", arrayList.get(position).float_ratingBar);
+                                    intent.putExtra("RATING", arrayList.get(position).float_ratingBar);
 
 
-                                intent.putExtra("POSITION", position);
-                                // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
-                                startActivityForResult(intent, 2001);
+                                    intent.putExtra("POSITION", position);
+                                    // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
+                                    startActivityForResult(intent, 2001);
 
 //// 확인 로고
 //                                Log.e("Feed 클래스에서 이미지(수정) ", "이미지 : " + arrayList.get(position).imageView_reviewcard_img1);
 //                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
 //                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
 //                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
+                                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_review_writer : " + arrayList.get(position).textView_review_writer);
+                                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_reviewcard_number : " + arrayList.get(position).textView_reviewcard_number);
+                                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "비교중 review_date : " + arrayList.get(position).review_date);
+                                    Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "review_date : " + review_date); // 둘이 같음
 
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_review_writer : " + arrayList.get(position).textView_review_writer);
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "textView_reviewcard_number : " + arrayList.get(position).textView_reviewcard_number);
-                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "review_date : " +arrayList.get(position).review_date);
+                                    break;
 
+                                case R.id.action_delete: // 삭제하기
+                                    remove(position);
 
+                                    feed_adapter.notifyDataSetChanged();  // 새로고침
+                                    Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
 
+                                    saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                                    bookmark_saveData();
+                                    myreview_saveData();
 
-
-                                break;
-                            case R.id.action_delete:
-
-
-                                remove(position);
-
-                                feed_adapter.notifyDataSetChanged();  // 새로고침
-                                Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
-
-                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-                                Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
-
-
-                                return true;
+                                    Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+                                    return true;
 
 
-                            case R.id.action_share:
-                                Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
-                                break;
-//                            case R.id.action_report:
-//
-//                                remove(position);
-//
-//                                feed_adapter.notifyDataSetChanged();  // 새로고침
-//                                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-//                                Log.e("feed 클래스에서 (saveData)", "신고 삭제 후 sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
-//
-//                                Toast.makeText(getApplication(), "신고 되었습니다", Toast.LENGTH_SHORT).show();
-//
-//                                break;
-                            default:
-                                break;
+                                case R.id.action_share:  // 공유하기
+                                    Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    break;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
+                    });
 
-                popup.show();//Popup Menu 보이기
-//            }
-//        });
+                    popup.show();//Popup Menu 보이기
+                    // 작성자와 로그인한 유저의 이메일이 맞을 때 if문 닫는 중괄호 -> feed_menu
+                } else {  // 작성자와 로그인한 유저의 이메일이 맞지 않을 때 if문 -> bookmarked_menu
+                    PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
-            }
+                    getMenuInflater().inflate(R.menu.bookmarked_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+
+                                case R.id.action_share:
+                                    Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
+
+                                    break;
+                                case R.id.action_report:
+                                    remove(position);
+                                    feed_adapter.notifyDataSetChanged();  // 새로고침
+                                    saveData();
+                                    myreview_saveData();
+                                    bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+                                    Log.e("feed 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + bookmarked_arrayList);
+
+                                    Toast.makeText(getApplication(), "신고되었습니다", Toast.LENGTH_SHORT).show();
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+
+                    popup.show();//Popup Menu 보이기
+
+                }// else 닫는 중괄호
+            }// onItemClick 리스너 닫는 중괄호
+
 
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 댓글 버튼을 눌렀을 때
             public void onCommentClick(View v, int position) {
@@ -248,7 +274,7 @@ public class feed extends AppCompatActivity {
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 북마크 버튼을 눌렀을 때
             public void onBookmarkClick(View v, int position) {
                 // 해당 아이템이 bookmarked_review 리사이클러뷰에 추가되어야 함.
-                bookmarked_arrayList = new ArrayList<>();
+//                bookmarked_arrayList = new ArrayList<>();
                 // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
 
                 // bookmarked_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
@@ -263,6 +289,15 @@ public class feed extends AppCompatActivity {
                 Toast.makeText(getApplication(), "북마크한 리뷰에 추가되었습니다", Toast.LENGTH_SHORT).show();
 
 //리사이클러뷰의 arrayList에 아이템 추가
+
+            }
+
+            // 리뷰 아이템을 클릭했을 때
+            @Override
+            public void onReviewClick(View v, int position) { // 리뷰 아이템 하나만 보여주는 클래스
+//                Intent intent = new Intent(feed.this, review_card.class);
+//                startActivity(intent); //액티비티 이동
+//
 
             }
 
@@ -380,11 +415,20 @@ public class feed extends AppCompatActivity {
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
 
         try {
+            // 피드 리사이클러뷰에 들어간느 arrayList에서 삭제
             arrayList.remove(position);
+            // 내가 쓴 리뷰 리사이클러뷰에서 삭제
+            myreview_arrayList.remove(position);
+
+            // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
+            if (bookmarked_arrayList.get(position)!=null){
+                // 북마크한 리뷰 리사이클러뷰에서 삭제
+                bookmarked_arrayList.remove(position);
+            }
+
             feed_adapter.notifyItemRemoved(position);
-
-
             // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
+
 
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -454,7 +498,59 @@ public class feed extends AppCompatActivity {
 //        user_editor.putString("user_bookmarkList", json);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
 
 
+    }//bookmarked_saveData 메소드 닫는 중괄호
+
+    private void myreview_saveData() {
+
+//
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        SharedPreferences.Editor myreviewShared_editor = myreviewShared.edit();
+        Gson gson = new Gson();
+        Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
+
+        String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+
+        Log.e("myreview 클래스", "Gson 객체 호출 (toJson(myreview_arrayList) : " + json);
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+
+        myreviewShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("myreview 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
+
+        myreviewShared_editor.apply();
+        Log.e("myreview 클래스", "editor. apply 성공 ");
+
+
     }
+
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void myreview_loadData() {
+
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 ", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = myreviewShared.getString(feed_email, null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+
+        Log.e("feed 클래스 (myreview_loadData)", "typeToken객체 생성 :" + type);
+
+        myreview_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
+
+
+        if (myreview_arrayList == null) {
+            myreview_arrayList = new ArrayList<>();
+        }
+    } // myreview_loadData 메소드 닫는 중괄호
 
 
     @Override
@@ -467,18 +563,12 @@ public class feed extends AppCompatActivity {
         Log.e("RESULT", data + "");
 
         // write_review 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
+        /** 리뷰 작성 **/
         if (requestCode == 1001 && resultCode == RESULT_OK) {
 
+            myreview_loadData();
+
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
-
-//            // 리뷰를 올릴 때 작성 시간
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
-//            String date = dateFormat.format(new Date());
-//            String review_date = date;
-//            // 리뷰를 작성할 때 마다 고유 번호
-//            String textView_reviewcard_number = randomkeygenerator();
-
-            // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
 
             // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
             logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
@@ -490,9 +580,8 @@ public class feed extends AppCompatActivity {
             String textView_nickname = logined_user.getString("user_nickname", "");
             String textView_mysize = logined_user.getString("user_size", "");
 
-
 // 확인 로그
-//            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + review_date);
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image);
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "닉네임 넣기 : " + textView_nickname + logined_user.getString("nickname", ""));
@@ -516,11 +605,17 @@ public class feed extends AppCompatActivity {
                     textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
 
             arrayList.add(feed_MainData);  //리사이클러뷰의 arrayList에 아이템 추가
+            myreview_arrayList.add(feed_MainData); // 내가 쓴 리뷰에 추가
 
             feed_adapter.notifyDataSetChanged();  // 새로고침
 
+
+            // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
+            bookmark_saveData();
+
             // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
             saveData();   // onCreate 밖에 메소드 만들었음.
+            myreview_saveData();
 
 // 확인 로그
             Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
@@ -535,7 +630,8 @@ public class feed extends AppCompatActivity {
 
         }
 
-        // 리뷰를 수정했을 때
+        /** 리뷰를 수정했을 때 **/
+
         if (requestCode == 2001 && resultCode == RESULT_OK) {
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
@@ -551,12 +647,10 @@ public class feed extends AppCompatActivity {
             String textView_mysize = logined_user.getString("user_size", "");
             String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
 
-
             //확인로그
             Log.e("feed 클래스에서 리뷰 수정 후 ", " logined_user 쉐어드를 가져온다" + logined_user);
             Log.e("feed 클래스 리뷰 수정 후", "여기 확인하기 : " + json);
             Log.e("feed 클래스에서 onActivityResult - 리뷰 수정 후", " 'user_profileimage' :" + imageView_reviewcard_profile_image);
-
 
             // 리뷰 수정에서 보낸 수정한 데이터 가져오기 / 받아오기
             // 사용자가 수정한 내용을 가져와서
@@ -569,7 +663,7 @@ public class feed extends AppCompatActivity {
             textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
-
+//            ArrayList<feed_MainData> = data.getStringArrayListExtra(comment);
 
 
 //확인 로그
@@ -580,14 +674,7 @@ public class feed extends AppCompatActivity {
             Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
             Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
-            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
-
-
-// 리뷰를 올릴 때 작성 시간 -> 여기서 만들어주면 최초 작성 시간이 아니라 새로운 작성시간이 됨.
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.KOREA);
-//            String date = dateFormat.format(new Date());
-//            String review_date = date;
-//            Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + dateFormat + review_date + date);
+            Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' ++++++++++++++++++++++++ :" + imageView_reviewcard_img1);
 
             int position = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");
@@ -596,7 +683,7 @@ public class feed extends AppCompatActivity {
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
                     textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
-            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다" + textView_shoppingmall_url + "," + textView_detailed_review_card);
+            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다 imageView_reviewcard_img1 : +++++++++++++++++++++++++++++++++" + imageView_reviewcard_img1);
 
 
             // 그 위치를 받아와서 그곳에 set 해주기. 리뷰 수정 버튼을 누를 때 부터 같이 위치값을 startActivityForResult로 같이 넘겼다가 돌려받음.
@@ -606,6 +693,7 @@ public class feed extends AppCompatActivity {
             Log.e("edit", "수정한거 새로고침");
 
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+            myreview_saveData();
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
 
 
