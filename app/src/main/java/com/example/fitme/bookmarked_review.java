@@ -180,6 +180,7 @@ public class bookmarked_review extends AppCompatActivity {
     public void remove(int position){
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
 
+
         try{
             bookmarked_arrayList.remove(position);
             feed_adapter.notifyItemRemoved(position);

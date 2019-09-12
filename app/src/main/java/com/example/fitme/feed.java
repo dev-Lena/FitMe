@@ -46,6 +46,8 @@ public class feed extends AppCompatActivity {
     private SharedPreferences myreviewShared;
     private SharedPreferences.Editor myreviewShared_editor;
 
+    /// 삭제할 때 비교할 아이템 포지션 위치
+
     // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
     //    ImageButton imageButton_review_register;
@@ -64,8 +66,9 @@ public class feed extends AppCompatActivity {
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
-    ArrayList<feed_MainData> arrayList, bookmarked_arrayList;
-    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
+    ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+    //    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
+//    ArrayList<feed_MainData> myreview_arrayList;
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -201,6 +204,8 @@ public class feed extends AppCompatActivity {
                                     break;
 
                                 case R.id.action_delete: // 삭제하기
+
+
                                     remove(position);
 
                                     feed_adapter.notifyDataSetChanged();  // 새로고침
@@ -410,21 +415,62 @@ public class feed extends AppCompatActivity {
         editor.apply();
         Log.e("feed 클래스", "apply 성공 ");
     }
+//
+//    public void findItem(int position) {
+//        int count, checked;
+//        count = feed_adapter.getItemCount();
+//
+//        if (count > 0) {
+//            // 현재 선택된 아이템의 position 획득.
+//            checked = recyclerView.getChildAdapterPosition(recyclerView);
+//
+//            if (checked > -1 && checked < count) {
+//                // 아이템 삭제
+//                arrayList.remove(checked);
+//
+//                // listview 선택 초기화.
+////                recyclerView.clearChoices();
+//
+//                // listview 갱신.
+//                feed_adapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
 
     public void remove(int position) {
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
 
+//
+//        feed_adapter.removeItem(position);
+
+//        find_feed_arrayList(position); //
+//        find_myreview_arrayList(position);
+        myreview_loadData();
+
+        int index = find_myreview_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+        Log.d("index", index + "");
+//        int index = find_myreview_arrayList(myreview_arrayList.get(position));
+//        find_bookmark_arrayList(position); //
+
         try {
             // 피드 리사이클러뷰에 들어간느 arrayList에서 삭제
             arrayList.remove(position);
+
             // 내가 쓴 리뷰 리사이클러뷰에서 삭제
-            myreview_arrayList.remove(position);
+            if (index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+                myreview_arrayList.remove(index);
+                Log.d("myreview_arrayList", "myreview_arrayList.size() : " + myreview_arrayList.size());
+            }
 
             // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
-            if (bookmarked_arrayList.get(position)!=null){
-                // 북마크한 리뷰 리사이클러뷰에서 삭제
-                bookmarked_arrayList.remove(position);
-            }
+
+
+//            if (bookmarked_arrayList != null) {
+            // 북마크한 리뷰 리사이클러뷰에서 삭제
+//                if (idx == position)  {  // bookmarked_arrayList에서 찾은 아이템 인덱스와 포지션이 같을 때
+//                    bookmarked_arrayList.remove(position);
+//                }
+////            }
 
             feed_adapter.notifyItemRemoved(position);
             // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
@@ -434,6 +480,75 @@ public class feed extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public int find_feed_arrayList(feed_MainData feed_MainData) {
+        feed_MainData data;  // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+
+        if (arrayList != null) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                data = arrayList.get(i);// arrayList에서 i를 가지고 와서 data 변수에 넣어주고
+
+                if (data == feed_MainData) {  // 해당 아이템 feed_MainData 과 data 가 같으면
+
+                    return i; // 인덱스 i를 리턴해주고
+                }
+
+            }
+        }
+        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+    }
+
+
+    public int find_myreview_arrayList(String uniqueKey) {  // 리사이클러뷰 리스트에 들어가는 아이템 객체를 가지고 와서
+
+         // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+
+        if (myreview_arrayList != null) {
+            System.out.println("ckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+            for (int i = 0; i < myreview_arrayList.size(); i++) {
+                String data = myreview_arrayList.get(i).getTextView_reviewcard_number();// arrayList에서 i를 가지고 와서 data 변수에 넣어주고
+
+                if (data.equals(uniqueKey)) {  // 해당 아이템 feed_MainData 과 data 가 같으면
+                    return i; // 인덱스 i를 리턴해주고
+                }
+
+            }
+        }
+        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+    }
+
+//    public int find_myreview_arrayList(feed_MainData feed_MainData) {  // 리사이클러뷰 리스트에 들어가는 아이템 객체를 가지고 와서
+//        feed_MainData data;  // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+//
+//        if (myreview_arrayList != null) {
+//            System.out.println("ckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+//            for (int i = 0; i < myreview_arrayList.size(); i++) {
+//                data = myreview_arrayList.get(i);// arrayList에서 i를 가지고 와서 data 변수에 넣어주고
+//
+//                if (data == feed_MainData) {  // 해당 아이템 feed_MainData 과 data 가 같으면
+//                    return i; // 인덱스 i를 리턴해주고
+//                }
+//
+//            }
+//        }
+//        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+//    }
+
+
+//    public int find_bookmark_arrayList(int ps) {
+//
+//
+//        if (bookmarked_arrayList != null) {
+//            for (int i = 0; i < bookmarked_arrayList.size(); i++) { //arrayList 크기만큼 반복문을 돌려서 해당 아이템의 인덱스를 찾아라
+//                bookmarked_arrayList.get(i);// arrayList에서 i를 가지고 와서
+//                if (i == ps) {  // 해당 아이템의 position과 인덱스 i가 같으면
+//
+//                    idx = i ;  // 변수에 넣어줘라
+//                }
+//            }
+//        }
+//        return idx ;  // 인덱스 변수 선언은 전역 변수에 선언해줌.
+//    }
 
     private void bookmarked_loadData() {
 //        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
@@ -508,6 +623,8 @@ public class feed extends AppCompatActivity {
         Gson gson = new Gson();
         Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
 
+        System.out.println("myReview arrayList.size : " + myreview_arrayList.size());
+
         String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
 
         Log.e("myreview 클래스", "Gson 객체 호출 (toJson(myreview_arrayList) : " + json);
@@ -532,6 +649,7 @@ public class feed extends AppCompatActivity {
         SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
         Gson gson = new Gson();
 
+
         // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
         logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
         String feed_email = logined_user.getString("user_email", "");
@@ -550,6 +668,8 @@ public class feed extends AppCompatActivity {
         if (myreview_arrayList == null) {
             myreview_arrayList = new ArrayList<>();
         }
+
+
     } // myreview_loadData 메소드 닫는 중괄호
 
 
@@ -607,11 +727,11 @@ public class feed extends AppCompatActivity {
             arrayList.add(feed_MainData);  //리사이클러뷰의 arrayList에 아이템 추가
             myreview_arrayList.add(feed_MainData); // 내가 쓴 리뷰에 추가
 
+            System.out.println("arrayList log"+arrayList.get(arrayList.size() - 1));
+            System.out.println("myreview log"+myreview_arrayList.get(myreview_arrayList.size() - 1));
+
             feed_adapter.notifyDataSetChanged();  // 새로고침
 
-
-            // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
-            bookmark_saveData();
 
             // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
             saveData();   // onCreate 밖에 메소드 만들었음.
@@ -695,7 +815,8 @@ public class feed extends AppCompatActivity {
             saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
             myreview_saveData();
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
-
+            // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
+            bookmark_saveData();
 
         }
 

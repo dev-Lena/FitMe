@@ -279,21 +279,6 @@ public class sign_up extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
             if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-//                Bitmap image_bitmap = null;
-//                try {
-//                    image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-//
-//                    //배치해놓은 ImageView에 set
-//                    imageView_user_profile_image.setImageBitmap(image_bitmap);
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-////                //기존 이미지 지우기
-//                imageView_user_profile_image.setImageResource(0);
-
-//                Log.e("sign_up 클래스 ","onActivityResult : 기존 이미지 지워졌나요?");
 
 
 

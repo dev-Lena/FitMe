@@ -81,6 +81,8 @@ public class myreview extends AppCompatActivity {
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
 
+
+
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
@@ -155,7 +157,9 @@ public class myreview extends AppCompatActivity {
                             case R.id.action_delete:
 
                                 // 여기서 삭제하면 내가 쓴 리뷰, 피드에 있는 리뷰, 북마크한 리뷰에서 모두 사라지게
-                                remove(position);
+
+                                remove(position);  // 북마크한 리뷰와 내가 쓴 리뷰에서도 지우고
+                                // 내가 쓴 리뷰 리사이클러뷰에서 지우기
 
                                 feed_adapter.notifyDataSetChanged();  // 새로고침
                                 Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
@@ -263,22 +267,33 @@ public class myreview extends AppCompatActivity {
 
     public void remove(int position) {
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
+//
+//        feed_adapter.removeItem(position);
 
         try {
             // 피드 리사이클러뷰에 들어간느 arrayList에서 삭제
-            arrayList.remove(position);
-            // 내가 쓴 리뷰 리사이클러뷰에서 삭제
-            myreview_arrayList.remove(position);
 
-            // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
-            if (bookmarked_arrayList.get(position)!=null){
-                // 북마크한 리뷰 리사이클러뷰에서 삭제
-                bookmarked_arrayList.remove(position);
-            }
+// 각 arrayLIst에서 지울 아이템을 먼저 찾아주고 -> 메소드 만들기
+
+//
+//            // 피드 리사이클러뷰에서 삭제 -> 전체 피드에서 먼저 지워야함.
+//                arrayList.remove(position);
+//
+//            // 내가 쓴 리뷰 리사이클러뷰에서 지우기
+//            myreview_arrayList.remove(position);
+//
+//
+//            // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
+//            if (bookmarked_arrayList.get(position)!=null){
+//                // 북마크한 리뷰 리사이클러뷰에서 삭제
+//                bookmarked_arrayList.remove(position);
+//            }
+
 
             feed_adapter.notifyItemRemoved(position);
             // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
 
+            feed_adapter.notifyDataSetChanged();
 
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();

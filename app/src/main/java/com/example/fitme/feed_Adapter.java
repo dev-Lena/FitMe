@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
 
@@ -45,6 +44,12 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener ;  // 전달된 객체를 저장할 변수 mListener 추가
     }
+
+//    public void removeAt(int position) {
+//        feed_MainData.remove(position);
+//        notifyItemRemoved(position);
+//        notifyItemRangeChanged(position, feed_MainData.size());
+//    }
 
 
     // 리사이클러뷰에 넣을 ArrayList
@@ -145,6 +150,15 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        });
     }// onBindViewHolder 메소드 닫는 중괄호
 
+    @Override
+    public long getItemId(int position)
+    {
+        return super.getItemId(position);
+    }
+
+    public feed_MainData getItem(int position) {
+        return this.arrayList.get(position);
+    }
 
     @Override
     public int getItemCount() {
@@ -161,12 +175,6 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
        ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
         ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
         RatingBar float_ratingBar;
-
-
-        // 프로필 이미지 picasso 에서 원형으로 만드는 중
-        private List<feed_MainData> listImageTransform;
-
-//        String textView_shoppingmall_url, textView_detailed_review_card, int_ratingBar, textView_hashtag;
 
 
         public FeedViewHolder(@NonNull View itemView) {
@@ -217,6 +225,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
 //                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
 //                        notifyItemChanged(pos) ;
+
+
                         }
                     }
                 }
@@ -283,8 +293,23 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
             });
 
 
-        }
-    }
 
+        }// feedVeiwHolder 메소드 닫는 중괄호
+
+
+
+    }// feedVeiwHolder 클래스 닫는 중괄호
+
+//    private void deleteItem(int position){
+//        feed_MainData.remove(position);
+//        notifyItemRemoved(position);
+//        notifyItemRangeChanged(position,feed_MainData.size());
+//    }
+public void removeItem (int pos) {
+    arrayList.remove(pos);
+    notifyItemRemoved(pos);
+    notifyItemRangeChanged(pos, arrayList.size());//add here, this can refresh position cmiiw
+}
 
 }//feed_Adapter 클래스 닫는 중괄호
+

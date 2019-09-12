@@ -153,7 +153,7 @@ public class write_review extends AppCompatActivity {
 
 
                         // 업데이트 한 myreview_arrayList를 myreviewShared에 저장하라.
-                        myreview_saveData();
+//                        myreview_saveData();
 
                         // 위에서 가져온 값들 확인하는 로그들
                         Log.e("write_review 클래스에서 리뷰를 추가해서 피드에 추가할 때 ", "로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);

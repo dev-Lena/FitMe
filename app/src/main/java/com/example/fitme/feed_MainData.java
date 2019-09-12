@@ -55,6 +55,8 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
 //        this.comment = comment;
 //    }
 
+
+
     public String getImageView_reviewcard_profile_image() {
         return imageView_reviewcard_profile_image;
     }
@@ -163,8 +165,7 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
     public void setTextView_detailed_review_card(String textView_detailed_review_card) {
         this.textView_detailed_review_card = textView_detailed_review_card;
     }
-//
-//
+
 
 
 
