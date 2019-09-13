@@ -96,6 +96,7 @@ public class follow extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.e("follow","onPause");
+        overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

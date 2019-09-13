@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,7 @@ public class bookmarked_review extends AppCompatActivity {
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
+    ImageButton imageButton_back;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
@@ -138,40 +140,19 @@ public class bookmarked_review extends AppCompatActivity {
             }
         });
 
-//하단바
-        bottomNavigationView = findViewById (R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
+
+        imageButton_back = findViewById(R.id.imageButton_back);
+        imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home :
-                        Intent home_intent = new Intent(bookmarked_review.this,feed.class);
-                        startActivity(home_intent);//액티비티 띄우기
-
-                        break;
-                    case R.id.action_search :
-                        Intent search_intent = new Intent(bookmarked_review.this,searching.class);
-                        startActivity(search_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_insight :
-                        Intent write_intent = new Intent(bookmarked_review.this,insight.class);
-                        startActivity(write_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_notification :
-                        Intent insight_intent = new Intent(bookmarked_review.this,notification.class);
-                        startActivity(insight_intent);//액티비티 띄우기
-                        break;
-                    case R.id.action_mypage :
-                        Intent mycloset_intent = new Intent(bookmarked_review.this, mypage.class);
-                        startActivity(mycloset_intent);//액티비티 띄우기
-                        break;
-                }
-
-                return false;
+            public void onClick(View view) {
+                Intent register_intent = new Intent(bookmarked_review.this, feed.class);
+                startActivity(register_intent); //액티비티 이동
+                finish(); // 액티비티 finish 시킴
 
             }
         });
+
 
 
     }// onCreate 닫는 중괄호
@@ -405,6 +386,7 @@ public class bookmarked_review extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.e("bookmarked_review","onPause");
+        overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

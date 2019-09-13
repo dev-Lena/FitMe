@@ -95,6 +95,7 @@ public class mypage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent register_intent = new Intent(mypage.this, myreview.class);
+                register_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(register_intent); //액티비티 이동
 
             }
@@ -108,6 +109,7 @@ public class mypage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(mypage.this, myreview.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent); //액티비티 이동
             }
         });
@@ -119,6 +121,7 @@ public class mypage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(mypage.this, bookmarked_review.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent); //액티비티 이동
             }
         });
@@ -131,6 +134,7 @@ public class mypage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(mypage.this, follow.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent); //액티비티 이동
             }
         });
@@ -143,6 +147,7 @@ public class mypage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(mypage.this, following.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent); //액티비티 이동
             }
         });
@@ -155,6 +160,7 @@ public class mypage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent register_intent = new Intent(mypage.this, edit_profile.class);
+                register_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(register_intent); //액티비티 이동
 
             }

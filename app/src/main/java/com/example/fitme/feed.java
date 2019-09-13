@@ -469,6 +469,9 @@ public class feed extends AppCompatActivity {
             if (myreview_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
                 bookmarked_arrayList.remove(bookmark_index);
                 Log.d("bookmarked_arrayList", "bookmarked_arrayList.size() : " + bookmarked_arrayList.size());
+            }else {
+                //do nothing
+                Log.d("bookmarked_arrayList", "bookmarked_arrayList.do nothing" + bookmarked_arrayList.size());
             }
 
 
@@ -564,6 +567,10 @@ public class feed extends AppCompatActivity {
 
             }
         }
+        if (bookmarked_arrayList == null) {
+            bookmarked_arrayList = new ArrayList<>();
+        }
+
         return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
     }
 
