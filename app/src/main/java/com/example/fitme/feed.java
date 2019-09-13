@@ -271,7 +271,11 @@ public class feed extends AppCompatActivity {
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 댓글 버튼을 눌렀을 때
             public void onCommentClick(View v, int position) {
                 Intent comment_intent = new Intent(feed.this, comment.class);
-                comment_intent.putExtra("POSITION", position);
+                String review_uniq = feed_adapter.getItem(position).getTextView_reviewcard_number();
+//                comment_intent.putExtra("포지션", review_uniq);
+//                comment_intent.putExtra("프로필", position);
+                comment_intent.putExtra("댓글작성한리뷰의고유번호", review_uniq);
+                comment_intent.putExtra("프로필", arrayList.get(position).imageView_reviewcard_profile_image);
                 startActivity(comment_intent); //액티비티 이동
 
 

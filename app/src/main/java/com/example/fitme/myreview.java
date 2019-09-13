@@ -69,6 +69,7 @@ public class myreview extends AppCompatActivity {
         setContentView(R.layout.activity_myreview);
 
 
+
         /**여기서부터 리사이클러뷰 만들기**/
 
         recyclerView = (RecyclerView) findViewById(R.id.myreview_recyclerview);  // 화면 xml 파일에서 리사이클러뷰의 아이디와 매칭

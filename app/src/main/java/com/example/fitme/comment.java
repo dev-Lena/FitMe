@@ -25,6 +25,10 @@ import java.util.List;
 
 public class comment extends AppCompatActivity {
 
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
     //    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
 //    ArrayList<feed_MainData> myreview_arrayList;
@@ -41,18 +45,20 @@ public class comment extends AppCompatActivity {
     private SharedPreferences commentShared;
     private SharedPreferences.Editor commentShared_editor;
 
-    TextView textView_comment_nickname ;
+    TextView textView_comment_nickname, textView_unique_code ;
     ImageView imageView_comment_profile ;
     ImageButton imageButton_back;
     EditText editText_comment_input ;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
-    ArrayList<comment_Data> commentArrayList;
+    ArrayList<comment_Data> commentArrayList, comment_show_arrayList;
     commentAdapter commentAdapter;
     RecyclerView commentRecyclerview;
     LinearLayoutManager mlinearLayoutManager;
 
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +79,52 @@ public class comment extends AppCompatActivity {
 
         commentRecyclerview.setLayoutManager(mlinearLayoutManager);
 
-        commentAdapter = new commentAdapter(commentArrayList);
+        comment_show_arrayList = new ArrayList<>(); // 여기다가 아이템에 해당하는 댓글만 담을꺼야
+
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("POSITION", 0000);
+        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+//        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+
+        textView_unique_code = findViewById(R.id.textView_unique_code);
+
+        // if문 확인하면서 commnetData 가 갖고있는 아이템에서 같은 고유번호를 가진 댓글 아이템만 가지고와라.
+        // -> 그리고 리사이클러뷰에서 comment_show_arrayList 보여줄것.
+        for(comment_Data item : commentArrayList){// item이라는 comment Data를 잡고 commentArrayList 안을 순회하면서 비교하면서
+            if(item.getReviewUniqueCode().equals(textView_unique_code)){ // if문 확인하면서 commnetData 가 갖고있는 아이템에서
+                comment_show_arrayList.add(item);
+            }
+
+        }
+
+// 위에랑 같은 방식의 코드. 이것도 되긴 됨. 위 방식이 더 간단함.
+//            if (commentArrayList != null) {  // 리스트가 null 값이 아닐 때
+//                for (int i = 0; i < commentArrayList.size(); i++) {  // 사이즈만큼 순회하면서
+//                    String data = commentArrayList.get(i).getReviewUniqueCode();
+//                    // arrayList에서 인덱스 번호 i에 있는 아이템의 고유번호를 data 변수에 넣어주고
+//                    if (data.equals(textView_unique_code)){ //
+//
+//                        comment_show_arrayList.add(commentArrayList.get(i));
+////                    if (data.equals(uniqueKey)) {  // 가져온 인덱스 번호 i에 있는 아이템의 고유번호가 uniqueKey와 같다면
+//                        //여기서 uniqueKey는 이 메소드를 사용하는 곳에서 파라미터?로 (feed_adapter.getItem(position).getTextView_reviewcard_number()를 넣어줌.
+//                        // 즉, 어댑터에서 해당 아이템의 포지션을 가지고 오는데 그 아이템이 가지고 있는 고유번호를 메소드를 사용할 때 참고해 uniqueKey로 설정해줌
+//
+//                    }
+//
+//                }
+//            }
+
+
+
+        commentAdapter = new commentAdapter(comment_show_arrayList, context );
+        // commentArrayList에서 해당 리뷰 아이템에 대한 댓글만 따로 담은 comment_show_arrayList를 보여줌.
         commentRecyclerview.setAdapter(commentAdapter);
 
 
        textView_comment_nickname = (TextView) findViewById(R.id.textView_comment_nickname);
         imageView_comment_profile = (ImageView) findViewById(R.id.imageView_comment_profile);
         editText_comment_input = (EditText) findViewById(R.id.editText_comment_input);
+        textView_unique_code = findViewById(R.id.textView_unique_code);
 
 
 
@@ -90,9 +135,14 @@ public class comment extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = getIntent();
-                int position = intent.getIntExtra("POSITION", 0000);
-                // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
-                String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+//                comment_intent.putExtra("포지션", position);
+//                comment_intent.putExtra("프로필", position);
+                String reviewUniqueCode = intent.getStringExtra("댓글작성한리뷰의고유번호");
+                // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 고유번호를 feed에서 코멘트 버튼을 눌렀을 때 넘겨준걸 받음
+
+                Log.e("comment 클래스에서 댓글 추가 ", "uniq : " + reviewUniqueCode);
+                // 댓글 저장할 때 해당 리뷰 아이템의 고유 번호를 가져와 저장함.
+//                textView_unique_code.setText(reviewUniqueCode);
 
 
 
@@ -115,10 +165,14 @@ public class comment extends AppCompatActivity {
                 String comment_content = editText_comment_input.getText().toString();
 //                int comment_profile = imageView_comment_profile.getResources();
 
+                /**이미지**/
+                String imageView_comment_profile = intent.getStringExtra("프로필");// feed클래스에서 comment 버튼 눌렀을 때 intent로 보낸 프사
+
 
                 // 5. ArrayList에 추가하고
 
-                comment_Data comment_data = new comment_Data (comment_nickname , comment_content );
+                comment_Data comment_data = new comment_Data (comment_nickname , comment_content , imageView_comment_profile, reviewUniqueCode);
+                Log.e("comment 클래스에서 프로필 사진", "imageView_comment_profile :" + imageView_comment_profile );
                 commentArrayList.add(comment_data);
                 //mArrayList.add(dict); //마지막 줄에 삽입됨
 
@@ -218,33 +272,44 @@ public class comment extends AppCompatActivity {
     private void comment_saveData() {
 
 
-        Intent intent = getIntent();
-        int position = intent.getIntExtra("POSITION", 0000);
-        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
-        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+//        Intent intent = getIntent();
+//        int position = intent.getIntExtra("POSITION", 0000);
+//        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+//        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
 
-        commentShared = getSharedPreferences("commentShared", MODE_PRIVATE);
-        commentShared_editor = commentShared.edit();
+        sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+//        commentShared = getSharedPreferences("commentShared",MODE_PRIVATE);
+//        commentShared_editor = commentShared.edit();
         Gson gson = new Gson();
         String json = gson.toJson(commentArrayList);
         /** 여기서 줘야하는 키값이 각 리뷰 아이템이 갖고 있는 고유번호로 해주면 됨**/
-        commentShared_editor.putString(uniqueKey, json);
-        commentShared_editor.apply();
+//        commentShared_editor.putString(uniqueKey, json);
+//        commentShared_editor.apply();
+        editor.putString("commentShared", json);
+        editor.apply();
+
     }
 
 
+
     private void comment_loadData() {
+//
+//        Intent intent = getIntent();
+//        int position = intent.getIntExtra("POSITION", 0000);
+//        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+//        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
 
-        Intent intent = getIntent();
-        int position = intent.getIntExtra("POSITION", 0000);
-        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
-        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+//        commentShared = getSharedPreferences("commentShared", MODE_PRIVATE);
+//        commentShared_editor = commentShared.edit();
 
-        commentShared = getSharedPreferences("commentShared", MODE_PRIVATE);
-        commentShared_editor = commentShared.edit();
+        sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+
         Gson gson = new Gson();
         /** 여기서 줘야하는 키값이 각 리뷰 아이템이 갖고 있는 고유번호로 해주면 됨**/
-        String json = commentShared.getString(uniqueKey, null);
+//        String json = commentShared.getString(uniqueKey, null);
+        String json = sharedPreferences.getString("commentShared", null);
         Type type = new TypeToken<ArrayList<comment_Data>>() {
         }.getType();
         commentArrayList = gson.fromJson(json, type);
