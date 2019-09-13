@@ -46,6 +46,7 @@ public class feed extends AppCompatActivity {
     private SharedPreferences myreviewShared;
     private SharedPreferences.Editor myreviewShared_editor;
 
+    public static String testkey;
     /// 삭제할 때 비교할 아이템 포지션 위치
 
     // 뷰 객체들
@@ -274,8 +275,10 @@ public class feed extends AppCompatActivity {
                 String review_uniq = feed_adapter.getItem(position).getTextView_reviewcard_number();
 //                comment_intent.putExtra("포지션", review_uniq);
 //                comment_intent.putExtra("프로필", position);
+                comment_intent.putExtra("포지션", position);
                 comment_intent.putExtra("댓글작성한리뷰의고유번호", review_uniq);
                 comment_intent.putExtra("프로필", arrayList.get(position).imageView_reviewcard_profile_image);
+                testkey = arrayList.get(position).getTextView_reviewcard_number();
                 startActivity(comment_intent); //액티비티 이동
 
 

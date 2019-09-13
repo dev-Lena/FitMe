@@ -23,6 +23,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.fitme.feed.testkey;
+
 public class comment extends AppCompatActivity {
 
 
@@ -57,7 +59,8 @@ public class comment extends AppCompatActivity {
     RecyclerView commentRecyclerview;
     LinearLayoutManager mlinearLayoutManager;
 
-
+    int position;
+    String reviewUniqueCode;
     private Context context;
 
     @Override
@@ -82,7 +85,7 @@ public class comment extends AppCompatActivity {
         comment_show_arrayList = new ArrayList<>(); // 여기다가 아이템에 해당하는 댓글만 담을꺼야
 
         Intent intent = getIntent();
-        int position = intent.getIntExtra("POSITION", 0000);
+        position = intent.getIntExtra("포지션", 0000);
         // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
 //        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
 
@@ -90,12 +93,7 @@ public class comment extends AppCompatActivity {
 
         // if문 확인하면서 commnetData 가 갖고있는 아이템에서 같은 고유번호를 가진 댓글 아이템만 가지고와라.
         // -> 그리고 리사이클러뷰에서 comment_show_arrayList 보여줄것.
-        for(comment_Data item : commentArrayList){// item이라는 comment Data를 잡고 commentArrayList 안을 순회하면서 비교하면서
-            if(item.getReviewUniqueCode().equals(textView_unique_code)){ // if문 확인하면서 commnetData 가 갖고있는 아이템에서
-                comment_show_arrayList.add(item);
-            }
 
-        }
 
 // 위에랑 같은 방식의 코드. 이것도 되긴 됨. 위 방식이 더 간단함.
 //            if (commentArrayList != null) {  // 리스트가 null 값이 아닐 때
@@ -115,7 +113,7 @@ public class comment extends AppCompatActivity {
 //            }
 
 
-
+        filter();
         commentAdapter = new commentAdapter(comment_show_arrayList, context );
         // commentArrayList에서 해당 리뷰 아이템에 대한 댓글만 따로 담은 comment_show_arrayList를 보여줌.
         commentRecyclerview.setAdapter(commentAdapter);
@@ -137,7 +135,7 @@ public class comment extends AppCompatActivity {
                 Intent intent = getIntent();
 //                comment_intent.putExtra("포지션", position);
 //                comment_intent.putExtra("프로필", position);
-                String reviewUniqueCode = intent.getStringExtra("댓글작성한리뷰의고유번호");
+                reviewUniqueCode = intent.getStringExtra("댓글작성한리뷰의고유번호");
                 // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 고유번호를 feed에서 코멘트 버튼을 눌렀을 때 넘겨준걸 받음
 
                 Log.e("comment 클래스에서 댓글 추가 ", "uniq : " + reviewUniqueCode);
@@ -185,8 +183,23 @@ public class comment extends AppCompatActivity {
                 comment_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
                 Log.e("comment 클래스에서 (사용자가 입력한 댓글 저장)", "comment_Data :" + comment_data + "commentArrayList :" + commentArrayList);
 
+
+
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(getIntent());
+                overridePendingTransition(0,0);
             }
         });
+
+
+
+
+
+
+
+
+
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
 
@@ -334,7 +347,15 @@ public class comment extends AppCompatActivity {
         }
     }
 
-//
+    public void filter(){ // 리뷰 아이템에 해당하는 댓글만 필터
+        for(comment_Data item : commentArrayList){// item이라는 comment Data를 잡고 commentArrayList 안을 순회하면서 비교하면서
+            if(item.getReviewUniqueCode().equals(testkey)){ // if문 확인하면서 commnetData 가 갖고있는 아이템에서
+//            if(item.getReviewUniqueCode().equals(position)){
+                comment_show_arrayList.add(item);
+            }
+
+        }
+    }
 
 
 
@@ -356,6 +377,8 @@ public class comment extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.e("myreview","onResume");
+        commentAdapter.notifyDataSetChanged();
+
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
@@ -379,5 +402,7 @@ public class comment extends AppCompatActivity {
         Log.e("myreview","onDestroy");
         //액티비티가 종료되려고 합니다.
     }
+
+
 
 }
