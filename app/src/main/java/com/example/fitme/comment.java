@@ -25,6 +25,11 @@ import java.util.List;
 
 public class comment extends AppCompatActivity {
 
+    ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+    //    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
+//    ArrayList<feed_MainData> myreview_arrayList;
+    feed_Adapter feed_adapter;
+
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     ImageButton imageButton_comment_save;
     // 로그인 하고 있는 유저의 정보를 담고 있는 쉐어드 프리퍼런스
@@ -32,6 +37,10 @@ public class comment extends AppCompatActivity {
 
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
+
+    private SharedPreferences commentShared;
+    private SharedPreferences.Editor commentShared_editor;
+
     TextView textView_comment_nickname ;
     ImageView imageView_comment_profile ;
     ImageButton imageButton_back;
@@ -79,7 +88,13 @@ public class comment extends AppCompatActivity {
         imageButton_comment_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 4. 사용자가 입력한 내용을 가져와서
+
+                Intent intent = getIntent();
+                int position = intent.getIntExtra("POSITION", 0000);
+                // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+                String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+
+
 
                 // 로그인한 회원의 정보를 가지고 있는 쉐어드에서 정보를 빼와서 글을 등록할 때 닉네임, 평소 사이즈를 불러오도록 했음.
                 logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
@@ -201,19 +216,35 @@ public class comment extends AppCompatActivity {
     }// onCreate 닫는 중괄호
 
     private void comment_saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("POSITION", 0000);
+        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+
+        commentShared = getSharedPreferences("commentShared", MODE_PRIVATE);
+        commentShared_editor = commentShared.edit();
         Gson gson = new Gson();
         String json = gson.toJson(commentArrayList);
-        editor.putString("commentList", json);
-        editor.apply();
+        /** 여기서 줘야하는 키값이 각 리뷰 아이템이 갖고 있는 고유번호로 해주면 됨**/
+        commentShared_editor.putString(uniqueKey, json);
+        commentShared_editor.apply();
     }
 
 
     private void comment_loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("POSITION", 0000);
+        // 피드에서 댓글 버튼을 눌렀을 때 해당 아이템의 position
+        String uniqueKey = feed_adapter.getItem(position).getTextView_reviewcard_number();
+
+        commentShared = getSharedPreferences("commentShared", MODE_PRIVATE);
+        commentShared_editor = commentShared.edit();
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("commentList", null);
+        /** 여기서 줘야하는 키값이 각 리뷰 아이템이 갖고 있는 고유번호로 해주면 됨**/
+        String json = commentShared.getString(uniqueKey, null);
         Type type = new TypeToken<ArrayList<comment_Data>>() {
         }.getType();
         commentArrayList = gson.fromJson(json, type);

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class bookmarked_review extends AppCompatActivity {
     private SharedPreferences.Editor user_editor;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     ImageButton imageButton_back;
+    TextView textView_howmany_bookmarked_reviews;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
@@ -70,13 +72,22 @@ public class bookmarked_review extends AppCompatActivity {
         recyclerView.setAdapter(feed_adapter);
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
 
+
+        // 지금까지 북마크한 리뷰는 xx 개입니다. 설정
+        textView_howmany_bookmarked_reviews = findViewById(R.id.textView_howmany_bookmarked_reviews);
+        int bookmark_count = bookmarked_arrayList.size();
+        Log.d("bookmark_count"," : " + bookmark_count );
+        textView_howmany_bookmarked_reviews.setText(String.valueOf(bookmark_count));
+        Log.d("textView_howmany_bookmarked_reviews"," : " + textView_howmany_bookmarked_reviews );
+
+
+
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
 // TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
 // 리사이클러뷰 수정
 // 다이얼로그
-
 
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                 PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
@@ -114,8 +125,8 @@ public class bookmarked_review extends AppCompatActivity {
 
             @Override
             public void onCommentClick(View v, int position) {
-//                Intent comment_intent = new Intent(bookmarked_review.this, comment.class);
-//                startActivity(comment_intent); //액티비티 이동
+                Intent comment_intent = new Intent(bookmarked_review.this, comment.class);
+                startActivity(comment_intent); //액티비티 이동
 
             }
 

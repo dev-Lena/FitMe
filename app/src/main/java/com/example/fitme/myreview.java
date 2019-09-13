@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class myreview extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     ImageButton imageButton_back;
+    TextView textView_howmany_reviews;
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
@@ -81,6 +83,16 @@ public class myreview extends AppCompatActivity {
         recyclerView.setAdapter(feed_adapter);
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
+
+        myreview_loadData();
+
+
+        // 지금까지 내가 쓴 리뷰는 xx 개입니다. 설정
+        textView_howmany_reviews = findViewById(R.id.textView_howmany_reviews);
+        int bookmark_count = myreview_arrayList.size();
+        Log.d("bookmark_count"," : " + bookmark_count );
+        textView_howmany_reviews.setText(String.valueOf(bookmark_count));
+        Log.d("textView_howmany_bookmarked_reviews"," : " + textView_howmany_reviews );
 
 
 
@@ -128,29 +140,6 @@ public class myreview extends AppCompatActivity {
                                 intent.putExtra("POSITION", position);
                                 // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
                                 startActivityForResult(intent, 2001);
-//                                Intent intent = new Intent(getApplicationContext(), write_review.class);
-//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
-//
-////
-//                                intent.putExtra("URL", myreview_arrayList.get(position).textView_shoppingmall_url);
-//                                intent.putExtra("DETAIL", myreview_arrayList.get(position).textView_detailed_review_card);
-//                                intent.putExtra("HASHTAG", myreview_arrayList.get(position).textView_hashtag);
-//                                intent.putExtra("WRITER", myreview_arrayList.get(position).textView_review_writer);
-//                                intent.putExtra("NUMBER", myreview_arrayList.get(position).textView_reviewcard_number);
-//
-//
-//                                intent.putExtra("POSITION", position);
-//                                // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
-//
-//
-//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + myreview_arrayList.get(position).textView_detailed_review_card);
-//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + myreview_arrayList.get(position).textView_detailed_review_card);
-//
-//                                startActivityForResult(intent, 2001);
-//
-//                                Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
-//
-//                                //액티비티 이동, 여기서 2001은 식별자. 아무 숫자나 넣으주면 됨.
 
 
                                 break;
@@ -241,38 +230,125 @@ public class myreview extends AppCompatActivity {
 
     public void remove(int position) {
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
-//
-//        feed_adapter.removeItem(position);
+
+        loadData(); // 피드 쉐어드를 가지고 온다
+        bookmarked_loadData();  // 북마크한 리뷰 쉐어드를 가지고 온다
+
+        // 내가 쓴 리뷰에서 삭제하기로 선택한 아이템과 전체 피드에서 같은 아이템을 찾기
+        int feed_index = find_feed_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+        Log.d("feed_index", feed_index + "");
+
+        // 내가 쓴 리뷰에서 삭제하기로 선택한 아이템과 북마크한 리뷰에서 같은 아이템을 찾기
+        int bookmark_index = find_bookmark_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+        Log.d("bookmark_index", bookmark_index + "");
+
 
         try {
-            // 피드 리사이클러뷰에 들어간느 arrayList에서 삭제
 
-// 각 arrayLIst에서 지울 아이템을 먼저 찾아주고 -> 메소드 만들기
 
-//
-//            // 피드 리사이클러뷰에서 삭제 -> 전체 피드에서 먼저 지워야함.
-//                arrayList.remove(position);
-//
-//            // 내가 쓴 리뷰 리사이클러뷰에서 지우기
-//            myreview_arrayList.remove(position);
-//
-//
-//            // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
-//            if (bookmarked_arrayList.get(position)!=null){
-//                // 북마크한 리뷰 리사이클러뷰에서 삭제
-//                bookmarked_arrayList.remove(position);
-//            }
+            // 피드 리사이클러뷰에서 삭제
+            if (feed_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+                arrayList.remove(feed_index);
+                Log.d("arrayList", "arrayList.size() : " + arrayList.size());
+            }
+
+            // 내가 쓴 리뷰 리사이클러뷰에 들어간느 arrayList에서 삭제 -> 지금 클래스에서는 이미 arrayList에서 작업하고 있기 때문에 아래 같은 작업이 필요없음.
+            myreview_arrayList.remove(position);
+
+
+            // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
+            if (bookmark_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+                bookmarked_arrayList.remove(bookmark_index);
+                Log.d("bookmarked_arrayList", "bookmarked_arrayList.size() : " + bookmarked_arrayList.size());
+            }else {
+                //do nothing
+                Log.d("bookmarked_arrayList", "bookmarked_arrayList.do nothing" + bookmarked_arrayList.size());
+            }
 
 
             feed_adapter.notifyItemRemoved(position);
             // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
 
-            feed_adapter.notifyDataSetChanged();
 
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
+
+
+    /** 메인 피드에서 글을 삭제하면 해당 리뷰와 같은 아이템을 피드 리사이클러뷰 arrayList에서도 찾아서 삭제해야하는데, 이 때 같은 리뷰 아이템을 찾는 메소드**/
+    public int find_feed_arrayList (String uniqueKey) {  // 리사이클러뷰 리스트에 들어가는 아이템 객체를 가지고 와서
+        // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+        // 리뷰 아이템마다 고유 번호를 랜덤으로 부여했는데, 아이템 객체를 가지고 와서 그 안에 있는 고유 번호를 비교하도록 해놓음.
+
+        if (arrayList != null) {  // 리스트가 null 값이 아닐 때
+            for (int i = 0; i < arrayList.size(); i++) {  // 사이즈만큼 순회하면서
+                String data = arrayList.get(i).getTextView_reviewcard_number();
+                // arrayList에서 인덱스 번호 i에 있는 아이템의 고유번호를 data 변수에 넣어주고
+
+                if (data.equals(uniqueKey)) {  // 가져온 인덱스 번호 i에 있는 아이템의 고유번호가 uniqueKey와 같다면
+                    //여기서 uniqueKey는 이 메소드를 사용하는 곳에서 파라미터?로 (feed_adapter.getItem(position).getTextView_reviewcard_number()를 넣어줌.
+                    // 즉, 어댑터에서 해당 아이템의 포지션을 가지고 오는데 그 아이템이 가지고 있는 고유번호를 메소드를 사용할 때 참고해 uniqueKey로 설정해줌
+
+                    return i; // 인덱스 i를 리턴해주고
+                }
+
+            }
+        }
+        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+    }
+
+
+    /** 메인 피드에서 글을 삭제하면 해당 리뷰와 같은 아이템을 myreview 리사이클러뷰 arrayList에서도 찾아서 삭제해야하는데, 이 때 같은 리뷰 아이템을 찾는 메소드**/
+    public int find_myreview_arrayList(String uniqueKey) {  // 리사이클러뷰 리스트에 들어가는 아이템 객체를 가지고 와서
+        // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+        // 리뷰 아이템마다 고유 번호를 랜덤으로 부여했는데, 아이템 객체를 가지고 와서 그 안에 있는 고유 번호를 비교하도록 해놓음.
+
+        if (myreview_arrayList != null) {  // 리스트가 null 값이 아닐 때
+            for (int i = 0; i < myreview_arrayList.size(); i++) {  // 사이즈만큼 순회하면서
+                String data = myreview_arrayList.get(i).getTextView_reviewcard_number();
+                // arrayList에서 인덱스 번호 i에 있는 아이템의 고유번호를 data 변수에 넣어주고
+
+                if (data.equals(uniqueKey)) {  // 가져온 인덱스 번호 i에 있는 아이템의 고유번호가 uniqueKey와 같다면
+                    //여기서 uniqueKey는 이 메소드를 사용하는 곳에서 파라미터?로 (feed_adapter.getItem(position).getTextView_reviewcard_number()를 넣어줌.
+                    // 즉, 어댑터에서 해당 아이템의 포지션을 가지고 오는데 그 아이템이 가지고 있는 고유번호를 메소드를 사용할 때 참고해 uniqueKey로 설정해줌
+
+                    return i; // 인덱스 i를 리턴해주고
+                }
+
+            }
+        }
+        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+    }
+
+
+    /** 메인 피드에서 글을 삭제하면 해당 리뷰와 같은 아이템을 bookmarked_arrayList 리사이클러뷰 arrayList에서도 찾아서 삭제해야하는데, 이 때 같은 리뷰 아이템을 찾는 메소드**/
+    public int find_bookmark_arrayList(String uniqueKey) {  // 리사이클러뷰 리스트에 들어가는 아이템 객체를 가지고 와서
+        // 아이템 객체와 arrayList 안에 아이템을 비교해주기 위해 선언해주는 변수
+        // 리뷰 아이템마다 고유 번호를 랜덤으로 부여했는데, 아이템 객체를 가지고 와서 그 안에 있는 고유 번호를 비교하도록 해놓음.
+
+        if (bookmarked_arrayList != null) {  // 리스트가 null 값이 아닐 때
+            for (int i = 0; i < bookmarked_arrayList.size(); i++) {  // 사이즈만큼 순회하면서
+                String data = bookmarked_arrayList.get(i).getTextView_reviewcard_number();
+                // arrayList에서 인덱스 번호 i에 있는 아이템의 고유번호를 data 변수에 넣어주고
+
+                if (data.equals(uniqueKey)) {  // 가져온 인덱스 번호 i에 있는 아이템의 고유번호가 uniqueKey와 같다면
+                    //여기서 uniqueKey는 이 메소드를 사용하는 곳에서 파라미터?로 (feed_adapter.getItem(position).getTextView_reviewcard_number()를 넣어줌.
+                    // 즉, 어댑터에서 해당 아이템의 포지션을 가지고 오는데 그 아이템이 가지고 있는 고유번호를 메소드를 사용할 때 참고해 uniqueKey로 설정해줌
+
+                    return i; // 인덱스 i를 리턴해주고
+                }
+
+            }
+        }
+        if (bookmarked_arrayList == null) {  // 다른 arrayList와 달리 계속 비어있을 수 있기 때문에 null값에 대한 예외 처리가 필요함.
+            bookmarked_arrayList = new ArrayList<>();
+        }
+
+        return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
+    }
+
+
     // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);

@@ -206,7 +206,7 @@ public class feed extends AppCompatActivity {
                                 case R.id.action_delete: // 삭제하기
 
 
-                                    remove(position);
+                                    remove(position);  // 쉐어드 load는 remove 메소드 안에서
 
                                     feed_adapter.notifyDataSetChanged();  // 새로고침
                                     Toast.makeText(getApplication(), "삭제되었습니다", Toast.LENGTH_SHORT).show();
@@ -271,6 +271,7 @@ public class feed extends AppCompatActivity {
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 댓글 버튼을 눌렀을 때
             public void onCommentClick(View v, int position) {
                 Intent comment_intent = new Intent(feed.this, comment.class);
+                comment_intent.putExtra("POSITION", position);
                 startActivity(comment_intent); //액티비티 이동
 
 
@@ -415,37 +416,13 @@ public class feed extends AppCompatActivity {
         editor.apply();
         Log.e("feed 클래스", "apply 성공 ");
     }
-//
-//    public void findItem(int position) {
-//        int count, checked;
-//        count = feed_adapter.getItemCount();
-//
-//        if (count > 0) {
-//            // 현재 선택된 아이템의 position 획득.
-//            checked = recyclerView.getChildAdapterPosition(recyclerView);
-//
-//            if (checked > -1 && checked < count) {
-//                // 아이템 삭제
-//                arrayList.remove(checked);
-//
-//                // listview 선택 초기화.
-////                recyclerView.clearChoices();
-//
-//                // listview 갱신.
-//                feed_adapter.notifyDataSetChanged();
-//            }
-//        }
-//    }
+
 
     public void remove(int position) {
         // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
 
-//
-//        feed_adapter.removeItem(position);
-
-//        find_feed_arrayList(position); //
-//        find_myreview_arrayList(position);
-        myreview_loadData();
+        myreview_loadData();  // 내가 쓴 리뷰 쉐어드를 가지고 온다
+        bookmarked_loadData();  // 북마크한 리뷰 쉐어드를 가지고 온다
 
         int myreview_index = find_myreview_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
         Log.d("myreview_index", myreview_index + "");
@@ -466,7 +443,7 @@ public class feed extends AppCompatActivity {
             }
 
             // 북마크한 리뷰 리사이클러뷰에 해당 리뷰가 있을 때
-            if (myreview_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+            if (bookmark_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
                 bookmarked_arrayList.remove(bookmark_index);
                 Log.d("bookmarked_arrayList", "bookmarked_arrayList.size() : " + bookmarked_arrayList.size());
             }else {
@@ -567,13 +544,14 @@ public class feed extends AppCompatActivity {
 
             }
         }
-        if (bookmarked_arrayList == null) {
+        if (bookmarked_arrayList == null) {  // 다른 arrayList와 달리 계속 비어있을 수 있기 때문에 null값에 대한 예외 처리가 필요함.
             bookmarked_arrayList = new ArrayList<>();
         }
 
         return -1;  // 0보다 커야 작업을 수행할 수 있기 때문에 실패하면 -1을 리턴해주라 -> List에서 index는 0부터 시작이니까
     }
 
+    // 각 쉐어드에 저장하는 메소드
     private void bookmarked_loadData() {
 //        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);

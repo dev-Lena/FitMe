@@ -42,8 +42,6 @@ public class login extends AppCompatActivity {
 
 
     CheckBox checkBox_remember_login;
-    String JOINEMAIL;
-    String JOINPW;
     EditText editText_email, editText_password; // -> null값이면 토스트 값 뜨도록 // -> null값이면 토스트 값 뜨도록
     Button button_sign_in, button_signUp, button_sign_up_complete; // -> 로그인 버튼 -> 피드로 화면 연결  // -> 회원가입 버튼 -> 회원가입 화면으로 연결
 

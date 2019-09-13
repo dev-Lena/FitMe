@@ -21,24 +21,41 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class mypage extends AppCompatActivity {
 
-    private ArrayList<List> userData= new ArrayList<List>();
 
+    // 현재 로그인하고 있는 회원의 정보만 저장하는 쉐어드
     private SharedPreferences logined_user;
     private SharedPreferences.Editor user_editor;
+
+    // 북마크한 리뷰를 저장하는 쉐어드
+    private SharedPreferences bookmarkShared;
+    private SharedPreferences.Editor bookmarkShared_editor;
+
+    private SharedPreferences myreviewShared;
+    private SharedPreferences.Editor myreviewShared_editor;
+
+
+    private ArrayList<List> userData= new ArrayList<List>();
+
+    ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+
     ViewGroup linearLayout6, linearLayout7,linearLayout5 , linearLayout3 ; // 내 리뷰 :linearLayout6, 북마크 : linearLayout7, 팔로우 : linearLayout5, 팔로잉 linearLayout3
     Button  button_logout, button_myreview, button_edit_hashtag , button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
-    TextView textView_mypage_email, textView_nickname;
+    TextView textView_mypage_email, textView_nickname, textView_myreview_count,textView_bookmark_count,textView_follow,textView_following;
     ImageButton imageButton_mypage_menu;
     ImageView imageView_mypage_profileimage;
     Uri uri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("mypage","onCreate");
@@ -86,7 +103,39 @@ public class mypage extends AppCompatActivity {
         Log.e("[마이페이지] 로그인 쉐어드에서 ", "imageView_mypage_profileimage : " + imageView_mypage_profileimage);
 
 
-//        imageView_mypage_profileimage.setImageURI(uri);0
+//        ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+
+// 지금까지 내가 쓴 리뷰는 xx 개입니다. 설정
+
+
+//
+//
+//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+//        String feed_id = logined_user.getString("user_nickname", "");
+//
+//        myreviewShared  = getSharedPreferences("myreviewShared", Context.MODE_PRIVATE);
+//        int myreview_arrayList_size = myreviewShared.getInt(feed_id,0);
+
+
+        loadData();   // 쉐어드에 저장된 피드 arrayList를 가져옴
+        bookmarked_loadData();  // 쉐어드에 저장된 북마크한 리뷰 arrayList를 가져옴
+        myreview_loadData();  // 쉐어드에 저장된 내가 쓴 리뷰 arrayList를 가져옴
+
+        textView_myreview_count = findViewById(R.id.textView_myreview_count);
+        int myreview_count = myreview_arrayList.size();
+        Log.d("bookmark_count"," : " + myreview_count );
+        textView_myreview_count.setText(String.valueOf(myreview_count));
+        Log.d("textView_myreview_count"," : " + textView_myreview_count );
+
+
+// 지금까지 북마크한 쓴 리뷰는 xx 개입니다. 설정
+        textView_bookmark_count = findViewById(R.id.textView_bookmark_count);
+        int bookmark_count = bookmarked_arrayList.size();
+        Log.d("bookmark_count"," : " + bookmark_count );
+        textView_bookmark_count.setText(String.valueOf(bookmark_count));
+        Log.d("textView_howmany_bookmarked_reviews"," : " + textView_bookmark_count );
+
+        /**여기에 팔로우, 팔로잉**/
 
 
 // 내가 쓴 리뷰로 이동하는 버튼
@@ -248,7 +297,162 @@ public class mypage extends AppCompatActivity {
             }
         });
 
+    }//onCreate 닫는 중괄호
+
+    private void bookmarked_loadData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 (bookmarked_loadData)", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = bookmarkShared.getString(feed_email, null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+        Log.e("feed 클래스 (bookmarked_loadData)", "typeToken객체 생성 :" + type);
+        bookmarked_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스 (bookmarked_loadData)", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
+
+
+        if (bookmarked_arrayList == null) {
+            bookmarked_arrayList = new ArrayList<>();
+        }
+
+
     }
+
+    private void bookmark_saveData() {
+
+//        bookmarked_arrayList = new ArrayList<>();
+        // sharedPref
+        SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
+        SharedPreferences.Editor bookmarkShared_editor = bookmarkShared.edit();
+        Gson gson = new Gson();
+        Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
+
+        String json = gson.toJson(bookmarked_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+        // 근데 여기서 이 arrayList에 넣어주면 사용자 이메일에 넣어줬을 때 .. 사용자 마다 다른 arrayList를 갖게 되는건가?
+        // 이 메소드 안에서 arrayList를 객체 선언해주면 매번 초기화 되서 사용자마다 다른 arrayList를 갖을 수 있는건가?
+
+        Log.e("feed 클래스", "Gson 객체 호출 (toJson(bookmarked_arrayList) : " + json);
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+
+        // 여기 원래 feed_email이 키값이었음 -> 근데 그렇게 하면 그 사용자의 모든 정보가 bookmarked_arrayList로 덮어씌워짐
+        //sharedPreference 쉐어드-> 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에 bookmarked_arrayList를 String으로 변환한 값을 넣어줌.
+        bookmarkShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("feed 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
+
+        bookmarkShared_editor.apply();
+        Log.e("feed 클래스", "editor. apply 성공 ");
+
+
+        // 그럼 현재 로그인하고 있는 유저의 데이터를 담고 있는 쉐어드에도 넣어줘야하나?
+//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);
+//        user_editor = logined_user.edit();
+//
+//
+//// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
+//        user_editor.putString("user_bookmarkList", json);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
+
+
+    }//bookmarked_saveData 메소드 닫는 중괄호
+
+    private void myreview_saveData() {
+
+//
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        SharedPreferences.Editor myreviewShared_editor = myreviewShared.edit();
+        Gson gson = new Gson();
+        Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
+
+        System.out.println("myReview arrayList.size : " + myreview_arrayList.size());
+
+        String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+
+        Log.e("myreview 클래스", "Gson 객체 호출 (toJson(myreview_arrayList) : " + json);
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+
+        myreviewShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
+        Log.e("myreview 클래스", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
+
+        myreviewShared_editor.apply();
+        Log.e("myreview 클래스", "editor. apply 성공 ");
+
+
+    }
+
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void myreview_loadData() {
+
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 ", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = myreviewShared.getString(feed_email, null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+
+        Log.e("feed 클래스 (myreview_loadData)", "typeToken객체 생성 :" + type);
+
+        myreview_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
+
+
+        if (myreview_arrayList == null) {
+            myreview_arrayList = new ArrayList<>();
+        }
+
+
+    } // myreview_loadData 메소드 닫는 중괄호
+    // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("feed_recyclerview", null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+        Log.e("feed 클래스", "typeToken객체 생성 :" + type);
+        arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스", "fromJson : arryaList는 " + arrayList);
+
+        if (arrayList == null) {
+            arrayList = new ArrayList<>();
+        }
+
+    }
+
+
+    // sharedPreference에 리사이클러뷰 안에 들어가는 arrayList를 저장하는 메소드를 만들어줌.
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        Log.e("feed 클래스", "Gson 객체 호출 : " + gson);
+        String json = gson.toJson(arrayList);  // arrayList를 Json으로 바꿈 // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + json);
+        editor.putString("feed_recyclerview", json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌.
+        Log.e("feed 클래스", "Gson 객체 호출 : " + editor.putString("feed_recyclerview", json));
+        editor.apply();
+        Log.e("feed 클래스", "apply 성공 ");
+    }
+
+
 
 
     @Override
