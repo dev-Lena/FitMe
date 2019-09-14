@@ -164,8 +164,8 @@ public class comment extends AppCompatActivity {
 //                int comment_profile = imageView_comment_profile.getResources();
 
                 /**이미지**/
-                String imageView_comment_profile = intent.getStringExtra("프로필");// feed클래스에서 comment 버튼 눌렀을 때 intent로 보낸 프사
-
+//                String imageView_comment_profile = intent.getStringExtra("프로필");// feed클래스에서 comment 버튼 눌렀을 때 intent로 보낸 프사
+                String imageView_comment_profile = logined_user.getString("user_profileimage", "");
 
                 // 5. ArrayList에 추가하고
 

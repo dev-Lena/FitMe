@@ -48,6 +48,8 @@ public class feed extends AppCompatActivity {
 
     public static String testkey;
     /// 삭제할 때 비교할 아이템 포지션 위치
+    static int width ;
+    static int height ;// 리뷰 아이템하나의 폭과 높이
 
     // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
@@ -135,9 +137,8 @@ public class feed extends AppCompatActivity {
 // 리사이클러뷰 수정에서 Adpater에서 커스텀한 클릭이벤트를 인터페이스로 가지고 와서 여기서 intent로 받아올 것.
         // 액티비티에서 커스텀 리스너 객체 생성 및 전달
 
-//        feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
 
-// 피드에 올라가는 작성글 업데이트 시간을 실제 시간으로 띄우기
+
 
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
@@ -308,8 +309,8 @@ public class feed extends AppCompatActivity {
             // 리뷰 아이템을 클릭했을 때
             @Override
             public void onReviewClick(View v, int position) { // 리뷰 아이템 하나만 보여주는 클래스
-//                Intent intent = new Intent(feed.this, review_card.class);
-//                startActivity(intent); //액티비티 이동
+                Intent intent = new Intent(feed.this, reviewcard_plus.class);
+                startActivity(intent); //액티비티 이동
 //
 
             }
@@ -362,6 +363,7 @@ public class feed extends AppCompatActivity {
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search:
+                        Log.d("searching 클래스","filter -> arrayList" + arrayList.size());
                         Intent search_intent = new Intent(feed.this, searching.class);
                         search_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//검색 화면으로 액티비티 띄우기
@@ -392,6 +394,7 @@ public class feed extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
+
     // sharedPreference에 저장한 ArrayList 를 가져옴 (리사이클러뷰)
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
@@ -403,9 +406,9 @@ public class feed extends AppCompatActivity {
         arrayList = gson.fromJson(json, type);
         Log.e("feed 클래스", "fromJson : arryaList는 " + arrayList);
 
-        if (arrayList == null) {
-            arrayList = new ArrayList<>();
-        }
+//        if (arrayList == null) {
+//            arrayList = new ArrayList<>();
+//        }
 
     }
 
@@ -843,6 +846,7 @@ public class feed extends AppCompatActivity {
         }
         return builder.toString();
     }
+
 
 
     // 생명주기 로그 찍으면서 확인

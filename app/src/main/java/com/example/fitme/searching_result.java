@@ -38,7 +38,7 @@ public class searching_result extends AppCompatActivity {
         textView_searching_result.setText(HashTag);
 
 // 뒤로가기 버튼을 누르면 검색 화면으로 이동
-        imageButton_searching_result_back = findViewById(R.id.imageButton_searching_result_back);
+        imageButton_searching_result_back = findViewById(R.id.imageButton_back);
         imageButton_searching_result_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {

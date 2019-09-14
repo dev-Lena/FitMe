@@ -59,6 +59,7 @@
         <activity android:name=".size_dress" />
         <activity android:name=".comment" />
         <activity android:name=".insight" />
+        <activity android:name=".reviewcard_plus" />
         <activity android:name=".first_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

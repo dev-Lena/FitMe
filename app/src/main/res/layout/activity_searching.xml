@@ -69,21 +69,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="193dp" />
+        app:layout_constraintGuide_begin="150dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="274dp" />
+        app:layout_constraintGuide_begin="198dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="320dp" />
+        app:layout_constraintGuide_begin="247dp" />
 
     <TextView
         android:id="@+id/textView17"
@@ -136,7 +136,7 @@
             <Button
                 android:id="@+id/button_searched_hashtag1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_verybrightpurple"
                 android:text="졸업식룩" />
@@ -144,7 +144,7 @@
             <Button
                 android:id="@+id/button_searched_hashtag2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_verybrightpurple"
                 android:text="Button" />
@@ -152,7 +152,7 @@
             <Button
                 android:id="@+id/button_searched_hashtag3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_verybrightpurple"
                 android:text="Button" />
@@ -160,7 +160,7 @@
             <Button
                 android:id="@+id/button_searched_hashtag4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_verybrightpurple"
                 android:text="Button" />
@@ -270,7 +270,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="154dp" />
+        app:layout_constraintGuide_begin="122dp" />
 
     <ImageButton
         android:id="@+id/imageButton_searching"

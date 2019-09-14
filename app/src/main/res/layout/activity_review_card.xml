@@ -95,10 +95,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
-                android:text="쇼핑몰 url"
+                android:text="만족도"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintHorizontal_bias="0.849"
+                app:layout_constraintHorizontal_bias="0.669"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout11"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,12 +106,12 @@
                 android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="76dp"
-                android:text="만족도"
+                android:layout_marginTop="72dp"
+                android:text="쇼핑몰 url"
 
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintHorizontal_bias="0.68"
+                app:layout_constraintHorizontal_bias="0.855"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,14 +134,14 @@
                 android:id="@+id/textView_shoppingmall_url"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:text="TextView"
+                android:layout_marginTop="72dp"
+                android:clickable="true"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:text="TextView"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.034"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,7 +157,7 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="81dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="48dp"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="3"
@@ -246,19 +246,36 @@
                 android:layout_marginBottom="8dp"
                 android:text="가성비 갑!!!!!"
                 android:maxLines="1"
-                android:singleLine="true"
                 android:textColor="@color/colorBlack"
                 android:textSize="22sp" />
 
-            <TextView
-                android:id="@+id/textView_more"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/colorWhite"
-                android:text="더보기"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:clickable="true"
+                    android:text="더보기"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView_hide" />
+
+                <TextView
+                    android:id="@+id/textView_hide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:clickable="true"
+                    android:text="접기"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -270,46 +287,50 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:background="@color/colorWhite"
                     android:text="#해시태그"
                     android:textColor="@color/colorDarkPurple"
                     android:textSize="18sp" />
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:id="@+id/textView_review_writer"
+                    android:id="@+id/review_date"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="30dp"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/colorLightGray"
-                    android:text="작성자"/>
+                    android:layout_marginLeft="10dp"
+                    android:text="date" />
 
                 <TextView
                     android:id="@+id/textView_reviewcard_number"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/colorLightGray"
-                    android:text="리뷰 고유 번호"/>
+                    android:text="리뷰 고유 번호"
+                    android:textColor="@color/colorLightGray" />
 
-
-
+                <TextView
+                    android:id="@+id/textView_review_writer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="작성자"
+                    android:textColor="@color/colorLightGray" />
             </LinearLayout>
 
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:id="@+id/review_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="date"
-                />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
