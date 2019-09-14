@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="*이메일"

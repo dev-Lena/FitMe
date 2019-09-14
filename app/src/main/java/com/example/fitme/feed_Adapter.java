@@ -220,7 +220,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
 //            this.review_card = (TextView) itemView.findViewById(R.id.review_card);
             this.textView_mysize = (TextView) itemView.findViewById(R.id.textView_mysize);
-            this.textView_nickname = (TextView) itemView.findViewById(R.id.textView_nickname);
+            this.textView_nickname = (TextView) itemView.findViewById(R.id.textView2);
             this.textView_shoppingmall_url = (TextView) itemView.findViewById(R.id.textView_shoppingmall_url);
 //            this.textView_likes_number = (TextView) itemView.findViewById(R.id.textView_likes_number);
 //            this.textView_likes = (TextView) itemView.findViewById(R.id.textView_likes);

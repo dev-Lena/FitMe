@@ -76,7 +76,7 @@ public class mypage extends AppCompatActivity {
         // 닉네임
         String mypage_nickname = logined_user.getString("user_nickname", "");
         Log.e("[마이페이지] 로그인 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + mypage_nickname);
-        textView_nickname = findViewById(R.id.textView_nickname);
+        textView_nickname = findViewById(R.id.textView2);
         textView_nickname.setText(mypage_nickname);
 
         // 프로필 사진
