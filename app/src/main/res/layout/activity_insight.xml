@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
     tools:context=".feed">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/imageButton_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:srcCompat="@drawable/ic_back" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
@@ -23,7 +35,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="인사이트"
+            android:text="My Fit"
             android:textColor="@color/colorDeepPurple"
             android:textColorLink="@color/colorPurple"
             android:textSize="22sp"
@@ -41,25 +53,6 @@
             app:layout_constraintGuide_begin="67dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="API"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:itemIconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -68,51 +61,1058 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="672dp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text=" 통계로 보는 회원님의 핏(fit)!"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <TextView
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textView_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="136dp"
+            android:gravity="center"
+            android:text="닉네임"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+        <TextView
         android:id="@+id/textView_nickname2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="님!"
+        android:gravity="center"
+        android:text="님의 핏(fit)!"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/textView_nickname"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
+
+    </LinearLayout>
     <TextView
-        android:id="@+id/textView_nickname"
+        android:id="@+id/textView_nickname_talk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="8dp"
-        android:text="닉네임"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:text="회원님께 맞는 청바지 핏을 찾아보세요!"
+        android:textColor="@color/colorLightGray"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/textView_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="130dp" />
+        app:layout_constraintGuide_begin="101dp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:orientation="vertical"
+    android:layout_weight="1">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:background="@color/colorWhite"
+        app:srcCompat="@drawable/pants_sizetable"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="104dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableLayout
+            android:id="@+id/tableLayout_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorWhite"
+            android:stretchColumns="*">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp">
+
+                <TextView
+                    android:id="@+id/textView270"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="이름"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView360"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="허리"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView380"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="밑위"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView309"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="힙"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView370"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="허벅지"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView410"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="기장"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView400"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="밑단"
+                    android:textColor="@color/colorBlack" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp">
+
+                <TextView
+                    android:id="@+id/textView_name"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="평균"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_waist"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="허리"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="밑위"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_hip"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="힙"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_bugGi"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="허벅지"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_long"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="기장"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="밑단"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/textView_name1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="스키니핏"
+                    android:textColor="@color/colorDarkPurple"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/textView_waist1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_hip1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textViewt_bugGi1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_long1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle1"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/textViewt_name2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="와이드핏"
+                    android:textColor="@color/colorDarkPurple"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_waist2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_hip2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_bugGi2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_long2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle2"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+
+                <TextView
+                    android:id="@+id/textView_name3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="일자핏"
+                    android:gravity="center"
+                    android:textColor="@color/colorDarkPurple"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_waist3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_hip3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_bugGi3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_long3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle3"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/textView_name4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="하이\n웨스트"
+                    android:gravity="center"
+                    android:textColor="@color/colorDarkPurple"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_waist4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textViewhip4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_bugGi4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_long4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle4"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+            </TableRow>
+
+
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tableLayout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorWhite"
+            android:padding="8dp"
+            android:stretchColumns="*">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="번호"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView36"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="허리"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="밑위"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="힙"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="허벅지"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView41"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="기장"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/textView40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="밑단"
+                    android:textColor="@color/colorBlack" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/textView_name0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="평균"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_waist0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="허리"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_sero0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="밑위"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_hip0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="힙"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_bugGi0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="허벅지"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_long0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="기장"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_ancle0"
+                    android:layout_width="15sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:text="밑단"
+                    android:textColor="@color/colorInvisible"
+                    android:textSize="15sp" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView_name__"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="1."
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editText_waist1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_sero1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_hip1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_bugGi1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_long1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_ancle1"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView_name__2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="2."
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editText_waist2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_sero2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_hip2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_bugGi2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_long2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_ancle2"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView_name__3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="3."
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editText_waist3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_sero3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_hip3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_bugGi3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_long3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_ancle3"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView_name__4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="4."
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editText_waist4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_sero4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_hip4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_bugGi4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_long4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_ancle4"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView_name__5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="5."
+                    android:gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editText_waist5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허리(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_sero5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑위(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_hip5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="힙(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_bugGi5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="허벅지(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_long5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="기장(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/editText_ancle5"
+                    android:layout_width="10sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="밑단(cm)"
+                    android:inputType="number"
+                    android:textSize="10sp" />
+
+            </TableRow>
+
+
+        </TableLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button_myfit_save"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_lightpurple"
+            android:text="저장하기"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/button_myfit_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_lightpurple"
+            android:text="수정하기"
+            android:textColor="@color/colorWhite" />
+    </FrameLayout>
+
+
+</LinearLayout>
+
+
+</LinearLayout>

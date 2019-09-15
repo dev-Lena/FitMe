@@ -102,6 +102,18 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <EditText
+            android:id="@+id/editText_alarm_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="알람 이름을 작성해주세요"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:text="" />
+
         <Button
             android:id="@+id/button_Alarm"
             android:layout_width="wrap_content"

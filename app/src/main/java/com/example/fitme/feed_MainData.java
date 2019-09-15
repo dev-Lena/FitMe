@@ -20,6 +20,7 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
     int imageView_reviewcard_img5;
     int imageButton_review_edit_completed;
     float float_ratingBar;
+    Boolean Is_liked;
 //    ArrayList comment ;
 
 
@@ -27,7 +28,9 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
                          String textView_detailed_review_card,
                          float float_ratingBar, String textView_hashtag, String review_date,
                          String textView_review_writer, String textView_reviewcard_number,
-                         String textView_nickname, String textView_mysize , String imageView_reviewcard_img1, String imageView_reviewcard_profile_image) {
+                         String textView_nickname, String textView_mysize , String imageView_reviewcard_img1,
+                         String imageView_reviewcard_profile_image, Boolean Is_liked,
+                         String textView_likes_number) {
 
         this.textView_shoppingmall_url = textView_shoppingmall_url;
         this.textView_detailed_review_card = textView_detailed_review_card;
@@ -42,6 +45,9 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
         // 이미지
         this.imageView_reviewcard_img1 = imageView_reviewcard_img1;
         this.imageView_reviewcard_profile_image =imageView_reviewcard_profile_image;
+        //좋아요
+        this.Is_liked = Is_liked;
+        this.textView_likes_number = textView_likes_number;
         // 댓글 arrayList
 //        this.comment = comment; // 각 아이템의 댓글을 담고있는 arrayList
 
@@ -56,7 +62,21 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
 //    }
 
 
+    public String getTextView_likes_number() {
+        return textView_likes_number;
+    }
 
+    public void setTextView_likes_number(String textView_likes_number) {
+        this.textView_likes_number = textView_likes_number;
+    }
+
+    public Boolean getIs_liked() {
+        return true;
+    }
+
+    public void setIs_liked(Boolean is_liked) {
+        Is_liked = is_liked;
+    }
     public String getImageView_reviewcard_profile_image() {
         return imageView_reviewcard_profile_image;
     }

@@ -1,6 +1,7 @@
 package com.example.fitme;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
+public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHolder> {
 
 //
 //    int width ;
@@ -28,28 +29,32 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
-        void onItemClick(View v, int position) ;
-        void onCommentClick(View v, int position) ;  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 때
-        void onBookmarkClick(View v, int position) ;  // 북마크 버튼을 눌렀을 때
+        void onItemClick(View v, int position);
+
+        void onCommentClick(View v, int position);  // 리사이클러뷰를 가지고 있는 피드에 올라오는 리뷰 카드에 댓글 버튼을 누를 때
+
+        void onBookmarkClick(View v, int position);  // 북마크 버튼을 눌렀을 때
+
         void onReviewClick(View v, int position); // 리뷰 아이템을 눌렀을 때
+
+        void onLikeClick(View v, int position);
 
         // 클릭할게 여러개 일 때 여기에 추가해주기
         // void onButtonClick이런 식으로
     }
 
     // 리스너 객체 참조를 저장하는 변수
-    private OnItemClickListener mListener = null ;
+    private OnItemClickListener mListener = null;
 
     // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mListener = listener ;  // 전달된 객체를 저장할 변수 mListener 추가
+        this.mListener = listener;  // 전달된 객체를 저장할 변수 mListener 추가
     }
-
 
     // 리사이클러뷰에 넣을 ArrayList
 
     private Context mContext;  // 이미지 Context 를 활용해서 넣기 위해 추가
-    private ArrayList<feed_MainData> arrayList,searchingarrayList;//
+    private ArrayList<feed_MainData> arrayList, searchingarrayList;//
 
     //리사이클러뷰 아이템 펼치기 -> 정해진 hight만큼 펼쳐짐
     // Item의 클릭 상태를 저장할 array 객체
@@ -64,22 +69,77 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
     }
 
+
     @NonNull
     @Override
     public feed_Adapter.FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_review_card, parent, false);
         FeedViewHolder holder = new FeedViewHolder(view);
-        mContext= parent.getContext();// 이미지 picasso 라이브러리 사용시 필요
+        mContext = parent.getContext();// 이미지 picasso 라이브러리 사용시 필요
+
 
         return holder;
     }
+//
+//    @Override
+//    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
+//
+//        feed_MainData feed_mainData = arrayList.get(position);
+//
+//        String review_Image = feed_mainData.getImageView_reviewcard_img1();
+//
+//        Picasso.get()
+//                .load(arrayList.get(position).getImageView_reviewcard_img1())
+//                .fit()
+//                .centerInside()
+//                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
+//                .error(R.drawable.review_plz)// 에러가 났을 때
+//                .into(holder.imageView_reviewcard_img1);
+//
+//        String review_profile_Image = feed_mainData.getImageView_reviewcard_profile_image();
+//
+//
+//        Picasso.get()
+//                .load(arrayList.get(position).getImageView_reviewcard_profile_image())
+//                .fit()
+//                .centerInside()
+//                .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
+//                .error(R.drawable.review_plz)// 에러가 났을 때
+//                .into(holder.imageView_reviewcard_profile_image);
+//
+//
+//        Log.e("feed_Adapter 클래스 이미지 확인중 ", " : -->" + arrayList.get(position).getImageView_reviewcard_img1());
+//
+//
+//        //컨텍스트와 함께 열고 > 이미지를 로딩하고 > 원하는 ImageView에 삽입하면 끝 입니다!
+//        // 이외에도 이미지 로딩이 완료되기전에 보여줄 .placeholder() 메소드,
+//        //모서리를 둥글게 하거나 완전한 원으로 만들기 위한 .transform() 메소드 등 이미지와 관련된 작업 대부분을 지원하는 라이브러리 입니다.
+//
+//        // 이미지를 int로 받을 때  // 지금은 picasso 라이브러리 사용중
+//
+//        holder.textView_mysize.setText(arrayList.get(position).getTextView_mysize());
+//        holder.textView_nickname.setText(arrayList.get(position).getTextView_nickname());
+//        holder.textView_shoppingmall_url.setText(arrayList.get(position).getTextView_shoppingmall_url());
+////        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
+////        holder.textView_likes.setText(arrayList.get(position).getTextView_likes());
+//        holder.textView_detailed_review_card.setText(arrayList.get(position).getTextView_detailed_review_card());
+//        holder.float_ratingBar.setRating(arrayList.get(position).getfloat_ratingBar());
+//        holder.review_date.setText(arrayList.get(position).getReview_date());
+//        holder.textView_hashtag.setText(arrayList.get(position).getTextView_hashtag());
+//        holder.textView_review_writer.setText(arrayList.get(position).getTextView_review_writer());
+//        holder.textView_reviewcard_number.setText(arrayList.get(position).getTextView_reviewcard_number());
+//
+//        // 더보기 할 TextVIew가 몇 줄인지 구하는 중
+//        holder.textView_detailed_review_card.setVisibility(View.VISIBLE);
+//
+//    }
 
-    @Override
+
     // 생성된 뷰홀더에 아이템 내용 세팅하는 곳
     // 생성자로 현제 데이터가 들어오지 않기 때문에 position 값을 이용해서 데이터를 가지고 옴.
 
-
+    @Override
     // 가져온 값을 set한느 곳. position을 통해 가져오도록 한다
     public void onBindViewHolder(@NonNull final FeedViewHolder holder, int position) {
 //        리사이클러뷰 아이템 펼치기 -> 이미지에 적합
@@ -87,7 +147,7 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 
         feed_MainData feed_mainData = arrayList.get(position);
 
-        String review_Image = feed_mainData .getImageView_reviewcard_img1();
+        String review_Image = feed_mainData.getImageView_reviewcard_img1();
 
         Picasso.get()
                 .load(arrayList.get(position).getImageView_reviewcard_img1())
@@ -107,7 +167,6 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
                 .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(holder.imageView_reviewcard_profile_image);
-
 
 
         Log.e("feed_Adapter 클래스 이미지 확인중 ", " : -->" + arrayList.get(position).getImageView_reviewcard_img1());
@@ -131,11 +190,6 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
         holder.textView_review_writer.setText(arrayList.get(position).getTextView_review_writer());
         holder.textView_reviewcard_number.setText(arrayList.get(position).getTextView_reviewcard_number());
 
-//
-//        Message message = messages.get(position);
-//
-//        holder.textView_detailed_review_card.setText(message.getMessage());
-
         // 더보기 할 TextVIew가 몇 줄인지 구하는 중
         holder.textView_detailed_review_card.setVisibility(View.VISIBLE);
 
@@ -148,28 +202,74 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                 Log.d("COUNT", String.valueOf(lineCount));
             }
         });
-// onClick & LongClick
-        //클릭했을 때 어떤 걸 할건지
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-            }
-        });
-
-//        // 길게 눌렀을 때 어떤 걸 할건지
-//        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                return true;
+        /**좋아요 하는 중**/
+//        //setting liked status initially, if user liked it previously
+//        if (arrayList.get(position).getIs_liked()) { //true일 때
+//            holder.imageButton_like_pushed.setImageResource(R.drawable.ic_favorite_black_like);
+//            holder.textView_likes_number.setTextColor(Color.RED);
+////            updateLike(holder,position); // 그림 바뀌고 숫자 올라가는 메[소드 -> 지금 에러 중
+//        } else {
+//            holder.imageButton_like.setImageResource(R.drawable.ic_empty_heart_like_favorite);
+//            holder.textView_likes_number.setTextColor(Color.GRAY);
+////            updateUnlike(holder,position); // 그림 바뀌고 숫자 올라가는 메[소드 -> 지금 에러 중
+//        }
+//        //setting the likes number
+//        // 좋아요 숫자 올라가기
+//        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
+//        if (!payloads.isEmpty()) {
+//            if (payloads.contains("prelike")) {
+//                //update UI changes
+//                updateLike(holder,position);
+//
+//            } else if (payloads.contains("preunlike")) {
+//                //update UI changes
+//                updateUnlike(holder,position);
+//
 //            }
-//        });
+//        } else super.onBindViewHolder(holder, position, payloads);
+//    }
+
+
     }// onBindViewHolder 메소드 닫는 중괄호
 
+    /**좋아요**/
+    //Update Like drawable and set the no. of likes, update main list data
+    private void updateLike(FeedViewHolder holder, int position) {
+
+
+        if( holder.textView_likes_number ==null){
+            holder.textView_likes_number.setText("0");
+        }
+
+        holder.imageButton_like.setImageResource(R.drawable.ic_favorite_black_like);
+        holder.textView_likes_number.setTextColor(Color.RED);
+        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
+        //        holder.textView_likes_number.setText((Integer.parseInt(arrayList.get(position).getTextView_likes_number()) + 1) );
+
+
+//Update no. of likes in main data list
+//        arrayList.get(position).setTextView_likes_number(String.valueOf(Integer.parseInt(
+//                arrayList.get(position).getTextView_likes_number()) + 1));
+        arrayList.get(position).setTextView_likes_number((
+                arrayList.get(position).getTextView_likes_number()) + 1);
+    }
+    //Update UnLike drawable and set the no. of likes, update main list data
+    private void updateUnlike( FeedViewHolder holder, int position) {
+        holder.imageButton_like.setImageResource(R.drawable.ic_empty_heart_like_favorite);   holder.textView_likes_number.setTextColor(Color.parseColor("#909090"));
+        holder.textView_likes_number.setText(arrayList.get(position).getTextView_likes_number());
+        //        holder.textView_likes_number.setText((Integer.parseInt(arrayList.get(position).getTextView_likes_number()) - 1) );
+
+//Update no. of likes in main data list
+//        arrayList.get(position).setTextView_likes_number(String.valueOf(Integer.parseInt(
+//                arrayList.get(position).getTextView_likes_number()) - 1));
+//        arrayList.get(position).setTextView_likes_number((arrayList.get(position).getTextView_likes_number()) - 1);
+
+    }
+
+
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return super.getItemId(position);
     }
 
@@ -197,11 +297,11 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView review_date, review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url,textView_hashtag,
-                textView_likes_number, textView_likes, textView_review_writer, textView_reviewcard_number,textView_more,textView_hide,
+        TextView review_date, review_card, textView19, textView_mysize, textView_nickname, textView20, textView_shoppingmall_url, textView_hashtag,
+                textView_likes_number, textView_likes, textView_review_writer, textView_reviewcard_number, textView_more, textView_hide,
                 textView_detailed_review_card;
-       ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
-        ImageButton imageButton_like, imageButton_comment, imageButton_bookmark, imageButton_spinner;
+        ImageView imageView_reviewcard_profile_image, imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
+        ImageButton imageButton_like, imageButton_like_pushed, imageButton_comment, imageButton_bookmark, imageButton_spinner;
         RatingBar float_ratingBar;
         private feed_MainData data;
         private int position;
@@ -212,33 +312,33 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
             super(itemView);
             this.imageView_reviewcard_profile_image = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_profile_image);
             this.textView_review_writer = (TextView) itemView.findViewById(R.id.textView_review_writer);
-            this.textView_reviewcard_number = (TextView) itemView.findViewById(R.id. textView_reviewcard_number);
+            this.textView_reviewcard_number = (TextView) itemView.findViewById(R.id.textView_reviewcard_number);
             this.imageView_reviewcard_img1 = (ImageView) itemView.findViewById(R.id.imageView_reviewcard_img1);
-//            this.imageButton_like = (ImageButton) itemView.findViewById(R.id.imageButton_like);
+            this.imageButton_like = (ImageButton) itemView.findViewById(R.id.imageButton_like);
+            this.imageButton_like_pushed = (ImageButton) itemView.findViewById(R.id.imageButton_like_pushed);
             this.review_date = (TextView) itemView.findViewById(R.id.review_date);
             this.imageButton_comment = (ImageButton) itemView.findViewById(R.id.imageButton_comment);
 //            this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
 //            this.review_card = (TextView) itemView.findViewById(R.id.review_card);
             this.textView_mysize = (TextView) itemView.findViewById(R.id.textView_mysize);
-            this.textView_nickname = (TextView) itemView.findViewById(R.id.textView2);
+            this.textView_nickname = (TextView) itemView.findViewById(R.id.textView_nickname);
             this.textView_shoppingmall_url = (TextView) itemView.findViewById(R.id.textView_shoppingmall_url);
-//            this.textView_likes_number = (TextView) itemView.findViewById(R.id.textView_likes_number);
+            this.textView_likes_number = (TextView) itemView.findViewById(R.id.textView_likes_number);
 //            this.textView_likes = (TextView) itemView.findViewById(R.id.textView_likes);
             this.textView_detailed_review_card = (TextView) itemView.findViewById(R.id.textView_detailed_review_card);
             this.imageButton_spinner = (ImageButton) itemView.findViewById(R.id.imageButton_spinner);
             this.imageButton_bookmark = (ImageButton) itemView.findViewById(R.id.imageButton_bookmark);
-            this.float_ratingBar = (RatingBar) itemView.findViewById((R.id.ratingBar)) ;
+            this.float_ratingBar = (RatingBar) itemView.findViewById((R.id.ratingBar));
 //            this.textView_more = (TextView) itemView.findViewById(R.id.textView_more);
             this.textView_hashtag = (TextView) itemView.findViewById(R.id.textView_hashtag);
             this.textView_more = (TextView) itemView.findViewById(R.id.textView_more);
             this.mview = itemView.findViewById(R.id.review_card);
-            this.textView_hide =itemView.findViewById(R.id.textView_hide);
+            this.textView_hide = itemView.findViewById(R.id.textView_hide);
 //            this.textView_hashtag2 = (TextView) itemView.findViewById(R.id.textView_hashtag2);
 
 // 리사이클러뷰 수정에서 Adapter에 있는 클릭 이벤트를feed에서 구현하기 위해서 ( 인텐트로 데이터 전달 )
 //            itemView.setOnClickListener(new View.OnClickListener() {
             // 어댑터 내 뷰홀더에서 아이템 클릭시, 커스텀 이벤트 메서드를 호출하는 코드 작성.
-
 
 
 // itemView의 높이와 폭 구하는 코드
@@ -310,11 +410,54 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                             Log.e("bookmark 버튼이 mListener를 통해", "눌렸나요?");
 
 
-
                         }
                     }
                 }
             });
+
+
+            // 이건 내가 만든거// 좋아요 버튼
+            imageButton_like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
+                    Log.e("Feed Adapter에서  ", "내가 커스텀한 클릭 댓글 버튼 onBookmarkClick 리스너에서 getAdapterPostion 했습니다 : " + pos);
+
+                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
+                            mListener.onLikeClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
+                            Log.e("bookmark 버튼이 mListener를 통해", "눌렸나요?");
+
+//                            //check whether it is liked or unliked
+//                            if (arrayList.get(pos) // 좋아요가 이미 되어있으면
+//                                    .getIs_liked().equals(true)) {
+//
+//                                //update unlike drawable
+////                                arrayList.get(getAdapterPosition()).setIs_liked(false); //좋아요 취소
+////                                notifyItemChanged(getAdapterPosition(), "preunlike");
+//                                imageButton_like.setVisibility(View.VISIBLE);
+//                                imageButton_like_pushed.setVisibility(View.INVISIBLE);
+////                                updateLike(getAdapterPosition());
+//                            } else {
+//                                //update like drawable
+////                                arrayList.get(getAdapterPosition()).setIs_liked(true);
+////                                notifyItemChanged(getAdapterPosition(), "prelike");
+//                                imageButton_like.setVisibility(View.INVISIBLE);
+//                                imageButton_like_pushed.setVisibility(View.VISIBLE);
+////                                updateUnlike(getAdapterPosition());
+//
+//                            }
+
+                            //make network request
+//                            updateLike(getAdapterPosition());
+                        }
+
+
+                    }
+                }
+            });
+
 
             // 더보기 버튼을 누르면 -> 해당 리뷰가 열리도록
             mview.setOnClickListener(new View.OnClickListener() {
@@ -332,6 +475,21 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
                     textView_shoppingmall_url.setMaxLines(Integer.MAX_VALUE);
 
                     textView_hashtag.setMaxLines(Integer.MAX_VALUE);
+
+
+                    // 리뷰 아이템 접기
+                    textView_hide.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            System.out.println("Hide button");
+                            textView_more.setVisibility(View.VISIBLE);
+                            textView_hide.setVisibility(View.INVISIBLE);
+                            textView_shoppingmall_url.setMaxLines(1);
+                            textView_detailed_review_card.setMaxLines(1);
+                            textView_hashtag.setMaxLines(1);
+                        }
+                    });
 
 
                     // 리사이클러뷰 아이템 펼치기 -> 이미지에 적합한 방법. TextView는 아님.\
@@ -363,25 +521,35 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //                    }
                 }
             });
-            textView_hide.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    System.out.println("Hide button");
-                    textView_more.setVisibility(View.VISIBLE);
-                    textView_hide.setVisibility(View.INVISIBLE);
-                    textView_shoppingmall_url.setMaxLines(1);
-                    textView_detailed_review_card.setMaxLines(1);
-                    textView_hashtag.setMaxLines(1);
-                }
-            });
-
-
 
 
         }// feedVeiwHolder 메소드 닫는 중괄호
 
-        // 리사이클러뷰 아이템 펼치기 -> 이미지에 적합. 펼쳐질 height를 내가 설정해서 펼쳐지게 하는 방법임.
+
+        // 좋아요 업데이트에 필요한 메소드
+
+        // 나같은 경우에는 쉐어드에 저장하는 걸로 해야할 듯
+        private void updateLike(final int adapterPosition) {
+            /*Network Request code*/
+// if success
+            /*update the no. of likes or this card*/
+// if fails, check first the status of 'liked', and revert the
+// drawable to its previous state
+            // Make the relevant changes by calling notifyItemChanged() method
+            // with some payload(say “prelike”,“preunlike”).
+            // The onBindViewHolder() with payload parameter will be called.
+            //This method is called before onBindViewHolder() method and
+            // hence you must call super.onBindViewHolder() is payload is empty
+            if (arrayList.get(adapterPosition).getIs_liked()==false) {
+                arrayList.get(getAdapterPosition()).setIs_liked(true);
+                notifyItemChanged(adapterPosition, "prelike");
+            } else {
+                arrayList.get(getAdapterPosition()).setIs_liked(false);
+                notifyItemChanged(adapterPosition, "preunlike");
+            }
+        }
+
+            // 리사이클러뷰 아이템 펼치기 -> 이미지에 적합. 펼쳐질 height를 내가 설정해서 펼쳐지게 하는 방법임.
 //        /** 이 부분 추가 **/
 //        void onBind(feed_MainData feed_mainData, int position) {
 //            this.data = feed_mainData;
@@ -447,7 +615,8 @@ public class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHold
 //        }
 
 
-    }// feedVeiwHolder 클래스 닫는 중괄호
+        }// feedVeiwHolder 클래스 닫는 중괄호
 
-}//feed_Adapter 클래스 닫는 중괄호
+    }//feed_Adapter 클래스 닫는 중괄호
+
 

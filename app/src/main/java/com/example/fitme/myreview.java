@@ -79,7 +79,18 @@ public class myreview extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        //리사이클러뷰 맨 위부터 보여주기
+        recyclerView.post(new Runnable() {
 
+            @Override
+
+            public void run() {
+
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
         feed_adapter = new feed_Adapter(myreview_arrayList,this);
         recyclerView.setAdapter(feed_adapter);
 
@@ -208,6 +219,11 @@ public class myreview extends AppCompatActivity {
             @Override
             public void onReviewClick(View v, int position) {
 
+
+            }
+
+            @Override
+            public void onLikeClick(View v, int position) {
 
             }
         });

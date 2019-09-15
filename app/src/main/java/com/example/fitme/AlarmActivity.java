@@ -3,14 +3,21 @@ package com.example.fitme;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.example.fitme.timesale.alarm_name;
+
 public class AlarmActivity extends AppCompatActivity {
 
+    // 알람이 울릴 때 보여지는 mxl을 다루는 액티비티
 
     private MediaPlayer mediaPlayer;
+    TextView textView_alarm_name;
+//    public static String alarm_name;
 
 
 
@@ -24,6 +31,19 @@ public class AlarmActivity extends AppCompatActivity {
         this.mediaPlayer.start();
 
         findViewById(R.id.buttonClose).setOnClickListener(mClickListener);
+        textView_alarm_name = findViewById(R.id.textView_alarm_name);
+
+
+        Intent intent = getIntent();  // 데이터를 담아서 보낸 intent를 받아옴
+//        String
+//        alarm_name = intent.getStringExtra("알람이름");
+//        String alarm_name = intent.getExtras().getString("알람이름"); /*String형*/
+        textView_alarm_name.setText(alarm_name);
+        Log.d("AlarmActivity", "onCreate: alarm_name -> " + alarm_name);
+        Log.d("AlarmActivity", "onCreate: textView_alarm_name -> " + textView_alarm_name);
+        // timesale 클래스에서 인텐트에 담아서 보낸 사용자가 입력한 알람이름을 보여줌
+
+
     }
 
     @Override

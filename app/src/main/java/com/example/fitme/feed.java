@@ -58,7 +58,7 @@ public class feed extends AppCompatActivity {
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_notification, imageView_reviewcard_img1;
     TextView textView_feed_id;
-    ImageButton imageButton_review_timesale;
+    ImageButton imageButton_review_timesale, imageButton_like, imageButton_like_pushed;
     FloatingActionButton floatingActionButton;  // 리뷰 작성하는 글쓰기 플로팅 버튼
 
 
@@ -108,10 +108,32 @@ public class feed extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.feed_recyclerView);
 
         linearLayoutManager = new LinearLayoutManager(this);
+//        //즉각
+//        LinearLayoutManager mlayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
+//        linearLayoutManager.scrollToPositionWithOffset(0, 0);
         linearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
 //        recyclerView.setHasFixedSize(true);//각 아이템이 보여지는 것을 일정하게
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        // 피드 리사이클러뷰 맨 위부터 보여주기
+        recyclerView.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
+
+
+
+//
+//        //부드럽게 올라가는거
+//        recyclerView.smoothScrollToPosition(0);
 
 
         feed_adapter = new feed_Adapter(arrayList, this);//앞서 만든 리스트를 어뎁터에 적용시켜 객체를 만든다.
@@ -312,6 +334,30 @@ public class feed extends AppCompatActivity {
                 Intent intent = new Intent(feed.this, reviewcard_plus.class);
                 startActivity(intent); //액티비티 이동
 //
+
+            }
+
+            @Override  // 좋아요 버튼을 눌렀을 때
+            public void onLikeClick(View v, int position) {
+                //check whether it is liked or unliked
+                if (arrayList.get(position) // 좋아요가 이미 되어있으면
+                        .getIs_liked().equals(true)) {
+
+                    //update unlike drawable
+//                                arrayList.get(getAdapterPosition()).setIs_liked(false); //좋아요 취소
+//                                notifyItemChanged(getAdapterPosition(), "preunlike");
+                    imageButton_like.setVisibility(View.VISIBLE);
+                    imageButton_like_pushed.setVisibility(View.INVISIBLE);
+//                                updateLike(getAdapterPosition());
+                } else {
+                    //update like drawable
+//                                arrayList.get(getAdapterPosition()).setIs_liked(true);
+//                                notifyItemChanged(getAdapterPosition(), "prelike");
+                    imageButton_like.setVisibility(View.INVISIBLE);
+                    imageButton_like_pushed.setVisibility(View.VISIBLE);
+//                                updateUnlike(getAdapterPosition());
+
+                }
 
             }
 
@@ -731,10 +777,18 @@ public class feed extends AppCompatActivity {
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
 
+            int position = data.getIntExtra("POSITION", 0000);
+            Log.e("위치값", position + " 위치값을 가지고 왔습니다");
+
+
+            Boolean Is_liked= false;
+            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
+
 //MainData
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image
+                    ,Is_liked, textView_likes_number);
 
             arrayList.add(feed_MainData);  //리사이클러뷰의 arrayList에 아이템 추가
             myreview_arrayList.add(feed_MainData); // 내가 쓴 리뷰에 추가
@@ -811,10 +865,16 @@ public class feed extends AppCompatActivity {
             int position = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
+//            Boolean Is_liked= feed_adapter.getItem(position).getIs_liked();
+            Boolean Is_liked= false;
+            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
+
+
             //
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image,
+                    Is_liked, textView_likes_number);
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다 imageView_reviewcard_img1 : +++++++++++++++++++++++++++++++++" + imageView_reviewcard_img1);
 
 

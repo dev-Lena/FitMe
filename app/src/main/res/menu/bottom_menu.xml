@@ -15,7 +15,7 @@
         android:id="@+id/action_insight"
         android:enabled="true"
         android:icon="@drawable/ic_insert_chart_black_24dp"
-        android:title="insight" />
+        android:title="my fit" />
     <item
         android:id="@+id/action_notification"
         android:enabled="true"

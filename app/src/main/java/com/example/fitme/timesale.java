@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,8 +45,9 @@ public class timesale extends AppCompatActivity {
     private long mTimeLeftInMillis;
     // 뷰 객체
     TextView textView_leftTime;
+    EditText editText_alarm_name; // 사용자가 작성하는 알람 이름
 
-
+    public static String alarm_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,16 @@ public class timesale extends AppCompatActivity {
             public void onClick(View view) {
 
 
+                if (mHandler != null){
+                    mHandler.removeMessages(0);
+                }
+
                 resetTimer();
+
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(getIntent());
+                overridePendingTransition(0,0);
 
             }
         });
@@ -280,6 +291,22 @@ public class timesale extends AppCompatActivity {
                     setAlarm();  // 설정한 날짜와 시간에 알람이 울리도록
 
                     startTimer();  // 남은 시간을 보여주는 타이머를 시작
+
+
+                    editText_alarm_name = findViewById(R.id.editText_alarm_name);
+
+//                    if (editText_alarm_name.length()<21){
+                        Intent intent = new Intent(timesale.this, AlarmActivity.class);
+                        alarm_name = editText_alarm_name.getText().toString();
+                    intent.putExtra("알람이름", alarm_name);
+                    Log.d("timesale", "button_Alarm: alarm_name -> " + alarm_name);
+                        // 사용자가 입력한 알람이름을 인텐트로 알람 울릴 때 뜨는 액티비티로 넘기는중
+//                        startActivity(comment_intent); //액티비티 이동
+//                    }
+//                    else {
+//                        Toast.makeText(timesale.this, "21글자 이하로 입력해주세요", Toast.LENGTH_SHORT).show();
+//                    }
+
 
                     break;
             }

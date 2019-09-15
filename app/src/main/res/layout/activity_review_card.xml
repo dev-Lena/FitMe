@@ -184,13 +184,33 @@
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/imageButton_like"
-                    android:layout_width="wrap_content"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="48dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/colorWhite"
-                    app:srcCompat="@drawable/ic_empty_heart_like_favorite" />
+                    android:id="@+id/likeConst"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/imageButton_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        app:layout_constraintBottom_toBottomOf="@+id/likeConst"
+                        app:layout_constraintStart_toStartOf="@+id/likeConst"
+                        app:layout_constraintTop_toTopOf="@+id/likeConst"
+                        app:srcCompat="@drawable/ic_empty_heart_like_favorite" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton_like_pushed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorWhite"
+                        app:layout_constraintBottom_toBottomOf="@+id/likeConst"
+                        app:layout_constraintStart_toStartOf="@+id/likeConst"
+                        app:layout_constraintTop_toTopOf="@+id/likeConst"
+                        app:srcCompat="@drawable/ic_favorite_black_like" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageButton
                     android:id="@+id/imageButton_comment"

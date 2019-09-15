@@ -67,7 +67,18 @@ public class bookmarked_review extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
         recyclerView.setLayoutManager(linearLayoutManager);
 
+       // 리사이클러뷰 맨 위부터 보여주기
+        recyclerView.post(new Runnable() {
 
+            @Override
+
+            public void run() {
+
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
         feed_adapter = new feed_Adapter(bookmarked_arrayList,this);
         recyclerView.setAdapter(feed_adapter);
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
@@ -147,6 +158,11 @@ public class bookmarked_review extends AppCompatActivity {
 
             @Override
             public void onReviewClick(View v, int position) {
+
+            }
+
+            @Override
+            public void onLikeClick(View v, int position) {
 
             }
         });
