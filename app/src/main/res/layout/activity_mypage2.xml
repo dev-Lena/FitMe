@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".feed">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,16 +58,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:itemIconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -85,20 +76,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="78dp">
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="67dp" />
+            app:layout_constraintGuide_begin="1dp" />
 
         <Button
             android:id="@+id/button_edit_profile"
-            android:layout_width="200dp"
+            android:layout_width="170dp"
             android:layout_height="35dp"
             android:layout_margin="10dp"
             android:layout_marginStart="13dp"
@@ -119,9 +111,10 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.065"
+            app:layout_constraintHorizontal_bias="0.122"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6">
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
+            app:layout_constraintVertical_bias="0.0">
 
             <ImageView
                 android:id="@+id/imageView_mypage_profileimage"
@@ -129,9 +122,7 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/img_dd_profile" />
-
+                android:layout_marginEnd="8dp" />
 
 
             <TextView
@@ -152,7 +143,7 @@
             android:id="@+id/linearLayout7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="140dp"
+            android:layout_marginEnd="72dp"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -160,7 +151,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
-            app:layout_constraintVertical_bias="0.366">
+            app:layout_constraintVertical_bias="0.212">
 
             <TextView
                 android:id="@+id/textView_bookmark_count"
@@ -171,7 +162,7 @@
                 android:singleLine="true"
                 android:text="12"
                 android:textColor="@color/colorBlack"
-                android:textSize="22sp" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/textView_bookmark"
@@ -179,49 +170,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="북마크"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6"
-            app:layout_constraintVertical_bias="0.366">
-
-            <TextView
-                android:id="@+id/textView_following"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="93"
-                android:textColor="@color/colorBlack"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="팔로잉"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="196dp"
+            android:layout_marginEnd="140dp"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -229,7 +186,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
-            app:layout_constraintVertical_bias="0.366">
+            app:layout_constraintVertical_bias="0.212">
 
             <TextView
                 android:id="@+id/textView_myreview_count"
@@ -240,7 +197,7 @@
                 android:singleLine="true"
                 android:text="93"
                 android:textColor="@color/colorBlack"
-                android:textSize="22sp" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/textView_myreview"
@@ -248,97 +205,59 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="내 리뷰"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
+
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="84dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6"
-            app:layout_constraintVertical_bias="0.366">
-
-            <TextView
-                android:id="@+id/textView_follow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="98"
-                android:textColor="@color/colorBlack"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="팔로우"
-                android:textSize="16sp" />
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline7"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="194dp" />
+            app:layout_constraintGuide_begin="128dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textview_myreview_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_margin="10dp"
+            android:text="닉네임"
+            android:textColor="@color/colorAccent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+
+            android:text="의 리뷰"
+            android:textColor="@color/colorAccent" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mypage_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        app:itemIconTint="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline10">
+        app:menu="@menu/bottom_menu" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/button_bookmarked_review"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_lightpurple"
-                android:text="북마크한 리뷰"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <TableRow>
-        <Button
-            android:id="@+id/button_myreview"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/btn_lightpurple"
-            android:text="내가 쓴 리뷰"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
-        </TableRow>
-
-    </TableLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

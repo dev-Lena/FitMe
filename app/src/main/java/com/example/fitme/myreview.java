@@ -55,7 +55,7 @@ public class myreview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // feed_ Adapter에서 만들어준 arrayList를 가지고 와서 여기서 객체 선언해줌.
-        myreview_arrayList = new ArrayList<>();
+//        myreview_arrayList = new ArrayList<>();
 
         myreview_loadData();
 
@@ -222,10 +222,10 @@ public class myreview extends AppCompatActivity {
 
             }
 
-            @Override
-            public void onLikeClick(View v, int position) {
-
-            }
+//            @Override
+//            public void onLikeClick(View v, int position) {
+//
+//            }
         });
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
@@ -234,7 +234,7 @@ public class myreview extends AppCompatActivity {
         imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(myreview.this, feed.class);
+                Intent register_intent = new Intent(myreview.this, mypage.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
 
@@ -445,10 +445,10 @@ public class myreview extends AppCompatActivity {
         myreview_arrayList = gson.fromJson(json, type);
         Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
 
-
-        if (myreview_arrayList == null) {
-            myreview_arrayList = new ArrayList<>();
-        }
+//
+//        if (myreview_arrayList == null) {
+//            myreview_arrayList = new ArrayList<>();
+//        }
     } // myreview_loadData 메소드 닫는 중괄호
 
 //    public void remove(int position){

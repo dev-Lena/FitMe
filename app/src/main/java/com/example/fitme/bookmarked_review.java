@@ -161,10 +161,7 @@ public class bookmarked_review extends AppCompatActivity {
 
             }
 
-            @Override
-            public void onLikeClick(View v, int position) {
 
-            }
         });
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
@@ -173,7 +170,7 @@ public class bookmarked_review extends AppCompatActivity {
         imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(bookmarked_review.this, feed.class);
+                Intent register_intent = new Intent(bookmarked_review.this, mypage.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
 

@@ -160,7 +160,7 @@ public class searching extends AppCompatActivity implements View.OnClickListener
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(searching.this,notification.class);
+                        Intent insight_intent = new Intent(searching.this,image_searching.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;

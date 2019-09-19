@@ -69,7 +69,7 @@ public class searching_result extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(searching_result.this,notification.class);
+                        Intent insight_intent = new Intent(searching_result.this,Shopping_insight.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :

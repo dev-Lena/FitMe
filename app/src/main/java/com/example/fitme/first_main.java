@@ -3,15 +3,23 @@ package com.example.fitme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class first_main extends AppCompatActivity {
 
@@ -39,8 +47,8 @@ public class first_main extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                Intent intent = new Intent(first_main.this, login.class);
-//                startActivity(intent);
+                Intent intent = new Intent(first_main.this, login.class);
+                startActivity(intent);
                 autoLogin();  // 자동 로그인 검사
                 finish();
             }
@@ -77,7 +85,70 @@ public class first_main extends AppCompatActivity {
             Toast.makeText(getApplication(),"자동 로그인 되었습니다",Toast.LENGTH_SHORT).show();
             this.finish();
         }
+
+//        public static String getKeyHash(final Context context) {
+//            PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+//            if (packageInfo == null)
+//                return null;
+//
+//            for (Signature signature : packageInfo.signatures) {
+//                try {
+//                    MessageDigest md = MessageDigest.getInstance("SHA");
+//                    md.update(signature.toByteArray());
+//                    return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+//                } catch (NoSuchAlgorithmException e) {
+//                    Log.w(TAG, "Unable to get MessageDigest. signature=" + signature, e);
+//                }
+//            }
+//            return null;
+//        }
+//        getHashKey();
+
+        getKeyHash(GlobalApplication.mContext);
+
     }
+
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+    }
+
+    public static String getKeyHash(final Context context) {
+        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+        if (packageInfo == null)
+            return null;
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.w("first_main", "KeyHash=" +  Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+                return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
+
+//                    Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+            } catch (NoSuchAlgorithmException e) {
+                Log.w("first_main", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+        return null;
+    }
+
 
     @Override
     protected void onRestart() {

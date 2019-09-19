@@ -19,10 +19,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
@@ -30,6 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class mypage extends AppCompatActivity {
+
+
+// 카카오톡으로 로그인한 정보 가지고 오는 중
+    String email = "";
+    String nickname = "";
+    String profile_imagePath = "";
+
+    ImageView imageView_mypage_profileimage ;
 
 
     // 현재 로그인하고 있는 회원의 정보만 저장하는 쉐어드
@@ -43,24 +55,87 @@ public class mypage extends AppCompatActivity {
     private SharedPreferences myreviewShared;
     private SharedPreferences.Editor myreviewShared_editor;
 
-
+//mypage_recyclerview
     private ArrayList<List> userData= new ArrayList<List>();
+    /**
+     * 리사이클러뷰에 필요한 기본 객체 선언
+     **/
 
-    ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+    ArrayList<feed_MainData> mypage_arrayList, arrayList, bookmarked_arrayList, myreview_arrayList;
+    //    public static ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+    //    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
+//    ArrayList<feed_MainData> myreview_arrayList;
+//    public static feed_Adapter feed_adapter;
+    mypage_Adapter mypage_adapter;
+    RecyclerView mypage_recyclerview;
+    GridLayoutManager GridlayoutManager;
+
+
+
+    private Context context;
+
+    String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
+    String textView_reviewcard_number;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
+    String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
+    String textView_shoppingmall_url;
+
 
     ViewGroup linearLayout6, linearLayout7,linearLayout5 , linearLayout3 ; // 내 리뷰 :linearLayout6, 북마크 : linearLayout7, 팔로우 : linearLayout5, 팔로잉 linearLayout3
     Button  button_logout, button_myreview, button_edit_hashtag , button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
-    TextView textView_mypage_email, textView_nickname, textView_myreview_count,textView_bookmark_count,textView_follow,textView_following;
+    TextView textview_myreview_nickname,textView_mypage_email, textView_nickname, textView_myreview_count,textView_bookmark_count,textView_follow,textView_following;
     ImageButton imageButton_mypage_menu;
-    ImageView imageView_mypage_profileimage;
+//    ImageView imageView_mypage_profileimage;
     Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("mypage","onCreate");
+
+        loadShared();
+        mypage_myreview_loadData(); // 마이페이지에서 보여줄 Grid 형식의 리사이클러뷰
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage2);
+
+        /**여기서부터 리사이클러뷰 만들기**/
+
+        mypage_recyclerview = (RecyclerView) findViewById(R.id.mypage_recyclerview);
+        GridlayoutManager = new GridLayoutManager(getApplicationContext(), 3); // 3칸으로 나눔
+
+        // 피드 리사이클러뷰 맨 위부터 보여주기
+        mypage_recyclerview.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                mypage_recyclerview.scrollToPosition(mypage_recyclerview.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
+        GridlayoutManager.setReverseLayout(false); // 왼쪽 상위부터 정렬로 리사이클러뷰 아이템 추가.
+
+//        recyclerView.setHasFixedSize(true);//각 아이템이 보여지는 것을 일정하게
+
+        mypage_recyclerview.setLayoutManager(GridlayoutManager);
+        mypage_adapter = new mypage_Adapter(mypage_arrayList, this);//앞서 만든 리스트를 어뎁터에 적용시켜 객체를 만든다.
+        mypage_recyclerview.setAdapter(mypage_adapter);// 그리고 만든 객체를 리싸이클러뷰에 적용시킨다.
+
+
+        // 피드 리사이클러뷰 맨 위부터 보여주기
+        mypage_recyclerview.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                mypage_recyclerview.scrollToPosition(mypage_recyclerview.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
 
 
         /**마이페이지의 로그인한 회원의 정보 넣기 : 이메일, 닉네임, 프로필 사진**/
@@ -77,7 +152,9 @@ public class mypage extends AppCompatActivity {
         String mypage_nickname = logined_user.getString("user_nickname", "");
         Log.e("[마이페이지] 로그인 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + mypage_nickname);
         textView_nickname = findViewById(R.id.textView_nickname);
+        textview_myreview_nickname= findViewById(R.id.textview_myreview_nickname);
         textView_nickname.setText(mypage_nickname);
+        textview_myreview_nickname.setText(mypage_nickname);
 
         // 프로필 사진
 
@@ -86,19 +163,36 @@ public class mypage extends AppCompatActivity {
 //        imageView_mypage_profileimage.setImageURI(Uri.parse( uri));
         imageView_mypage_profileimage = (ImageView)findViewById(R.id.imageView_mypage_profileimage);
 
+        Intent intent = getIntent(); /*데이터 수신*/
 
-            String ImageUri = logined_user.getString("user_profileimage", null);
+
+
+//        user_editor.putString("user_profileimage", profile_imagePath);  //  카카오톡 로그인한 프로필 사진 경로가 로그인한 유저 쉐어드에 저장됨
+//        Picasso.get()
+//                .load(profile_image_path)
+//                .fit()
+//                .into(imageView_mypage_profileimage);
+
+            String ImageUri = logined_user.getString("user_profileimage","");
+
 
         Picasso.get()
-                .load(logined_user.getString("user_profileimage", null))
+                .load(ImageUri)
                 .fit()
                 .centerInside()
                 .placeholder(R.drawable.ic_person_black_24dp) // 이미지가 없을 때 기본
-                .error(R.drawable.review_plz)// 에러가 났을 때
+                .error(R.drawable.img_dd_profile)// 에러가 났을 때
                 .into(imageView_mypage_profileimage);
 
 
+//        Glide.with(getApplicationContext())
+//                .load(ImageUri)
+//                .thumbnail(0.5f)
+//                .into(imageView_mypage_profileimage);
 
+
+        Log.w("mypage 클래스","ImageUri : " + ImageUri );
+        Log.w("mypage 클래스","imageView_mypage_profileimage : " + imageView_mypage_profileimage );
         Log.e("[마이페이지] 로그인 쉐어드에서", " uri : " + ImageUri);
         Log.e("[마이페이지] 로그인 쉐어드에서 ", "imageView_mypage_profileimage : " + imageView_mypage_profileimage);
 
@@ -116,10 +210,10 @@ public class mypage extends AppCompatActivity {
 //        myreviewShared  = getSharedPreferences("myreviewShared", Context.MODE_PRIVATE);
 //        int myreview_arrayList_size = myreviewShared.getInt(feed_id,0);
 
-
+        myreview_loadData();  // 쉐어드에 저장된 내가 쓴 리뷰 arrayList를 가져옴
         loadData();   // 쉐어드에 저장된 피드 arrayList를 가져옴
         bookmarked_loadData();  // 쉐어드에 저장된 북마크한 리뷰 arrayList를 가져옴
-        myreview_loadData();  // 쉐어드에 저장된 내가 쓴 리뷰 arrayList를 가져옴
+
 
         textView_myreview_count = findViewById(R.id.textView_myreview_count);
         int myreview_count = myreview_arrayList.size();
@@ -137,19 +231,6 @@ public class mypage extends AppCompatActivity {
 
         /**여기에 팔로우, 팔로잉**/
 
-
-// 내가 쓴 리뷰로 이동하는 버튼
-        button_myreview = findViewById(R.id.button_myreview);
-        button_myreview.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent register_intent = new Intent(mypage.this, myreview.class);
-                register_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(register_intent); //액티비티 이동
-
-            }
-        });
-//button_myreview
 
 // 내가 쓴 리뷰 레이아웃을 클릭하면 -> 내가 쓴 리뷰 화면으로 전환
         linearLayout6 = (ViewGroup) findViewById(R.id.linearLayout6);
@@ -175,31 +256,31 @@ public class mypage extends AppCompatActivity {
             }
         });
 
-// 팔로우 리뷰 레이아웃을 클릭하면 -> 팔로우 화면으로 전환
-
-        linearLayout5 = (ViewGroup) findViewById(R.id.linearLayout5);
-        linearLayout5 .setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(mypage.this, follow.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent); //액티비티 이동
-            }
-        });
-
-// 팔로우 리뷰 레이아웃을 클릭하면 -> 팔로우 화면으로 전환
-
-        linearLayout3 = (ViewGroup) findViewById(R.id.linearLayout3);
-        linearLayout3 .setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(mypage.this, following.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent); //액티비티 이동
-            }
-        });
+//// 팔로우 리뷰 레이아웃을 클릭하면 -> 팔로우 화면으로 전환
+//
+//        linearLayout5 = (ViewGroup) findViewById(R.id.linearLayout5);
+//        linearLayout5 .setOnClickListener(new ImageView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent = new Intent(mypage.this, follow.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                startActivity(intent); //액티비티 이동
+//            }
+//        });
+//
+//// 팔로우 리뷰 레이아웃을 클릭하면 -> 팔로우 화면으로 전환
+//
+//        linearLayout3 = (ViewGroup) findViewById(R.id.linearLayout3);
+//        linearLayout3 .setOnClickListener(new ImageView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent = new Intent(mypage.this, following.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                startActivity(intent); //액티비티 이동
+//            }
+//        });
 
 
 
@@ -235,6 +316,8 @@ public class mypage extends AppCompatActivity {
                                 user_editor.clear();
                                 user_editor.commit();
                                 Log.e("mypage에서 로그아웃 하는 중","logined_user 확인 중 : " + logined_user);
+
+                                onClickLogout();
 
                                 // 그리고 로그인 화면으로 이동
                                 Intent intent = new Intent(mypage.this, login.class);
@@ -282,7 +365,7 @@ public class mypage extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(mypage.this,notification.class);
+                        Intent insight_intent = new Intent(mypage.this,image_searching.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
@@ -298,7 +381,22 @@ public class mypage extends AppCompatActivity {
         });
 
     }//onCreate 닫는 중괄호
-
+    //카카오톡 로그인 하는 중
+    private void onClickLogout() {
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                redirectLoginActivity();
+            }
+        });
+    }
+    protected void redirectLoginActivity() {
+        final Intent intent = new Intent(this, login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
+    }
+//
     private void bookmarked_loadData() {
 //        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences bookmarkShared = getSharedPreferences("bookmarkShared", MODE_PRIVATE);
@@ -364,6 +462,34 @@ public class mypage extends AppCompatActivity {
 
     }//bookmarked_saveData 메소드 닫는 중괄호
 
+    private void mypage_myreview_loadData() {
+
+        SharedPreferences myreviewShared = getSharedPreferences("myreviewShared", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+
+        // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        String feed_email = logined_user.getString("user_email", "");
+        Log.e("feed 클래스 ", "로그인한 유저의 이메일 호출 : " + feed_email);
+
+        String json = myreviewShared.getString(feed_email, null);
+        Type type = new TypeToken<ArrayList<feed_MainData>>() {
+        }.getType();
+
+        Log.e("feed 클래스 (myreview_loadData)", "typeToken객체 생성 :" + type);
+
+        mypage_arrayList = gson.fromJson(json, type);
+        Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + mypage_arrayList);
+
+//
+        if (mypage_arrayList == null) {
+            mypage_arrayList = new ArrayList<>();
+        }
+
+
+    } // myreview_loadData 메소드 닫는 중괄호
+
     private void myreview_saveData() {
 
 //
@@ -413,7 +539,7 @@ public class mypage extends AppCompatActivity {
         myreview_arrayList = gson.fromJson(json, type);
         Log.e("feed 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
 
-
+//
         if (myreview_arrayList == null) {
             myreview_arrayList = new ArrayList<>();
         }
@@ -453,6 +579,14 @@ public class mypage extends AppCompatActivity {
     }
 
 
+    // 카카오톡으로 로그인한
+    /*쉐어드값 불러오기*/
+    private void loadShared() {
+        logined_user = getSharedPreferences("logined_user", MODE_PRIVATE);
+        email = logined_user.getString("user_email", "");
+        nickname = logined_user.getString("user_nickname", "");
+        profile_imagePath =  logined_user.getString("user_profileimage", "");
+    }
 
 
     @Override

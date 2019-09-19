@@ -118,17 +118,20 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/btn_lightpurple"
             android:text="로그인"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/button_kakao_login"
+
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/com_kakao_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_light_gray"
-            android:text="카카오톡 계정으로 로그인"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+            android:layout_weight="1"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <CheckBox
             android:id="@+id/checkBox_remember_login"

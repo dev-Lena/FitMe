@@ -103,7 +103,7 @@ public class size_bottom extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(size_bottom.this,notification.class);
+                        Intent insight_intent = new Intent(size_bottom.this,image_searching.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :

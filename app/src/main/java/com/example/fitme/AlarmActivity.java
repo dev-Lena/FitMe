@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import static com.example.fitme.timesale.alarm_name;
 
@@ -75,8 +76,11 @@ public class AlarmActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.buttonClose :
                     //알림 종료 버튼을 누르면 알림이 꺼지고 알람을 맞췄던 화면으로 이동
-                    Intent intent = new Intent(AlarmActivity.this, timesale.class);
-                    startActivity(intent);
+
+                    ActivityCompat.finishAffinity(AlarmActivity.this);
+
+//                    Intent intent = new Intent(AlarmActivity.this, timesale.class);
+//                    startActivity(intent);
                     close();
                     break;
 

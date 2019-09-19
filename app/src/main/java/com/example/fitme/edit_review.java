@@ -91,8 +91,8 @@ public class edit_review extends AppCompatActivity {
         String detailed_review = intent.getStringExtra("DETAIL");
         String hashtag = intent.getStringExtra("HASHTAG");
         String review_writer = intent.getStringExtra("WRITER");
-        String reviewcard_number = intent.getStringExtra("NUMBER");
-        String date = intent.getStringExtra("DATE");
+        final String reviewcard_number = intent.getStringExtra("NUMBER");
+        final String date = intent.getStringExtra("DATE");
         String review_image = intent.getStringExtra("IMAGE");
         Float float_ratingBar = intent.getFloatExtra("RATING", 0);
 
@@ -108,7 +108,7 @@ public class edit_review extends AppCompatActivity {
         Log.e("edit_ing", "date +++++++++++++++++++++++++++++++++++++++++ : " + date);
         Log.e("edit_ing", "float_ratingBar  : " + float_ratingBar );
         Log.e("edit_ing", "position  : " + position );
-        Log.e("***********************************************   date : ", date);
+
 
 
 // 가지고 온 데이터를 넣어줌 set해줌
@@ -129,7 +129,7 @@ public class edit_review extends AppCompatActivity {
                 .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(imageView_review_photo1);
 
-        Log.e("***********************************************  review_date : ", date);
+//        Log.e("***********************************************  review_date : ", date);
 
         Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "URL 세팅 완료");
         Log.e("Feed 클래스에서 리사이클러뷰 수정 작업중! ", "상세리뷰 세팅 완료");
@@ -174,6 +174,7 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("만족도", ratingBar.getRating());
                 result.putExtra("작성자", textView_review_writer_writer.getText().toString());
                 result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());
+//                result.putExtra("리뷰고유번호", reviewcard_number);
                 if (uri != null) { // 만약에 사용자가 이미지를 바꾸면 -> 사용자가 가져온 이미지uri가 null이 아니면
                     result.putExtra("리뷰이미지", uri.toString());  // 가지고 온 이미지의 uri를 보내고
                 }else {
@@ -183,7 +184,13 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("작성시간", review_date.getText().toString());
                 result.putExtra("POSITION", position);
 
-                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ++++++++++++++++++++ ",  review_date.toString());
+//                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ++++++++++++++++++++ ",  review_date.toString());
+//                result.putExtra("작성시간", review_date.getText().toString());
+//                result.putExtra("작성시간", date);
+
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ++++++++++++++++++++ ",  reviewcard_number);
+                Log.e("edit_review 클래스에서 리사이클러뷰 수정 작업중! ++++++++++++++++++++ ",  date);
+
 
                 // 자신을 호출한 Activity로 데이터를 보낸다.
                 setResult(RESULT_OK, result);

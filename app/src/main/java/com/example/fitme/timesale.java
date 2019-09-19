@@ -357,3 +357,5 @@ public class timesale extends AppCompatActivity {
         //액티비티가 종료되려고 합니다.
     }
 }
+
+

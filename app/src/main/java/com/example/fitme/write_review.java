@@ -149,18 +149,18 @@ public class write_review extends AppCompatActivity {
 //                        int position = data.getIntExtra("POSITION", 0000);
 //                        Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
-
-                        Boolean Is_liked= false;
-                        String textView_likes_number = "0";
+//
+//                        Boolean Is_liked= false;
+//                        String textView_likes_number = "0";
 
 
                         // 피드 리사이클러뷰의 데이터를 담는 arrayList의 해당 position을 받아(get) myreview_arrayList에 추가하라
                         feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                                 float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                                textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image
-                                ,Is_liked, textView_likes_number);
+                                textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
+//                        feed.arrayList.add(feed_MainData);
                         myreview_arrayList.add(feed_MainData);
-
+//                        feed.feed_adapter.notifyDataSetChanged();
 
                         // 업데이트 한 myreview_arrayList를 myreviewShared에 저장하라.
 //                        myreview_saveData();

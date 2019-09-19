@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_fitme"
         android:label="@string/app_name"
@@ -14,14 +15,23 @@
         android:theme="@style/AppTheme">
         <activity android:name=".login">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity android:name=".feed">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="@string/kakao_scheme"
+                    android:host="@string/kakaolink_host"/>
+            </intent-filter>
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -44,17 +54,19 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".notification" />
         <activity android:name=".edit_review" />
-        <activity android:name=".review_category" />
         <activity android:name=".write_review" />
         <activity android:name=".myreview" />
         <activity android:name=".searching" />
         <activity android:name=".searching_result" />
         <activity android:name=".sign_up" />
+        <activity android:name=".Shopping_insight" />
+        <activity android:name=".image_searching" />
         <activity android:name=".timesale" >
 
         </activity>
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".size_bottom" />
         <activity android:name=".size_dress" />
         <activity android:name=".comment" />
@@ -73,6 +85,32 @@
             android:exported="false"/>
         <service android:name=".AlarmService"
             android:enabled="true"/>
+        <activity
+        android:name=".Kakao_Login_Activity">
+<!--        <intent-filter>-->
+<!--            <action android:name="android.intent.action.MAIN" />-->
+<!--            <category android:name="android.intent.category.LAUNCHER" />-->
+<!--        </intent-filter>-->
+    </activity>
+    <!-- 3 -->
+    <meta-data
+        android:name="com.kakao.sdk.AppKey"
+        android:value="@string/kakao_app_key" />
+
+    <!-- 4 -->
+    <activity
+        android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+        android:launchMode="singleTop"
+        android:windowSoftInputMode="adjustResize">
+
+<!--        <intent-filter>-->
+<!--            <action android:name="android.intent.action.MAIN"/>-->
+<!--            <category android:name="android.intent.category.DEFAULT"/>-->
+<!--        </intent-filter>-->
+    </activity>
+        <activity android:name="GlobalApplication" >
+        </activity>
     </application>
+
 
 </manifest>

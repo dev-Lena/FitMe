@@ -3,6 +3,7 @@ package com.example.fitme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,17 +20,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class feed extends AppCompatActivity {
+public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+
+
     // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
 
     //    Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
@@ -69,9 +81,12 @@ public class feed extends AppCompatActivity {
     /**
      * 리사이클러뷰에 필요한 기본 객체 선언
      **/
+
     ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
+//    public static ArrayList<feed_MainData> arrayList, bookmarked_arrayList, myreview_arrayList;
     //    ArrayList<feed_MainData> myreview_arrayList = new ArrayList<>();
 //    ArrayList<feed_MainData> myreview_arrayList;
+//    public static feed_Adapter feed_adapter;
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -81,14 +96,37 @@ public class feed extends AppCompatActivity {
     String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
     String textView_reviewcard_number;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
     String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
+    String textView_shoppingmall_url;
 
+    SwipeRefreshLayout swipeRefreshLo;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
-        arrayList = new ArrayList<>();
+        swipeRefreshLo = findViewById(R.id.swipeRefreshLo);
+
+// 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
+
+        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+        final String feed_id = logined_user.getString("user_nickname", "");
+        String email =logined_user.getString("user_email","");
+        String profile = logined_user.getString("user_profileimage","");
+        Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + feed_id);
+
+
+
         //feed_MainData에서 받게되는 데이터를 어레이 리스트화 시킨다.
         loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
+//        arrayList = new ArrayList<>();
+        if(arrayList == null){  // 계정을 처음 만들 때 arrayList가 비지 않도록 피드 리사이클러뷰에 아무것도 없으면 만들어라
+            if (textView_shoppingmall_url == null){
+                textView_shoppingmall_url = "www.femmemuse.co.kr";
+            }
+            feed_MainData feed_MainData = new feed_MainData("","상세리뷰", 3, "#해시태그",
+                    review_date,"admin@gmail.com",textView_reviewcard_number,feed_id,"Secret",profile,profile);
+            arrayList = new ArrayList<>();
+            arrayList.add(feed_MainData);
+        }
 
         // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
         Log.e("feed 클래스에서(loadData)", "sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :" + arrayList);
@@ -100,8 +138,6 @@ public class feed extends AppCompatActivity {
 
 
         imageView_notification = findViewById(R.id.imageView_notification);  // 알림 (내 소식))
-
-//        arrayList.add(new feed_MainData("textView_shoppingmall_url","textView_detailed_review_card"))
 
         /**여기서부터 리사이클러뷰 만들기**/
 
@@ -140,13 +176,13 @@ public class feed extends AppCompatActivity {
         recyclerView.setAdapter(feed_adapter);// 그리고 만든 객체를 리싸이클러뷰에 적용시킨다.
 
 // Allows to remember the last item shown on screen
-
-
-// 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
-
-        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-        String feed_id = logined_user.getString("user_nickname", "");
-        Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + feed_id);
+//
+// 위로 올림
+//// 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
+//
+//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
+//        String feed_id = logined_user.getString("user_nickname", "");
+//        Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + feed_id);
         textView_feed_id = findViewById(R.id.textView_feed_id);
         textView_feed_id.setText(feed_id);
 
@@ -245,6 +281,80 @@ public class feed extends AppCompatActivity {
 
                                 case R.id.action_share:  // 공유하기
                                     Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
+
+//                                    // 텍스트 템플릿
+                                    String shop_url_link = arrayList.get(position).textView_shoppingmall_url; // 리뷰 아이템에서 사용자가 입력한 쇼핑몰 url
+                                    String shop_review_writer_link = arrayList.get(position).textView_nickname;
+                                    TextTemplate params = TextTemplate.newBuilder("[Fit Me]"+ feed_id +"님께서 링크를 공유하였습니다 : \n\n"+shop_url_link, LinkObject.newBuilder().setWebUrl(shop_url_link+"\n\n").setMobileWebUrl(shop_url_link+"\n\n").build()).setButtonTitle("Fit Me 앱으로 이동하기").build();
+
+                                    HashMap<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+                                    KakaoLinkService.getInstance().sendDefault(feed.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                                        @Override
+                                        public void onFailure(ErrorResult errorResult) {
+                                            Logger.e(errorResult.toString());
+                                        }
+
+                                        @Override
+                                        public void onSuccess(KakaoLinkResponse result) {
+                                            // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+                                        }
+                                    });
+
+
+                                    // 스크랩 템플릿
+
+////                                  // 기본적인 스크랩 템플릿을 사용하여 보내는 코드
+//                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+//                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+//                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+//                                    serverCallbackArgs.put("url", "${SCRAP_REQUEST_URL}");//스크랩 요청 URL
+//                                    serverCallbackArgs.put("url_title", "${SCRAP_TITLE}"); //요청 URL의 제목
+//                                    serverCallbackArgs.put("url_description", "${SCRAP_DESCRIPTION}"); //요청 URL의 설명
+//
+//                                    KakaoLinkService.getInstance().sendScrap
+//                                            (feed.this, "https://developers.kakao.com",
+//                                                    serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+//                                        @Override
+//                                        public void onFailure(ErrorResult errorResult) {
+//                                            Logger.e(errorResult.toString());
+//                                        }
+//
+//                                        @Override
+//                                        public void onSuccess(KakaoLinkResponse result) {
+//                                            // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+//
+//                                        }
+//                                    });
+
+                                    //커스텀 스크랩 템플릿
+
+                                    // 커스터마이즈된 템플릿과 템플릿을 채울 args들을 사용하여 보내는 코드
+//                                    String templateId = "18220";
+//// 커스터마이즈된 템플릿과 템플릿을 채울 args들을 사용하여 보내는 코드
+//
+//                                    Map<String, String> templateArgs = new HashMap<String, String>();
+//                                    templateArgs.put("template_arg1", "value1");
+//                                    templateArgs.put("template_arg2", "value2");
+//
+//                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+//                                    serverCallbackArgs.put("user_id", "${current_user_id}");
+//                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
+//
+//                                    KakaoLinkService.getInstance().sendScrap(this, "https://developers.kakao.com",
+//                                            templateId, tempateArgs, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+//                                        @Override
+//                                        public void onFailure(ErrorResult errorResult) {
+//                                            Logger.e(errorResult.toString());
+//                                        }
+//
+//                                        @Override
+//                                        public void onSuccess(KakaoLinkResponse result) {
+//                                            // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+//                                        }
+//                                    });
                                     break;
                                 default:
                                     break;
@@ -331,35 +441,12 @@ public class feed extends AppCompatActivity {
             // 리뷰 아이템을 클릭했을 때
             @Override
             public void onReviewClick(View v, int position) { // 리뷰 아이템 하나만 보여주는 클래스
-                Intent intent = new Intent(feed.this, reviewcard_plus.class);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+ arrayList.get(position).textView_shoppingmall_url));
                 startActivity(intent); //액티비티 이동
 //
 
             }
 
-            @Override  // 좋아요 버튼을 눌렀을 때
-            public void onLikeClick(View v, int position) {
-                //check whether it is liked or unliked
-                if (arrayList.get(position) // 좋아요가 이미 되어있으면
-                        .getIs_liked().equals(true)) {
-
-                    //update unlike drawable
-//                                arrayList.get(getAdapterPosition()).setIs_liked(false); //좋아요 취소
-//                                notifyItemChanged(getAdapterPosition(), "preunlike");
-                    imageButton_like.setVisibility(View.VISIBLE);
-                    imageButton_like_pushed.setVisibility(View.INVISIBLE);
-//                                updateLike(getAdapterPosition());
-                } else {
-                    //update like drawable
-//                                arrayList.get(getAdapterPosition()).setIs_liked(true);
-//                                notifyItemChanged(getAdapterPosition(), "prelike");
-                    imageButton_like.setVisibility(View.INVISIBLE);
-                    imageButton_like_pushed.setVisibility(View.VISIBLE);
-//                                updateUnlike(getAdapterPosition());
-
-                }
-
-            }
 
         });
 
@@ -420,7 +507,7 @@ public class feed extends AppCompatActivity {
                         startActivity(insight_intent);//검색 화면으로 액티비티 띄우기
                         break;
                     case R.id.action_notification:
-                        Intent notification_intent = new Intent(feed.this, notification.class);
+                        Intent notification_intent = new Intent(feed.this, MainActivity.class);
                         notification_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
                         break;
@@ -543,6 +630,7 @@ public class feed extends AppCompatActivity {
         if (arrayList != null) {  // 리스트가 null 값이 아닐 때
             for (int i = 0; i < arrayList.size(); i++) {  // 사이즈만큼 순회하면서
                 String data = arrayList.get(i).getTextView_reviewcard_number();
+
                 // arrayList에서 인덱스 번호 i에 있는 아이템의 고유번호를 data 변수에 넣어주고
 
                 if (data.equals(uniqueKey)) {  // 가져온 인덱스 번호 i에 있는 아이템의 고유번호가 uniqueKey와 같다면
@@ -681,7 +769,6 @@ public class feed extends AppCompatActivity {
         Gson gson = new Gson();
         Log.e("myreview 클래스", "Gson 객체 호출 : " + gson);
 
-        System.out.println("myReview arrayList.size : " + myreview_arrayList.size());
 
         String json = gson.toJson(myreview_arrayList);  // 여기서 arrayList는 피드에 들어가는 리사이클러뷰를 담은 arrayList 이름임.
 
@@ -744,6 +831,7 @@ public class feed extends AppCompatActivity {
         /** 리뷰 작성 **/
         if (requestCode == 1001 && resultCode == RESULT_OK) {
 
+//            loadData();
             myreview_loadData();
 
             Toast.makeText(feed.this, "리뷰 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
@@ -753,12 +841,16 @@ public class feed extends AppCompatActivity {
             // sharedPreferences라는 이름의 쉐어드프리퍼런스에서 String을 가져오는데 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 String json이라는 변수에 넣어줌
             String json = logined_user.getString("login_user", "");
             /**이미지  **/
-            String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage", null);
+
+            String imageView_reviewcard_profile_image = logined_user.getString("user_profileimage","");
+
+
+
             // 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
             String textView_nickname = logined_user.getString("user_nickname", "");
             String textView_mysize = logined_user.getString("user_size", "");
 
-// 확인 로그
+// 확인 로그f
             Log.e("feed 클래스 onActivityResult ", "시간 받아오는 중 : (dateFormat + review_date + date)" + review_date);
             Log.e("feed 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
             Log.e("[리뷰 추가] feed 에서 로그인한 회원 정보가 있는 쉐어드에서", "프로필 사진 넣기 : " + imageView_reviewcard_profile_image);
@@ -780,16 +872,16 @@ public class feed extends AppCompatActivity {
             int position = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
-
+//
             Boolean Is_liked= false;
-            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
+//            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
 
 //MainData
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image
-                    ,Is_liked, textView_likes_number);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
 
+//            feed_MainData AA = new feed_MainData(textView_shoppingmall_url,textView_detailed_review_card,float_ratingBar,textView_hashtag,review_date,textView_review_writer,textView_reviewcard_number,textView_nickname,textView_mysize,imageView_reviewcard_img1,imageView_reviewcard_profile_image);
             arrayList.add(feed_MainData);  //리사이클러뷰의 arrayList에 아이템 추가
             myreview_arrayList.add(feed_MainData); // 내가 쓴 리뷰에 추가
 
@@ -819,6 +911,8 @@ public class feed extends AppCompatActivity {
         /** 리뷰를 수정했을 때 **/
 
         if (requestCode == 2001 && resultCode == RESULT_OK) {
+//            loadData();
+            myreview_loadData();
             Toast.makeText(feed.this, "리뷰 수정을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
             // 평소 사이즈 로그인한 유저의 정보만 갖고 있는 쉐어드인 logined_user
@@ -866,29 +960,61 @@ public class feed extends AppCompatActivity {
             Log.e("위치값", position + " 위치값을 가지고 왔습니다");
 
 //            Boolean Is_liked= feed_adapter.getItem(position).getIs_liked();
-            Boolean Is_liked= false;
-            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
+//            Boolean Is_liked= false;
+//            String textView_likes_number =  feed_adapter.getItem(position).getTextView_likes_number();
 
 
             //
             feed_MainData feed_MainData = new feed_MainData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
-                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image,
-                    Is_liked, textView_likes_number);
+                    textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다 imageView_reviewcard_img1 : +++++++++++++++++++++++++++++++++" + imageView_reviewcard_img1);
-
-
-            // 그 위치를 받아와서 그곳에 set 해주기. 리뷰 수정 버튼을 누를 때 부터 같이 위치값을 startActivityForResult로 같이 넘겼다가 돌려받음.
             arrayList.set(position, feed_MainData);
 
-            feed_adapter.notifyDataSetChanged();  // 새로고침
-            Log.e("edit", "수정한거 새로고침");
 
-            saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-            myreview_saveData();
-            Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
-            // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
-            bookmark_saveData();
+            int myreview_index = find_myreview_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+            Log.d("myreview_index", myreview_index + "");
+            int bookmark_index = find_bookmark_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+            Log.d("bookmark_index", bookmark_index + "");
+//            int feed_review_index = find_feed_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+//
+////            int feed_review_index = find_feed_arrayList(position);
+//            Log.d("feed_review_index", feed_review_index + "");
+
+//        int index = find_myreview_arrayList(myreview_arrayList.get(position));
+//        find_bookmark_arrayList(position); //
+
+            try {
+
+                // 리사이클러뷰에서 수정한 데이터를 set
+
+                if (myreview_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+                    myreview_arrayList.set(myreview_index, feed_MainData);
+                    Log.d("myreview_arrayList", "myreview_arrayList.size() : " + myreview_arrayList.size());
+                }
+                if (bookmark_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+                    bookmarked_arrayList.set(bookmark_index, feed_MainData);
+                    Log.d("myreview_arrayList", "bookmarked_arrayList.size() : " + bookmarked_arrayList.size());
+                }
+//                if (feed_review_index > -1) { // 찾아온 값이 있을 때 -> 없으면 -1로 리턴하라고 했음
+//                    arrayList.set(feed_review_index, feed_MainData);
+//                    Log.d("myreview_arrayList", "arrayList.size() : " + arrayList.size());
+//                }
+
+
+                feed_adapter.notifyDataSetChanged();  // 새로고침
+                Log.e("edit", "수정한거 새로고침");
+
+                saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
+
+                myreview_saveData();
+
+                // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
+                bookmark_saveData();
+
+            }  catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
 
         }
 
@@ -928,6 +1054,8 @@ public class feed extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         feed_adapter.notifyDataSetChanged();  // 새로고침
+        // 피드 리사이클러뷰 맨 위부터 보여주기
+
 //        loadData();
 //        Log.e("feed 클래스에서 (onResume)--------------->", "loadData :" + arrayList);
 
@@ -958,5 +1086,18 @@ public class feed extends AppCompatActivity {
         super.onDestroy();
         Log.e("feed", "onDestroy");
         //액티비티가 종료되려고 합니다.
+    }
+
+    @Override
+    public void onRefresh() {
+       recyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+//                Snackbar.make(recyclerView,"Refresh Success", Snackbar.LENGTH_SHORT).show();
+//                swipeRefreshLo.setRefreshing(false);
+            }
+        },500);
+
     }
 }

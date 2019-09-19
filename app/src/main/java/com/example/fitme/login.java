@@ -3,7 +3,11 @@ package com.example.fitme;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,14 +18,39 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
+import com.kakao.util.helper.Utility;
+import com.kakao.util.helper.log.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
 public class login extends AppCompatActivity {
+
+
+    String email = "";
+    String nickname = "";
+    public static String profile_imagePath = "";
+
+    private static final String TAG = "";
+    private SessionCallback callback;
+
+    // 카카오톡 로그인 중
+    ImageView imageView_mypage_profileimage ;
+
+    feed_Adapter feed_adapter;
+
 
     // login java 클래스에서 필요한 객체 선언
     private ArrayList<List> userData= new ArrayList<List>();
@@ -45,11 +74,30 @@ public class login extends AppCompatActivity {
     EditText editText_email, editText_password; // -> null값이면 토스트 값 뜨도록 // -> null값이면 토스트 값 뜨도록
     Button button_sign_in, button_signUp, button_sign_up_complete; // -> 로그인 버튼 -> 피드로 화면 연결  // -> 회원가입 버튼 -> 회원가입 화면으로 연결
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Log.e("login", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getAppKeyHash();
+
+        String getKeyHash = Utility.getKeyHash(login.this);
+        Log.d(" getKeyHash : ", getKeyHash);
+
+        /**카카오톡 로그인 하는 중**/
+        callback = new SessionCallback();
+
+        Session.getCurrentSession().addCallback(callback);
+        Session.getCurrentSession().checkAndImplicitOpen();
+
+
+        loadShared();
+
+        //
 
 // SharedPreference 로 회원정보를 jsonObject에 저장해서 jsonArrayList 형태로 SharedPreference에 저장
 
@@ -65,6 +113,7 @@ public class login extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);  // declare the database = 데이터 베이스 선언  // 액티비티 안이 아닐 떄는 context로 접근해야함 (안일 때는 this)
         editor = sharedPreferences.edit();  // 위에서 선언한 데이터 베이스에 아이템을 put 할 수 있는
 //
+        imageView_mypage_profileimage = (ImageView)findViewById(R.id.imageView_mypage_profileimage);
 
         checkSharedPreferences();//로그인정보기억하기체크박스가눌려있는지설정값.메소드(onCreate밖에있음)
 
@@ -265,6 +314,251 @@ public class login extends AppCompatActivity {
 
     }// onCreate 닫는 중괄호
 
+
+    // API에 쓸 해시키 구하는 중
+    // YAIyLcBz2reTh/IWzxKkGnPZiaU=
+    // 이거임
+    private void getAppKeyHash() {
+
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("Hash key : something ->", something);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.e("name not found", e.toString());
+        }
+    }
+
+
+
+
+    //카카오톡 로그인
+    /**카카오톡 로그인 하는 중**/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(callback);
+    }
+
+    private class SessionCallback implements ISessionCallback {
+
+        @Override
+        public void onSessionOpened() {
+            requestMe();
+//            redirectSignupActivity(); // 세션 연결성공 시 redirectSignupActivity() 호출
+        }
+
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+            if(exception != null) {
+                Logger.e(exception);
+            }
+
+            setContentView(R.layout.activity_login); // 세션 연결이 실패했을때
+            Toast.makeText(login.this, "세션 연결이 실패해 로그인 화면으로 이동합니다", Toast.LENGTH_SHORT).show();
+
+        }                                             // 로그인화면을 다시 불러옴
+    }
+
+
+
+    protected void redirectSignupActivity() {
+        final Intent intent = new Intent(this, sign_up.class);
+        Toast.makeText(this, "회원가입으로 이동합니다", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
+    }
+
+    private void requestMe() {
+        List<String> keys = new ArrayList<>();
+        keys.add("properties.nickname");
+        keys.add("properties.profile_image");
+        keys.add("kakao_account.email");
+
+        UserManagement.getInstance().me(keys, new MeV2ResponseCallback() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                String message = "failed to get user info. msg=" + errorResult;
+                Logger.d(message);
+            }
+
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                redirectLoginActivity();
+            }
+
+            @Override
+            public void onSuccess(MeV2Response response) {
+                Logger.d("user id : " + response.getId());
+                Logger.d("email: " + response.getKakaoAccount().getEmail());
+                Logger.d("profile image: " + response.getProfileImagePath());
+//                redirectMainActivity();
+                //
+                profile_imagePath = response.getProfileImagePath();
+                // 카카오 로그인 회원 정보에서 아이디와 닉네임을 빼서 logined_shared 쉐어드에 저장해주는 메소드
+//                saveShared(userProfile.getId() + "", userProfile.getNickname(), userProfile.getEmail(),userProfile.getProfileImagePath());
+//                Picasso.get()
+//                .load(profile_imagePath)
+//                .fit()
+//                .into(imageView_mypage_profileimage);
+
+
+                saveShared( response.getKakaoAccount().getEmail() + "", response.getNickname(),response.getProfileImagePath());
+                redirectHomeActivity(); // 로그인 성공시 MainActivity로
+//                feed_adapter.notifyDataSetChanged();
+
+                Log.w("login 클래스","profile_imagePath , userProfile.getProfileImagePath() : " + profile_imagePath);
+                finish();
+
+            }
+//
+//            @Override
+//            public void onNotSignedUp() {
+//                Intent intent = new Intent(login.this, sign_up.class);
+//                startActivity(intent);
+//                finish();
+//
+//            } // 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
+//        });
+
+    });
+    }
+
+//    protected void requestMe() { //유저의 정보를 받아오는 함수
+//
+////        List<String> keys = new ArrayList<>();
+////        keys.add("properties.nickname");
+////        keys.add("properties.profile_image");
+////        keys.add("kakao_account.email");
+//
+//        UserManagement.getInstance().requestMe(new MeResponseCallback()
+////        UserManagement.getInstance().me(keys, new  MeV2ResponseCallback()
+//        {
+//            @Override
+//            public void onFailure(ErrorResult errorResult) {
+//                String message = "failed to get user info. msg=" + errorResult;
+//                Logger.d(message);
+//
+//                ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
+//                if (result == ErrorCode.CLIENT_ERROR_CODE) {
+//                    finish();
+//                } else {
+//                    redirectLoginActivity();
+//                }
+//            }
+//
+//            @Override
+//            public void onSessionClosed(ErrorResult errorResult) {
+//                redirectLoginActivity();
+//            }
+//
+//            @Override
+//            public void onNotSignedUp() {
+//                Intent intent = new Intent(login.this, sign_up.class);
+//                startActivity(intent);
+//                finish();
+//
+//            } // 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
+//
+//            @Override
+//            public void onSuccess(final UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
+//                Logger.d("UserProfile : " + userProfile);
+//                Log.d(TAG, "유저가입성공");
+//                // Create a new user with a first and last name
+//                // 유저 카카오톡 아이디 디비에 넣음(첫가입인 경우에만 디비에저장)
+//
+////                Map<String, String> user = new HashMap<>();
+////                user.put("token", userProfile.getId() + "");
+////                user.put("name", userProfile.getNickname());
+//
+//                profile_imagePath = userProfile.getProfileImagePath();
+//                // 카카오 로그인 회원 정보에서 아이디와 닉네임을 빼서 logined_shared 쉐어드에 저장해주는 메소드
+////                saveShared(userProfile.getId() + "", userProfile.getNickname(), userProfile.getEmail(),userProfile.getProfileImagePath());
+////                Picasso.get()
+////                .load(profile_imagePath)
+////                .fit()
+////                .into(imageView_mypage_profileimage);
+//
+//
+//                saveShared( userProfile.getEmail() + "", userProfile.getNickname(),userProfile.getProfileImagePath());
+//                redirectHomeActivity(); // 로그인 성공시 MainActivity로
+////                feed_adapter.notifyDataSetChanged();
+//
+//                Log.w("login 클래스","profile_imagePath , userProfile.getProfileImagePath() : " + profile_imagePath +","+ userProfile.getProfileImagePath());
+//                finish();
+//
+//            }
+//        });
+//    }
+
+    private void redirectHomeActivity() {  // 로그인 성공시 MainActivity로
+        startActivity(new Intent(this, feed.class));
+        Toast.makeText(login.this, "로그인이 성공해 피드로 이동합니다", Toast.LENGTH_SHORT).show();
+
+
+        finish();
+    }
+
+    protected void redirectLoginActivity() {
+        final Intent intent = new Intent(this, login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
+    }
+
+    /// 카카오톡으로 로그인한
+    /*쉐어드에 입력값 저장*/
+    private void saveShared( String email, String name, String profile_image_path) {
+//                   saveShared( userProfile.getEmail() + "", userProfile.getNickname(),userProfile.getProfileImagePath());
+        logined_user = getSharedPreferences("logined_user", MODE_PRIVATE);
+        user_editor = logined_user.edit();
+
+        imageView_mypage_profileimage = (ImageView)findViewById(R.id.imageView_mypage_profileimage);
+
+
+
+        user_editor.putString("user_profileimage", profile_image_path);  //  카카오톡 로그인한 프로필 사진 경로가 로그인한 유저 쉐어드에 저장됨
+//        Picasso.get()
+//                .load(profile_image_path)
+//                .fit()
+//                .into(imageView_mypage_profileimage);
+        Log.w("login 클래스","profile_imagePath , profile_image_path : " + profile_image_path );
+        user_editor.putString("user_email", email);  //  카카오톡 로그인한 이메일이 로그인한 유저 쉐어드에 저장됨
+        user_editor.putString("user_nickname", name);  //  카카오톡 로그인한 닉네임이 로그인한 유저 쉐어드에 저장됨
+//        feed_adapter.notifyDataSetChanged();
+        user_editor.apply();
+    }
+
+    // 카카오톡으로 로그인한
+    /*쉐어드값 불러오기*/
+    private void loadShared() {
+        logined_user = getSharedPreferences("logined_user", MODE_PRIVATE);
+        email = logined_user.getString("user_email", "");
+        nickname = logined_user.getString("user_nickname", "");
+        profile_imagePath =  logined_user.getString("user_profileimage", "");
+    }
+
+
+
+// 여기까지
+
+
     // ArrayList 에 기록된 값을 JSONArray 배열에 담아 문자열로 저장
 // 현재 로그인 하고 있는 사용자의 정보만 담는 sharedPreference
     public void user_writeArrayList(String user_jsondata) {
@@ -313,23 +607,23 @@ public class login extends AppCompatActivity {
     }
 
 
-    // 회원가입 후 회원가입한 정보에서 Result로 email과 password를 가지고 오는 메소드
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // setResult를 통해 받아온 요청번호, 상태, 데이터
-        Log.d("RESULT", requestCode + "");
-        Log.d("RESULT", resultCode + "");
-        Log.d("RESULT", data + "");
-
-        if (requestCode == 1000 && resultCode == RESULT_OK) {
-            Toast.makeText(login.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
-            editText_email.setText(data.getStringExtra("EMAIL"));
-            editText_password.setText(data.getStringExtra("PASSWORD"));
-
-        }
-    }
+//    // 회원가입 후 회원가입한 정보에서 Result로 email과 password를 가지고 오는 메소드
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // setResult를 통해 받아온 요청번호, 상태, 데이터
+//        Log.d("RESULT", requestCode + "");
+//        Log.d("RESULT", resultCode + "");
+//        Log.d("RESULT", data + "");
+//
+//        if (requestCode == 1000 && resultCode == RESULT_OK) {
+//            Toast.makeText(login.this, "회원가입을 완료했습니다!", Toast.LENGTH_SHORT).show();
+//            editText_email.setText(data.getStringExtra("EMAIL"));
+//            editText_password.setText(data.getStringExtra("PASSWORD"));
+//
+//        }
+//    }
 
 
     @Override
@@ -368,11 +662,12 @@ public class login extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("login", "onDestroy");
-        //액티비티가 종료되려고 합니다.
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Log.e("login", "onDestroy");
+//        //액티비티가 종료되려고 합니다.
+//
+//    }
 
-    }
 }

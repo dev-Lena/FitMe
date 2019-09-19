@@ -43,7 +43,7 @@ public class hashtag extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(hashtag.this,notification.class);
+                        Intent insight_intent = new Intent(hashtag.this,image_searching.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :

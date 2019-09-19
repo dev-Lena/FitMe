@@ -85,6 +85,7 @@ public class insight extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("follow","onCreate");
 //        something_to_save();
+//        set_text_again();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insight);
         textView_waist = findViewById(R.id.textView_waist);
@@ -232,6 +233,7 @@ public class insight extends AppCompatActivity {
         button_myfit_edit.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                set_text_again();
                 changeView(1);
                 changeTableView(1);
 
@@ -249,6 +251,7 @@ public class insight extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                set_text_again();
                 // 여기서 쉐어드에 저장해야 함.
 
                 changeView(0) ;

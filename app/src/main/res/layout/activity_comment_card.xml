@@ -46,6 +46,7 @@
                     android:id="@+id/textView_unique_code"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorInvisible"
                     android:text="리뷰 아이템 고유번호" />
 
             </LinearLayout>
