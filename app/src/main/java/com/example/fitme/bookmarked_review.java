@@ -20,9 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class bookmarked_review extends AppCompatActivity {
@@ -111,6 +119,31 @@ public class bookmarked_review extends AppCompatActivity {
 
                             case R.id.action_share:
                                 Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
+                                // 닉네임
+                                logined_user = getSharedPreferences("logined_user", MODE_PRIVATE);
+                                String feed_id = logined_user.getString("user_nickname", "");
+
+
+                                // 텍스트 템플릿
+                                String shop_url_link = bookmarked_arrayList.get(position).textView_shoppingmall_url; // 리뷰 아이템에서 사용자가 입력한 쇼핑몰 url
+                                String shop_review_writer_link = bookmarked_arrayList.get(position).textView_nickname;
+                                TextTemplate params = TextTemplate.newBuilder("[Fit Me]"+ feed_id +"님께서 링크를 공유하였습니다 : \n\n"+shop_url_link, LinkObject.newBuilder().setWebUrl(shop_url_link+"\n\n").setMobileWebUrl(shop_url_link+"\n\n").build()).setButtonTitle("Fit Me 앱으로 이동하기").build();
+
+                                HashMap<String, String> serverCallbackArgs = new HashMap<String, String>();
+                                serverCallbackArgs.put("user_id", "${current_user_id}");
+                                serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+                                KakaoLinkService.getInstance().sendDefault(bookmarked_review.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                                    @Override
+                                    public void onFailure(ErrorResult errorResult) {
+                                        Logger.e(errorResult.toString());
+                                    }
+
+                                    @Override
+                                    public void onSuccess(KakaoLinkResponse result) {
+                                        // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+                                    }
+                                });
                                 break;
                             case R.id.action_report:
 
