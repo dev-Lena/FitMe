@@ -45,13 +45,22 @@ public interface OnItemClickListener {
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
         ExampleItem currentItem = mExampleList.get(position);
 
-        String imageUrl = currentItem.getImageUrl();
-        String creatorName = currentItem.getCreator();
-        int likeCount = currentItem.getLikeCount();
 
-        holder.mTextViewCreator.setText(creatorName);
-        holder.mTextViewLikes.setText("Likes: " + likeCount);
-        Picasso.get().load(imageUrl).fit().centerInside().into(holder.mImageView);
+// 이거 참고해서 바꾸기 : String title, String link, String image, String mallName, int lprice, int hprice
+
+        String title = currentItem.getTitle();
+        String link = currentItem.getLink();
+        String image = currentItem.getImage();
+        String mallName = currentItem.getMallName();
+        int lprice = currentItem.getLprice();
+        int hprice = currentItem.getHprice();
+
+        holder.text_view_title.setText(title);
+        holder.text_view_link.setText("링크 : " + link);
+        holder.text_view_mallName.setText(mallName);
+        holder.text_view_lPrice.setText(lprice);
+        holder.text_view_HPrice.setText(hprice);
+        Picasso.get().load(image).fit().centerInside().into(holder.image_view);
     }
 
     @Override
@@ -60,15 +69,23 @@ public interface OnItemClickListener {
     }
 
 public class ExampleViewHolder extends RecyclerView.ViewHolder {
-    public ImageView mImageView;
-    public TextView mTextViewCreator;
-    public TextView mTextViewLikes;
+    //text_view_title
+    //text_view_link
+    //image_view
+    //text_view_mallName
+    //text_view_lPrice
+    //text_view_HPrice
+    public ImageView image_view;
+    public TextView text_view_link,text_view_title,text_view_mallName,text_view_lPrice,text_view_HPrice;
 
     public ExampleViewHolder(View itemView) {
         super(itemView);
-        mImageView = itemView.findViewById(R.id.image_view);
-        mTextViewCreator = itemView.findViewById(R.id.text_view_creator);
-        mTextViewLikes = itemView.findViewById(R.id.text_view_likes);
+        image_view = itemView.findViewById(R.id.image_view);
+        text_view_link = itemView.findViewById(R.id.text_view_link);
+        text_view_title = itemView.findViewById(R.id.text_view_title);
+        text_view_mallName = itemView.findViewById(R.id.text_view_mallName);
+        text_view_lPrice = itemView.findViewById(R.id.text_view_lPrice);
+        text_view_HPrice = itemView.findViewById(R.id.text_view_HPrice);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,25 +1,70 @@
 package com.example.fitme;
 
 public class ExampleItem {
-    private String mImageUrl;
-    private String mCreator;
-    private int mLikes;
 
-    public ExampleItem(String imageUrl, String creator, int likes) {
-        mImageUrl = imageUrl;
-        mCreator = creator;
-        mLikes = likes;
+    // title , link , image , mallName , lprice , hprice
+    private String title;
+    private String link;
+    private String image;
+    private String mallName;
+    private int lprice;
+    private int hprice;
+
+    public String getTitle() {
+        return title;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getCreator() {
-        return mCreator;
+    public String getLink() {
+        return link;
     }
 
-    public int getLikeCount() {
-        return mLikes;
+    public void setLink(String link) {
+        this.link = link;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getMallName() {
+        return mallName;
+    }
+
+    public void setMallName(String mallName) {
+        this.mallName = mallName;
+    }
+
+    public int getLprice() {
+        return lprice;
+    }
+
+    public void setLprice(int lprice) {
+        this.lprice = lprice;
+    }
+
+    public int getHprice() {
+        return hprice;
+    }
+
+    public void setHprice(int hprice) {
+        this.hprice = hprice;
+    }
+
+    public ExampleItem(String title, String link, String image, String mallName, int lprice, int hprice) {
+        this.title = title;
+        this.link = link;
+        this.image = image;
+        this.mallName = mallName;
+        this.lprice = lprice;
+        this.hprice = hprice;
+    }
+
 }

@@ -52,6 +52,7 @@ public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHol
 
     private Context mContext;  // 이미지 Context 를 활용해서 넣기 위해 추가
     private ArrayList<feed_MainData> arrayList, searchingarrayList;//
+    private ArrayList<Horizontal_ItemData> Image_List;
 
     //리사이클러뷰 아이템 펼치기 -> 정해진 hight만큼 펼쳐짐
     // Item의 클릭 상태를 저장할 array 객체
@@ -143,6 +144,8 @@ public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHol
 //        holder.onBind(arrayList.get(position), position);
 
         feed_MainData feed_mainData = arrayList.get(position);
+
+        HorizontalAdapter adapter = new HorizontalAdapter(Image_List.get(position));
 
         String review_Image = feed_mainData.getImageView_reviewcard_img1();
 

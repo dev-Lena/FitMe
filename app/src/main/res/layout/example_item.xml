@@ -15,6 +15,25 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/text_view_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="link"
+            android:textColor="#0000CD"
+            android:textSize="16sp" />
+
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
@@ -22,18 +41,37 @@
             android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/text_view_creator"
+            android:id="@+id/text_view_mallName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Creator Name"
+            android:text="mallName"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
         <TextView
-            android:id="@+id/text_view_likes"
+            android:id="@+id/text_view_lPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Like: " />
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:text="lowPrice" />
+    <TextView
+        android:id="@+id/text_view_mulgyul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:text="  ~  " />
+        <TextView
+            android:id="@+id/text_view_HPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:text="highPrice" />
+</LinearLayout>
 
     </LinearLayout>
 
