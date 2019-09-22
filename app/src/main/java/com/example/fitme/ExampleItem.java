@@ -2,13 +2,15 @@ package com.example.fitme;
 
 public class ExampleItem {
 
+
+
     // title , link , image , mallName , lprice , hprice
     private String title;
     private String link;
     private String image;
     private String mallName;
-    private int lprice;
-    private int hprice;
+    private String lprice;
+    private String hprice;
 
     public String getTitle() {
         return title;
@@ -42,23 +44,23 @@ public class ExampleItem {
         this.mallName = mallName;
     }
 
-    public int getLprice() {
+    public String getLprice() {
         return lprice;
     }
 
-    public void setLprice(int lprice) {
+    public void setLprice(String lprice) {
         this.lprice = lprice;
     }
 
-    public int getHprice() {
+    public String getHprice() {
         return hprice;
     }
 
-    public void setHprice(int hprice) {
+    public void setHprice(String hprice) {
         this.hprice = hprice;
     }
 
-    public ExampleItem(String title, String link, String image, String mallName, int lprice, int hprice) {
+    public ExampleItem(String title, String link, String image, String mallName, String lprice, String hprice) {
         this.title = title;
         this.link = link;
         this.image = image;

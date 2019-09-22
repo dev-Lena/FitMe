@@ -34,7 +34,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="이미지 검색"
+            android:text="상품 검색"
             android:textColor="@color/colorDeepPurple"
             android:textColorLink="@color/colorPurple"
             android:textSize="22sp"
@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="67dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

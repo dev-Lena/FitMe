@@ -26,6 +26,9 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Ho
     }
     protected ImageView imageView_feed_item_image;
 
+    public HorizontalAdapter(Horizontal_ItemData horizontal_itemData) {
+
+    }
 
 
     public class HorizontalViewHolder extends RecyclerView.ViewHolder {

@@ -145,7 +145,7 @@ public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHol
 
         feed_MainData feed_mainData = arrayList.get(position);
 
-        HorizontalAdapter adapter = new HorizontalAdapter(Image_List.get(position));
+//        HorizontalAdapter adapter = new HorizontalAdapter(Image_List.get(position));
 
         String review_Image = feed_mainData.getImageView_reviewcard_img1();
 

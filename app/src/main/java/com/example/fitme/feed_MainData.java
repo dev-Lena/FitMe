@@ -52,30 +52,6 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
 
     }
 
-//    public ArrayList getComment() {
-//        return comment;
-//    }
-//
-//    public void setComment(ArrayList comment) {
-//        this.comment = comment;
-//    }
-
-//
-//    public String getTextView_likes_number() {
-//        return textView_likes_number;
-//    }
-//
-//    public void setTextView_likes_number(String textView_likes_number) {
-//        this.textView_likes_number = textView_likes_number;
-//    }
-//
-//    public Boolean getIs_liked() {
-//        return true;
-//    }
-//
-//    public void setIs_liked(Boolean is_liked) {
-//        Is_liked = is_liked;
-//    }
     public String getImageView_reviewcard_profile_image() {
         return imageView_reviewcard_profile_image;
     }

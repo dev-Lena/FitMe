@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         shop_webView.getSettings().setJavaScriptEnabled(true);//자바스크립트 허용
                 //mWebView.loadUrl("http://www.pois.co.kr/mobile/login.do");
 
-        shop_webView.loadUrl(link + "/html/test.html"); // 접속 URL //웹뷰 실행
+        shop_webView.loadUrl("http://" + link ); // 접속 URL //웹뷰 실행
 
         // 네이버 검색에서 가져온 링크를 웹뷰에서 보여주기
 

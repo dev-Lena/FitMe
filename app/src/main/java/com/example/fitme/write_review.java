@@ -77,7 +77,6 @@ public class write_review extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);  // 만족도
         review_date = findViewById(R.id.review_date);  // 리뷰 작성 시간
         textView_review_writer = findViewById(R.id.textView_review_writer);  // 작성
-        textView_reviewcard_number = findViewById(R.id.textView_reviewcard_number);  // 리뷰 고유 번호
 
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동

@@ -14,21 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -41,9 +29,9 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     public static final String EXTRA_MALLNAME = "mallName";
     public static final String EXTRA_LINK = "link";
 
-    private RecyclerView mRecyclerView;
-    private ExampleAdapter mExampleAdapter;
-    private ArrayList<ExampleItem> mExampleList;
+    RecyclerView mRecyclerView;
+    ExampleAdapter mExampleAdapter;
+    ArrayList<ExampleItem> mExampleList;
 //    private RequestQueue mRequestQueue;
 
     EditText edittext_image_searching;
@@ -52,14 +40,12 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     ImageButton imageButton_back;
 
 
-    String  apiURL, s_response, json,  receiveMsg;
+    String  apiURL, s_response, json;
+    String receiveMsg;
     java.net.URL url;
 
-    RequestQueue mRequestQueue;
-    private RequestQueue mQueue;
-
     String search_keyword;
-
+TextView yogi;
     //    // 네이버 검색
 //    private static final String CLIENT_ID = "input your client_id";
 //    private static final String CLIENT_SECRET = "input your client_secret";
@@ -71,7 +57,7 @@ final int display = 5; // 보여지는 검색결과의 수
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_naver_shop_api);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -99,7 +85,7 @@ final int display = 5; // 보여지는 검색결과의 수
 //
 //        search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
 
-        mQueue = VolleySingleton.getInstance(this).getRequestQueue();//https://codinginflow.com/tutorials/android/volley/part-2-singleton-pattern
+//        mQueue = VolleySingleton.getInstance(this).getRequestQueue();//https://codinginflow.com/tutorials/android/volley/part-2-singleton-pattern
 //       final String search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
 
         button_image_searching.setOnClickListener(new View.OnClickListener() {
@@ -108,212 +94,91 @@ final int display = 5; // 보여지는 검색결과의 수
 
                 search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
 
-                        new Thread() {
+                        new Thread() { // 네트워크 통신을 위해 쓰레드를 돌려야함
             @Override
             public void run() {
 
+//                getJSON(search_keyword);
+
                 try {
-                APIExamSearchShop_Shop apiExamSearchShop = new APIExamSearchShop_Shop();  //클래스 위치 // return
+
+                    search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
+                    APIExamSearchShop apiExamSearchShop = new APIExamSearchShop();  //클래스 위치 // return
                     apiExamSearchShop.naver_search_api(search_keyword); //main run -> another class named APIExamSearchShop
+//
+//
                 String result_data = apiExamSearchShop.naver_search_api(search_keyword);  //searchKeyword 로 검색한 결과를 리턴한걸 String으로 받아서 넣어줌 . data임
-                String searched_url = apiExamSearchShop.apiURL;
-                jsonParse(searched_url);
+                String searched_url = apiURL;
+                    Log.e("MainActivity result_data------","result_data : " +result_data);
+                    Log.e("MainActivity searched_url","searched_url" + searched_url);
 
-                Log.e("result_data","result_data : " +result_data);
-                Log.e("searched_url","searched_url" + searched_url);
-
-//                finish();
-//                        overridePendingTransition(0,0);
-//                        startActivity(getIntent());
-//                        overridePendingTransition(0,0);
-
-//                searchNaver(search_keyword);
-
-//                네트워크 연결은 Thread 생성 필요
-
-
-//        new Thread() {
-//            @Override
-//            public void run() {
 //
-//                try {
-
-                /**
-                    APIExamSearchShop_Shop apiExamSearchShop = new APIExamSearchShop_Shop();  //클래스 위치 // return
-                    String search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
-                    String result_data = apiExamSearchShop.naver_search_api(search_keyword);
-
-
-//                    String result_data = naver_search_api(search_keyword);
-
-                    Log.e("MainActivity 클래스","abc : " + result_data);
-
-//                    StringBuffer test = apiExamSearchShop.s_response; //이거는 실행 확인위해 가져왔었음 StringBuffer 타입임.
-//                    String json =apiExamSearchShop.json;
-                    //APIExamSearchShop 클래스에 -> json = br.readLine();
-
-
-
-//                    here_apiURL = apiExamSearchShop.apiURL; // 네이버 SHOP API에서 검색어를 입력후 검색어 결과를 보여주는 url
-
-//                    Log.e("test", "test" + test);
-//                    Log.e("json", "json" + json); // -> 여기 안되면 volley 라이브러리 사용하기
+//                /**여기서 부터 로그가 찍히지 않아요**/
 //
-//                    String shop_data = apiExamSearchShop.s_response.toString();  //가져온 검색 결과 데이터를 String으로 변환하여서 String 변수에 담아준다
-//                    Log.w("MainActivity 클래스","shop_data : " + shop_data);
-                    JSONObject jsonObj = new JSONObject(result_data);   // String에 담아준 데이터를 JsonObject 에 담아준다
-//                    JSONObject jsonObj = new JSONObject(json);   // String에 담아준 데이터를 JsonObject 에 담아준다
-                    Log.w("MainActivity 클래스","jsonObj : " + jsonObj);
+                    JSONObject jsonObj = new JSONObject(result_data);
+                    Log.e("MainActivity 클래스","jsonObj : " + jsonObj);
                     JSONArray jsonArray = jsonObj.getJSONArray("items");  //JsonObject에 items라는 key를가지고 있는 JsonArray를 가지고 온다
-                    Log.w("MainActivity 클래스","jsonArray : " + jsonArray);
-                 **/
-
-//                    parseJSON(apiExamSearchShop.apiURL);
-//
-//                    for (int i = 0; i < jsonArray.length(); i++) {  // items라는 키에 담겨있던 jsonArray의 길이만큼 for문을 돌려서
-//                        JSONObject item = jsonArray.getJSONObject(i);                  //인덱스 i 에 있는 JsonObject를 가지고 와 jsonObject item에 넣어준다
-//                        Log.w("MainActivity 클래스","item : " + item);
-//
-//                        String title = item.getString("title");   // jsonObject item에서 title이라는 key를 가진 String value를 가지고 와서 title이라는 String 변수에 담아준다
-//                        String link = item.getString("link");
-//                        String image = item.getString("image");
-//                        String mallName= item.getString("mallName");
-//                        int lprice = item.getInt("lprice");
-//                        int hprice = item.getInt("hprice");
-//
-//                        Log.w("MainActivity 클래스","title : " + title);
-//                        Log.w("MainActivity 클래스","link :" + link);
-//                        Log.w("MainActivity 클래스","image : " + image);
-//                        Log.w("MainActivity 클래스","mallName : " + mallName);
-//                        Log.w("MainActivity 클래스","lprice : " + lprice);
-//                        Log.w("MainActivity 클래스","hprice : " + hprice);
-//
-//
-//                        mExampleList.add(new ExampleItem(title, link, image, mallName,lprice,hprice));  // 데이터에서 가져온 값들을 리사이클러뷰 리스트에 넣어준다8
-//                        Log.w("MainActivity 클래스","mExampleList : " + mExampleList);
-//                    }
-////
-////
-////
-//                    mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
-//                    mRecyclerView.setAdapter(mExampleAdapter);
-//                    mExampleAdapter.setOnItemClickListener(MainActivity.this);
-
-
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-            }
-        }.start();
-////
-////
-            }
-
-        });
-
-
-    }//onCeate 닫는 중괄호
-
-    private void jsonParse(String api_url) {
-
-        String url = api_url;
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("items");
-                            for (int i = 0; i < jsonArray.length(); i++) {  // items라는 키에 담겨있던 jsonArray의 길이만큼 for문을 돌려서
+                    Log.e("MainActivity 클래스","jsonArray : " + jsonArray);
+                    for (int i = 0; i < jsonArray.length(); i++) {  // items라는 키에 담겨있던 jsonArray의 길이만큼 for문을 돌려서
                         JSONObject item = jsonArray.getJSONObject(i);                  //인덱스 i 에 있는 JsonObject를 가지고 와 jsonObject item에 넣어준다
-                        Log.w("MainActivity 클래스","item : " + item);
+                        Log.e("MainActivity 클래스","item : " + item);
 
-                        String title = item.getString("title");   // jsonObject item에서 title이라는 key를 가진 String value를 가지고 와서 title이라는 String 변수에 담아준다
+                        String title = item.getString("title").replace("<b>"+search_keyword+"<\b>","");   // jsonObject item에서 title이라는 key를 가진 String value를 가지고 와서 title이라는 String 변수에 담아준다
                         String link = item.getString("link");
                         String image = item.getString("image");
                         String mallName= item.getString("mallName");
-                        int lprice = item.getInt("lprice");
-                        int hprice = item.getInt("hprice");
+                        String lprice = item.getString("lprice");
+                        String hprice = item.getString("hprice");
 
-                        Log.w("MainActivity 클래스","title : " + title);
-                        Log.w("MainActivity 클래스","link :" + link);
-                        Log.w("MainActivity 클래스","image : " + image);
-                        Log.w("MainActivity 클래스","mallName : " + mallName);
-                        Log.w("MainActivity 클래스","lprice : " + lprice);
-                        Log.w("MainActivity 클래스","hprice : " + hprice);
+                        Log.e("MainActivity 클래스","title : " + title);
+                        Log.e("MainActivity 클래스","link :" + link);
+                        Log.e("MainActivity 클래스","image : " + image);
+                        Log.e("MainActivity 클래스","mallName : " + mallName);
+                        Log.e("MainActivity 클래스","lprice : " + lprice);
+                        Log.e("MainActivity 클래스","hprice : " + hprice);
+
+                        ExampleItem exampleItem = new ExampleItem(title, link, image, mallName,lprice, hprice);
+                        mExampleList.add(exampleItem);  //리사이클러뷰의 arrayList에 아이템 추가
+                        Log.e("MainActivity 클래스","mExampleList : " + mExampleList);
 
 
-                        mExampleList.add(new ExampleItem(title, link, image, mallName,lprice,hprice));  // 데이터에서 가져온 값들을 리사이클러뷰 리스트에 넣어준다8
-                        Log.w("MainActivity 클래스","mExampleList : " + mExampleList);
+
+
                     }
+
+//                    mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
 //
+//                    mExampleAdapter.notifyDataSetChanged();  // 새로고침
 //
-//
-                    mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
-                    mRecyclerView.setAdapter(mExampleAdapter);
-                    mExampleAdapter.setOnItemClickListener(MainActivity.this);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+//                    mRecyclerView.setAdapter(mExampleAdapter);
+//                    mExampleAdapter.setOnItemClickListener(MainActivity.this);
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                    Log.e("e------------------ㅠㅠ------------------------","e"+e);
+                }
             }
+        }.start();
+//                mExampleAdapter.notifyDataSetChanged();  // 새로고침
+
+
+                mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
+
+//                mExampleAdapter.notifyDataSetChanged();  // 새로고침
+
+                mRecyclerView.setAdapter(mExampleAdapter);
+                mExampleAdapter.setOnItemClickListener(MainActivity.this);
+
+            }
+
+
         });
 
-        mQueue.add(request);
-    }
-
-    private void parseJSON(String naver_api) { // Pixabay API 키 : 5765931-f9df1159a645d15d76213ab5d
-//here_apiURL : 네이버 쇼핑 API에서 만든 url APIExamSearchSHop클래스에서 받아옴
-    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, naver_api, null,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONArray jsonArray = response.getJSONArray("items");
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject item = jsonArray.getJSONObject(i);
-
-                            String title = item.getString("title");
-                            String link = item.getString("link");
-                            String image = item.getString("image");
-                            String mallName= item.getString("mallName");
-                            int lprice = item.getInt("lprice");
-                            int hprice = item.getInt("hprice");
-
-                            Log.w("MainActivity 클래스","title : " + title);
-                            Log.w("MainActivity 클래스","link :" + link);
-                            Log.w("MainActivity 클래스","image : " + image);
-                            Log.w("MainActivity 클래스","mallName : " + mallName);
-                            Log.w("MainActivity 클래스","lprice : " + lprice);
-                            Log.w("MainActivity 클래스","hprice : " + hprice);
-                            mExampleList.add(new ExampleItem(title, link, image, mallName,lprice,hprice));
-                            Log.w("MainActivity 클래스","mExampleList : " + mExampleList);
-
-                        }
-
-                        mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
-                        mRecyclerView.setAdapter(mExampleAdapter);
-                        mExampleAdapter.setOnItemClickListener(MainActivity.this);
 
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            error.printStackTrace();
-        }
-    });
 
-        mRequestQueue.add(request);
-}
+
+    }//onCeate 닫는 중괄호
 
     @Override
     public void onItemClick(int position) {  // 리사이클러뷰 아이템을 클릭했을 때
@@ -333,6 +198,7 @@ final int display = 5; // 보여지는 검색결과의 수
     protected void onResume() {
         super.onResume();
         Log.e("mypage", "onResume");
+//        mExampleAdapter.notifyDataSetChanged();  // 새로고침
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
@@ -354,98 +220,7 @@ final int display = 5; // 보여지는 검색결과의 수
     }
 
 
-}
 
- class APIExamSearchShop_Shop {
-
-    String json;
-    StringBuffer s_response;
-    String title;
-    String link;
-    String image;
-    String mallName;
-    int lprice;
-    int hprice;
-    String apiURL;
-
-    private String receiveMsg;
-
-    private RecyclerView mRecyclerView;
-    private ExampleAdapter mExampleAdapter;
-    private ArrayList<ExampleItem> mExampleList;
-
-    public String naver_search_api(String s_key) {
-
-        final String clientId = "Jf7l2hxpdsYjCJaS9_sK";//애플리케이션 클라이언트 아이디값";
-        final String clientSecret = "E9UvEcyrbB";//애플리케이션 클라이언트 시크릿값";
-
-//        String search = "";
-
-        try {
-            String text = URLEncoder.encode(s_key, "UTF-8");
-            apiURL = "https://openapi.naver.com/v1/search/shop?query=" + text + "&start=" + 1 + "&display=" + 3; // json 결과
-            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
-            URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if (responseCode == 200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                Log.w("MainActivity 클래스", "responseCode==200  정상작동 중입니까? br : " + br);
-
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-                json = br.readLine();
-//                s_response = response;
-
-            }
-            receiveMsg = response.toString(); // 리턴값으로 넘겨줄 것
-            Log.i("receiveMsg : ", receiveMsg);
-
-            br.close();
-            System.out.println(response.toString());
-
-//                String shop_result = response.toString();
-//                JsonObject jsonObject = new JsonObject(shop_result);
-//                JSONObject jsonObj = new JSONObject(response.toString());
-//                JSONArray jsonArray = jsonObj.getJSONArray("items");
-////
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject item = jsonArray.getJSONObject(i);
-//
-//                                title = item.getString("title");
-//                                link = item.getString("link");
-//                                image = item.getString("image");
-//                                mallName= item.getString("mallName");
-//                                lprice = item.getInt("lprice");
-//                                hprice = item.getInt("hprice");
-//
-//                                Log.w("MainActivity 클래스","title : " + title);
-//                                Log.w("MainActivity 클래스","link :" + link);
-//                                Log.w("MainActivity 클래스","image : " + image);
-//                                Log.w("MainActivity 클래스","mallName : " + mallName);
-//                                Log.w("MainActivity 클래스","lprice : " + lprice);
-//                                Log.w("MainActivity 클래스","hprice : " + hprice);
-//
-//                            }
-
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-
-        return receiveMsg;  //receiveMsg = response.toString(); -> 이거를 MainActivity에 넘겨줄 것
-
-    }
 }
 
 

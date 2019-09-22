@@ -42,7 +42,7 @@ public class image_searching extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_naver_shop_api);
 
         Log.d(TAG, "**** APP START ****");
 

@@ -52,8 +52,8 @@ public interface OnItemClickListener {
         String link = currentItem.getLink();
         String image = currentItem.getImage();
         String mallName = currentItem.getMallName();
-        int lprice = currentItem.getLprice();
-        int hprice = currentItem.getHprice();
+        String lprice = currentItem.getLprice();
+        String hprice = currentItem.getHprice();
 
         holder.text_view_title.setText(title);
         holder.text_view_link.setText("링크 : " + link);
