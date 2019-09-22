@@ -27,10 +27,25 @@
             android:text="TextView"
             android:textSize="25sp"
             android:textStyle="bold"
+            android:textColor="#0000CD"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="링크로 바로 이동하기"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonClose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_alarm_name"
+            app:layout_constraintVertical_bias="0.23" />
 
         <Button
             android:id="@+id/buttonClose"
@@ -46,7 +61,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_alarm_name"
-            app:layout_constraintVertical_bias="0.156" />
+            app:layout_constraintVertical_bias="0.266" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

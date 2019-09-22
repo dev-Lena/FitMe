@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,6 +116,18 @@ public class myreview extends AppCompatActivity {
         Log.d("textView_howmany_bookmarked_reviews"," : " + textView_howmany_reviews );
 
 
+        // 마이페이지에서 아이템을 클릭했을 때 해당 포지션으로 보내주기
+        Intent intent = getIntent();
+        final int pst = intent.getIntExtra("position",0);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.scrollToPosition(pst);
+                }
+            },100);
+
+        Log.e("pst","pst"+pst);
 
         feed_adapter.setOnItemClickListener(new feed_Adapter.OnItemClickListener() {
             @Override

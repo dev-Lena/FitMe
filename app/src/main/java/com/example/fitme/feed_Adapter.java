@@ -144,7 +144,7 @@ public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHol
 //        holder.onBind(arrayList.get(position), position);
 
         feed_MainData feed_mainData = arrayList.get(position);
-
+//
 //        HorizontalAdapter adapter = new HorizontalAdapter(Image_List.get(position));
 
         String review_Image = feed_mainData.getImageView_reviewcard_img1();
@@ -475,33 +475,6 @@ public  class feed_Adapter extends RecyclerView.Adapter<feed_Adapter.FeedViewHol
                     });
 
 
-                    // 리사이클러뷰 아이템 펼치기 -> 이미지에 적합한 방법. TextView는 아님.\
-                    // 이미 설정한 높이만큼 늘어남
-//                    if (selectedItems.get(pos)) {
-//                        // 펼쳐진 Item을 클릭 시
-//                        selectedItems.delete(pos);
-//                    } else {
-//                        // 직전의 클릭됐던 Item의 클릭상태를 지움
-//                        selectedItems.delete(prePosition);
-//                        // 클릭한 Item의 position을 저장
-//                        selectedItems.put(pos, true);
-//                    }
-//                    // 해당 포지션의 변화를 알림
-//                    if (prePosition != -1) notifyItemChanged(prePosition);
-//                    notifyItemChanged(pos);
-//                    // 클릭된 position 저장
-//                    prePosition = pos;
-
-
-                    //
-//                    // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onCommentClick) 호출.
-//                    if (pos != RecyclerView.NO_POSITION) {
-//                        if (mListener != null) {  // 여기서 막히면 객체 이름바꾸기
-//                            mListener.onReviewClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
-//                            Log.e("onReviewClick 버튼이 mListener를 통해", "눌렸나요?");
-//
-//                        }
-//                    }
                 }
             });
 

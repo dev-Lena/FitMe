@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -48,7 +49,7 @@ public class write_review extends AppCompatActivity {
     TextView review_date, textView_review_writer, textView_reviewcard_number,textView_review_writer_writer, textView_reviewcard_number_number;
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review;
     ImageView imageView_review_photo1, imageView_review_photo2, imageView_review_photo3, imageView_review_photo4, imageView_review_photo5 ;
-    ImageButton imageButton_open_web_browser, imageButton_camera, imageButton_image, imageButton_review_register, imageButton_write_review_back;
+    ImageButton imageButton_open_web_browser, imageButton_search_download, imageButton_image, imageButton_review_register, imageButton_write_review_back;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     RatingBar ratingBar;
 
@@ -59,6 +60,7 @@ public class write_review extends AppCompatActivity {
 
 
     Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
+    String pixabay_url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("write_review","onCreate");
@@ -77,6 +79,7 @@ public class write_review extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);  // 만족도
         review_date = findViewById(R.id.review_date);  // 리뷰 작성 시간
         textView_review_writer = findViewById(R.id.textView_review_writer);  // 작성
+        textView_reviewcard_number = findViewById(R.id.textView_reviewcard_number);  // 리뷰 고유 번호
 
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
@@ -104,7 +107,7 @@ public class write_review extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editText_detailed_review.length() > 0) {
-                    if (uri != null) {// 상세 리뷰를 작성하고 이미지가 null값이 아닐 때
+                    if (uri != null| pixabay_url !=null) {// 상세 리뷰를 작성하고 이미지가 null값이 아닐 때
 
                         Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
@@ -188,14 +191,18 @@ public class write_review extends AppCompatActivity {
                         result.putExtra("상세리뷰", editText_detailed_review.getText().toString());  // putExtra로 데이터 보냄
                         result.putExtra("해시태그", editText_hashtag.getText().toString());  // putExtra로 데이터 보냄
                         result.putExtra("만족도", ratingBar.getRating());  // putExtra로 데이터 보냄
-                        result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄.
+                        if (uri != null ) {
+                            result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄.
+                        }else if (pixabay_url != null){
+                            result.putExtra("리뷰이미지", pixabay_url);  // String으로 바꿔서 putExtra로 데이터 보냄.
+                        }
                         result.putExtra("작성자", textView_review_writer);  // putExtra로 데이터 보냄
                         result.putExtra("리뷰고유번호", textView_reviewcard_number);  // putExtra로 데이터 보냄
                         result.putExtra("작성시간", review_date);  // putExtra로 데이터 보냄
 
 // 확인 로그
                         Log.e("write_review 로그인한 회원 정보가 있는 쉐어드에서", "이메일 넣기 : " + textView_email + logined_user.getString("user_email", ""));
-                        Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요 이미지: ", uri.toString());
+//                        Log.e("write_review 울지마 울지마 울지마@@- 그만놀려요 이미지: ", uri.toString());
                         Log.e("작성자 ,리뷰고유번호, 작성시간", textView_review_writer + textView_reviewcard_number + review_date);
 
                         // 자신을 호출한 Activity로 데이터를 보낸다.
@@ -230,14 +237,15 @@ public class write_review extends AppCompatActivity {
             }
         });
 
-        /** 카메라 버튼눌러서 사진 찍어서 이미지 가지고 오는 부분은 여기서 처리하기 **/
+        /**  버튼눌러서 픽사베이 이미지 가지고 오는 부분은 여기서 처리하기 **/
 // 카메라 앱 오픈-> 암시적 인텐트
-        imageButton_camera = findViewById(R.id.imageButton_camera);
-        imageButton_camera.setOnClickListener(new ImageView.OnClickListener() {
+        imageButton_search_download = (ImageButton) findViewById(R.id.imageButton_download);
+        imageButton_search_download.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(intent);
+
+                Intent intent = new Intent(getApplicationContext(), image_searching.class);
+                startActivityForResult(intent, 7001);
 
             }
         });
@@ -438,6 +446,40 @@ public class write_review extends AppCompatActivity {
                     imageView_review_photo1.setImageURI(uri);
                 }
             }
+        }
+        if (requestCode == 7001 && resultCode == RESULT_OK) {
+
+            // pixabay API에서 intent로 받아온 이미지 url
+
+
+             pixabay_url = data.getStringExtra("pixabay_url"); /*String형*/
+//
+//            //기존 이미지 지우기
+//            imageView_review_photo1.setImageResource(0);
+
+ // 이미지 url은 인텐트로 받기, 변수 pixabay_url에 넣어주기
+            ClipData clipData = data.getClipData();
+            Log.e("write_review 클래스에서", "pixabay_url 가져오는 중 , uri : " + pixabay_url);
+
+//            if(clipData!=null) {
+//
+//
+//                Uri pixabay_url_url = Uri.parse(pixabay_url);
+//                imageView_review_photo1.setImageURI(pixabay_url_url);
+//
+//
+////                Picasso.get().load(pixabay_url).fit().centerInside().into(imageView_review_photo1);
+//                Log.e("write_review 클래스에서", "pixabay_url_url,uri--> 확인중 " +pixabay_url_url+","+ imageView_review_photo1 );
+//
+//            }
+            if(pixabay_url != null)
+            {
+                Uri pixabay_url_url = Uri.parse(pixabay_url);
+//                imageView_review_photo1.setImageURI(pixabay_url_url);
+                Picasso.get().load(pixabay_url).fit().centerInside().into(imageView_review_photo1);
+                Log.e("write_review 클래스에서", "pixabay_url_url,uri--> 확인중 " +pixabay_url_url+","+ imageView_review_photo1 );
+            }
+
         }
     }
 

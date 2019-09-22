@@ -2,6 +2,7 @@ package com.example.fitme;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,10 @@ public class AlarmActivity extends AppCompatActivity {
         Log.d("AlarmActivity", "onCreate: alarm_name -> " + alarm_name);
         Log.d("AlarmActivity", "onCreate: textView_alarm_name -> " + textView_alarm_name);
         // timesale 클래스에서 인텐트에 담아서 보낸 사용자가 입력한 알람이름을 보여줌
+
+
+        Intent link_intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+ alarm_name));
+        startActivity(link_intent); //액티비티 이동
 
 
     }

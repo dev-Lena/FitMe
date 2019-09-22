@@ -137,6 +137,24 @@ public class mypage extends AppCompatActivity {
 
         });
 
+        mypage_adapter.setOnItemClickListener(new mypage_Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, final int position) {
+
+                // 마이페이지에서 내가 쓴 리뷰 이미지 그리드 리사이클러뷰를 아이템을 눌렀을때
+                /// 내가 쓴 리뷰 액티비티로 이동하고 해당 위치에 있는 아이템으로 스크롤 되게 해주기.
+                Intent intent = new Intent(getApplicationContext(), myreview.class);
+
+                intent.putExtra("position",position); /*송신*/
+
+
+                startActivity(intent);
+
+
+
+            }
+            });
+
 
         /**마이페이지의 로그인한 회원의 정보 넣기 : 이메일, 닉네임, 프로필 사진**/
 
@@ -336,8 +354,6 @@ public class mypage extends AppCompatActivity {
         });
 
 
-
-
         bottomNavigationView = findViewById(R.id.bottomNavi);
         // 하단바 누를 때 색 바뀌게 하는 중
         Menu menu = bottomNavigationView.getMenu();
@@ -365,7 +381,7 @@ public class mypage extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(mypage.this,image_searching.class);
+                        Intent insight_intent = new Intent(mypage.this,MainActivity.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
@@ -381,6 +397,10 @@ public class mypage extends AppCompatActivity {
         });
 
     }//onCreate 닫는 중괄호
+
+
+
+
     //카카오톡 로그인 하는 중
     private void onClickLogout() {
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {

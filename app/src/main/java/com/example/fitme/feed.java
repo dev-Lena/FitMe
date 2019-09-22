@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,7 +70,7 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_notification, imageView_reviewcard_img1;
-    TextView textView_feed_id;
+    TextView textView_feed_id,textView_comment_number;
     ImageButton imageButton_review_timesale, imageButton_like, imageButton_like_pushed;
     FloatingActionButton floatingActionButton;  // 리뷰 작성하는 글쓰기 플로팅 버튼
 
@@ -90,7 +91,7 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     feed_Adapter feed_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-
+    ArrayList<comment_Data> commentArrayList, comment_show_arrayList;
     private Context context;
 
     String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
@@ -98,12 +99,12 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
     String textView_shoppingmall_url;
 
-    SwipeRefreshLayout swipeRefreshLo;
+//    SwipeRefreshLayout swipeRefreshLo;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
-        swipeRefreshLo = findViewById(R.id.swipeRefreshLo);
+//        swipeRefreshLo = findViewById(R.id.swipeRefreshLo);
 
 // 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
 
@@ -194,6 +195,7 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 // 리사이클러뷰 수정 // 클릭하면 수정 화면 열리고 수정한 데이터를 인텐트로 가지고 오는 것.
 // 리사이클러뷰 수정에서 Adpater에서 커스텀한 클릭이벤트를 인터페이스로 가지고 와서 여기서 intent로 받아올 것.
         // 액티비티에서 커스텀 리스너 객체 생성 및 전달
+
 
 
 
@@ -887,11 +889,12 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
             String textView_hashtag = data.getStringExtra("해시태그");
             float float_ratingBar = data.getFloatExtra("만족도", 0);
             String textView_review_writer = data.getStringExtra("작성자");
+
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
 
-            int position = data.getIntExtra("POSITION", 0000);
-            Log.e("위치값", position + " 위치값을 가지고 왔습니다");
+            final int pst = data.getIntExtra("POSITION", 0000);
+            Log.e("위치값", pst + " 위치값을 가지고 왔습니다");
 
 //
             Boolean Is_liked= false;
@@ -926,6 +929,15 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
             Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
             Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
             Log.e("feed 클래스에서 (saveData)", "sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + arrayList);
+
+            // 가지고 온 다음에 그 아이템으로 스크롤
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.scrollToPosition(pst);
+                }
+            },100);
+
 
         }
 
@@ -962,6 +974,7 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
             float float_ratingBar = data.getFloatExtra("만족도", 0);
             textView_review_writer = data.getStringExtra("작성자");
             textView_reviewcard_number = data.getStringExtra("리뷰고유번호");
+            String textView_comment_number = data.getStringExtra("댓글수");
             /**이미지**/
             String imageView_reviewcard_img1 = data.getStringExtra("리뷰이미지");
 //            ArrayList<feed_MainData> = data.getStringArrayListExtra(comment);
@@ -977,8 +990,8 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
             Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
             Log.e("feed 클래스에서 onActivityResult", " '리뷰이미지' ++++++++++++++++++++++++ :" + imageView_reviewcard_img1);
 
-            int position = data.getIntExtra("POSITION", 0000);
-            Log.e("위치값", position + " 위치값을 가지고 왔습니다");
+            final int ps = data.getIntExtra("POSITION", 0000);
+            Log.e("위치값", ps + " 위치값을 가지고 왔습니다");
 
 //            Boolean Is_liked= feed_adapter.getItem(position).getIs_liked();
 //            Boolean Is_liked= false;
@@ -990,12 +1003,12 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
                     textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
             Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다 imageView_reviewcard_img1 : +++++++++++++++++++++++++++++++++" + imageView_reviewcard_img1);
-            arrayList.set(position, feed_MainData);
+            arrayList.set(ps, feed_MainData);
 
 
-            int myreview_index = find_myreview_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+            int myreview_index = find_myreview_arrayList(feed_adapter.getItem(ps).getTextView_reviewcard_number());
             Log.d("myreview_index", myreview_index + "");
-            int bookmark_index = find_bookmark_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
+            int bookmark_index = find_bookmark_arrayList(feed_adapter.getItem(ps).getTextView_reviewcard_number());
             Log.d("bookmark_index", bookmark_index + "");
 //            int feed_review_index = find_feed_arrayList(feed_adapter.getItem(position).getTextView_reviewcard_number());
 //
@@ -1033,9 +1046,20 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
                 // 업데이트 한 bookmarked_arrayList를 sharedPreference에 저장하라. "bookmarked_recyclerview"
                 bookmark_saveData();
 
+                // 가지고 온 다음에 그 아이템으로 스크롤
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.scrollToPosition(ps);
+                    }
+                },100);
+
+
             }  catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+
+
 
         }
 
@@ -1075,6 +1099,20 @@ public class feed extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     protected void onResume() {
         super.onResume();
         feed_adapter.notifyDataSetChanged();  // 새로고침
+
+        // 피드 리사이클러뷰 맨 위부터 보여주기
+        recyclerView.post(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+
+            }
+
+        });
+
         // 피드 리사이클러뷰 맨 위부터 보여주기
 
 //        loadData();

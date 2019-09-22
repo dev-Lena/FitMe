@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +34,7 @@ public class edit_review extends AppCompatActivity {
     EditText editText_shoppingmall_url, editText_hashtag, editText_detailed_review, editText_edit_shoppingmall_url,
             editText_edit_detailed_review;
     ImageView imageView_review_photo1;
-    ImageButton imageButton_review_register, imageButton_open_web_browser, imageButton_camera, imageButton_write_review_back, imageButton_review_edit_completed;
+    ImageButton imageButton_review_register, imageButton_open_web_browser, imageButton_search_download, imageButton_write_review_back, imageButton_review_edit_completed;
     RatingBar ratingBar;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
@@ -47,6 +46,7 @@ public class edit_review extends AppCompatActivity {
 
 
     Uri uri; // 전역변수로 Uri를 선언해줘야 클래스 내 다른 메소드 내에서도 사용할 수 있음.
+    String pixabay_url;
 
 
     @Override
@@ -175,9 +175,12 @@ public class edit_review extends AppCompatActivity {
                 result.putExtra("작성자", textView_review_writer_writer.getText().toString());
                 result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());
 //                result.putExtra("리뷰고유번호", reviewcard_number);
-                if (uri != null) { // 만약에 사용자가 이미지를 바꾸면 -> 사용자가 가져온 이미지uri가 null이 아니면
-                    result.putExtra("리뷰이미지", uri.toString());  // 가지고 온 이미지의 uri를 보내고
-                }else {
+
+                    if (uri != null ) {
+                        result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄.
+                    }else if (pixabay_url != null){
+                        result.putExtra("리뷰이미지", pixabay_url);  // String으로 바꿔서 putExtra로 데이터 보냄.
+                    }else {
                     result.putExtra("리뷰이미지", ImageUri); // 그렇지 않으면 기존의 이미지를 보내라
 
                 }
@@ -211,13 +214,15 @@ public class edit_review extends AppCompatActivity {
             }
         });
 
+        /**  버튼눌러서 픽사베이 이미지 가지고 오는 부분은 여기서 처리하기 **/
 // 카메라 앱 오픈-> 암시적 인텐트
-        imageButton_camera = findViewById(R.id.imageButton_camera);
-        imageButton_camera.setOnClickListener(new ImageView.OnClickListener() {
+        imageButton_search_download = (ImageButton) findViewById(R.id.imageButton_download);
+        imageButton_search_download.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(intent);
+
+                Intent intent = new Intent(getApplicationContext(), image_searching.class);
+                startActivityForResult(intent, 7001);
 
             }
         });
@@ -242,54 +247,90 @@ public class edit_review extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
-        if (requestCode == PICTURE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+        if(requestCode == PICTURE_REQUEST_CODE)
+        {
+            if (resultCode == RESULT_OK)
+            {
 
                 //기존 이미지 지우기
                 imageView_review_photo1.setImageResource(0);
-//                imageView_review_photo2.setImageResource(0);
-//                imageView_review_photo3.setImageResource(0);
-//                imageView_review_photo4.setImageResource(0);
-//                imageView_review_photo5.setImageResource(0);
+
 
                 //ClipData 또는 Uri를 가져온다
-                uri = data.getData();
+                uri = data.getData();  // 해당 이미지의 파일 경로 즉, uri 정보를 받는다
+
                 ClipData clipData = data.getClipData();
+                Log.e("write_review 클래스에서", "이메일 가져오는 중 , uri : " + uri.toString()+","+uri);
+
+                // 받아온 이미지를 인텐트에 담아서 putExtra로 보내주기.
+                // -> 어디서 받냐면 onCreate에서 feed 클래스에 보낼 데이터 담을 때
+
+                //ClipData 또는 Uri를 가져온다
 
                 //이미지 URI 를 이용하여 이미지뷰에 순서대로 세팅한다.
-                if (clipData != null) {
+                // 로그 찍었을 때 ClipData로는 실행이 되지 않고 uri방식으로 실행된다.
+                if(clipData!=null) {
 
-                    // 최대 업로드 사진 갯수 5개
-                    for (int i = 0; i < 5; i++) {
-                        if (i < clipData.getItemCount()) {
-                            Uri urione = clipData.getItemAt(i).getUri();
-                            switch (i) {
-                                case 0:
-                                    imageView_review_photo1.setImageURI(urione);
-                                    break;
-//                                case 1:
-//                                    imageView_review_photo2.setImageURI(urione);
+
+                    imageView_review_photo1.setImageURI(Uri.parse( uri.toString()));
+
+                    Log.e("write_review 클래스에서", "uri--> 확인중 " + uri.toString() );
+
+//                    // 최대 업로드 사진 갯수 5개
+//                    for(int i = 0; i < 5; i++)
+//                    {
+//                        if(i<clipData.getItemCount()){
+//                            Uri urione =  clipData.getItemAt(i).getUri();
+//                            switch (i){
+//                                case 0:
+//                                    imageView_review_photo1.setImageURI(urione);
+////                                    Log.e("write_review 클래스에서", "이미지 가져오는 중 " + imageView_review_photo1.setImageURI(urione));
+//
 //                                    break;
-//                                case 2:
-//                                    imageView_review_photo3.setImageURI(urione);
-//                                    break;
-//                                case 3:
-//                                    imageView_review_photo4.setImageURI(urione);
-//                                    break;
-//                                case 4:
-//                                    imageView_review_photo5.setImageURI(urione);
-//                                    break;
-                                default:
-                                    Toast myToast = Toast.makeText(this.getApplicationContext(), "한 개의 이미지만 업로드할 수 있습니다", Toast.LENGTH_SHORT);
-                                    myToast.show();
-                            }
-                        }
-                    }
-                } else if (uri != null) {
+////                                case 1:
+////                                    imageView_review_photo2.setImageURI(urione);
+////                                    break;
+////                                case 2:
+////                                    imageView_review_photo3.setImageURI(urione);
+////                                    break;
+////                                case 3:
+////                                    imageView_review_photo4.setImageURI(urione);
+////                                    break;
+////                                case 4:
+////                                    imageView_review_photo5.setImageURI(urione);
+////                                    break;
+//                                    default:
+//                                        Toast myToast = Toast.makeText(this.getApplicationContext(),"1개의 이미지만 업로드 가능합니다", Toast.LENGTH_SHORT);
+//                                        myToast.show();
+//                            }
+//                        }
+//                    }
+                }
+                else if(uri != null)
+                {
                     imageView_review_photo1.setImageURI(uri);
                 }
             }
+        }
+        if (requestCode == 7001 && resultCode == RESULT_OK) {
+
+            // pixabay API에서 intent로 받아온 이미지 url
+
+
+            pixabay_url = data.getStringExtra("pixabay_url"); /*String형*/
+
+            // 이미지 url은 인텐트로 받기, 변수 pixabay_url에 넣어주기
+            ClipData clipData = data.getClipData();
+            Log.e("write_review 클래스에서", "pixabay_url 가져오는 중 , uri : " + pixabay_url);
+
+            if(pixabay_url != null)
+            {
+                Uri pixabay_url_url = Uri.parse(pixabay_url);
+
+                Picasso.get().load(pixabay_url).fit().centerInside().into(imageView_review_photo1);
+                Log.e("write_review 클래스에서", "pixabay_url_url,uri--> 확인중 " +pixabay_url_url+","+ imageView_review_photo1 );
+            }
+
         }
     }
 

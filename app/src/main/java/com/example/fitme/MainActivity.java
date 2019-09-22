@@ -3,6 +3,8 @@ package com.example.fitme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,14 +12,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+/**ExampleAdapter와 ExampleItem, MainActivity, DetailActivity 자바 클래스는 네이버 Shop API 한세트임**/
 
 
 public class MainActivity extends AppCompatActivity implements ExampleAdapter.OnItemClickListener  {
@@ -53,7 +60,7 @@ TextView yogi;
 final int display = 5; // 보여지는 검색결과의 수
 
 //    APIExamSearchShop apiExamSearchShop = new APIExamSearchShop();  //클래스 위치 // return
-
+BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +130,7 @@ final int display = 5; // 보여지는 검색결과의 수
                         JSONObject item = jsonArray.getJSONObject(i);                  //인덱스 i 에 있는 JsonObject를 가지고 와 jsonObject item에 넣어준다
                         Log.e("MainActivity 클래스","item : " + item);
 
-                        String title = item.getString("title").replace("<b>"+search_keyword+"<\b>","");   // jsonObject item에서 title이라는 key를 가진 String value를 가지고 와서 title이라는 String 변수에 담아준다
+                        String title = (item.getString("title")).replace("<b>","").replace(search_keyword,"").replace("<\b>","");   // jsonObject item에서 title이라는 key를 가진 String value를 가지고 와서 title이라는 String 변수에 담아준다
                         String link = item.getString("link");
                         String image = item.getString("image");
                         String mallName= item.getString("mallName");
@@ -175,6 +182,48 @@ final int display = 5; // 보여지는 검색결과의 수
         });
 
 
+
+        bottomNavigationView = findViewById(R.id.bottomNavi);
+        // 하단바 누를 때 색 바뀌게 하는 중
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(3);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_home :
+                        Intent home_intent = new Intent(MainActivity.this,feed.class);
+                        home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(home_intent);//액티비티 띄우기
+//                        startActivityForResult(intent,sub);//액티비티 띄우기
+                        break;
+                    case R.id.action_search :
+                        Intent search_intent = new Intent(MainActivity.this,searching.class);
+                        search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(search_intent);//액티비티 띄우기
+                        break;
+                    case R.id.action_insight :
+                        Intent write_intent = new Intent(MainActivity.this,insight.class);
+                        write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(write_intent);//액티비티 띄우기
+                        break;
+                    case R.id.action_notification :
+                        Intent insight_intent = new Intent(MainActivity.this,MainActivity.class);
+                        insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(insight_intent);//액티비티 띄우기
+                        break;
+                    case R.id.action_mypage :
+                        Intent mycloset_intent = new Intent(MainActivity.this, mypage.class);
+                        mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(mycloset_intent);//액티비티 띄우기
+                        break;
+                }
+
+                return false;
+            }
+        });
 
 
 

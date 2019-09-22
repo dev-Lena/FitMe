@@ -78,7 +78,7 @@ public class comment extends AppCompatActivity {
 
         mlinearLayoutManager = new LinearLayoutManager(this);
 
-        mlinearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
+        mlinearLayoutManager.setReverseLayout(false); // 최신순으로 리사이클러뷰 아이템 추가.
 
         commentRecyclerview.setLayoutManager(mlinearLayoutManager);
 
@@ -210,6 +210,8 @@ public class comment extends AppCompatActivity {
                 Intent register_intent = new Intent(comment.this, feed.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
+
+
 
             }
         });

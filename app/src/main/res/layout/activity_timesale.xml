@@ -114,6 +114,7 @@
             android:maxLines="1"
             android:text="" />
 
+
         <Button
             android:id="@+id/button_Alarm"
             android:layout_width="wrap_content"
@@ -129,7 +130,14 @@
             android:textColor="@color/colorLightPurple"
             android:text="알람 취소" />
     </LinearLayout>
+    <TextView
 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:text="↑  알람 이름을 링크로 설정하시면 알람시 링크로 바로 이동할 수 있어요!"
+        android:textSize="9sp" />
     <TextView
 
         android:id="@+id/textView_leftTime"
@@ -137,6 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="00:00:00"
+        android:layout_marginTop="8dp"
         android:textSize="38sp" />
 
     <TextView

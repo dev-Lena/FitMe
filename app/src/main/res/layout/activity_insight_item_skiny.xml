@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/text_view_fitname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스키니핏"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="23sp" />
+
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+android:layout_gravity="center"
+            android:background="@drawable/insight_skinny_skinny"
+            />
+
+        <TableLayout
+            android:id="@+id/tableLayout_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorWhite"
+            android:stretchColumns="*">
+
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <TextView
+                android:id="@+id/textView360"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="허리"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/textView380"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="밑위"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/textView309"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="힙"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/textView370"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="허벅지"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/textView410"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="기장"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/textView400"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="밑단"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp">
+
+
+
+            <TextView
+                android:id="@+id/textView_waist1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="허리"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textView_sero1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="밑위"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textView_hip1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="힙"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textView_bugGi1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="허벅지"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textView_long1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="기장"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textView_ancle1"
+                android:layout_width="15sp"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="밑단"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp" />
+        </TableRow>
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

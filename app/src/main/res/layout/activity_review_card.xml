@@ -134,7 +134,7 @@
                     android:clickable="true"
                     android:maxLines="1"
                     android:text="TextView"
-                    android:textColorLink="#0000CD"
+                    android:textColor="#0000CD"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -203,27 +203,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_comment_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="2000"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/textView_likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="comments"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:orientation="horizontal"/>
 
 
             <TextView
@@ -310,7 +290,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="리뷰 고유 번호"
-                    android:textColor="@color/colorLightGray" />
+                    android:textColor="@color/colorInvisible" />
 
                 <TextView
                     android:id="@+id/textView_review_writer"
@@ -322,7 +302,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="작성자"
-                    android:textColor="@color/colorLightGray" />
+                    android:textColor="@color/colorInvisible" />
             </LinearLayout>
 
         </LinearLayout>

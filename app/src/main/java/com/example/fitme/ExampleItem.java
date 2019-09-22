@@ -3,6 +3,8 @@ package com.example.fitme;
 public class ExampleItem {
 
 
+    /**ExampleAdapter와 ExampleItem, MainActivity, DetailActivity 자바 클래스는 네이버 Shop API 한세트임**/
+
 
     // title , link , image , mallName , lprice , hprice
     private String title;

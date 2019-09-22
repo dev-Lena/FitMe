@@ -104,20 +104,20 @@ public class insight_edit extends AppCompatActivity {
         editText_ancle3 = findViewById(R.id.editText_ancle3);
 
 //        editText_name4 = findViewById(R.id.editText_name4);
-        editText_waist4 = findViewById(R.id.editText_waist4);
-        editText_sero4 = findViewById(R.id.editText_sero4);
-        editText_hip4 = findViewById(R.id.editText_hip4);
-        editText_bugGi4 = findViewById(R.id.editText_bugGi4);
-        editText_long4 = findViewById(R.id.editText_long4);
-        editText_ancle4 = findViewById(R.id.editText_ancle4);
-
-//        editText_name5 = findViewById(R.id.editText_name5);
-        editText_waist5 = findViewById(R.id.editText_waist5);
-        editText_sero5 = findViewById(R.id.editText_sero5);
-        editText_hip5 = findViewById(R.id.editText_hip5);
-        editText_bugGi5 = findViewById(R.id.editText_bugGi5);
-        editText_long5 = findViewById(R.id.editText_long5);
-        editText_ancle5 = findViewById(R.id.editText_ancle5);
+//        editText_waist4 = findViewById(R.id.editText_waist4);
+//        editText_sero4 = findViewById(R.id.editText_sero4);
+//        editText_hip4 = findViewById(R.id.editText_hip4);
+//        editText_bugGi4 = findViewById(R.id.editText_bugGi4);
+//        editText_long4 = findViewById(R.id.editText_long4);
+//        editText_ancle4 = findViewById(R.id.editText_ancle4);
+//
+////        editText_name5 = findViewById(R.id.editText_name5);
+//        editText_waist5 = findViewById(R.id.editText_waist5);
+//        editText_sero5 = findViewById(R.id.editText_sero5);
+//        editText_hip5 = findViewById(R.id.editText_hip5);
+//        editText_bugGi5 = findViewById(R.id.editText_bugGi5);
+//        editText_long5 = findViewById(R.id.editText_long5);
+//        editText_ancle5 = findViewById(R.id.editText_ancle5);
 
 
         /**sideShade의 사용자의 사이즈를 저장할 때 key 값을 현재 로그인한 회원의 email로 설정**/
@@ -173,32 +173,32 @@ public class insight_edit extends AppCompatActivity {
                 bugGi3 = Integer.parseInt(editText_bugGi3.getText().toString()); // 허벅지
                 long3 = Integer.parseInt(editText_long3.getText().toString()); // 기장
                 ancle3 = Integer.parseInt(editText_ancle3.getText().toString()); // 밑단
-//4번정보
-//                name4 = editText_name4.getText().toString(); // 바지 이름
-                waist4 = Integer.parseInt(editText_waist4.getText().toString()); // 허리
-                sero4 = Integer.parseInt(editText_sero4.getText().toString()); // 밑위
-                hip4 = Integer.parseInt(editText_hip4.getText().toString()); // 엉덩이
-                bugGi4 = Integer.parseInt(editText_bugGi4.getText().toString()); // 허벅지
-                long4 = Integer.parseInt(editText_long4.getText().toString()); // 기장
-                ancle4 = Integer.parseInt(editText_ancle4.getText().toString()); // 밑단
-//5번정보
-//                name5 = editText_name5.getText().toString(); // 바지 이름
-                waist5 = Integer.parseInt(editText_waist5.getText().toString()); // 허리
-                sero5 = Integer.parseInt(editText_sero5.getText().toString()); // 밑위
-                hip5 = Integer.parseInt(editText_hip5.getText().toString()); // 엉덩이
-                bugGi5 = Integer.parseInt(editText_bugGi5.getText().toString()); // 허벅지
-                long5 = Integer.parseInt(editText_long5.getText().toString()); // 기장
-                ancle5 = Integer.parseInt(editText_ancle5.getText().toString()); // 밑단
-
+////4번정보
+////                name4 = editText_name4.getText().toString(); // 바지 이름
+//                waist4 = Integer.parseInt(editText_waist4.getText().toString()); // 허리
+//                sero4 = Integer.parseInt(editText_sero4.getText().toString()); // 밑위
+//                hip4 = Integer.parseInt(editText_hip4.getText().toString()); // 엉덩이
+//                bugGi4 = Integer.parseInt(editText_bugGi4.getText().toString()); // 허벅지
+//                long4 = Integer.parseInt(editText_long4.getText().toString()); // 기장
+//                ancle4 = Integer.parseInt(editText_ancle4.getText().toString()); // 밑단
+////5번정보
+////                name5 = editText_name5.getText().toString(); // 바지 이름
+//                waist5 = Integer.parseInt(editText_waist5.getText().toString()); // 허리
+//                sero5 = Integer.parseInt(editText_sero5.getText().toString()); // 밑위
+//                hip5 = Integer.parseInt(editText_hip5.getText().toString()); // 엉덩이
+//                bugGi5 = Integer.parseInt(editText_bugGi5.getText().toString()); // 허벅지
+//                long5 = Integer.parseInt(editText_long5.getText().toString()); // 기장
+//                ancle5 = Integer.parseInt(editText_ancle5.getText().toString()); // 밑단
+//
 
                 Intent result = new Intent();  // 넘겨줄 데이터를 담는 인텐트
 
                 result.putExtra("waist1", waist1);  // putExtra로 데이터 보냄
-                result.putExtra("sero1", sero2);  // putExtra로 데이터 보냄
-                result.putExtra("hip1", hip2);  // putExtra로 데이터 보냄
-                result.putExtra("bugGi1", bugGi2);  // putExtra로 데이터 보냄
-                result.putExtra("long1", long2);  // String으로 바꿔서 putExtra로 데이터 보냄.
-                result.putExtra("ancle1", ancle2);  // putExtra로 데이터 보냄\
+                result.putExtra("sero1", sero1);  // putExtra로 데이터 보냄
+                result.putExtra("hip1", hip1);  // putExtra로 데이터 보냄
+                result.putExtra("bugGi1", bugGi1);  // putExtra로 데이터 보냄
+                result.putExtra("long1", long1);  // String으로 바꿔서 putExtra로 데이터 보냄.
+                result.putExtra("ancle1", ancle1);  // putExtra로 데이터 보냄\
 
 
                 Log.e("waist1","waist1 : " + waist1);
@@ -310,8 +310,8 @@ finish();
         editText_waist1.setText(String.valueOf(waist));
         editText_waist2.setText(String.valueOf(waist_2));
         editText_waist3.setText(String.valueOf(waist_3));
-        editText_waist4.setText(String.valueOf(waist_4));
-        editText_waist5.setText(String.valueOf(waist_5));
+//        editText_waist4.setText(String.valueOf(waist_4));
+//        editText_waist5.setText(String.valueOf(waist_5));
         // 스키니,와이드, 일자, 하이웨스트
 
 
@@ -332,8 +332,8 @@ finish();
         editText_sero1.setText(String.valueOf(sero));
         editText_sero2.setText(String.valueOf(sero_2));
         editText_sero3.setText(String.valueOf(sero_3));
-        editText_sero4.setText(String.valueOf(sero_4));
-        editText_sero5.setText(String.valueOf(sero_5));
+//        editText_sero4.setText(String.valueOf(sero_4));
+//        editText_sero5.setText(String.valueOf(sero_5));
 
 
         int hip = sizeShared.getInt("엉덩이", 0);
@@ -353,8 +353,8 @@ finish();
         editText_hip1.setText(String.valueOf(hip));
         editText_hip2.setText(String.valueOf(hip_2));
         editText_hip3.setText(String.valueOf(hip_3));
-        editText_hip4.setText(String.valueOf(hip_4));
-        editText_hip5.setText(String.valueOf(hip_5));
+//        editText_hip4.setText(String.valueOf(hip_4));
+//        editText_hip5.setText(String.valueOf(hip_5));
 
 
         int bugGi = sizeShared.getInt("허벅지", 0);
@@ -374,8 +374,8 @@ finish();
         editText_bugGi1.setText(String.valueOf(bugGi));
         editText_bugGi2.setText(String.valueOf(bugGi_2));
         editText_bugGi3.setText(String.valueOf(bugGi_3));
-        editText_bugGi4.setText(String.valueOf(bugGi_4));
-        editText_bugGi5.setText(String.valueOf(bugGi_5));
+//        editText_bugGi4.setText(String.valueOf(bugGi_4));
+//        editText_bugGi5.setText(String.valueOf(bugGi_5));
 
 
         int longlong = sizeShared.getInt("기장", 0);
@@ -396,8 +396,8 @@ finish();
         editText_long1.setText(String.valueOf(longlong));
         editText_long2.setText(String.valueOf(longlong_2));
         editText_long3.setText(String.valueOf(longlong_3));
-        editText_long4.setText(String.valueOf(longlong_4));
-        editText_long5.setText(String.valueOf(longlong_5));
+//        editText_long4.setText(String.valueOf(longlong_4));
+//        editText_long5.setText(String.valueOf(longlong_5));
 
 
         int ancle = sizeShared.getInt("밑단", 0);
@@ -418,8 +418,8 @@ finish();
         editText_ancle1.setText(String.valueOf(ancle));
         editText_ancle2.setText(String.valueOf(ancle_2));
         editText_ancle3.setText(String.valueOf(ancle_3));
-        editText_ancle4.setText(String.valueOf(ancle_4));
-        editText_ancle5.setText(String.valueOf(ancle_5));
+//        editText_ancle4.setText(String.valueOf(ancle_4));
+//        editText_ancle5.setText(String.valueOf(ancle_5));
 
 
     }

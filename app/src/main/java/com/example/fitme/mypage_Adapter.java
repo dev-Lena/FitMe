@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -36,7 +37,7 @@ public  class mypage_Adapter extends RecyclerView.Adapter<mypage_Adapter.FeedVie
     private OnItemClickListener mListener = null;
 
     // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public  void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;  // 전달된 객체를 저장할 변수 mListener 추가
     }
 
@@ -142,7 +143,7 @@ public  class mypage_Adapter extends RecyclerView.Adapter<mypage_Adapter.FeedVie
         ImageView imageView_reviewcard_img1, imageView_reviewcard_img2, imageView_reviewcard_img3, imageView_reviewcard_img4, imageView_reviewcard_img5;
         private feed_MainData data;
         private int position;
-        View mview;
+        CardView mview;
 
 
         public FeedViewHolder(@NonNull View itemView) {
@@ -168,6 +169,8 @@ public  class mypage_Adapter extends RecyclerView.Adapter<mypage_Adapter.FeedVie
                         if (mListener != null) {
                             mListener.onItemClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
                             Log.e("spinner 버튼이 mLister를 통해", "눌렸나요?");
+
+
 
 //                        feed_MainData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
 //                        notifyItemChanged(pos) ;

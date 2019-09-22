@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class insight extends AppCompatActivity {
+public class insight_item_skiny extends AppCompatActivity {
 /** 복사해서 만들어만 놓았음 수정해야함 **/
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
@@ -80,7 +80,8 @@ public class insight extends AppCompatActivity {
 //        something_to_save();
 //        set_text_again();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insight_result);
+        setContentView(R.layout.activity_insight_item_skiny);
+
 
 
 
@@ -90,21 +91,21 @@ public class insight extends AppCompatActivity {
         textView_bugGi = findViewById(R.id.textView_bugGi);
         textView_long = findViewById(R.id.textView_long);
         textView_ancle = findViewById(R.id.textView_ancle);
-// 스키니
+
         textView_waist1 = findViewById(R.id.textView_waist1);
         textView_sero1 = findViewById(R.id.textView_sero1);
         textView_hip1 = findViewById(R.id.textView_hip1);
         textView_bugGi1 = findViewById(R.id.textView_bugGi1);
         textView_long1 = findViewById(R.id.textView_long1);
         textView_ancle1 = findViewById(R.id.textView_ancle1);
-//스트레이트
+
         textView_waist2 = findViewById(R.id.textView_waist2);
         textView_sero2 = findViewById(R.id.textView_sero2);
         textView_hip2 = findViewById(R.id.textView_hip2);
         textView_bugGi2 = findViewById(R.id.textView_bugGi2);
         textView_long2 = findViewById(R.id.textView_long2);
         textView_ancle2 = findViewById(R.id.textView_ancle2);
-//와이드
+
         textView_waist3 = findViewById(R.id.textView_waist3);
         textView_sero3 = findViewById(R.id.textView_sero3);
         textView_hip3 = findViewById(R.id.textView_hip3);
@@ -160,28 +161,28 @@ public class insight extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.action_home :
-                        Intent home_intent = new Intent(insight.this,feed.class);
+                        Intent home_intent = new Intent(insight_item_skiny.this,feed.class);
                         home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
 //                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
-                        Intent search_intent = new Intent(insight.this,searching.class);
+                        Intent search_intent = new Intent(insight_item_skiny.this,searching.class);
                         search_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(search_intent);//액티비티 띄우기
                         break;
                     case R.id.action_insight :
-                        Intent write_intent = new Intent(insight.this,insight.class);
+                        Intent write_intent = new Intent(insight_item_skiny.this, insight_item_skiny.class);
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(insight.this,MainActivity.class);
+                        Intent insight_intent = new Intent(insight_item_skiny.this,MainActivity.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :
-                        Intent mycloset_intent = new Intent(insight.this, mypage.class);
+                        Intent mycloset_intent = new Intent(insight_item_skiny.this, mypage.class);
                         mycloset_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(mycloset_intent);//액티비티 띄우기
                         break;
@@ -207,7 +208,7 @@ public class insight extends AppCompatActivity {
         if (requestCode == 5001 && resultCode == RESULT_OK) {
 
 
-            Toast.makeText(insight.this, "사이즈 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(insight_item_skiny.this, "사이즈 작성을 완료했습니다!", Toast.LENGTH_SHORT).show();
 
             // 인텐트로 edit에서 사용자가 입력한 내용을 가져와서
 // 1번정보
@@ -250,18 +251,18 @@ public class insight extends AppCompatActivity {
             int total_waist = (waist1+waist2+waist3+waist4+waist5)/5;
             int skiny = total_waist  -1;
 
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장1 : " + long1);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장2 : " + long2);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장3 : " + long3);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 4: " + long4);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장5: " + long5);
-            Log.e("[insight] sizeShared 쉐어드에서", " 토탈 기장 공식 : (waist1+waist2+waist3+waist4+waist5)/5" + total_waist);
+            Log.e("[insight] sizeShared 쉐어드에서", " 허리 : " + waist1);
+            Log.e("[insight] sizeShared 쉐어드에서", " 허리2 : " + waist2);
+            Log.e("[insight] sizeShared 쉐어드에서", " 허리3 : " + waist3);
+            Log.e("[insight] sizeShared 쉐어드에서", " 허리 4: " + waist4);
+            Log.e("[insight] sizeShared 쉐어드에서", " 허리 5: " + waist5);
+            Log.e("[insight] sizeShared 쉐어드에서", " 토탈 허리 공식 : (waist+waist2+waist3+waist4+waist5)/5;" + total_waist);
             textView_waist.setText(String.valueOf(total_waist));
             // 스키니,와이드, 일자, 하이웨스트
             textView_waist1.setText(String.valueOf(skiny));
             textView_waist2.setText(String.valueOf(total_waist));
             textView_waist3.setText(String.valueOf(total_waist));
-//            textView_waist4.setText(String.valueOf(total_waist));
+            textView_waist4.setText(String.valueOf(total_waist));
 
             int total_sero = (sero1+sero2+sero3+sero4+sero5)/5;
             int skiny_sero = total_sero -1;
@@ -277,7 +278,7 @@ public class insight extends AppCompatActivity {
             textView_sero1.setText(String.valueOf(skiny_sero));
             textView_sero2.setText(String.valueOf(total_sero));
             textView_sero3.setText(String.valueOf(total_sero));
-//            textView_sero4.setText(String.valueOf(high_sero));
+            textView_sero4.setText(String.valueOf(high_sero));
 
 
             int total_hip = (hip1+hip2+hip3+hip4+hip5)/5;
@@ -294,7 +295,7 @@ public class insight extends AppCompatActivity {
             textView_hip1.setText(String.valueOf(skiny_hip));
             textView_hip2.setText(String.valueOf(wide_hip));
             textView_hip3.setText(String.valueOf(total_hip));
-//            textView_hip4.setText(String.valueOf(total_hip));
+            textView_hip4.setText(String.valueOf(total_hip));
 
             int total_bugGi = (bugGi1+bugGi2+bugGi3+bugGi4+bugGi5)/5;
             int skiny_bugGi = total_bugGi- 2;
@@ -310,25 +311,25 @@ public class insight extends AppCompatActivity {
             textView_bugGi1.setText(String.valueOf(skiny_bugGi));
             textView_bugGi2.setText(String.valueOf(wide_bugGi));
             textView_bugGi3.setText(String.valueOf(total_bugGi));
-//            textView_bugGi4.setText(String.valueOf(total_bugGi));
+            textView_bugGi4.setText(String.valueOf(total_bugGi));
 
 
-            int total_longlong = (long1+long2+long3+long4+long5)/5;
+            int total_longlong = (longlong1+longlong2+longlong3+longlong4+longlong5)/5;
             int skiny_long = total_longlong - 1;
             int long_long = total_longlong +1;
             int high_long =total_longlong+4;
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 : " + long1);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 2 : " + long2);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 3 : " + long3);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 4: " + long4);
-            Log.e("[insight] sizeShared 쉐어드에서", " 기장 5: " + long5);
+            Log.e("[insight] sizeShared 쉐어드에서", " 기장 : " + longlong1);
+            Log.e("[insight] sizeShared 쉐어드에서", " 기장 2 : " + longlong2);
+            Log.e("[insight] sizeShared 쉐어드에서", " 기장 3 : " + longlong3);
+            Log.e("[insight] sizeShared 쉐어드에서", " 기장 4: " + longlong4);
+            Log.e("[insight] sizeShared 쉐어드에서", " 기장 5: " + longlong5);
             Log.e("[insight] sizeShared 쉐어드에서", " 토탈 기장 공식 : (waist+waist2+waist3+waist4+waist5)/5;" + total_longlong);
             textView_long.setText(String.valueOf(total_longlong));
             // 스키니,와이드, 일자, 하이웨스트
             textView_long1.setText(String.valueOf(skiny_long));
             textView_long2.setText(String.valueOf(long_long));
             textView_long3.setText(String.valueOf(total_longlong));
-//            textView_long4.setText(String.valueOf(high_long));
+            textView_long4.setText(String.valueOf(high_long));
 
 
             int total_ancle = (ancle1+ancle2+ancle3+ancle4+ancle5)/5;
@@ -346,8 +347,24 @@ public class insight extends AppCompatActivity {
             textView_ancle1.setText(String.valueOf(skiny_ancle));
             textView_ancle2.setText(String.valueOf(wide_ancle));
             textView_ancle3.setText(String.valueOf(straight_ancle));
-//            textView_ancle4.setText(String.valueOf(total_ancle));
-//            TextView text_view_fitname = findViewById(R.id. text_view_fitname);
+            textView_ancle4.setText(String.valueOf(total_ancle));
+            TextView text_view_fitname = findViewById(R.id. text_view_fitname);
+//            String image_view = "";
+//
+//            text_view_fitname.setText("스키니핏");
+//
+//            Picasso.get().load().fit().centerInside().into(image_view);
+//
+//            InsightItemData insightItemData = new InsightItemData( text_view_fitname,  textView_waist,  textView_sero,  textView_bugGi,  textView_long,  image_view,  textView_ancle);
+
+//            feed_MainData AA = new feed_MainData(textView_shoppingmall_url,textView_detailed_review_card,float_ratingBar,textView_hashtag,review_date,textView_review_writer,textView_reviewcard_number,textView_nickname,textView_mysize,imageView_reviewcard_img1,imageView_reviewcard_profile_image);
+//            insight_arrayList.add(insightItemData);  //리사이클러뷰의 arrayList에 아이템 추가
+//
+//
+//            insightAdapter.notifyDataSetChanged();  // 새로고침
+
+
+            // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
 
 
             sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
@@ -453,7 +470,7 @@ public class insight extends AppCompatActivity {
             textView_waist1.setText(String.valueOf(skiny));
             textView_waist2.setText(String.valueOf(total_waist));
             textView_waist3.setText(String.valueOf(total_waist));
-
+            textView_waist4.setText(String.valueOf(total_waist));
 
             int sero = sizeShared.getInt("밑위", 0);
             int sero_2 = sizeShared.getInt("밑위2", 0);
@@ -474,7 +491,7 @@ public class insight extends AppCompatActivity {
             textView_sero1.setText(String.valueOf(skiny_sero));
             textView_sero2.setText(String.valueOf(total_sero));
             textView_sero3.setText(String.valueOf(total_sero));
-
+            textView_sero4.setText(String.valueOf(high_sero));
 
 
             int hip = sizeShared.getInt("엉덩이", 0);
@@ -496,7 +513,7 @@ public class insight extends AppCompatActivity {
             textView_hip1.setText(String.valueOf(skiny_hip));
             textView_hip2.setText(String.valueOf(wide_hip));
             textView_hip3.setText(String.valueOf(total_hip));
-
+            textView_hip4.setText(String.valueOf(total_hip));
 
 
             int bugGi = sizeShared.getInt("허벅지", 0);
@@ -518,7 +535,7 @@ public class insight extends AppCompatActivity {
             textView_bugGi1.setText(String.valueOf(skiny_bugGi));
             textView_bugGi2.setText(String.valueOf(wide_bugGi));
             textView_bugGi3.setText(String.valueOf(total_bugGi));
-
+            textView_bugGi4.setText(String.valueOf(total_bugGi));
 
 
             int longlong = sizeShared.getInt("기장", 0);
@@ -541,7 +558,7 @@ public class insight extends AppCompatActivity {
             textView_long1.setText(String.valueOf(skiny_long));
             textView_long2.setText(String.valueOf(long_long));
             textView_long3.setText(String.valueOf(total_longlong));
-
+            textView_long4.setText(String.valueOf(high_long));
 
             int ancle = sizeShared.getInt("밑단", 0);
             int ancle_2 = sizeShared.getInt("밑단2", 0);
@@ -563,7 +580,7 @@ public class insight extends AppCompatActivity {
             textView_ancle1.setText(String.valueOf(skiny_ancle));
             textView_ancle2.setText(String.valueOf(wide_ancle));
             textView_ancle3.setText(String.valueOf(straight_ancle));
-
+            textView_ancle4.setText(String.valueOf(total_ancle));
 
 
         }
@@ -654,7 +671,18 @@ public class insight extends AppCompatActivity {
 
 //                    String namename5 = jsonObject.getString("바지이름5");
 //                    Log.e("login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename5);
-
+                    waistwaist5 = jsonObject.getInt("허리5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 waistwaist5 : " + waistwaist5);
+                    serosero5 = jsonObject.getInt("밑위5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 serosero5 : " + serosero5);
+                    hiphip5 = jsonObject.getInt("엉덩이5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 hiphip5 : " + hiphip5);
+                    bugGibugGi5 = jsonObject.getInt("허벅지5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 bugGibugGi5 : " + bugGibugGi5);
+                    longlong5 = jsonObject.getInt("기장5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 longlong5 : " + longlong5);
+                    ancleancle5 = jsonObject.getInt("밑단5");
+                    Log.e("insight", "sharedPreferences에서 저장된 가져오기 ancleancle5 : " + ancleancle5);
 
                 }
 
@@ -701,15 +729,15 @@ public class insight extends AppCompatActivity {
                 sizeShared_editor.putInt("허벅지4", bugGibugGi4);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
                 sizeShared_editor.putInt("기장4", longlong4);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
                 sizeShared_editor.putInt("밑단4", ancleancle4);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-//
-//                sizeShared_editor.putString( "바지이름5", namename5);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("허리5", waistwaist5);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("밑위5", serosero5);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("엉덩이5", hiphip5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("허벅지5", bugGibugGi5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("기장5", longlong5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-//                sizeShared_editor.putInt("밑단5", ancleancle5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-//
+
+                sizeShared_editor.putString( "바지이름5", namename5);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("허리5", waistwaist5);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("밑위5", serosero5);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("엉덩이5", hiphip5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("허벅지5", bugGibugGi5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("기장5", longlong5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
+                sizeShared_editor.putInt("밑단5", ancleancle5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
+
 
 
 

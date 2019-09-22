@@ -28,5 +28,6 @@
     <string name="checkbox">com.example.fitme.checkbox</string>
     <string name="email">com.example.fitme.name</string>
     <string name="password">com.example.fitme.password</string>
+    <string name="web">web</string>
 
 </resources>

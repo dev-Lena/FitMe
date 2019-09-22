@@ -14,14 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-
-
-
-/**ExampleAdapter와 ExampleItem, MainActivity, DetailActivity 자바 클래스는 네이버 Shop API 한세트임**/
-
-public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
+public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.ExampleViewHolder> {
 private Context mContext;
-private ArrayList<ExampleItem> mExampleList;
+private ArrayList<InsightItemData> insight_arrayList;
 private OnItemClickListener mListener;
 
 public interface OnItemClickListener {
@@ -32,9 +27,9 @@ public interface OnItemClickListener {
         mListener = listener;
     }
 
-    public ExampleAdapter(Context context, ArrayList<ExampleItem> exampleList) {
+    public InsightAdapter(Context context, ArrayList<InsightItemData> insightarrayList) {
         mContext = context;
-        mExampleList = exampleList;
+        insight_arrayList = insightarrayList;
     }
     @NonNull
     @Override
@@ -48,29 +43,31 @@ public interface OnItemClickListener {
 
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
-        ExampleItem currentItem = mExampleList.get(position);
+        InsightItemData insightItemData = insight_arrayList.get(position);
 
 
 // 이거 참고해서 바꾸기 : String title, String link, String image, String mallName, int lprice, int hprice
 
-        String title = currentItem.getTitle();
-        String link = currentItem.getLink();
-        String image = currentItem.getImage();
-        String mallName = currentItem.getMallName();
-        String lprice = currentItem.getLprice();
-        String hprice = currentItem.getHprice();
+        String title = insightItemData.getTextView_waist();
+        String link = insightItemData.getTextView_sero();
+        String image = insightItemData.getTextView_long();
+        String mallName = insightItemData.getTextView_bugGi();
+        String lprice = insightItemData.getTextView_ancle();
+        String hprice = insightItemData.getText_view_fitname();
+        String image_view = insightItemData.getImage_view();
 
-        holder.text_view_title.setText(title);
-        holder.text_view_link.setText("링크 : " + link);
-        holder.text_view_mallName.setText(mallName);
-        holder.text_view_lPrice.setText(lprice);
-        holder.text_view_HPrice.setText(hprice);
+        holder.text_view_fitname.setText(title);
+        holder.textView_waist.setText("링크 : " + link);
+        holder.textView_sero.setText(mallName);
+        holder.textView_bugGi.setText(lprice);
+        holder.textView_long.setText(hprice);
+        holder.textView_ancle.setText(hprice);
         Picasso.get().load(image).fit().centerInside().into(holder.image_view);
     }
 
     @Override
     public int getItemCount() {
-        return mExampleList.size();
+        return insight_arrayList.size();
     }
 
 public class ExampleViewHolder extends RecyclerView.ViewHolder {
@@ -81,16 +78,18 @@ public class ExampleViewHolder extends RecyclerView.ViewHolder {
     //text_view_lPrice
     //text_view_HPrice
     public ImageView image_view;
-    public TextView text_view_link,text_view_title,text_view_mallName,text_view_lPrice,text_view_HPrice;
+    public TextView text_view_fitname,textView_waist,textView_sero,textView_bugGi,textView_long, textView_ancle;
 
     public ExampleViewHolder(View itemView) {
         super(itemView);
         image_view = itemView.findViewById(R.id.image_view);
-        text_view_link = itemView.findViewById(R.id.text_view_link);
-        text_view_title = itemView.findViewById(R.id.text_view_title);
-        text_view_mallName = itemView.findViewById(R.id.text_view_mallName);
-        text_view_lPrice = itemView.findViewById(R.id.text_view_lPrice);
-        text_view_HPrice = itemView.findViewById(R.id.text_view_HPrice);
+        text_view_fitname = itemView.findViewById(R.id.text_view_fitname);
+        textView_waist = itemView.findViewById(R.id.textView_waist);
+        textView_sero = itemView.findViewById(R.id.textView_sero);
+        textView_bugGi = itemView.findViewById(R.id.textView_bugGi);
+        textView_long = itemView.findViewById(R.id.textView_long);
+        textView_ancle = itemView.findViewById(R.id.textView_ancle);
+
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

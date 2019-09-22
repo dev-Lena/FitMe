@@ -61,7 +61,7 @@
           android:id="@+id/imageButton_searching"
           android:layout_width="50dp"
           android:layout_height="50dp"
-          android:background="@color/colorWhite"
+          android:background="@null"
           android:clickable="false"
           app:layout_constraintBottom_toTopOf="@+id/guideline17"
           app:layout_constraintStart_toEndOf="@+id/editText_searching"
