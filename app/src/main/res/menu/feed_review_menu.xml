@@ -6,6 +6,12 @@
         android:enabled="true"
         android:icon="@drawable/ic_create_black_24dp"
         android:title="수정하기" />
+
+    <item
+        android:id="@+id/action_share"
+        android:enabled="true"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="공유하기" />
     <item
         android:id="@+id/action_delete"
         android:enabled="true"
@@ -13,11 +19,6 @@
         android:title="삭제하기" />
 
 
-    <item
-        android:id="@+id/action_share"
-        android:enabled="true"
-        android:icon="@drawable/ic_share_black_24dp"
-        android:title="공유하기" />
 
 
 <!--    app:showAsAction="never"-->

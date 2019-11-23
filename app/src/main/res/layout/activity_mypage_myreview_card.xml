@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
-    tools:context=".feed">
+    tools:context=".Feed_Main_Activity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/mypage_myreview_card"

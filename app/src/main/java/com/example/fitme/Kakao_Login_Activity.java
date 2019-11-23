@@ -23,11 +23,7 @@ public class Kakao_Login_Activity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_login);
-//
-//        callback = new SessionCallback();
-//        Session.getCurrentSession().addCallback(callback);
-//        Session.getCurrentSession().checkAndImplicitOpen();
+
     }
 
     @Override
@@ -61,7 +57,7 @@ public class Kakao_Login_Activity extends Activity {
     }
 
     protected void redirectSignupActivity() {
-        final Intent intent = new Intent(this, sign_up.class);
+        final Intent intent = new Intent(this, Sign_up_Activity.class);
         startActivity(intent);
         finish();
     }

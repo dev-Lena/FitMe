@@ -12,6 +12,8 @@ import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
 public class GlobalApplication extends Application {
+    // 자동로그인시 사용하는 kakao API Adapter 클래스
+
     public static Context mContext;
 
     private static volatile GlobalApplication obj = null;
@@ -25,16 +27,7 @@ public class GlobalApplication extends Application {
         KakaoSDK.init(new KakaoSDKAdapter());
 
     }
-//여기서부터
-    public static Activity getCurrentActivity() {
-        return currentActivity;
-    }
 
-    // Activity가 올라올때마다 Activity의 onCreate에서 호출해줘야한다.
-    public static void setCurrentActivity(Activity currentActivity) {
-        GlobalApplication.currentActivity = currentActivity;
-    }
-//여기까지 지우기
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**

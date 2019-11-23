@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_fitme_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login">
+        <activity android:name=".Login">
 
 <!--             <intent-filter>-->
 <!--             <action android:name="android.intent.action.MAIN" />-->
@@ -22,7 +22,7 @@
 <!--             <category android:name="android.intent.category.LAUNCHER" />-->
 <!--             </intent-filter>-->
         </activity>
-        <activity android:name=".feed">
+        <activity android:name=".Feed_Main_Activity">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -40,12 +40,9 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".bookmarked_review" />
-        <activity android:name=".follow" />
-        <activity android:name=".hashtag" />
-        <activity android:name=".following" />
-        <activity android:name=".edit_profile" />
-        <activity android:name=".mypage">
+        <activity android:name=".Bookmarked_review" />
+        <activity android:name=".Edit_Profile" />
+        <activity android:name=".Mypage_Activity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -54,37 +51,35 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".edit_review" />
-        <activity android:name=".write_review" />
-        <activity android:name=".myreview" />
-        <activity android:name=".searching" />
-        <activity android:name=".searching_result" />
-        <activity android:name=".sign_up" />
-        <activity android:name=".Shopping_insight" />
-        <activity android:name=".image_searching" />
-        <activity android:name=".timesale" >
+        <activity android:name=".Edit_Review" />
+        <activity android:name=".Write_review_Activity" />
+        <activity android:name=".Myreview_Activity" />
+        <activity android:name=".Review_searching_Activity" />
+        <activity android:name=".Review_searching_Result" />
+        <activity android:name=".Sign_up_Activity" />
+        <activity android:name=".Image_Searching" />
+        <activity android:name=".Timesale_Activity" >
 
         </activity>
-        <activity android:name=".DetailActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".size_bottom" />
-        <activity android:name=".size_dress" />
-        <activity android:name=".comment" />
-        <activity android:name=".insight" />
-        <activity android:name=".insight_edit" />
-        <activity android:name=".reviewcard_plus" />
-        <activity android:name=".first_main">
+        <activity android:name=".Naver_Search_Shop_Detail"></activity>
+        <activity android:name=".Naver_Search_Shop_Main"></activity>
+        <activity android:name=".Size_bottom" />
+        <activity android:name=".Size_dress" />
+        <activity android:name=".Comment_Activity" />
+        <activity android:name=".Size_Recommendation_Activity" />
+        <activity android:name=".Size_Recommendation_Edit" />
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlarmActivity"/>
-        <receiver android:name=".AlarmReceiver"
+        <activity android:name=".Alarm_Activity"/>
+        <receiver android:name=".Alarm_Receiver"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".AlarmService"
+        <service android:name=".Alarm_Service"
             android:enabled="true"/>
         <activity
         android:name=".Kakao_Login_Activity">
