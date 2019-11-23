@@ -59,14 +59,10 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
     private SharedPreferences myreviewShared;
     private SharedPreferences.Editor myreviewShared_editor;
 
-    public static String testkey;
+    public static String testkey; // 피드의 리뷰 리사이클러뷰 아이템 고유번호
     /// 삭제할 때 비교할 아이템 포지션 위치
-    static int width ;
-    static int height ;// 리뷰 아이템하나의 폭과 높이
-
     // 뷰 객체들
     MenuItem action_write_review; // -> 하단 바에 있는 리뷰 작성 버튼
-    //    ImageButton imageButton_review_register;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     BottomNavigationView bottomNavigationMenu; // 바텀 네이게이션 메뉴  -> 하단바
     ImageView imageView_notification, imageView_reviewcard_img1;
@@ -80,14 +76,10 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
     private SharedPreferences.Editor editor;
 
     /**
-     * 리사이클러뷰에 필요한 기본 객체 선언
+     * 리사이클러뷰
      **/
 
     ArrayList<Feed_Main_ItemData> arrayList, bookmarked_arrayList, myreview_arrayList;
-//    public static ArrayList<Feed_Main_ItemData> arrayList, bookmarked_arrayList, myreview_arrayList;
-    //    ArrayList<Feed_Main_ItemData> myreview_arrayList = new ArrayList<>();
-//    ArrayList<Feed_Main_ItemData> myreview_arrayList;
-//    public static Feed_Main_Adapter feedMain_adapter;
     Feed_Main_Adapter feedMain_adapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -99,12 +91,9 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
     String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
     String textView_shoppingmall_url;
 
-//    SwipeRefreshLayout swipeRefreshLo;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-
-//        swipeRefreshLo = findViewById(R.id.swipeRefreshLo);
 
 // 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
 
@@ -118,7 +107,6 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
 
         //feed_MainData에서 받게되는 데이터를 어레이 리스트화 시킨다.
         loadData();  // sharedpreference에 저장한 arrayList (리사이클러뷰)를 가지고 옴. onCreate 밖에 메소드 만들어줌
-//        arrayList = new ArrayList<>();
         if(arrayList == null){  // 계정을 처음 만들 때 arrayList가 비지 않도록 피드 리사이클러뷰에 아무것도 없으면 만들어라
             if (textView_shoppingmall_url == null){
                 textView_shoppingmall_url = "www.femmemuse.co.kr";
@@ -132,25 +120,19 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
         // 피드에 들어가는 리사이클러뷰를 저장한 키값은 "feed_recyclerview"
         Log.e("Feed_Main_Activity 클래스에서(loadData)", "sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :" + arrayList);
 
-
-        Log.e("Feed_Main_Activity", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
 
         imageView_notification = findViewById(R.id.imageView_notification);  // 알림 (내 소식))
 
-        /**여기서부터 리사이클러뷰 만들기**/
+        /**리사이클러뷰**/
 
         recyclerView = (RecyclerView) findViewById(R.id.feed_recyclerView);
 
         linearLayoutManager = new LinearLayoutManager(this);
-//        //즉각
-//        LinearLayoutManager mlayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-//        linearLayoutManager.scrollToPositionWithOffset(0, 0);
         linearLayoutManager.setReverseLayout(true); // 최신순으로 리사이클러뷰 아이템 추가.
-//        recyclerView.setHasFixedSize(true);//각 아이템이 보여지는 것을 일정하게
         recyclerView.setLayoutManager(linearLayoutManager);
 
         // 피드 리사이클러뷰 맨 위부터 보여주기
@@ -168,55 +150,24 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
 
 
 
-//
-//        //부드럽게 올라가는거
-//        recyclerView.smoothScrollToPosition(0);
-
 
         feedMain_adapter = new Feed_Main_Adapter(arrayList, this);//앞서 만든 리스트를 어뎁터에 적용시켜 객체를 만든다.
         recyclerView.setAdapter(feedMain_adapter);// 그리고 만든 객체를 리싸이클러뷰에 적용시킨다.
 
-// Allows to remember the last item shown on screen
-//
-// 위로 올림
-//// 피드 메인 화면에 "닉네임 님 이런 리뷰는 어떠세요?"에 현재 로그인한 회원의 닉네임 적기
-//
-//        logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//        String feed_id = logined_user.getString("user_nickname", "");
-//        Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 닉네임 넣기 : " + feed_id);
         textView_feed_id = findViewById(R.id.textView_feed_id);
         textView_feed_id.setText(feed_id);
-
-
-// Swipe를 통해서 삭제하기 위해서 ItemTouchHelper를 사용했는데 이곳에 객체 선언 -> 뒤에 ItemTouchHelper 메소드 있음.
-//        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
-
-// 리사이클러뷰 수정 // 클릭하면 수정 화면 열리고 수정한 데이터를 인텐트로 가지고 오는 것.
-// 리사이클러뷰 수정에서 Adpater에서 커스텀한 클릭이벤트를 인터페이스로 가지고 와서 여기서 intent로 받아올 것.
-        // 액티비티에서 커스텀 리스너 객체 생성 및 전달
-
-
-
-
 
 
         // 리사이클러뷰 아이템에 있는 우측 상단 다이얼로그 메뉴 누르는 클릭 리스너
         feedMain_adapter.setOnItemClickListener(new Feed_Main_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
-// TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
-// 리사이클러뷰 수정
-// 다이얼로그
-
-                /** 여기에 로그인한 회원과 작성자와의 일치 여부에 따라 다른 메뉴가 보이도록 if  조건문 걸어주기. **/
-
 
                 // 리뷰 아이템의 작성자와 현재 로그인한 회원의 이메일이 같을 때
                 // -> 수정, 삭제, 공유가 가능한 메뉴를 띄워라
                 if (arrayList.get(position).textView_review_writer.equals(logined_user.getString("user_email", ""))) {
 
-// 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
+                // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                     PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
 
                     getMenuInflater().inflate(R.menu.feed_review_menu, popup.getMenu());
@@ -253,12 +204,8 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
                                     // 위치도 받아와야 수정한 데이터를 받아왔을 때 어떤 position에 있는 아이템에 set 해줄 건지 알려줄 수 있음
                                     startActivityForResult(intent, 2001);
 
-//// 확인 로고
-//                                Log.e("Feed_Main_Activity 클래스에서 이미지(수정) ", "이미지 : " + arrayList.get(position).imageView_reviewcard_img1);
-//                                Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중! ", "URL : " + arrayList.get(position).textView_detailed_review_card);
-//                                Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "기존에 있던 데이터가 넘어가나 확인중. DETAIL : " + arrayList.get(position).textView_detailed_review_card);
-//                                Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "startActivityForResult를 실행. requestCode 2001");
-                                    Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "textView_review_writer : " + arrayList.get(position).textView_review_writer);
+                                    // 확인 로그
+                                   Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "textView_review_writer : " + arrayList.get(position).textView_review_writer);
                                     Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "textView_reviewcard_number : " + arrayList.get(position).textView_reviewcard_number);
                                     Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "비교중 review_date : " + arrayList.get(position).review_date);
                                     Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중.", "review_date : " + review_date); // 둘이 같음
@@ -305,58 +252,6 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
                                         }
                                     });
 
-
-                                    // 스크랩 템플릿
-
-////                                  // 기본적인 스크랩 템플릿을 사용하여 보내는 코드
-//                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
-//                                    serverCallbackArgs.put("user_id", "${current_user_id}");
-//                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
-//                                    serverCallbackArgs.put("url", "${SCRAP_REQUEST_URL}");//스크랩 요청 URL
-//                                    serverCallbackArgs.put("url_title", "${SCRAP_TITLE}"); //요청 URL의 제목
-//                                    serverCallbackArgs.put("url_description", "${SCRAP_DESCRIPTION}"); //요청 URL의 설명
-//
-//                                    KakaoLinkService.getInstance().sendScrap
-//                                            (Feed_Main_Activity.this, "https://developers.kakao.com",
-//                                                    serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
-//                                        @Override
-//                                        public void onFailure(ErrorResult errorResult) {
-//                                            Logger.e(errorResult.toString());
-//                                        }
-//
-//                                        @Override
-//                                        public void onSuccess(KakaoLinkResponse result) {
-//                                            // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
-//
-//                                        }
-//                                    });
-
-                                    //커스텀 스크랩 템플릿
-
-                                    // 커스터마이즈된 템플릿과 템플릿을 채울 args들을 사용하여 보내는 코드
-//                                    String templateId = "18220";
-//// 커스터마이즈된 템플릿과 템플릿을 채울 args들을 사용하여 보내는 코드
-//
-//                                    Map<String, String> templateArgs = new HashMap<String, String>();
-//                                    templateArgs.put("template_arg1", "value1");
-//                                    templateArgs.put("template_arg2", "value2");
-//
-//                                    Map<String, String> serverCallbackArgs = new HashMap<String, String>();
-//                                    serverCallbackArgs.put("user_id", "${current_user_id}");
-//                                    serverCallbackArgs.put("product_id", "${shared_product_id}");
-//
-//                                    KakaoLinkService.getInstance().sendScrap(this, "https://developers.kakao.com",
-//                                            templateId, tempateArgs, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
-//                                        @Override
-//                                        public void onFailure(ErrorResult errorResult) {
-//                                            Logger.e(errorResult.toString());
-//                                        }
-//
-//                                        @Override
-//                                        public void onSuccess(KakaoLinkResponse result) {
-//                                            // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
-//                                        }
-//                                    });
                                     break;
                                 default:
                                     break;
@@ -429,8 +324,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
             public void onCommentClick(View v, int position) {
                 Intent comment_intent = new Intent(Feed_Main_Activity.this, Comment_Activity.class);
                 String review_uniq = feedMain_adapter.getItem(position).getTextView_reviewcard_number();
-//                comment_intent.putExtra("포지션", review_uniq);
-//                comment_intent.putExtra("프로필", position);
+
                 comment_intent.putExtra("포지션", position);
                 comment_intent.putExtra("댓글작성한리뷰의고유번호", review_uniq);
                 comment_intent.putExtra("프로필", arrayList.get(position).imageView_reviewcard_profile_image);
@@ -444,7 +338,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 북마크 버튼을 눌렀을 때
             public void onBookmarkClick(View v, int position) {
                 // 해당 아이템이 Bookmarked_review 리사이클러뷰에 추가되어야 함.
-//                bookmarked_arrayList = new ArrayList<>();
+
                 // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
 
                 // bookmarked_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
@@ -961,14 +855,14 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
 
 
 //확인 로그
-            Log.e("작성시간", review_date + "작성시간을 가져왔습니다!!!!!!!!!");
+            Log.e("작성시간", review_date + "작성시간을 가져왔습니다");
             Log.e("쇼핑몰URL", textView_shoppingmall_url + "수정한 쇼핑몰URL 가져왔습니다");
             Log.e("상세리뷰", textView_detailed_review_card + "수정한 상세리뷰 가져왔습니다");
             Log.e("해시태그", textView_hashtag + "수정한 해시태그 가져왔습니다");
-            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다!!!!!!!");
-            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다!!!!!!!!!");
-            Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다!!!!!!!!!");
-            Log.e("Feed_Main_Activity 클래스에서 onActivityResult", " '리뷰이미지' ++++++++++++++++++++++++ :" + imageView_reviewcard_img1);
+            Log.e("만족도", float_ratingBar + "만족도를 가져왔습니다");
+            Log.e("작성자", textView_hashtag + "작성자를 가져왔습니다");
+            Log.e("리뷰고유번호", textView_hashtag + "리뷰고유번호를 가져왔습니다");
+            Log.e("Feed_Main_Activity 클래스에서 onActivityResult", " '리뷰이미지' :" + imageView_reviewcard_img1);
 
             final int ps = data.getIntExtra("POSITION", 0000);
             Log.e("위치값", ps + " 위치값을 가지고 왔습니다");
@@ -976,7 +870,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
             Feed_Main_ItemData feed_Main_ItemData = new Feed_Main_ItemData(textView_shoppingmall_url, textView_detailed_review_card,
                     float_ratingBar, textView_hashtag, review_date, textView_review_writer, textView_reviewcard_number,
                     textView_nickname, textView_mysize, imageView_reviewcard_img1, imageView_reviewcard_profile_image);
-            Log.e("edit", "ArryaList 중 이곳에 데이터를 넣을껍니다 imageView_reviewcard_img1 : +++++++++++++++++++++++++++++++++" + imageView_reviewcard_img1);
+            Log.e("edit", "ArryaList 중 이곳에 데이터 넣기 imageView_reviewcard_img1 : " + imageView_reviewcard_img1);
             arrayList.set(ps, feed_Main_ItemData);
 
 

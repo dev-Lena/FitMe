@@ -52,7 +52,7 @@ public  class Feed_Main_Adapter extends RecyclerView.Adapter<Feed_Main_Adapter.F
 
     private Context mContext;  // 이미지 Context 를 활용해서 넣기 위해 추가
     private ArrayList<Feed_Main_ItemData> arrayList, searchingarrayList;//
-    private ArrayList<Horizontal_ItemData> Image_List;
+
 
     //리사이클러뷰 아이템 펼치기 -> 정해진 hight만큼 펼쳐짐
     // Item의 클릭 상태를 저장할 array 객체

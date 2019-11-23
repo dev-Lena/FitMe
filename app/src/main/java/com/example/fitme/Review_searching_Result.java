@@ -69,7 +69,7 @@ public class Review_searching_Result extends AppCompatActivity {
                         startActivity(write_intent);//액티비티 띄우기
                         break;
                     case R.id.action_notification :
-                        Intent insight_intent = new Intent(Review_searching_Result.this,Shopping_insight.class);
+                        Intent insight_intent = new Intent(Review_searching_Result.this,Naver_Search_Shop_Main.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;
                     case R.id.action_mypage :
