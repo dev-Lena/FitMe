@@ -15,7 +15,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class Image_Searching_Adapter extends RecyclerView.Adapter<Image_Searching_Adapter.ExampleViewHolder> {
-private Context mContext;
+    /**
+     * pixabay API를 활용한 이미지 검색 (리사이클러뷰) - 어댑터
+     **/
+
+    private Context mContext;
 private ArrayList<Image_Searching_ItemData> imageSearchItemList;
 private OnItemClickListener mListener;
 
@@ -34,7 +38,7 @@ public interface OnItemClickListener {
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.naver_search_shop_preview, parent, false);
         return new ExampleViewHolder(v);
     }
 

@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mypage_Activity extends AppCompatActivity {
-
+    /**
+     * 마이페이지 (내가 쓴 리뷰 미리보기 -> 리사이클러뷰) - 액티비티
+     **/
 
 // 카카오톡으로 로그인한 정보 가지고 오는 중
     String email = "";
@@ -58,34 +60,21 @@ public class Mypage_Activity extends AppCompatActivity {
 //mypage_recyclerview
     private ArrayList<List> userData= new ArrayList<List>();
     /**
-     * 리사이클러뷰에 필요한 기본 객체 선언
+     * 리사이클러뷰
      **/
 
     ArrayList<Feed_Main_ItemData> mypage_arrayList, arrayList, bookmarked_arrayList, myreview_arrayList;
-    //    public static ArrayList<Feed_Main_ItemData> arrayList, bookmarked_arrayList, myreview_arrayList;
-    //    ArrayList<Feed_Main_ItemData> myreview_arrayList = new ArrayList<>();
-//    ArrayList<Feed_Main_ItemData> myreview_arrayList;
-//    public static Feed_Main_Adapter feedMain_adapter;
     Mypage_Adapter mypage_adapter;
     RecyclerView mypage_recyclerview;
     GridLayoutManager GridlayoutManager;
 
 
 
-    private Context context;
-
-    String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
-    String textView_reviewcard_number;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
-    String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
-    String textView_shoppingmall_url;
-
-
-    ViewGroup linearLayout6, linearLayout7,linearLayout5 , linearLayout3 ; // 내 리뷰 :linearLayout6, 북마크 : linearLayout7, 팔로우 : linearLayout5, 팔로잉 linearLayout3
-    Button  button_logout, button_myreview, button_edit_hashtag , button_edit_profile ;
+    ViewGroup linearLayout6, linearLayout7; // 내 리뷰 :linearLayout6, 북마크 : linearLayout7, 팔로우 : linearLayout5, 팔로잉 linearLayout3
+    Button  button_edit_profile ;
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
     TextView textview_myreview_nickname,textView_mypage_email, textView_nickname, textView_myreview_count,textView_bookmark_count,textView_follow,textView_following;
     ImageButton imageButton_mypage_menu;
-//    ImageView imageView_mypage_profileimage;
     Uri uri;
 
     @Override
@@ -96,9 +85,9 @@ public class Mypage_Activity extends AppCompatActivity {
         mypage_myreview_loadData(); // 마이페이지에서 보여줄 Grid 형식의 리사이클러뷰
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypage2);
+        setContentView(R.layout.activity_mypage);
 
-        /**여기서부터 리사이클러뷰 만들기**/
+        /**리사이클러뷰**/
 
         mypage_recyclerview = (RecyclerView) findViewById(R.id.mypage_recyclerview);
         GridlayoutManager = new GridLayoutManager(getApplicationContext(), 3); // 3칸으로 나눔
@@ -268,7 +257,7 @@ public class Mypage_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Mypage_Activity.this, Bookmarked_review.class);
+                Intent intent = new Intent(Mypage_Activity.this, Bookmarked_review_Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent); //액티비티 이동
             }
@@ -380,7 +369,7 @@ public class Mypage_Activity extends AppCompatActivity {
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Mypage_Activity.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기

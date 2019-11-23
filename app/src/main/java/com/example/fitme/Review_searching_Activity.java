@@ -159,7 +159,7 @@ public class Review_searching_Activity extends AppCompatActivity implements View
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Review_searching_Activity.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기

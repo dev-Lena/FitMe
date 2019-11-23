@@ -27,7 +27,8 @@ import java.util.List;
 
 public class Size_Recommendation_Edit extends AppCompatActivity {
     /**
-     * 복사해서 만들어만 놓았음 수정해야함
+     * my fit 내 청바지 상세 사이즈를 입력 하면 평균값을 구해 바지 스타일별(핏별 - ex 스키니진, 와이드진 등) 상세 사이즈(cm) 추천 (include 사용)
+     * - 내 청바지 상세 사이즈 수정하기 (ex  허리 70cm 등 )
      **/
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
@@ -44,7 +45,7 @@ public class Size_Recommendation_Edit extends AppCompatActivity {
     //String feed_id;
     TextView textView_nickname;
 
-    EditText editText_name1, editText_name2, editText_name3, editText_name4, editText_name5,
+    EditText
             editText_waist1, editText_waist2, editText_waist3, editText_waist4, editText_waist5,
             editText_sero1, editText_sero2, editText_sero3, editText_sero4, editText_sero5,
             editText_hip1, editText_hip2, editText_hip3, editText_hip4, editText_hip5,
@@ -74,12 +75,9 @@ public class Size_Recommendation_Edit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("follow", "onCreate");
-//        something_to_save();
-//        set_text_again();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insight_edit);
+        setContentView(R.layout.activity_myfit_edit);
 
-//        editText_name1 = findViewById(R.id.editText_name1);
         editText_waist1 = findViewById(R.id.editText_waist1);
         editText_sero1 = findViewById(R.id.editText_sero1);
         editText_hip1 = findViewById(R.id.editText_hip1);
@@ -87,7 +85,6 @@ public class Size_Recommendation_Edit extends AppCompatActivity {
         editText_long1 = findViewById(R.id.editText_long1);
         editText_ancle1 = findViewById(R.id.editText_ancle1);
 
-//        editText_name2 = findViewById(R.id.editText_name2);
         editText_waist2 = findViewById(R.id.editText_waist2);
         editText_sero2 = findViewById(R.id.editText_sero2);
         editText_hip2 = findViewById(R.id.editText_hip2);
@@ -95,29 +92,12 @@ public class Size_Recommendation_Edit extends AppCompatActivity {
         editText_long2 = findViewById(R.id.editText_long2);
         editText_ancle2 = findViewById(R.id.editText_ancle2);
 
-//        editText_name3 = findViewById(R.id.editText_name3);
         editText_waist3 = findViewById(R.id.editText_waist3);
         editText_sero3 = findViewById(R.id.editText_sero3);
         editText_hip3 = findViewById(R.id.editText_hip3);
         editText_bugGi3 = findViewById(R.id.editText_bugGi3);
         editText_long3 = findViewById(R.id.editText_long3);
         editText_ancle3 = findViewById(R.id.editText_ancle3);
-
-//        editText_name4 = findViewById(R.id.editText_name4);
-//        editText_waist4 = findViewById(R.id.editText_waist4);
-//        editText_sero4 = findViewById(R.id.editText_sero4);
-//        editText_hip4 = findViewById(R.id.editText_hip4);
-//        editText_bugGi4 = findViewById(R.id.editText_bugGi4);
-//        editText_long4 = findViewById(R.id.editText_long4);
-//        editText_ancle4 = findViewById(R.id.editText_ancle4);
-//
-////        editText_name5 = findViewById(R.id.editText_name5);
-//        editText_waist5 = findViewById(R.id.editText_waist5);
-//        editText_sero5 = findViewById(R.id.editText_sero5);
-//        editText_hip5 = findViewById(R.id.editText_hip5);
-//        editText_bugGi5 = findViewById(R.id.editText_bugGi5);
-//        editText_long5 = findViewById(R.id.editText_long5);
-//        editText_ancle5 = findViewById(R.id.editText_ancle5);
 
 
         /**sideShade의 사용자의 사이즈를 저장할 때 key 값을 현재 로그인한 회원의 email로 설정**/
@@ -136,17 +116,12 @@ public class Size_Recommendation_Edit extends AppCompatActivity {
         set_text_again();
 
 
-//        sizeShared_editor.commit();   //제출
-
 
         // 지금 보고있는 화면은 수정화면. 아래 버튼을 누르면 입력한 데이터가 저장되고 결과 화면으로 이동.
         button_myfit_save = (Button) findViewById(R.id.button_myfit_save);
         button_myfit_save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // 여기서 쉐어드에 저장해야 함.
-
 
 //1번정보
 //                name1 = editText_name1.getText().toString(); // 바지 이름
@@ -270,7 +245,7 @@ finish();
                         write_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification:
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Size_Recommendation_Edit.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
@@ -424,13 +399,10 @@ finish();
 
     }
 
-    //  혹시 모르니까 메소드로 만들어놓음 -> 저장된 값을 불러와서 원키 원벨류하는 중
     public void load_sizeShared() {
         sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
         sizeShared_editor = sizeShared.edit();
 
-//                SharedPreferences logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//                final String feed_id = logined_user.getString("user_nickname", "");
         String json = sizeShared.getString(feed_id, "");
         Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
@@ -565,78 +537,18 @@ finish();
                 sizeShared_editor.putInt("밑단5", ancleancle5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
 
 
-//
-//                sizeShared_editor.commit();   //제출
-//
-//
-//                String size_jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 user_jsondata라고 이름붙임.
-//                Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_jsondata 확인 중 : " + size_jsondata);
-//                save_in_Shared(size_jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-//                Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_writeArrayList(user_jsondata) 확인중 : " + size_jsondata);
-//                finish();
-//                overridePendingTransition(0,0);
-//                startActivity(getIntent());
-//                overridePendingTransition(0,0);
-/////////////////////////////
 
             } catch (JSONException e) {
-                // editText 로 입력한 이메일이 null 값이 아니면 = 무엇인가를 입력하면 -> 일단 쉐어드에 사용자가 입력한 이메일이 있는지 확인했는데 없음
                 e.printStackTrace();
-//                            Toast.makeText(Login.this, "아이디 정보가 없습니다", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(Size_Recommendation_Activity.this, "사이즈 데이터를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
             }
 
 
         }
-//하단바
 
-//
 
     }
 
 
-    public void save_in_Shared(String jsondata) {
-
-
-        if (data != null) {
-
-            // JSONArray 생성
-            sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
-            sizeShared_editor = sizeShared.edit();
-
-//            logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//            feed_id = logined_user.getString("user_email", "");
-//            Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 이메일 : " + feed_id);
-
-
-            for (int i = 0; i < data.size(); i++) {
-
-                // 리스트 아이템 하나씩 JSONArray 배열에 추가
-
-                JSONArray array = new JSONArray();
-                array.put(data.get(i));
-
-                Log.e("회원정보 확인하는 메소드", "확인중" + array.put(data.get(i)));
-            }
-//            for(Comment_ItemData item : commentArrayList){// item이라는 Comment_Activity Data를 잡고 commentArrayList 안을 순회하면서 비교하면서
-//                if(item.getReviewUniqueCode().equals(testkey)){ // if문 확인하면서 commnetData 가 갖고있는 아이템에서
-////            if(item.getReviewUniqueCode().equals(position)){
-//                    comment_show_arrayList.add(item);
-//                }
-
-
-            sizeShared_editor.putString(feed_id, jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-//            Log.e("saveArrayList 메소드","확인중" + editor.putString(feed_id,jsondata));
-            sizeShared_editor.commit();
-            Log.e("saveArrayList 메소드", "ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
-            Log.d("saveArrayList 메소드[확인 중]", "새로운 키에 저장되는지 원래 있던 키에 저장되는지 확인 필요");
-//
-//            finish();
-//            overridePendingTransition(0,0);
-//            startActivity(getIntent());
-//            overridePendingTransition(0,0);
-        }
-    }
 
 
     @Override

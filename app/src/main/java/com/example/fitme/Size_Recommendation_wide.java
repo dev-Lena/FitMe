@@ -20,15 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Size_Recommendation_wide extends AppCompatActivity {
-/** 복사해서 만들어만 놓았음 수정해야함 **/
+    /**
+     * my fit 내 청바지 사이즈를 입력 하면 평균값을 구해 바지 스타일별(핏별 - ex 스키니진, 와이드진 등) 상세 사이즈(cm) 추천 (include 사용)
+     * - 와이드진 : 추천 청바지 상세 사이즈 (ex - 허리 70 cm 등) 보여주는 액티비티
+     **/
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
 
@@ -81,7 +80,7 @@ public class Size_Recommendation_wide extends AppCompatActivity {
 //        something_to_save();
 //        set_text_again();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insight_item_wide);
+        setContentView(R.layout.activity_myfit_item_wide);
 
 
 
@@ -132,11 +131,6 @@ public class Size_Recommendation_wide extends AppCompatActivity {
         // sizeShared에 있는 데이터를 가지고 와서 setText해줌
 
 
-//        sizeShared_editor.commit();   //제출
-
-
-
-
         //frameLayout 버튼 변경하는 것
         // 지금 보고 있는 화면은 결과 화면. 아래 버튼을 누르면 수정하는 화면으로 이동.
         button_myfit_edit = (Button) findViewById(R.id.button_myfit_edit) ;
@@ -145,7 +139,7 @@ public class Size_Recommendation_wide extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Size_Recommendation_Edit.class);
                 startActivityForResult(intent, 5001);
-//                finish();
+
 
             }
         });
@@ -155,7 +149,7 @@ public class Size_Recommendation_wide extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
-        //
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -177,7 +171,7 @@ public class Size_Recommendation_wide extends AppCompatActivity {
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Size_Recommendation_wide.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
@@ -204,7 +198,7 @@ public class Size_Recommendation_wide extends AppCompatActivity {
         Log.e("RESULT", resultCode + "");
         Log.e("RESULT", data + "");
 
-        // Write_review_Activity 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
+        // Feed_Write_Review 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
         /** 리뷰 작성 **/
         if (requestCode == 5001 && resultCode == RESULT_OK) {
 
@@ -350,29 +344,11 @@ public class Size_Recommendation_wide extends AppCompatActivity {
             textView_ancle3.setText(String.valueOf(straight_ancle));
             textView_ancle4.setText(String.valueOf(total_ancle));
             TextView text_view_fitname = findViewById(R.id. text_view_fitname);
-//            String image_view = "";
-//
-//            text_view_fitname.setText("스키니핏");
-//
-//            Picasso.get().load().fit().centerInside().into(image_view);
-//
-//            Size_Recommendation_ItemData insightItemData = new Size_Recommendation_ItemData( text_view_fitname,  textView_waist,  textView_sero,  textView_bugGi,  textView_long,  image_view,  textView_ancle);
-
-//            Feed_Main_ItemData AA = new Feed_Main_ItemData(textView_shoppingmall_url,textView_detailed_review_card,float_ratingBar,textView_hashtag,review_date,textView_review_writer,textView_reviewcard_number,textView_nickname,textView_mysize,imageView_reviewcard_img1,imageView_reviewcard_profile_image);
-//            insight_arrayList.add(insightItemData);  //리사이클러뷰의 arrayList에 아이템 추가
-//
-//
-//            insightAdapter.notifyDataSetChanged();  // 새로고침
-
-
-            // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다
 
 
             sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
             sizeShared_editor = sizeShared.edit();
 
-//                SharedPreferences logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//                final String feed_id = logined_user.getString("user_nickname", "");
             String json = sizeShared.getString(feed_id, "");
             Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
 
@@ -424,21 +400,6 @@ public class Size_Recommendation_wide extends AppCompatActivity {
             sizeShared_editor.commit();   //제출
 
 
-
-
-//            String size_jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 user_jsondata라고 이름붙임.
-//            Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_jsondata 확인 중 : " + size_jsondata);
-//            save_in_Shared(size_jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-//            Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_writeArrayList(user_jsondata) 확인중 : " + size_jsondata);
-
-//            something_to_load ();  // 쉐어드에 저장되어있던 정보들을 원키 원밸류로 넣어줌
-            //아예 작성자가 값을 입력하고 가지고 왔을 때 원키 원벨류로 넣어주고 사용자가 결과 화면을 켰을 떄는
-            //원키 원벨류에 들어가 있는 값을 로드하게
-
-
-
-
-
         }
     }
 
@@ -450,8 +411,6 @@ public class Size_Recommendation_wide extends AppCompatActivity {
 //            와이드핏 -> 허리, 밑위,힙+2,벅지+5, 기장+1, 밑단 +4
 //            일자핏 -> 허리, 밑위, 힙,허벅지, 기장, 밑단 + 2
 //            하이웨스트 -> 허리, 힙, 밑위 +4, 허벅지, 기장 +4, 밑단
-
-            //로드 해줘야 하나?
 
             int waist = sizeShared.getInt("허리", 0);
             int waist_2 =  sizeShared.getInt("허리2", 0);
@@ -585,237 +544,6 @@ public class Size_Recommendation_wide extends AppCompatActivity {
 
 
         }
-
-
-
-//  혹시 모르니까 메소드로 만들어놓음 -> 저장된 값을 불러와서 원키 원벨류하는 중
-    // startActivityForResult 하고 난 다음에 Shared에 저장해줄 것
-    public void something_to_load (){
-        sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
-        sizeShared_editor = sizeShared.edit();
-
-//                SharedPreferences logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//                final String feed_id = logined_user.getString("user_nickname", "");
-        String json = sizeShared.getString(feed_id, "");
-        Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "여기 확인하기 : " + json);
-
-        // editText 로 입력한 이메일이 null 값이 아니면 = 무엇인가를 입력하면 -> 일단 쉐어드에 사용자가 입력한 이메일이 있는지 확인
-        if (json != null) {
-
-            try {
-
-                JSONArray jsonArray = new JSONArray(json);
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + jsonObject);
-
-//                    String namename1 = jsonObject.getString("바지이름");
-//                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename1);
-                    waistwaist1 = jsonObject.getInt("허리");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 waistwaist1 : " + waistwaist1);
-                    serosero1 = jsonObject.getInt("밑위");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 serosero1 : " + serosero1);
-                    hiphip1 = jsonObject.getInt("엉덩이");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 hiphip1 : " + hiphip1);
-                    bugGibugGi1 = jsonObject.getInt("허벅지");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 bugGibugGi1 : " + bugGibugGi1);
-                    longlong1 = jsonObject.getInt("기장");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 longlong1 : " + longlong1);
-                    ancleancle1 = jsonObject.getInt("밑단");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 ancleancle1 : " + ancleancle1);
-
-//                    String namename2 = jsonObject.getString("바지이름2");
-//                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename2);
-                    waistwaist2 = jsonObject.getInt("허리2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 waistwaist2 : " + waistwaist2);
-                    serosero2 = jsonObject.getInt("밑위2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 serosero2 : " + serosero2);
-                    hiphip2 = jsonObject.getInt("엉덩이2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 hiphip2 : " + hiphip2);
-                    bugGibugGi2 = jsonObject.getInt("허벅지2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 bugGibugGi2 : " + bugGibugGi2);
-                    longlong2 = jsonObject.getInt("기장2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 longlong2 : " + longlong2);
-                    ancleancle2 = jsonObject.getInt("밑단2");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 ancleancle2 : " + ancleancle2);
-
-//                    String namename3 = jsonObject.getString("바지이름3");
-//                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename3);
-                    waistwaist3 = jsonObject.getInt("허리3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 waistwaist3 : " + waistwaist3);
-                    serosero3 = jsonObject.getInt("밑위3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 serosero3 : " + serosero3);
-                    hiphip3 = jsonObject.getInt("엉덩이3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 hiphip3 : " + hiphip3);
-                    bugGibugGi3 = jsonObject.getInt("허벅지3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 bugGibugGi3 : " + bugGibugGi3);
-                    longlong3 = jsonObject.getInt("기장3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 longlong3 : " + longlong3);
-                    ancleancle3 = jsonObject.getInt("밑단3");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 ancleancle3 : " + ancleancle3);
-
-//                    String namename4 = jsonObject.getString("바지이름4");
-//                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename4);
-                    waistwaist4 = jsonObject.getInt("허리4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 waistwaist4 : " + waistwaist4);
-                    serosero4 = jsonObject.getInt("밑위4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 serosero4 : " + serosero4);
-                    hiphip4 = jsonObject.getInt("엉덩이4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 hiphip4 : " + hiphip4);
-                    bugGibugGi4 = jsonObject.getInt("허벅지4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 bugGibugGi4 : " + bugGibugGi4);
-                    longlong4 = jsonObject.getInt("기장4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 longlong4 : " + longlong4);
-                    ancleancle4 = jsonObject.getInt("밑단4");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 ancleancle4 : " + ancleancle4);
-
-//                    String namename5 = jsonObject.getString("바지이름5");
-//                    Log.e("Login 회원정보 확인", "sharedPreferences에서 저장된 array(string으로 저장됐던) 가져오기 : " + namename5);
-                    waistwaist5 = jsonObject.getInt("허리5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 waistwaist5 : " + waistwaist5);
-                    serosero5 = jsonObject.getInt("밑위5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 serosero5 : " + serosero5);
-                    hiphip5 = jsonObject.getInt("엉덩이5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 hiphip5 : " + hiphip5);
-                    bugGibugGi5 = jsonObject.getInt("허벅지5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 bugGibugGi5 : " + bugGibugGi5);
-                    longlong5 = jsonObject.getInt("기장5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 longlong5 : " + longlong5);
-                    ancleancle5 = jsonObject.getInt("밑단5");
-                    Log.e("Size_Recommendation_Activity", "sharedPreferences에서 저장된 가져오기 ancleancle5 : " + ancleancle5);
-
-                }
-
-
-
-//jsonObject.put("바지이름", name1);
-//                    jsonObject.put("허리", waist1);
-//                    jsonObject.put("밑위", sero1);
-//                    jsonObject.put("엉덩이", hip1);
-//                    jsonObject.put("허벅지", bugGi1);
-//                    jsonObject.put("기장", long1);
-//                    jsonObject.put("밑단", ancle1);
-
-
-// 로그인할 때 로그인한 회원의 정보를 배열로 가지고 와서 추출 후 각각의 key값을 줘서 저장했던 value를 호출
-                sizeShared_editor.putString( "바지이름", namename1);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허리", waistwaist1);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑위", serosero1);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("엉덩이", hiphip1);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허벅지", bugGibugGi1);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("기장", longlong1);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑단", ancleancle1);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-
-                sizeShared_editor.putString( "바지이름2", namename2);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허리2", waistwaist2);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑위2", serosero2);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("엉덩이2", hiphip2);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허벅지2", bugGibugGi2);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("기장2", longlong2);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑단2", ancleancle2);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-
-                sizeShared_editor.putString( "바지이름3", namename3);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허리3", waistwaist3);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑위3", serosero3);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("엉덩이3", hiphip3);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허벅지3", bugGibugGi3);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("기장3", longlong3);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑단3", ancleancle3);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-
-                sizeShared_editor.putString( "바지이름4", namename4);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허리4", waistwaist4);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑위4", serosero4);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("엉덩이4", hiphip4);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허벅지4", bugGibugGi4);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("기장4", longlong4);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑단4", ancleancle4);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-
-                sizeShared_editor.putString( "바지이름5", namename5);  // 회원가입시 입력한 이메일이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허리5", waistwaist5);  // 회원가입시 입력한 비밀번호가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑위5", serosero5);  // 회원가입시 입력한 평소 사이즈가 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("엉덩이5", hiphip5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("허벅지5", bugGibugGi5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("기장5", longlong5);  // 회원가입시 입력한 닉네임이 각 arrayList의 key 값이 됨.
-                sizeShared_editor.putInt("밑단5", ancleancle5);  // 회원가입시 입력한 프로필 이미지이 각 arrayList의 key 값이 됨.
-
-
-
-
-
-                sizeShared_editor.commit();   //제출
-
-
-                String size_jsondata = jsonArray.toString();  // jsonArray를 String값으로 바꿈. String으로 바꾼 jsonArray를 user_jsondata라고 이름붙임.
-                Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_jsondata 확인 중 : " + size_jsondata);
-                save_in_Shared(size_jsondata);                    // saveArrayList 메소드를 실행할건데 josndata를 사용할 것 -> onCreate 밖에 메소드 만듦.
-                Log.e("Login 클래스에서 로그인 버튼을 눌렀을 때", "user_writeArrayList(user_jsondata) 확인중 : " + size_jsondata);
-//                finish();
-//                overridePendingTransition(0,0);
-//                startActivity(getIntent());
-//                overridePendingTransition(0,0);
-/////////////////////////////
-
-            } catch (JSONException e) {
-                // editText 로 입력한 이메일이 null 값이 아니면 = 무엇인가를 입력하면 -> 일단 쉐어드에 사용자가 입력한 이메일이 있는지 확인했는데 없음
-                e.printStackTrace();
-//                            Toast.makeText(Login.this, "아이디 정보가 없습니다", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(Size_Recommendation_Activity.this, "사이즈 데이터를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-//하단바
-
-
-
-    }
-
-
-
-
-    public void save_in_Shared(String jsondata) {
-
-
-        if (data != null) {
-
-            // JSONArray 생성
-            sizeShared = getSharedPreferences("sizeShared", Context.MODE_PRIVATE);
-            sizeShared_editor = sizeShared.edit();
-
-//            logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
-//            feed_id = logined_user.getString("user_email", "");
-//            Log.e("[피드] 로그인한 회원 정보가 있는 쉐어드에서", " 현재 로그인한 유저의 이메일 : " + feed_id);
-
-
-            for (int i = 0; i < data.size(); i++) {
-
-                // 리스트 아이템 하나씩 JSONArray 배열에 추가
-
-                JSONArray array = new JSONArray();
-                array.put(data.get(i));
-
-                Log.e("회원정보 확인하는 메소드","확인중" + array.put(data.get(i)));
-            }
-//            for(Comment_ItemData item : commentArrayList){// item이라는 Comment_Activity Data를 잡고 commentArrayList 안을 순회하면서 비교하면서
-//                if(item.getReviewUniqueCode().equals(testkey)){ // if문 확인하면서 commnetData 가 갖고있는 아이템에서
-////            if(item.getReviewUniqueCode().equals(position)){
-//                    comment_show_arrayList.add(item);
-//                }
-
-
-            sizeShared_editor.putString(feed_id, jsondata);  // 회원가입시 입력한 email이 각 arrayList의 key 값이 됨.
-//            Log.e("saveArrayList 메소드","확인중" + editor.putString(feed_id,jsondata));
-            sizeShared_editor.commit();
-            Log.e("saveArrayList 메소드","ArrayList인 jsonData를 String 형태로 sharedPreference에 저장했습니다 ");
-            Log.d("saveArrayList 메소드[확인 중]","새로운 키에 저장되는지 원래 있던 키에 저장되는지 확인 필요");
-//
-//            finish();
-//            overridePendingTransition(0,0);
-//            startActivity(getIntent());
-//            overridePendingTransition(0,0);
-        }
-    }
 
 
 

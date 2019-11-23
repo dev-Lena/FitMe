@@ -14,10 +14,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/** Naver_Search_Shop_Adapter와 Naver_Search_Shop_Item, Naver_Search_Shop_Main, Naver_Search_Shop_Detail 자바 클래스는 네이버 Shop API 한세트임**/
+/** Naver_Search_Shop_Adapter와 Naver_Search_Shop_Item, Naver_Search_Shop_Main, Naver_Search_Shop_Detail 클래스는 네이버 검색 - Shop API 한세트임**/
 
 public class Naver_Search_Shop_Adapter extends RecyclerView.Adapter<Naver_Search_Shop_Adapter.ExampleViewHolder> {
-private Context mContext;
+    /**
+     * 네이버 검색 - 쇼핑 API (리사이클러뷰) - 어댑터
+     **/
+
+
+    private Context mContext;
 private ArrayList<Naver_Search_Shop_Item> mExampleList;
 private OnItemClickListener mListener;
 
@@ -36,7 +41,7 @@ public interface OnItemClickListener {
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.example_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.naver_search_shop_item, parent, false);
         return new ExampleViewHolder(v);
     }
 

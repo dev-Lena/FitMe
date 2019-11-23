@@ -13,9 +13,10 @@ import androidx.core.app.ActivityCompat;
 
 import static com.example.fitme.Timesale_Activity.alarm_name;
 
-public class Alarm_Activity extends AppCompatActivity {
-
-    // 알람이 울릴 때 보여지는 xml을 다루는 액티비티
+public class Timesale_Alarm_Activity extends AppCompatActivity {
+    /**
+     * 온라인 쇼핑몰 타임 세일 알람이 울릴 때 보이는 액티비티
+     **/
 
     private MediaPlayer mediaPlayer;
     TextView textView_alarm_name;
@@ -23,7 +24,7 @@ public class Alarm_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+        setContentView(R.layout.activity_timesale_notification);
 
         // 알림음 재생
         this.mediaPlayer = MediaPlayer.create(this,R.raw.xylophone);
@@ -38,8 +39,8 @@ public class Alarm_Activity extends AppCompatActivity {
 //        alarm_name = intent.getStringExtra("알람이름");
 //        String alarm_name = intent.getExtras().getString("알람이름"); /*String형*/
         textView_alarm_name.setText(alarm_name);
-        Log.d("Alarm_Activity", "onCreate: alarm_name -> " + alarm_name);
-        Log.d("Alarm_Activity", "onCreate: textView_alarm_name -> " + textView_alarm_name);
+        Log.d("Timesale_Alarm_Activity", "onCreate: alarm_name -> " + alarm_name);
+        Log.d("Timesale_Alarm_Activity", "onCreate: textView_alarm_name -> " + textView_alarm_name);
         // Timesale_Activity 클래스에서 인텐트에 담아서 보낸 사용자가 입력한 알람이름을 보여줌
 
 
@@ -79,7 +80,7 @@ public class Alarm_Activity extends AppCompatActivity {
                 case R.id.buttonClose :
                     //알림 종료 버튼을 누르면 알림이 꺼지고 알람을 맞췄던 화면으로 이동
 
-                    ActivityCompat.finishAffinity(Alarm_Activity.this);
+                    ActivityCompat.finishAffinity(Timesale_Alarm_Activity.this);
 
                     close();
                     break;

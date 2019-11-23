@@ -117,26 +117,26 @@
             android:orientation="horizontal">
 
             <include
-                layout="@layout/activity_insight_item"
+                layout="@layout/activity_myfit_average"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
 
             <include
-                layout="@layout/activity_insight_item_skiny"
+                layout="@layout/activity_myfit_item_skiny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <include
-                layout="@layout/activity_insight_item_straight"
+                layout="@layout/activity_myfit_item_straight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <include
-                layout="@layout/activity_insight_item_wide"
+                layout="@layout/activity_myfit_item_wide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

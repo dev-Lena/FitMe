@@ -32,7 +32,9 @@ import java.util.ArrayList;
 
 
 public class Image_Searching extends AppCompatActivity implements Image_Searching_Adapter.OnItemClickListener  {
-    /**pixabay API를 활용한 이미지 검색 액티비티**/
+    /**
+     * pixabay API를 활용한 이미지 검색 (리사이클러뷰) - 액티비티
+     **/
 
 
     public static final String EXTRA_URL = "imageUrl";
@@ -81,7 +83,7 @@ public class Image_Searching extends AppCompatActivity implements Image_Searchin
         imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(Image_Searching.this, Write_review_Activity.class);
+                Intent register_intent = new Intent(Image_Searching.this, Feed_Write_Review.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
 
@@ -105,11 +107,8 @@ public class Image_Searching extends AppCompatActivity implements Image_Searchin
     }
 
     private void parseJSON() { // Pixabay API 키 : 5765931-f9df1159a645d15d76213ab5d
-//  참고용 예제     String url = "https://pixabay.com/api/?key=5765931-f9df1159a645d15d76213ab5d&q=kitten&image_type=photo&pretty=true";
         String search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
         String url = "https://pixabay.com/api/?key=5765931-f9df1159a645d15d76213ab5d&q=" + search_keyword + "&image_type=photo" + "=true";
-// 위에 String url이 되는 코드임
-
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

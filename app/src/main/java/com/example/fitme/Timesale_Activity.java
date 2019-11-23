@@ -28,7 +28,10 @@ import static java.lang.String.format;
 
 
 public class Timesale_Activity extends AppCompatActivity {
-
+    /**
+     * 온라인 쇼핑몰 타임 세일을 시간에 맞춰 알람을 설정할 수 있는 액티비티
+     *
+     **/
 
     // 알람 시간
     private static Calendar calendar;
@@ -52,7 +55,7 @@ public class Timesale_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timesale);
+        setContentView(R.layout.activity_timesale_setting);
 
 
 
@@ -233,7 +236,7 @@ public class Timesale_Activity extends AppCompatActivity {
 
 
         // BroadCast Receiver 설정 -> Intent에 담아서 보냄
-        Intent intent = new Intent(this, Alarm_Receiver.class);
+        Intent intent = new Intent(this, Timesale_Alarm_Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // 알람 설정
@@ -296,7 +299,7 @@ public class Timesale_Activity extends AppCompatActivity {
                     editText_alarm_name = findViewById(R.id.editText_alarm_name);
 
 //                    if (editText_alarm_name.length()<21){
-                        Intent intent = new Intent(Timesale_Activity.this, Alarm_Activity.class);
+                        Intent intent = new Intent(Timesale_Activity.this, Timesale_Alarm_Activity.class);
                         alarm_name = editText_alarm_name.getText().toString();
                     intent.putExtra("알람이름", alarm_name);
                     Log.d("Timesale_Activity", "button_Alarm: alarm_name -> " + alarm_name);

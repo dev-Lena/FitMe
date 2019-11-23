@@ -40,7 +40,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Bookmarked_review" />
+        <activity android:name=".Bookmarked_review_Activity" />
         <activity android:name=".Edit_Profile" />
         <activity android:name=".Mypage_Activity">
 
@@ -51,8 +51,8 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Edit_Review" />
-        <activity android:name=".Write_review_Activity" />
+        <activity android:name=".Feed_Edit_Review" />
+        <activity android:name=".Feed_Write_Review" />
         <activity android:name=".Myreview_Activity" />
         <activity android:name=".Review_searching_Activity" />
         <activity android:name=".Review_searching_Result" />
@@ -63,8 +63,6 @@
         </activity>
         <activity android:name=".Naver_Search_Shop_Detail"></activity>
         <activity android:name=".Naver_Search_Shop_Main"></activity>
-        <activity android:name=".Size_bottom" />
-        <activity android:name=".Size_dress" />
         <activity android:name=".Comment_Activity" />
         <activity android:name=".Size_Recommendation_Activity" />
         <activity android:name=".Size_Recommendation_Edit" />
@@ -75,11 +73,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Alarm_Activity"/>
-        <receiver android:name=".Alarm_Receiver"
+        <activity android:name=".Timesale_Alarm_Activity"/>
+        <receiver android:name=".Timesale_Alarm_Receiver"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".Alarm_Service"
+        <service android:name=".Timesale_Alarm_Service"
             android:enabled="true"/>
         <activity
         android:name=".Kakao_Login_Activity">

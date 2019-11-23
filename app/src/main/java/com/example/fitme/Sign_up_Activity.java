@@ -31,6 +31,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Sign_up_Activity extends AppCompatActivity {
+    /**
+     * 회원가입 액티비티
+     **/
 
     ArrayList<Feed_Main_ItemData>  bookmarked_arrayList;
 

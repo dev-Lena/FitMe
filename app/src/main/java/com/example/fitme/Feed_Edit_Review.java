@@ -21,8 +21,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class Edit_Review extends AppCompatActivity {
-
+public class Feed_Edit_Review extends AppCompatActivity {
+    /**
+     * 리뷰 피드 (리사이클러뷰) - 수정
+     **/
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -51,7 +53,7 @@ public class Edit_Review extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("Write_review_Activity", "onCreate");
+        Log.e("Feed_Write_Review", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_review_card);
 
@@ -73,19 +75,8 @@ public class Edit_Review extends AppCompatActivity {
 
         Intent intent = getIntent();  // 데이터를 담아서 보낸 intent를 받아옴
 
-        Log.e("Edit_Review 클래스에서 리사이클러뷰 수정 작업중!", "getIntent");
+        Log.e("Feed_Edit_Review 클래스에서 리사이클러뷰 수정 작업중!", "getIntent");
 
-        // Feed_Main_Activity 클래스 : 피드에 올라간 리뷰카드에서 받아온 데이터랑 매칭
-//        intent.putExtra("URL", arrayList.get(position).textView_shoppingmall_url);
-//        intent.putExtra("DETAIL", arrayList.get(position).textView_detailed_review_card);
-//        intent.putExtra("HASHTAG", arrayList.get(position).textView_hashtag);
-//        intent.putExtra("WRITER", arrayList.get(position).textView_review_writer);
-//        intent.putExtra("NUMBER", arrayList.get(position).textView_reviewcard_number);
-//        intent.putExtra("IMAGE", arrayList.get(position).imageView_reviewcard_img1);
-//        intent.putExtra("PROFILE", arrayList.get(position).imageView_reviewcard_profile_image);
-//        intent.putExtra("DATE", arrayList.get(position).review_date);
-//        intent.putExtra("RATING", arrayList.get(position).float_ratingBar);
-//        intent.putExtra("POSITION", position);
 
         String shoppingmall_url = intent.getStringExtra("URL");
         String detailed_review = intent.getStringExtra("DETAIL");
@@ -139,7 +130,7 @@ public class Edit_Review extends AppCompatActivity {
         imageButton_write_review_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(Edit_Review.this, Feed_Main_Activity.class);
+                Intent register_intent = new Intent(Feed_Edit_Review.this, Feed_Main_Activity.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
             }
@@ -172,7 +163,7 @@ public class Edit_Review extends AppCompatActivity {
                 result.putExtra("만족도", ratingBar.getRating());
                 result.putExtra("작성자", textView_review_writer_writer.getText().toString());
                 result.putExtra("리뷰고유번호", textView_reviewcard_number_number.getText().toString());
-//                result.putExtra("리뷰고유번호", reviewcard_number);
+
 
                     if (uri != null ) {
                         result.putExtra("리뷰이미지", uri.toString());  // String으로 바꿔서 putExtra로 데이터 보냄.
@@ -251,7 +242,7 @@ public class Edit_Review extends AppCompatActivity {
                 uri = data.getData();  // 해당 이미지의 파일 경로 즉, uri 정보를 받는다
 
                 ClipData clipData = data.getClipData();
-                Log.e("Write_review_Activity 클래스에서", "이메일 가져오는 중 , uri : " + uri.toString()+","+uri);
+                Log.e("Feed_Write_Review 클래스에서", "이메일 가져오는 중 , uri : " + uri.toString()+","+uri);
 
                 // 받아온 이미지를 인텐트에 담아서 putExtra로 보내주기.
                 // -> 어디서 받냐면 onCreate에서 Feed_Main_Activity 클래스에 보낼 데이터 담을 때
@@ -265,7 +256,7 @@ public class Edit_Review extends AppCompatActivity {
 
                     imageView_review_photo1.setImageURI(Uri.parse( uri.toString()));
 
-                    Log.e("Write_review_Activity 클래스에서", "uri--> 확인중 " + uri.toString() );
+                    Log.e("Feed_Write_Review 클래스에서", "uri--> 확인중 " + uri.toString() );
 
                 }
                 else if(uri != null)
@@ -283,14 +274,14 @@ public class Edit_Review extends AppCompatActivity {
 
             // 이미지 url은 인텐트로 받기, 변수 pixabay_url에 넣어주기
             ClipData clipData = data.getClipData();
-            Log.e("Write_review_Activity 클래스에서", "pixabay_url 가져오는 중 , uri : " + pixabay_url);
+            Log.e("Feed_Write_Review 클래스에서", "pixabay_url 가져오는 중 , uri : " + pixabay_url);
 
             if(pixabay_url != null)
             {
                 Uri pixabay_url_url = Uri.parse(pixabay_url);
 
                 Picasso.get().load(pixabay_url).fit().centerInside().into(imageView_review_photo1);
-                Log.e("Write_review_Activity 클래스에서", "pixabay_url_url,uri--> 확인중 " +pixabay_url_url+","+ imageView_review_photo1 );
+                Log.e("Feed_Write_Review 클래스에서", "pixabay_url_url,uri--> 확인중 " +pixabay_url_url+","+ imageView_review_photo1 );
             }
 
         }
@@ -299,42 +290,42 @@ public class Edit_Review extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("Write_review_Activity", "onRestart");
+        Log.e("Feed_Write_Review", "onRestart");
         //액티비티가 중단되었다가 다시 시작
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("Write_review_Activity", "onStart");
+        Log.e("Feed_Write_Review", "onStart");
         //액티비티가 화면에 나타나기 시작
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("Write_review_Activity", "onResume");
+        Log.e("Feed_Write_Review", "onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("Write_review_Activity", "onPause");
+        Log.e("Feed_Write_Review", "onPause");
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("Write_review_Activity", "onStop");
+        Log.e("Feed_Write_Review", "onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("Write_review_Activity", "onDestroy");
+        Log.e("Feed_Write_Review", "onDestroy");
         //액티비티가 종료되려고 합니다.
     }
 

@@ -41,7 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-
+    /**
+     * 리뷰 피드 (리사이클러뷰)
+     **/
 
     // 현재 로그인한 유저의 정보만 담는 쉐어드 프리퍼런스
 
@@ -121,7 +123,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
         Log.e("Feed_Main_Activity 클래스에서(loadData)", "sharedPreference에 리사이클러뷰에 들어가는 arrayList 불러오기 :" + arrayList);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.activity_feed_main);
 
 
         imageView_notification = findViewById(R.id.imageView_notification);  // 알림 (내 소식))
@@ -179,7 +181,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
                                     // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
                                     Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(getApplicationContext(), Edit_Review.class);
+                                    Intent intent = new Intent(getApplicationContext(), Feed_Edit_Review.class);
                                     Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
 
@@ -337,7 +339,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
 
             @Override  // 피드 리사이클러뷰에 들어가는 리뷰 카드 아이템에서 북마크 버튼을 눌렀을 때
             public void onBookmarkClick(View v, int position) {
-                // 해당 아이템이 Bookmarked_review 리사이클러뷰에 추가되어야 함.
+                // 해당 아이템이 Bookmarked_review_Activity 리사이클러뷰에 추가되어야 함.
 
                 // bookmarked_recyclerview 키에 들어가는 arrayList에 해당 아이템을 추가한다.
 
@@ -387,7 +389,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), Write_review_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Feed_Write_Review.class);
                 startActivityForResult(intent, 1001);  //액티비티 이동, 여기서 1000은 식별자. 아무 숫자나 넣으주면 됨.
 
 
@@ -424,7 +426,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
                         insight_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//검색 화면으로 액티비티 띄우기
                         break;
-                    case R.id.action_notification:
+                    case R.id.action_shop:
                         Intent notification_intent = new Intent(Feed_Main_Activity.this, Naver_Search_Shop_Main.class);
                         notification_intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(notification_intent); //알림 화면으로 액티비티 이동
@@ -440,7 +442,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
         });
 
 // 리사이클러뷰 수정
-// Feed_Main_Activity -> Edit_Review -> Feed_Main_Activity
+// Feed_Main_Activity -> Feed_Edit_Review -> Feed_Main_Activity
 
 
     }// onCreate 닫는 중괄호
@@ -729,7 +731,7 @@ public class Feed_Main_Activity extends AppCompatActivity implements SwipeRefres
         Log.e("RESULT", resultCode + "");
         Log.e("RESULT", data + "");
 
-        // Write_review_Activity 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
+        // Feed_Write_Review 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
         /** 리뷰 작성 **/
         if (requestCode == 1001 && resultCode == RESULT_OK) {
 

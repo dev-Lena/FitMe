@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Review_searching_Result extends AppCompatActivity {
+    /**
+     * 앱에 등록된 리뷰 검색 (리사이클러뷰) - 검색 결과
+
+     **/
 
     ImageButton imageButton_searching_result_back;
     String HashTag;
@@ -68,7 +72,7 @@ public class Review_searching_Result extends AppCompatActivity {
                         Intent write_intent = new Intent(Review_searching_Result.this, Size_Recommendation_Activity.class);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Review_searching_Result.this,Naver_Search_Shop_Main.class);
                         startActivity(insight_intent);//액티비티 띄우기
                         break;

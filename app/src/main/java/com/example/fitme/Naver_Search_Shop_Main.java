@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 
 public class Naver_Search_Shop_Main extends AppCompatActivity implements Naver_Search_Shop_Adapter.OnItemClickListener  {
-    /**네이버 쇼핑 검색 API 액티비티**/
-
-
+    /**
+     * 네이버 검색 - 쇼핑 API (리사이클러뷰) - 액티비티
+     **/
 
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_MALLNAME = "mallName";
@@ -48,15 +48,10 @@ public class Naver_Search_Shop_Main extends AppCompatActivity implements Naver_S
 
 
     String  apiURL, s_response, json;
-    String receiveMsg;
     java.net.URL url;
 
     String search_keyword;
-TextView yogi;
-    //    // 네이버 검색
-//    private static final String CLIENT_ID = "input your client_id";
-//    private static final String CLIENT_SECRET = "input your client_secret";
-//    private static final String URL = "https://openapi.naver.com/v1/search/shop.json";
+
 final int display = 5; // 보여지는 검색결과의 수
 
 //    Naver_Search_Shop_API apiExamSearchShop = new Naver_Search_Shop_API();  //클래스 위치 // return
@@ -89,11 +84,6 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
 
             }
         });
-//
-//        search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
-
-//        mQueue = VolleySingleton.getInstance(this).getRequestQueue();//https://codinginflow.com/tutorials/android/volley/part-2-singleton-pattern
-//       final String search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
 
         button_image_searching.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,23 +98,17 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
             @Override
             public void run() {
 
-//                getJSON(search_keyword);
-
                 try {
 
                     search_keyword = edittext_image_searching.getText().toString(); // 사용자가 입력한 검색어를 받아서
                     Naver_Search_Shop_API naverSearchShopAPI = new Naver_Search_Shop_API();  //클래스 위치 // return
                     naverSearchShopAPI.naver_search_api(search_keyword); //main run -> another class named Naver_Search_Shop_API
-//
-//
+
                 String result_data = naverSearchShopAPI.naver_search_api(search_keyword);  //searchKeyword 로 검색한 결과를 리턴한걸 String으로 받아서 넣어줌 . data임
                 String searched_url = apiURL;
                     Log.e("Naver_Search_Shop_Main result_data------","result_data : " +result_data);
                     Log.e("Naver_Search_Shop_Main searched_url","searched_url" + searched_url);
 
-//
-//                /**여기서 부터 로그가 찍히지 않아요**/
-//
                     JSONObject jsonObj = new JSONObject(result_data);
                     Log.e("Naver_Search_Shop_Main 클래스","jsonObj : " + jsonObj);
                     JSONArray jsonArray = jsonObj.getJSONArray("items");  //JsonObject에 items라는 key를가지고 있는 JsonArray를 가지고 온다
@@ -156,26 +140,14 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
 
                     }
 
-//                    mNaverSearchShopAdapter = new Naver_Search_Shop_Adapter(Naver_Search_Shop_Main.this, mExampleList);
-//
-//                    mNaverSearchShopAdapter.notifyDataSetChanged();  // 새로고침
-//
-//                    mRecyclerView.setAdapter(mNaverSearchShopAdapter);
-//                    mNaverSearchShopAdapter.setOnItemClickListener(Naver_Search_Shop_Main.this);
-
                 } catch (Exception e) {
                     System.out.println(e);
                     Log.e("e------------------ㅠㅠ------------------------","e"+e);
                 }
             }
         }.start();
-//                mNaverSearchShopAdapter.notifyDataSetChanged();  // 새로고침
-
 
                 mNaverSearchShopAdapter = new Naver_Search_Shop_Adapter(Naver_Search_Shop_Main.this, mExampleList);
-
-//                mNaverSearchShopAdapter.notifyDataSetChanged();  // 새로고침
-
                 mRecyclerView.setAdapter(mNaverSearchShopAdapter);
                 mNaverSearchShopAdapter.setOnItemClickListener(Naver_Search_Shop_Main.this);
 
@@ -200,7 +172,6 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
                         Intent home_intent = new Intent(Naver_Search_Shop_Main.this, Feed_Main_Activity.class);
                         home_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(home_intent);//액티비티 띄우기
-//                        startActivityForResult(intent,sub);//액티비티 띄우기
                         break;
                     case R.id.action_search :
                         Intent search_intent = new Intent(Naver_Search_Shop_Main.this, Review_searching_Activity.class);
@@ -212,7 +183,7 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Naver_Search_Shop_Main.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
@@ -266,8 +237,6 @@ BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 
     protected void onStop() {
         super.onStop();
         Log.e("Mypage_Activity", "onPause");
-//        finish();
-//        overridePendingTransition(0,0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
 

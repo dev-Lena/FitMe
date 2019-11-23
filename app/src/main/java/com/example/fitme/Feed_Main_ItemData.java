@@ -6,10 +6,13 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Feed_Main_ItemData {
+    /**
+     * 리뷰 피드 (리사이클러뷰) - 아이템
+     **/
 
-String review_card,textView19,textView_mysize,textView_nickname, textView20, textView_shoppingmall_url,
+String textView_mysize,textView_nickname, textView_shoppingmall_url,
          textView_likes, textView_detailed_review_card, textView_more,
-        textView_hashtag,TextView_hashtag1, textView_hashtag2, textView_hashtag3,textView_hashtag4, review_date,
+        textView_hashtag,review_date,
     // 이미지
         textView_review_writer, textView_reviewcard_number;
     String imageView_reviewcard_profile_image;
@@ -20,9 +23,6 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
     int imageView_reviewcard_img5;
     int imageButton_review_edit_completed;
     float float_ratingBar;
-//    Boolean Is_liked;
-//    ArrayList Comment_Activity ;
-
 
     public Feed_Main_ItemData(String textView_shoppingmall_url,
                               String textView_detailed_review_card,
@@ -44,38 +44,10 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
         // 이미지
         this.imageView_reviewcard_img1 = imageView_reviewcard_img1;
         this.imageView_reviewcard_profile_image =imageView_reviewcard_profile_image;
-        //좋아요
-//        this.Is_liked = Is_liked;
-//        this.textView_likes_number = textView_likes_number;
-        // 댓글 arrayList
-//        this.Comment_Activity = Comment_Activity; // 각 아이템의 댓글을 담고있는 arrayList
+
 
     }
 
-//    public ArrayList getComment() {
-//        return Comment_Activity;
-//    }
-//
-//    public void setComment(ArrayList Comment_Activity) {
-//        this.Comment_Activity = Comment_Activity;
-//    }
-
-//
-//    public String getTextView_likes_number() {
-//        return textView_likes_number;
-//    }
-//
-//    public void setTextView_likes_number(String textView_likes_number) {
-//        this.textView_likes_number = textView_likes_number;
-//    }
-//
-//    public Boolean getIs_liked() {
-//        return true;
-//    }
-//
-//    public void setIs_liked(Boolean is_liked) {
-//        Is_liked = is_liked;
-//    }
     public String getImageView_reviewcard_profile_image() {
         return imageView_reviewcard_profile_image;
     }
@@ -146,7 +118,7 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
         this.float_ratingBar = float_ratingBar;
     }
 
-    // Feed_Main_ItemData 생성자를 넣어주면 -> Feed_Main_Activity 값을 받아올 때 넣어줄 곳이 생겨 ^^*
+    // Feed_Main_ItemData 생성자를 넣어주면 -> Feed_Main_Activity 값을 받아올 때 넣어줄 곳이 생김
 
     public String getReview_date() {
 
@@ -163,12 +135,11 @@ String review_card,textView19,textView_mysize,textView_nickname, textView20, tex
         this.review_date = review_date;
     }
 
-//
 
     public String getTextView_shoppingmall_url() {
         return textView_shoppingmall_url;
     }
-//
+
     public void setTextView_shoppingmall_url(String textView_shoppingmall_url) {
         this.textView_shoppingmall_url = textView_shoppingmall_url;
     }

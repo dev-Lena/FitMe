@@ -17,13 +17,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedViewHolder> {
-
-//
-//    int width ;
-//    int height;
-
-    //getItemCount, onCreateViewHolder, MyViewHolder, onBindViewholder 순으로 들어오게 된다.
-    // 뷰홀더에서 초기세팅해주고 바인드뷰홀더에서 셋텍스트해주는 값이 최종적으로 화면에 출력되는 값
+    /**
+     * 마이페이지 (내가 쓴 리뷰 -> 리사이클러뷰) - 어댑터
+     **/
 
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
@@ -46,11 +42,6 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
     private Context mContext;  // 이미지 Context 를 활용해서 넣기 위해 추가
     private ArrayList<Feed_Main_ItemData> mypage_arrayList, searchingarrayList;//
 
-    //리사이클러뷰 아이템 펼치기 -> 정해진 hight만큼 펼쳐짐
-    // Item의 클릭 상태를 저장할 array 객체
-//    private SparseBooleanArray selectedItems = new SparseBooleanArray();
-//    // 직전에 클릭됐던 Item의 position
-//    private int prePosition = -1;
 
     public Mypage_Adapter(ArrayList<Feed_Main_ItemData> arrayList, Context mContext) {   // 생성자
 
@@ -72,14 +63,9 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
         return holder;
     }
 
-    // 생성된 뷰홀더에 아이템 내용 세팅하는 곳
-    // 생성자로 현제 데이터가 들어오지 않기 때문에 position 값을 이용해서 데이터를 가지고 옴.
-
     @Override
     // 가져온 값을 set한느 곳. position을 통해 가져오도록 한다
     public void onBindViewHolder(@NonNull final FeedViewHolder holder, int position) {
-//        리사이클러뷰 아이템 펼치기 -> 이미지에 적합
-//        holder.onBind(arrayList.get(position), position);
 
         Feed_Main_ItemData feed_Main_itemData = mypage_arrayList.get(position);
 
@@ -92,7 +78,6 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
                 .placeholder(R.drawable.review_plz) // 이미지가 없을 때 기본
                 .error(R.drawable.review_plz)// 에러가 났을 때
                 .into(holder.imageView_reviewcard_img1);
-
 
 
         //컨텍스트와 함께 열고 > 이미지를 로딩하고 > 원하는 ImageView에 삽입하면 끝 입니다!
@@ -132,7 +117,7 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
     //리사이클러뷰 필터링 하는 중 -> 검색 기능// 추가적으로 봐야하는 부분
     // -> Review_searching_Activity 클래스에서 확인하기
     public void filterList(ArrayList<Feed_Main_ItemData> filteredList) {
-        mypage_arrayList = filteredList; /**여기 수정해야할 수도 있음**/
+        mypage_arrayList = filteredList;
         notifyDataSetChanged();
     }
 
@@ -154,7 +139,7 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
             this.review_date = (TextView) itemView.findViewById(R.id.review_date);
             this.mview = itemView.findViewById(R.id.mypage_myreview_card);
 
-//여기서부터
+            //여기서부터
             // 리사이클러뷰 안에 들어가는 아이템에 있는 버튼을 눌렀을 때의 클릭 리스너
 
             mview.setOnClickListener(new View.OnClickListener() {
@@ -162,18 +147,13 @@ public  class Mypage_Adapter extends RecyclerView.Adapter<Mypage_Adapter.FeedVie
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();  // 여기서 어댑터 Postion을 get하면
-                    Log.e("Feed_Main_Activity Adapter 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 onItemClick 리스너에서 getAdapterPostion했습니다");
+                    Log.e("Mypage_Adapter 클래스에서 리사이클러뷰 수정 작업중! ", "내가 커스텀한 onItemClick 리스너에서 getAdapterPostion했습니다");
 
                     // 아이템클릭 이벤트 메서드에서 리스너 객체 메서드 (onItemClick) 호출.
                     if (pos != RecyclerView.NO_POSITION) {
                         if (mListener != null) {
                             mListener.onItemClick(view, pos);   // mListenter는 // 리스너 객체 참조를 저장하는 변수
                             Log.e("spinner 버튼이 mLister를 통해", "눌렸나요?");
-
-
-
-//                        Feed_Main_ItemData.set(pos, "item clicked. pos=" + pos) ;   // 그 위치 pos에 있는 아이템의 정보가 "" 안에 내용으로 set해줌.
-//                        notifyItemChanged(pos) ;
 
 
                         }

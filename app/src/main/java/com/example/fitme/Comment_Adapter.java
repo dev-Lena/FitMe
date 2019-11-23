@@ -17,7 +17,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 class Comment_Adapter extends RecyclerView.Adapter<Comment_Adapter.CommentViewHolder> {
-
+    /**
+     * 각 리뷰의 댓글 (리사이클러뷰) - 어댑터
+     **/
     // 커스텀 리스너 인터페이스(OnItemClickListener) 정의
     public interface OnItemClickListener {
         void onItemClick(View v, int position);

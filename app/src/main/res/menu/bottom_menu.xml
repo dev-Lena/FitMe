@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_insert_chart_black_24dp"
         android:title="my fit" />
     <item
-        android:id="@+id/action_notification"
+        android:id="@+id/action_shop"
         android:enabled="true"
         android:icon="@drawable/ic_shopping_basket_black_24dp"
         android:title="shop" />

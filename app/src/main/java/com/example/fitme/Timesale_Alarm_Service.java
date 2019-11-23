@@ -11,8 +11,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-public class Alarm_Service extends Service {
-
+public class Timesale_Alarm_Service extends Service {
+    /**
+     * 온라인 쇼핑몰 타임 세일 알람 시간 백그라운드에서 카운팅
+     **/
 
     @Nullable
     @Override
@@ -40,11 +42,11 @@ public class Alarm_Service extends Service {
 //        }
 
         // 알림장 호출
-        Intent intent1 = new Intent(this, Alarm_Activity.class);
+        Intent intent1 = new Intent(this, Timesale_Alarm_Activity.class);
         //새로운 TASK를 생성해서 Activity를 최상위로 올림
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent1);
-        Log.e("Alarm_Service","Alarm");
+        Log.e("Timesale_Alarm_Service","Alarm");
 
 //        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.0){
 //            stopForeground(true);

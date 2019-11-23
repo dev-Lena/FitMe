@@ -32,7 +32,9 @@ import java.util.List;
 import static com.example.fitme.Feed_Main_Activity.testkey;
 
 public class Comment_Activity extends AppCompatActivity {
-// 각 리뷰의 댓글
+    /**
+     * 각 리뷰의 댓글 (리사이클러뷰)
+     **/
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;

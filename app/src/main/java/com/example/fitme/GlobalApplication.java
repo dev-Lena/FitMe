@@ -12,7 +12,10 @@ import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
 public class GlobalApplication extends Application {
-    // 자동로그인시 사용하는 kakao API Adapter 클래스
+    /**
+     *  kakao API Adapter
+     **/
+
 
     public static Context mContext;
 

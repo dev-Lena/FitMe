@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Edit_Profile extends AppCompatActivity {
+    /**
+     * 프로필 수정
+     **/
 
     private ArrayList<List> data = new ArrayList<List>();
 
@@ -132,15 +135,12 @@ public class Edit_Profile extends AppCompatActivity {
 
                         try {
 
-                            // 로그인 정보만 담고 있는 쉐어드에 회원가입 완료 버튼을 눌렀을 때 각자의 키값에 넣어주는 중?
 
-//                            jsonObject.put("email", email);
                             jsonObject.put("password", password);
                             jsonObject.put("currentSize", currentSize);
                             jsonObject.put("nickname", nickname);
                             jsonObject.put("profile_img", profile_img);
 
-//                            Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 email을 넣었습니다 : " + email);
                             Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 password을 넣었습니다 : " + password);
                             Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 currentSize을 넣었습니다 : " + currentSize);
                             Log.e("onCreate 회원가입 완료 버튼을 누르면", "JSONObject에 nickname을 넣었습니다 : " + nickname);
@@ -209,43 +209,6 @@ public class Edit_Profile extends AppCompatActivity {
 
         });
 
-
-//        button_edit_complete.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//
-//                // 비밀번호 입력 확인
-//                if( editText_password.getText().toString().length() == 0 ) {
-//                    Toast.makeText(Edit_Profile.this, "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
-//                    editText_password.requestFocus();
-//                    return;
-//                }
-//
-//                // 비밀번호 확인 입력 확인
-//                if( editText_password_confirm.getText().toString().length() == 0 ) {
-//                    Toast.makeText(Edit_Profile.this, "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
-//                    editText_password_confirm.requestFocus();
-//                    return;
-//                }
-//
-//                // 비밀번호 일치 확인
-//                if( !editText_password.getText().toString().equals(editText_password_confirm.getText().toString()) ) {
-//                    Toast.makeText(Edit_Profile.this, "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
-//                    editText_password.setText("");
-//                    editText_password_confirm.setText("");
-//                    editText_password.requestFocus();
-//                    return;
-//                }
-//
-//                Intent result = new Intent();
-//                result.putExtra("EMAIL", editText_email.getText().toString());
-//
-//                // 자신을 호출한 Activity로 데이터를 보낸다.
-//                setResult(RESULT_OK, result);
-//                finish();
-//            }
-//        });
 
     } // onCreate 닫는 중괄호
 

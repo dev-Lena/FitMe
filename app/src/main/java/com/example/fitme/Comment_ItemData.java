@@ -1,6 +1,9 @@
 package com.example.fitme;
 
 public class Comment_ItemData {
+    /**
+     * 각 리뷰의 댓글 (리사이클러뷰) - 아이템
+     **/
     // Comment_Activity, Comment_ItemData, Comment_Adapter 가 세트입니다.
 
 

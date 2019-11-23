@@ -13,6 +13,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class Naver_Search_Shop_API {
+    /**
+     * 네이버 검색 - 쇼핑 API (리사이클러뷰)
+     * Naver_Search_Shop_Main에서 사용자가 입력한 검색어(s_key)를 파라미터로 받아와 검색한 결과를 가져옴
+     **/
 
     String json;
       StringBuffer s_response;
@@ -34,7 +38,7 @@ public class Naver_Search_Shop_API {
 /**네이버 검색 - 쇼핑 API (검색어를 입력하면 네이버 쇼핑에서 검색어가 포함된 결과를 JSON 형태로 받을 수 있음)**/
 
 
-        public String naver_search_api(String s_key) {
+        public String naver_search_api(String s_key) { //s_key가 Naver_Search_Shop_Main에서 사용자가 입력한 검색어
 
             final String clientId = "Jf7l2hxpdsYjCJaS9_sK";//애플리케이션 클라이언트 아이디값";
             final String clientSecret = "E9UvEcyrbB";//애플리케이션 클라이언트 시크릿값";
@@ -75,7 +79,8 @@ public class Naver_Search_Shop_API {
         }
 
 
-// 네이버 검색- 쇼핑 API를 통해 Json 형태의 데이터를 가지고 오는지 먼저 확인하기 위해 사용했던 코드 ("가디건"이라는 키워드를 검색해서 가지고 오는지 확인)
+/** 네이버 검색- 쇼핑 API를 통해 Json 형태의 데이터를 가지고 오는지 먼저 확인하기 위해 사용했던 코드 ("가디건"이라는 키워드를 검색해서 가지고 오는지 확인)**/
+
     public static void main(String[] args) {
 //
 //        final String clientId = "Jf7l2hxpdsYjCJaS9_sK";//애플리케이션 클라이언트 아이디값";

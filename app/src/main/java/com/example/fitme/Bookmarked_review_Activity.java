@@ -35,9 +35,10 @@ import java.util.List;
 
 
 /**
- * 사용자가 북마크한 리뷰들
+ * 사용자가 북마크한 리뷰들 (리사이클러뷰)
+ * Adapter는 Feed_Main_Adapter 사용
  **/
-public class Bookmarked_review extends AppCompatActivity {
+public class Bookmarked_review_Activity extends AppCompatActivity {
 
     private ArrayList<List> userData = new ArrayList<List>();
 
@@ -94,7 +95,6 @@ public class Bookmarked_review extends AppCompatActivity {
         textView_howmany_bookmarked_reviews.setText(String.valueOf(bookmark_count));
         Log.d("textView_howmany_bookmarked_reviews", " : " + textView_howmany_bookmarked_reviews);
 
-// TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
         feedMain_adapter.setOnItemClickListener(new Feed_Main_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
@@ -124,7 +124,7 @@ public class Bookmarked_review extends AppCompatActivity {
                                 serverCallbackArgs.put("user_id", "${current_user_id}");
                                 serverCallbackArgs.put("product_id", "${shared_product_id}");
 
-                                KakaoLinkService.getInstance().sendDefault(Bookmarked_review.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                                KakaoLinkService.getInstance().sendDefault(Bookmarked_review_Activity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
                                     @Override
                                     public void onFailure(ErrorResult errorResult) {
                                         Logger.e(errorResult.toString());
@@ -142,7 +142,7 @@ public class Bookmarked_review extends AppCompatActivity {
 
                                 feedMain_adapter.notifyDataSetChanged();  // 새로고침
                                 bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-                                Log.e("bokmarked_review 클래스 - ", "신고 완료" );
+                                Log.e("bokmarked_review 클래스 - ", "신고 완료");
 
                                 Toast.makeText(getApplication(), "신고되었습니다", Toast.LENGTH_SHORT).show();
 
@@ -161,7 +161,7 @@ public class Bookmarked_review extends AppCompatActivity {
             @Override
             // 댓글
             public void onCommentClick(View v, int position) {
-                Intent comment_intent = new Intent(Bookmarked_review.this, Comment_Activity.class);
+                Intent comment_intent = new Intent(Bookmarked_review_Activity.this, Comment_Activity.class);
                 startActivity(comment_intent); //액티비티 이동
 
             }
@@ -174,7 +174,7 @@ public class Bookmarked_review extends AppCompatActivity {
                 feedMain_adapter.notifyDataSetChanged();  // 새로고침
 
                 bookmark_saveData();  // sharedPreference에 리뷰가 추가된 리사이클러뷰를 저장한다 // onCreate 밖에 메소드 만들었음.
-                Log.e("Bookmarked_review 클래스에서 ", "onBookmarkClickㄹ 메소드 :" + feedMain_adapter);
+                Log.e("Bookmarked_review_Activity 클래스에서 ", "onBookmarkClickㄹ 메소드 :" + feedMain_adapter);
 
                 Toast.makeText(getApplication(), "북마크가 해제되었습니다", Toast.LENGTH_SHORT).show();
 
@@ -194,7 +194,7 @@ public class Bookmarked_review extends AppCompatActivity {
         imageButton_back.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_intent = new Intent(Bookmarked_review.this, Mypage_Activity.class);
+                Intent register_intent = new Intent(Bookmarked_review_Activity.this, Mypage_Activity.class);
                 startActivity(register_intent); //액티비티 이동
                 finish(); // 액티비티 finish 시킴
 
@@ -229,7 +229,7 @@ public class Bookmarked_review extends AppCompatActivity {
         Log.e("Feed_Main_Activity 클래스", "Gson 객체 호출 : " + gson);
 
         String json = gson.toJson(bookmarked_arrayList);  // 여기서 bookmarked_arrayList는 북마크한 리뷰 리사이클러뷰의 arrayList.
-          Log.e("Bookmarked_review 클래스 - ", "Gson 객체 호출 (toJson(bookmarked_arrayList) : " + json);
+        Log.e("Bookmarked_review_Activity 클래스 - ", "Gson 객체 호출 (toJson(bookmarked_arrayList) : " + json);
 
 
         // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value
@@ -239,15 +239,15 @@ public class Bookmarked_review extends AppCompatActivity {
         // 여기 원래 feed_email이 키값이었음 -> 근데 그렇게 하면 그 사용자의 모든 정보가 bookmarked_arrayList로 덮어씌워짐
         //sharedPreference 쉐어드-> 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에 bookmarked_arrayList를 String으로 변환한 값을 넣어줌.
         bookmarkShared_editor.putString(feed_email, json);   // fromJson할 때도 "feed_recyclerview" 맞춰줌. // 로그인한 유저의 이메일을 키값으로 json 데이터를 넣어줌.
-        Log.e("Bookmarked_review 클래스 - ", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
+        Log.e("Bookmarked_review_Activity 클래스 - ", "Gson 객체 호출 (키 , 들어간 값) : " + feed_email + "," + json);
 
         bookmarkShared_editor.apply();
-        Log.e("Bookmarked_review 클래스 - ", "editor. apply 성공 ");
+        Log.e("Bookmarked_review_Activity 클래스 - ", "editor. apply 성공 ");
 
 
     }
 
-    // sharedPreference에 저장한 Bookmarked_review 를 가져옴 (리사이클러뷰)
+    // sharedPreference에 저장한 Bookmarked_review_Activity 를 가져옴 (리사이클러뷰)
     private void bookmarked_loadData() {
         // 북마크한 리뷰를 저장한 데이터를 가져와 로드(load)하는 메소드
 
@@ -257,14 +257,14 @@ public class Bookmarked_review extends AppCompatActivity {
         // 로그인 하고 있는 사용자의 이메일을 키값으로 갖는 value에
         logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
         String feed_email = logined_user.getString("user_email", "");
-        Log.e("Bookmarked_review 클래스 (bookmarked_loadData) - ", "로그인한 유저의 이메일 호출 : " + feed_email);
+        Log.e("Bookmarked_review_Activity 클래스 (bookmarked_loadData) - ", "로그인한 유저의 이메일 호출 : " + feed_email);
 
         String json = bookmarkShared.getString(feed_email, null);
         Type type = new TypeToken<ArrayList<Feed_Main_ItemData>>() {
         }.getType();
-        Log.e("Bookmarked_review 클래스 (bookmarked_loadData) - ", "typeToken객체 생성 :" + type);
+        Log.e("Bookmarked_review_Activity 클래스 (bookmarked_loadData) - ", "typeToken객체 생성 :" + type);
         bookmarked_arrayList = gson.fromJson(json, type);
-        Log.e("Bookmarked_review 클래스 (bookmarked_loadData) - ", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
+        Log.e("Bookmarked_review_Activity 클래스 (bookmarked_loadData) - ", "fromJson : arryaList(bookmarked_arrayList)는 " + bookmarked_arrayList);
 
 
         if (bookmarked_arrayList == null) {
@@ -273,32 +273,31 @@ public class Bookmarked_review extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("Bookmarked_review", "onRestart");
+        Log.e("Bookmarked_review_Activity", "onRestart");
         //액티비티가 중단되었다가 다시 시작
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("Bookmarked_review", "onStart");
+        Log.e("Bookmarked_review_Activity", "onStart");
         //액티비티가 화면에 나타나기 시작
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("Bookmarked_review", "onResume");
+        Log.e("Bookmarked_review_Activity", "onResume");
         //액티비티가 화면에 나타나고 상호작용이 가능해짐
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("Bookmarked_review", "onPause");
+        Log.e("Bookmarked_review_Activity", "onPause");
         overridePendingTransition(0, 0);
         //다른 액티비티가 시작되려함, 이 액티비티는 중단되려하고 백그라운드로 들어갑니다.
     }
@@ -306,14 +305,14 @@ public class Bookmarked_review extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("Bookmarked_review", "onStop");
+        Log.e("Bookmarked_review_Activity", "onStop");
         //액티비티가 더 이상 화면에 나타나지 않음,중단된 상태
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("Bookmarked_review", "onDestroy");
+        Log.e("Bookmarked_review_Activity", "onDestroy");
         //액티비티가 종료되려고 합니다.
     }
 

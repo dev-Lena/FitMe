@@ -36,6 +36,10 @@ import java.util.List;
 
 
 public class Myreview_Activity extends AppCompatActivity {
+    /**
+     * 내가 쓴 리뷰 (리사이클러뷰)
+     * Adapter는 Feed_Main_Adapter 사용
+     **/
 
     private ArrayList<List> userData = new ArrayList<List>();
 
@@ -52,7 +56,7 @@ public class Myreview_Activity extends AppCompatActivity {
     ImageButton imageButton_back;
     TextView textView_howmany_reviews;
     /**
-     * 리사이클러뷰에 필요한 기본 객체 선언
+     * 리사이클러뷰
      **/
 
     ArrayList<Feed_Main_ItemData> arrayList, bookmarked_arrayList, myreview_arrayList;
@@ -63,23 +67,15 @@ public class Myreview_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // feed_ Adapter에서 만들어준 arrayList를 가지고 와서 여기서 객체 선언해줌.
-//        myreview_arrayList = new ArrayList<>();
 
         myreview_loadData();
 
-
-
-// 여기까지 로딩
-
-
-        Log.e("Myreview_Activity", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myreview);
 
 
 
-        /**여기서부터 리사이클러뷰 만들기**/
+        /**리사이클러뷰**/
 
         recyclerView = (RecyclerView) findViewById(R.id.myreview_recyclerview);  // 화면 xml 파일에서 리사이클러뷰의 아이디와 매칭
 
@@ -132,10 +128,6 @@ public class Myreview_Activity extends AppCompatActivity {
         feedMain_adapter.setOnItemClickListener(new Feed_Main_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
-// TODO : 아이템 클릭 이벤트를 MainActivity에서 처리.
-// 리사이클러뷰 수정
-// 다이얼로그
-
 
 // 리사이클러뷰 아이템 안에 버튼을 누르면 팝업 메뉴 뜨도록
                 PopupMenu popup = new PopupMenu(getApplicationContext(), v);//v는 클릭된 뷰를 의미
@@ -146,16 +138,12 @@ public class Myreview_Activity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_edit:
-                                // 리뷰 카드에 있는 메뉴 다이얼로그 (?) 중 수정하기를 눌렀을 때
+                                // 수정하기
                                 Toast.makeText(getApplication(), "수정하기", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(getApplicationContext(), Edit_Review.class);
+                                Intent intent = new Intent(getApplicationContext(), Feed_Edit_Review.class);
                                 Log.e("Feed_Main_Activity 클래스에서 리사이클러뷰 수정 작업중! ", "edit_review로 연결되는 인텐트를 가지고왔습니다.");
 
-
-//                                String textView_review_writer;  // 리뷰 작성 후 리뷰 카드에 들어가는 작성자
-//                                String textView_reviewcard_number ;  // 리뷰 작성 후 리뷰 카드에 들어가는 고유 번호
-//                                String review_date;// 리뷰 작성 후 리뷰 카드에 들어가는 최초 작성 시간
                                 // 리뷰를 수정할 때 기존의 있는 정보를 보내줌
                                 intent.putExtra("URL", myreview_arrayList.get(position).textView_shoppingmall_url);
                                 intent.putExtra("DETAIL", myreview_arrayList.get(position).textView_detailed_review_card);
@@ -178,6 +166,7 @@ public class Myreview_Activity extends AppCompatActivity {
                                 break;
 
                             case R.id.action_delete:
+                                // 삭제하기
 
                                 // 여기서 삭제하면 내가 쓴 리뷰, 피드에 있는 리뷰, 북마크한 리뷰에서 모두 사라지게
 
@@ -193,9 +182,9 @@ public class Myreview_Activity extends AppCompatActivity {
                                 Log.e("Feed_Main_Activity 클래스에서 (saveData)", "삭제 후   sharedpreference에 리사이클러뷰에 들어가는 arrayList 저장 :" + myreview_arrayList);
 
                                 break;
-//                                return true;
 
                             case R.id.action_share:
+                                // 카카오톡 링크로 공유하기
                                 Toast.makeText(getApplication(), "공유하기", Toast.LENGTH_SHORT).show();
 
                                 // 닉네임
@@ -246,7 +235,7 @@ public class Myreview_Activity extends AppCompatActivity {
             // 북마크한 리뷰 페이지에서 북마크 버튼을 누르면 -> 북마크 해제
             @Override
             public void onBookmarkClick(View v, int position) {
-                // 해당 아이템이 Bookmarked_review 리사이클러뷰에 추가되어야 함.
+                // 해당 아이템이 Bookmarked_review_Activity 리사이클러뷰에 추가되어야 함.
 //                bookmarked_arrayList = new ArrayList<>();
 
                 // bookmarked_arrayList로 데이터를 보여주는 북마크한 리뷰 리사이클러뷰를 로드해라
@@ -269,10 +258,6 @@ public class Myreview_Activity extends AppCompatActivity {
 
             }
 
-//            @Override
-//            public void onLikeClick(View v, int position) {
-//
-//            }
         });
 
         // 뒤로 가기 버튼 눌렀을 때 피드(메인 화면)로 이동
@@ -492,26 +477,7 @@ public class Myreview_Activity extends AppCompatActivity {
         myreview_arrayList = gson.fromJson(json, type);
         Log.e("Feed_Main_Activity 클래스 (myreview_loadData)", "fromJson : arryaList(myreview_arrayList)는 " + myreview_arrayList);
 
-//
-//        if (myreview_arrayList == null) {
-//            myreview_arrayList = new ArrayList<>();
-//        }
     } // myreview_loadData 메소드 닫는 중괄호
-
-//    public void remove(int position){
-//        // 피드 리사이클러뷰 안에 있는 리뷰를 삭제할 때 쓰는 remove 메소드
-//
-//        try{
-//            bookmarked_arrayList.remove(position);
-//            feedMain_adapter.notifyItemRemoved(position);
-//
-//
-//            // sharedPreference 에서 삭제하는 코드를 넣어줘야 함.... 굳이? arrayList에서 없애주면 되는거 아닌가?
-//
-//        }catch (IndexOutOfBoundsException e){
-//            e.printStackTrace();
-//        }
-//    }
 
     private void bookmark_saveData() {
 

@@ -11,10 +11,10 @@ import com.kakao.util.helper.log.Logger;
 
 public class Kakao_Login_Activity extends Activity {
     private SessionCallback callback;
+    /**
+     * kakao login 액티비티
+     **/
 
-
-
-    // 안씀
     /**
      * 로그인 버튼을 클릭 했을시 access token을 요청하도록 설정한다.
      *

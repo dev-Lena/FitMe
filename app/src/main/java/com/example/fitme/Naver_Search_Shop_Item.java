@@ -1,7 +1,9 @@
 package com.example.fitme;
 
 public class Naver_Search_Shop_Item {
-
+    /**
+     * 네이버 검색 - 쇼핑 API (리사이클러뷰) - 아이템
+     **/
 
     /**ExampleAdapter와 Naver_Search_Shop_Item, Naver_Search_Shop_Main, Naver_Search_Shop_Detail 자바 클래스는 네이버 Shop API 한세트임**/
 

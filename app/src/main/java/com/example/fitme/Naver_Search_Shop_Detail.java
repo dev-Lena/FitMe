@@ -20,7 +20,11 @@ import static com.example.fitme.Naver_Search_Shop_Main.EXTRA_MALLNAME;
 import static com.example.fitme.Naver_Search_Shop_Main.EXTRA_TITLE;
 
 public class Naver_Search_Shop_Detail extends AppCompatActivity {
-
+    /**
+     * 네이버 검색 - 쇼핑 API (리사이클러뷰)
+     * 사용자가 입력한 검색어를 포함한 상품 결과 데이터가 담긴 리사이클러뷰 아이템을 클릭시
+     * 웹뷰를 통해 제품 상세 페이지로 연결됨.
+     **/
     // 네이버 검색 - 쇼핑 결과 상세보기 액티비티. (리사이클러뷰 아이템을 클릭하면 해당 아이템 상세페이지로 넘어감)
 
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
@@ -29,7 +33,7 @@ public class Naver_Search_Shop_Detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.naver_search_shop_detail);
 
 
         Intent intent = getIntent();
@@ -76,7 +80,7 @@ public class Naver_Search_Shop_Detail extends AppCompatActivity {
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//Size_Recommendation_Activity 클래스로 이동
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Naver_Search_Shop_Detail.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//Naver_Search_Shop_Main 클래스로 이동

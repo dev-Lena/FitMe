@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Login extends AppCompatActivity {
+    /**
+     * 로그인 액티비티
+     **/
 
 
     String email = "";

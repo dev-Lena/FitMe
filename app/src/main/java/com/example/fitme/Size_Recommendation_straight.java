@@ -27,7 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Size_Recommendation_straight extends AppCompatActivity {
-/** 복사해서 만들어만 놓았음 수정해야함 **/
+    /**
+     * my fit 내 청바지 사이즈를 입력 하면 평균값을 구해 바지 스타일별(핏별 - ex 스키니진, 와이드진 등) 상세 사이즈(cm) 추천 (include 사용)
+     * - 스트레이트 진 : 추천 청바지 상세 사이즈 (ex - 허리 70 cm 등) 보여주는 액티비티
+     **/
     BottomNavigationView bottomNavigationView; // 바텀 네이게이션 메뉴  -> 하단바
 
 
@@ -74,7 +77,7 @@ public class Size_Recommendation_straight extends AppCompatActivity {
         Log.e("follow","onCreate");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insight_item_straight);
+        setContentView(R.layout.activity_myfit_item_straight);
 
 
 
@@ -162,7 +165,7 @@ public class Size_Recommendation_straight extends AppCompatActivity {
                         write_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(write_intent);//액티비티 띄우기
                         break;
-                    case R.id.action_notification :
+                    case R.id.action_shop:
                         Intent insight_intent = new Intent(Size_Recommendation_straight.this, Naver_Search_Shop_Main.class);
                         insight_intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(insight_intent);//액티비티 띄우기
@@ -189,7 +192,7 @@ public class Size_Recommendation_straight extends AppCompatActivity {
         Log.e("RESULT", resultCode + "");
         Log.e("RESULT", data + "");
 
-        // Write_review_Activity 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
+        // Feed_Write_Review 클래스에서 리뷰 작성 후 사용자가 입력한 데이터를 가지고 옴.
         /** 리뷰 작성 **/
         if (requestCode == 5001 && resultCode == RESULT_OK) {
 

@@ -22,7 +22,11 @@ import java.util.List;
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class Splash extends AppCompatActivity {
-
+    /**
+     * 앱을 켰을 때 보이는 스플래쉬 화면 -> 자동로그인 확인 후
+     * 자동 로그인 정보가 있으면 메인 화면(피드)
+     * 없으면 로그인 화면으로 이어진다.
+     **/
     private ArrayList<List> userData= new ArrayList<List>();
 
     private SharedPreferences logined_user;
@@ -64,8 +68,8 @@ public class Splash extends AppCompatActivity {
         logined_user = getSharedPreferences("logined_user", Context.MODE_PRIVATE);   // 현재 로그인한 회원의 정보만 담겨있는 쉐어드를 불러와서
         Log.e("Splash 클래스", "마지막으로 로그인한 회원의 정보가 있는 쉐어드인 logined_user 쉐어드를 가져온다" + logined_user);
 
-        // sharedPreferences라는 이름의 쉐어드프리퍼런스(내부 저장소)에서 String을 가져오는데
-        // 뭘 가져오냐면 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 변수에 넣어줌
+        // sharedPreferences라는 이름의 쉐어드프리퍼런스(내부 저장소)에서
+        // 사용자가 입력한 editText_email랑 같은 값을 찾아서 가져와서 변수에 넣어줌
         // logined_user라는 쉐어드에 저장되어있는 logined_user라는 키에 담겨있는 값을 불러와서 변수에 담음
 
         String last_user_json = logined_user.getString("user_email", "");
@@ -103,7 +107,6 @@ public class Splash extends AppCompatActivity {
                 Log.w("Splash", "KeyHash=" +  Base64.encodeToString(md.digest(), Base64.NO_WRAP));
                 return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
 
-//                    Base64.encodeToString(md.digest(), Base64.NO_WRAP)
             } catch (NoSuchAlgorithmException e) {
                 Log.w("Splash", "Unable to get MessageDigest. signature=" + signature, e);
             }
