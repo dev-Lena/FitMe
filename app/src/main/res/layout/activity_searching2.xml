@@ -67,15 +67,15 @@
           app:layout_constraintStart_toEndOf="@+id/editText_searching"
           app:srcCompat="@drawable/ic_search" />
 
-    <EditText
-        android:id="@+id/editText_searching"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline17"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
-        android:hint="#검색어를 입력해주세요" />
+      <EditText
+          android:id="@+id/editText_searching"
+          android:layout_width="350dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:hint="#검색어를 입력해주세요"
+          app:layout_constraintBottom_toTopOf="@+id/guideline17"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
 
   </LinearLayout>
